@@ -1,0 +1,644 @@
+{
+  "name": "01 — استرجاع السلات المتروكة (سلة/زد ← واتساب)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "abandoned-cart",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "wh01",
+      "name": "استقبال السلة المتروكة",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -860,
+        300
+      ],
+      "webhookId": "abandoned-cart-hook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// تطبيع حمولة الويبهوك من سلة أو زد إلى شكل موحّد\n// عدّل المسارات فقط إذا تغيّرت بنية الويبهوك لدى المنصة\nconst b = $input.first().json.body ?? $input.first().json;\n\n// --- سلة (Salla): حدث abandoned.cart ---\nconst salla = b?.data ?? {};\n// --- زد (Zid): بنية مختلفة قليلاً ---\nconst zid = b?.cart ?? {};\n\nconst src = Object.keys(salla).length ? 'salla' : (Object.keys(zid).length ? 'zid' : 'unknown');\nconst d = src === 'salla' ? salla : zid;\n\n// رقم الجوال: توحيد إلى صيغة دولية بلا + وبلا أصفار بادئة\nfunction normPhone(raw, cc) {\n  if (!raw) return '';\n  let p = String(raw).replace(/[^\\d]/g, '');\n  p = p.replace(/^00/, '');\n  if (p.startsWith('0')) p = (cc || '966') + p.slice(1);\n  if (p.length <= 10 && !p.startsWith(cc || '966')) p = (cc || '966') + p;\n  return p;\n}\n\nconst customer = d.customer ?? {};\nconst cc = String(customer.mobile_code ?? customer.country_code ?? '966').replace(/[^\\d]/g, '') || '966';\n\nconst items = d.items ?? d.products ?? [];\nconst total = Number(d.total?.amount ?? d.total ?? d.subtotal ?? 0);\n\nreturn [{\n  json: {\n    source: src,\n    cart_id: String(d.id ?? d.cart_id ?? d.token ?? ''),\n    customer_name: (customer.first_name ?? customer.name ?? 'عميلنا').toString().trim(),\n    phone: normPhone(customer.mobile ?? customer.phone, cc),\n    items_count: Array.isArray(items) ? items.length : 0,\n    first_item: (items[0]?.name ?? items[0]?.product?.name ?? 'منتج').toString(),\n    total: total,\n    currency: d.currency ?? 'SAR',\n    cart_url: d.checkout_url ?? d.url ?? d.cart_url ?? '',\n    store_name: '{{ $vars.STORE_NAME }}',\n    discount_code: '{{ $vars.DISCOUNT_CODE }}'\n  }\n}];\n"
+      },
+      "id": "cd01",
+      "name": "تطبيع البيانات",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -640,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "={{ $jso",
+              "leftValue": "={{ $json.phone }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "={{ $jso",
+              "leftValue": "={{ $json.cart_url }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            },
+            {
+              "id": "minval",
+              "leftValue": "={{ $json.total }}",
+              "rightValue": 50,
+              "operator": {
+                "type": "number",
+                "operation": "gte"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if01",
+      "name": "فلتر التأهيل",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        -420,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "append",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "carts",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "cart_id": "={{ $json.cart_id }}",
+            "customer_name": "={{ $json.customer_name }}",
+            "phone": "={{ $json.phone }}",
+            "total": "={{ $json.total }}",
+            "currency": "={{ $json.currency }}",
+            "cart_url": "={{ $json.cart_url }}",
+            "status": "pending",
+            "created_at": "={{ $now.toISO() }}"
+          },
+          "matchingColumns": [],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "gs01",
+      "name": "تسجيل السلة",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -200,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "nop1",
+      "name": "مستبعَد (لا جوال أو قيمة منخفضة)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        -200,
+        420
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 1,
+        "unit": "hours"
+      },
+      "id": "wt01",
+      "name": "انتظار ساعة",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        20,
+        220
+      ],
+      "webhookId": "wait-1h"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "carts",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "cart_id",
+              "lookupValue": "={{ $('تطبيع البيانات').item.json.cart_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "gs02",
+      "name": "فحص الحالة 1",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        240,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "={{ $jso",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "recovered",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals",
+                "singleValue": false
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if02",
+      "name": "لم يُسترجع بعد؟ 1",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        460,
+        220
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $vars.WA_PHONE_NUMBER_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  messaging_product: 'whatsapp',\n  to: $('تطبيع البيانات').item.json.phone,\n  type: 'template',\n  template: {\n    name: 'cart_reminder_1',\n    language: { code: 'ar' },\n    components: [{ type: 'body', parameters: [{type:'text',text:$('تطبيع البيانات').item.json.customer_name},{type:'text',text:$('تطبيع البيانات').item.json.store_name},{type:'text',text:$('تطبيع البيانات').item.json.cart_url}] }]\n  }\n}) }}",
+        "options": {}
+      },
+      "id": "wa01",
+      "name": "رسالة 1 — تذكير لطيف",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        680,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 23,
+        "unit": "hours"
+      },
+      "id": "wt02",
+      "name": "انتظار 23 ساعة",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        900,
+        160
+      ],
+      "webhookId": "wait-23h"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "carts",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "cart_id",
+              "lookupValue": "={{ $('تطبيع البيانات').item.json.cart_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "gs03",
+      "name": "فحص الحالة 2",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        1120,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "={{ $jso",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "recovered",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals",
+                "singleValue": false
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if03",
+      "name": "لم يُسترجع بعد؟ 2",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1340,
+        160
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $vars.WA_PHONE_NUMBER_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  messaging_product: 'whatsapp',\n  to: $('تطبيع البيانات').item.json.phone,\n  type: 'template',\n  template: {\n    name: 'cart_reminder_2',\n    language: { code: 'ar' },\n    components: [{ type: 'body', parameters: [{type:'text',text:$('تطبيع البيانات').item.json.customer_name},{type:'text',text:$('تطبيع البيانات').item.json.discount_code},{type:'text',text:$('تطبيع البيانات').item.json.cart_url}] }]\n  }\n}) }}",
+        "options": {}
+      },
+      "id": "wa02",
+      "name": "رسالة 2 — خصم",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1560,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "amount": 48,
+        "unit": "hours"
+      },
+      "id": "wt03",
+      "name": "انتظار 48 ساعة",
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1780,
+        100
+      ],
+      "webhookId": "wait-48h"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "carts",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "cart_id",
+              "lookupValue": "={{ $('تطبيع البيانات').item.json.cart_id }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "gs04",
+      "name": "فحص الحالة 3",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        2000,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "={{ $jso",
+              "leftValue": "={{ $json.status }}",
+              "rightValue": "recovered",
+              "operator": {
+                "type": "string",
+                "operation": "notEquals",
+                "singleValue": false
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if04",
+      "name": "لم يُسترجع بعد؟ 3",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2220,
+        100
+      ]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "=https://graph.facebook.com/v21.0/{{ $vars.WA_PHONE_NUMBER_ID }}/messages",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify({\n  messaging_product: 'whatsapp',\n  to: $('تطبيع البيانات').item.json.phone,\n  type: 'template',\n  template: {\n    name: 'cart_reminder_3',\n    language: { code: 'ar' },\n    components: [{ type: 'body', parameters: [{type:'text',text:$('تطبيع البيانات').item.json.customer_name},{type:'text',text:$('تطبيع البيانات').item.json.discount_code},{type:'text',text:$('تطبيع البيانات').item.json.cart_url}] }]\n  }\n}) }}",
+        "options": {}
+      },
+      "id": "wa03",
+      "name": "رسالة 3 — آخر فرصة",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2440,
+        40
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "nop2",
+      "name": "انتهت السلسلة",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        2660,
+        40
+      ]
+    }
+  ],
+  "connections": {
+    "استقبال السلة المتروكة": {
+      "main": [
+        [
+          {
+            "node": "تطبيع البيانات",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "تطبيع البيانات": {
+      "main": [
+        [
+          {
+            "node": "فلتر التأهيل",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "فلتر التأهيل": {
+      "main": [
+        [
+          {
+            "node": "تسجيل السلة",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "مستبعَد (لا جوال أو قيمة منخفضة)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "تسجيل السلة": {
+      "main": [
+        [
+          {
+            "node": "انتظار ساعة",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتظار ساعة": {
+      "main": [
+        [
+          {
+            "node": "فحص الحالة 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "فحص الحالة 1": {
+      "main": [
+        [
+          {
+            "node": "لم يُسترجع بعد؟ 1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "لم يُسترجع بعد؟ 1": {
+      "main": [
+        [
+          {
+            "node": "رسالة 1 — تذكير لطيف",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "رسالة 1 — تذكير لطيف": {
+      "main": [
+        [
+          {
+            "node": "انتظار 23 ساعة",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتظار 23 ساعة": {
+      "main": [
+        [
+          {
+            "node": "فحص الحالة 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "فحص الحالة 2": {
+      "main": [
+        [
+          {
+            "node": "لم يُسترجع بعد؟ 2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "لم يُسترجع بعد؟ 2": {
+      "main": [
+        [
+          {
+            "node": "رسالة 2 — خصم",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "رسالة 2 — خصم": {
+      "main": [
+        [
+          {
+            "node": "انتظار 48 ساعة",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "انتظار 48 ساعة": {
+      "main": [
+        [
+          {
+            "node": "فحص الحالة 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "فحص الحالة 3": {
+      "main": [
+        [
+          {
+            "node": "لم يُسترجع بعد؟ 3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "لم يُسترجع بعد؟ 3": {
+      "main": [
+        [
+          {
+            "node": "رسالة 3 — آخر فرصة",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "رسالة 3 — آخر فرصة": {
+      "main": [
+        [
+          {
+            "node": "انتهت السلسلة",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "tags": [
+    {
+      "name": "cart-recovery"
+    }
+  ]
+}

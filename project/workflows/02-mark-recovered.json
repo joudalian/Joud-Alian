@@ -1,0 +1,215 @@
+{
+  "name": "02 — تعليم السلة كمُسترجَعة (منع الرسائل بعد الشراء)",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "order-created",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "wh10",
+      "name": "استقبال طلب جديد",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [
+        -600,
+        300
+      ],
+      "webhookId": "order-created-hook"
+    },
+    {
+      "parameters": {
+        "jsCode": "// عند إنشاء أي طلب: نطبّع الجوال لنطابقه مع صف السلة المتروكة\nconst b = $input.first().json.body ?? $input.first().json;\nconst d = b?.data ?? b?.order ?? b;\nconst customer = d.customer ?? {};\n\nfunction normPhone(raw, cc) {\n  if (!raw) return '';\n  let p = String(raw).replace(/[^\\d]/g, '').replace(/^00/, '');\n  if (p.startsWith('0')) p = (cc || '966') + p.slice(1);\n  if (p.length <= 10 && !p.startsWith(cc || '966')) p = (cc || '966') + p;\n  return p;\n}\nconst cc = String(customer.mobile_code ?? customer.country_code ?? '966').replace(/[^\\d]/g, '') || '966';\n\nreturn [{ json: {\n  order_id: String(d.id ?? d.reference_id ?? ''),\n  phone: normPhone(customer.mobile ?? customer.phone, cc),\n  recovered_at: new Date().toISOString()\n}}];\n"
+      },
+      "id": "cd10",
+      "name": "تطبيع الطلب",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -380,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "carts",
+          "mode": "name"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "phone",
+              "lookupValue": "={{ $json.phone }}"
+            },
+            {
+              "lookupColumn": "status",
+              "lookupValue": "pending"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "id": "gs10",
+      "name": "البحث عن سلة معلّقة",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        -160,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "loose",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "found",
+              "leftValue": "={{ $json.cart_id }}",
+              "rightValue": "",
+              "operator": {
+                "type": "string",
+                "operation": "notEmpty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "id": "if10",
+      "name": "وُجدت سلة؟",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        60,
+        300
+      ]
+    },
+    {
+      "parameters": {
+        "operation": "update",
+        "documentId": {
+          "__rl": true,
+          "value": "REPLACE_WITH_GOOGLE_SHEET_ID",
+          "mode": "id"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "carts",
+          "mode": "name"
+        },
+        "columns": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "cart_id": "={{ $json.cart_id }}",
+            "status": "recovered",
+            "recovered_at": "={{ $now.toISO() }}",
+            "recovered_order_id": "={{ $('تطبيع الطلب').item.json.order_id }}"
+          },
+          "matchingColumns": [
+            "cart_id"
+          ],
+          "schema": []
+        },
+        "options": {}
+      },
+      "id": "gs11",
+      "name": "تعليم كمُسترجَع",
+      "type": "n8n-nodes-base.googleSheets",
+      "typeVersion": 4.5,
+      "position": [
+        280,
+        220
+      ]
+    },
+    {
+      "parameters": {},
+      "id": "nop10",
+      "name": "طلب عادي (لا سلة متروكة)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [
+        280,
+        400
+      ]
+    }
+  ],
+  "connections": {
+    "استقبال طلب جديد": {
+      "main": [
+        [
+          {
+            "node": "تطبيع الطلب",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "تطبيع الطلب": {
+      "main": [
+        [
+          {
+            "node": "البحث عن سلة معلّقة",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "البحث عن سلة معلّقة": {
+      "main": [
+        [
+          {
+            "node": "وُجدت سلة؟",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "وُجدت سلة؟": {
+      "main": [
+        [
+          {
+            "node": "تعليم كمُسترجَع",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "طلب عادي (لا سلة متروكة)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "pinData": {},
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "active": false,
+  "tags": [
+    {
+      "name": "cart-recovery"
+    }
+  ]
+}
