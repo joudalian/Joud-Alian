@@ -80,9 +80,13 @@ The current 12 products, their names, descriptions, photos and prices are **plac
 
 ## Ordering via WhatsApp
 
-There is no checkout or payment gateway. The cart and every product page have an **Order via WhatsApp**
-button that opens `https://wa.me/<number>` with a message in the visitor's language listing the items,
-quantities, selected currency, total and the store name.
+There is **no online checkout** and no payment on the site. Visitors collect pieces in **Your order**
+(`/[locale]/cart`, "Add to order" on every product), optionally add their name, country, notes and a gift note
+(kept only in their browser), and press **Send order on WhatsApp**: it opens `https://wa.me/<number>` with a
+message in the visitor's language listing the items, quantities, prices in USD (plus an approximate total in the
+chosen currency) and those details. A **Copy message** button and a readable preview are the fallback when
+WhatsApp is not installed. The order is then confirmed personally on WhatsApp: availability, shipping cost,
+delivery estimate and how to pay (see `docs/OPERATIONS.md`).
 
 **Change the WhatsApp number** in `src/config/store.ts`:
 
@@ -109,11 +113,69 @@ saved language (`NEXT_LOCALE` cookie), else the best `Accept-Language` match, el
 `messages/<locale>.json`; product text is in `src/data/products.ts`. `npm run check:i18n` fails on any missing,
 extra, empty or malformed message, and if Arabic text or right-to-left handling appears in the project.
 
+## Store settings (`src/config/store.ts`)
+
+Every business detail shown on the site lives in **one file, `src/config/store.ts`**: WhatsApp number, legal
+name, tax ID, address, contact email, opening hours and time zone, social links, sister store, where orders ship
+from (per language), processing and delivery times (overall and by region), return and damage-report windows,
+payment mode, announcement bar, policy and accessibility dates, data-retention period and governing law.
+**Every value is marked `// CONFIRM`** and must be checked before launch. Optional fields render only when
+non-empty: an empty `CONTACT_EMAIL` hides the email everywhere, an empty `SOCIAL` entry renders no icon,
+`ANNOUNCEMENT.enabled: false` hides the bar.
+
+Wording that is a factual claim and must also be confirmed by the owner (in `messages/<locale>.json`):
+`home.point1Text`, `faq.a3` and `about.p1` say the wood comes from **pruned branches** (not felled trees).
+
+**Payment**: with `PAYMENT_MODE = "instructions"` the site says only that payment instructions are sent on
+WhatsApp after the order is confirmed. With `"link"` it says a payment link is sent and, if `PAYMENT_METHODS`
+is non-empty, names the methods. No payment brands, logos or "secure checkout" wording appear on the site.
+
 ## Pages
 
 Home, shop (`/[locale]/shop`), category (`/[locale]/shop/[category]`), product (`/[locale]/product/[slug]`),
-cart and wishlist (noindex), Our Story (`/[locale]/about`), localized 404 (HTTP 404) and error pages,
-`/sitemap.xml` and `/robots.txt`.
+Our Story (`/[locale]/about`), and the help and policy pages: how to order, FAQ, shipping, returns (with the
+model withdrawal form), contact (WhatsApp with topic chips; no form), privacy, terms (with legal notice),
+accessibility and care. Your order (`/cart`) and wishlist are `noindex`. Localized 404 (HTTP 404) and error
+pages, `/sitemap.xml` (28 paths × 10 languages, hreflang alternates and `x-default`), `/robots.txt` and
+`/.well-known/security.txt`.
+
+There is no cookie banner because the site sets no tracking cookies: only the language and currency cookies the
+visitor chooses, and localStorage for the order, wishlist and order details (see the privacy page). There is
+no analytics and no order tracking on the site.
+
+**Structured data** (JSON-LD): Organization with `MerchantReturnPolicy` (every page), WebSite (home),
+BreadcrumbList (inner pages), Product with `Offer` in USD, shipping details and the return policy (product
+pages), FAQPage (FAQ). None of it contains ratings or reviews.
+
+**Story photo**: the home page shows the Our Story emblem until a real workshop photo exists. Save it as
+`public/images/story/workshop.webp`, 1200×900 px (4:3), and rebuild: the build detects the file and the home
+page uses it (alt text: `home.storyImageAlt`).
+
+## Legal pages are templates
+
+The privacy, terms, returns, shipping and accessibility pages are **plain-language templates written for this
+store, not legal advice. Have them reviewed by a lawyer** in the main markets before launch. Open questions for
+that review:
+
+- **Governing law and jurisdiction**: `GOVERNING_LAW` is empty, so the terms say "[to be confirmed]".
+- **Withdrawal button**: EU Directive 2023/2673 requires a "withdraw from contract" function for contracts
+  concluded online from 19 June 2026. Orders here are concluded on WhatsApp, not on the site; confirm whether a
+  withdrawal button is still needed and how it should work.
+- **Origin marking** for the US and EU (e.g. "Made in Bethlehem" / "Product of the West Bank") on packaging,
+  invoices and customs forms.
+- **Trademark clearance** for the name "Gethsemane" in the target markets.
+- Legal entity name, tax ID and address for the legal notice (`LEGAL_ENTITY_NAME`, `TAX_ID`, `ADDRESS`).
+- Data-retention period for order records (`DATA_RETENTION_YEARS`), and whether a contact email is required.
+- The ODR platform link is intentionally absent (the EU ODR platform closed on 20 July 2025).
+
+## Honesty check
+
+`npm run check:claims` (part of `verify`) scans every message file, the product data and the store settings, in
+all 10 languages, for claims the store must not make: online checkout or card payments, SSL/256-bit, payment
+brands, "secure checkout", "data never stored", "insured", "24/7", "fair trade", "Christian artisans", "since
+1999", "family-owned", "passed down through generations", "blessed", "100% untreated", "air-dried for months",
+"never cut", "free shipping", star ratings or reviews. The patterns are in `scripts/forbidden-claims.mjs`; the
+link-crawl test also checks the rendered pages.
 
 ## Security
 
@@ -126,7 +188,7 @@ cart and wishlist (noindex), Our Story (`/[locale]/about`), localized 404 (HTTP 
   (camera, microphone, geolocation, payment and more disabled), COOP/CORP `same-origin`. No `X-Powered-By`,
   no production source maps.
 - No third-party scripts, trackers, CDNs or iframes; fonts are self-hosted; all images are local. The only
-  external links are WhatsApp and the sister store, with `rel="noopener noreferrer"`.
+  external links are WhatsApp, the sister store and its Instagram (plus our own social accounts once set), with `rel="noopener noreferrer"`.
 - Everything read from localStorage or cookies is size-limited, parsed safely, validated with zod and capped
   (`src/lib/storage.ts`).
 - No secrets in the repository; `.env.example` lists the only variable, `SITE_URL`.
@@ -141,10 +203,11 @@ cart and wishlist (noindex), Our Story (`/[locale]/about`), localized 404 (HTTP 
 | `npm run lint`           | ESLint, zero warnings allowed                                                     |
 | `npm run check:i18n`     | Translations, product data file, no Arabic / RTL                                  |
 | `npm run check:contrast` | WCAG AA contrast of the design tokens                                             |
-| `npm run check:links`    | Crawls all 210 pages for broken links and images                                  |
+| `npm run check:claims`   | Fails on forbidden claims (no checkout, no unverifiable promises) in all languages |
+| `npm run check:links`    | Crawls all 300 pages for broken links and images                                  |
 | `npm test`               | Playwright tests on the production build (desktop + mobile)                       |
 | `npm run audit`          | `npm audit --audit-level=high`                                                    |
-| `npm run verify`         | typecheck → lint → i18n → contrast → build → audit → all tests                    |
+| `npm run verify`         | typecheck → lint → i18n → claims → contrast → build → audit → all tests           |
 | `npm run assets`         | Rebuilds brand files, favicons and images from `../brand/`; creates missing product placeholders |
 
 Requires Node.js 22.18 or newer (the check scripts read `src/data/products.ts` directly). On a fresh machine,
@@ -154,9 +217,27 @@ install the test browser once with `npx playwright install chromium`.
 
 The site needs a Node.js server (it is not a static export, because each page gets a fresh CSP nonce).
 
-**Vercel** (simplest): import the repository, set the project's *Root Directory* to `gethsemane`, and add the
-environment variable `SITE_URL=https://your-domain`. Vercel runs `npm run build` and serves the security
-headers from the app.
+**Vercel** (simplest):
+
+1. Import the repository and set the project's *Root Directory* to `gethsemane`.
+2. Add the environment variable `SITE_URL=https://your-domain` (no trailing slash) for Production. It drives
+   canonical URLs, hreflang links, the sitemap, `robots.txt`, JSON-LD and Open Graph URLs.
+3. **Settings → Deployment Protection: turn Vercel Authentication off** for Production, otherwise visitors and
+   search engines get a Vercel login page.
+4. **Settings → Domains**: add the custom domain (and `www`), and set the `*.vercel.app` domain to **redirect
+   (301) to the custom domain**. Even without that redirect, `*.vercel.app` hosts are served with
+   `X-Robots-Tag: noindex` and a `robots.txt` that disallows everything, so they never compete with the real
+   domain.
+5. After the first deployment: verify the domain in **Google Search Console** and **Bing Webmaster Tools**
+   and submit `https://your-domain/sitemap.xml` in both.
+
+Vercel runs `npm run build` and serves the security headers from the app.
+
+**Optional, cookieless analytics**: the site ships with no analytics. If you want visit counts, Vercel Web
+Analytics works without cookies: enable it in the Vercel project, `npm i @vercel/analytics`, render
+`<Analytics />` from `@vercel/analytics/next` in `src/app/[locale]/layout.tsx`, and **update the privacy page**
+(`privacy` messages in all 10 languages) to say so. Its script is served from your own domain, so the CSP needs
+no change; run `npm run verify` afterwards.
 
 **Any Node.js host / VPS**:
 
@@ -176,7 +257,9 @@ and `/images` can be cached.
 ## Status
 
 - `npm audit`: 0 vulnerabilities; dependency versions are pinned and `package-lock.json` is committed.
-- Known limitations: mobile Lighthouse Performance is close to 90 under simulated slow 4G; pages are not
-  CDN-cacheable or eligible for the back/forward cache (per-request CSP nonce); the last-resort
-  `global-error.tsx` page is English-only; product photos, descriptions, prices and currency rates are
-  placeholders.
+- Known limitations: pages are not CDN-cacheable or eligible for the back/forward cache (per-request CSP
+  nonce; a hash-based CSP for static pages is not possible because Next.js inlines different scripts on every
+  page); the last-resort `global-error.tsx` page is English-only; product photos, descriptions, prices,
+  currency rates and every `// CONFIRM` value in `src/config/store.ts` are placeholders until confirmed.
+- Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
+  `docs/OPERATIONS.md`.
