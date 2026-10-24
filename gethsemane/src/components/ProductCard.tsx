@@ -6,6 +6,7 @@ import { productText, type Product, type ProductSlug } from "@/lib/catalog";
 import { Price } from "./Price";
 import { AddToCartButton, WishlistToggle } from "./ProductActions";
 
+/** The heading link names the piece, so the photo is decorative here (alt=""). */
 export async function ProductCard({ product, headingLevel = 3 }: { product: Product; headingLevel?: 2 | 3 }) {
   const locale = (await getLocale()) as Locale;
   const slug = product.slug as ProductSlug;
@@ -16,7 +17,7 @@ export async function ProductCard({ product, headingLevel = 3 }: { product: Prod
       <div className="media">
         <Image
           src={product.image}
-          alt={name}
+          alt=""
           width={800}
           height={1000}
           sizes="(min-width: 1280px) 280px, (min-width: 768px) 30vw, (min-width: 360px) 50vw, 100vw"
@@ -29,7 +30,7 @@ export async function ProductCard({ product, headingLevel = 3 }: { product: Prod
         </Heading>
         <Price usd={product.priceUsd} />
         <div className="actions">
-          <AddToCartButton slug={slug} />
+          <AddToCartButton slug={slug} name={name} />
         </div>
       </div>
     </article>

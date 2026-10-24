@@ -4,6 +4,7 @@ import { useTranslations } from "next-intl";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useCart, useWishlist } from "@/lib/client-store";
 import { CartIcon, HeartIcon, HomeIcon, ShopIcon } from "./Icons";
+import { LanguageDialogButton } from "./LanguageDialog";
 
 function isActive(pathname: string, href: string): boolean {
   if (href === "/") return pathname === "/";
@@ -89,7 +90,7 @@ export function BottomNav() {
       aria: t("wishlistWithCount", { count: items.length }),
       count: items.length,
     },
-    { href: "/cart", label: t("cart"), icon: <CartIcon />, aria: t("cartWithCount", { count }), count },
+    { href: "/cart", label: t("orderShort"), icon: <CartIcon />, aria: t("cartWithCount", { count }), count },
   ];
   return (
     <nav className="bottom-nav" aria-label={t("mobile")}>
@@ -105,6 +106,9 @@ export function BottomNav() {
             </Link>
           </li>
         ))}
+        <li>
+          <LanguageDialogButton />
+        </li>
       </ul>
     </nav>
   );

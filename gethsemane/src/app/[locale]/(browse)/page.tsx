@@ -1,15 +1,21 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { CartIcon, ChatIcon, GlobeTruckIcon, HandIcon, ReturnIcon } from "@/components/Icons";
+import { JsonLd } from "@/components/JsonLd";
 import { MARK_SRC } from "@/components/Logo";
-import { HandIcon, LeafIcon, ShieldIcon } from "@/components/Icons";
 import { ProductGrid } from "@/components/ProductCard";
+import { RETURN_DAYS } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import { categoryImage, categorySlugs, products } from "@/lib/catalog";
+import { categoryImage, categorySlugs, products, type Product } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
+import { website } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: Locale }> };
+
+/** Set at build time (next.config.ts) when public/images/story/workshop.webp exists. */
+const HAS_WORKSHOP_PHOTO = process.env.NEXT_PUBLIC_HAS_WORKSHOP_PHOTO === "1";
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
@@ -20,11 +26,24 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
-  const featured = products.filter((p) => "featured" in p && p.featured);
-  const values = [
-    { icon: <HandIcon size={28} />, title: t("home.value1Title"), text: t("home.value1Text") },
-    { icon: <LeafIcon size={28} />, title: t("home.value2Title"), text: t("home.value2Text") },
-    { icon: <ShieldIcon size={28} />, title: t("home.value3Title"), text: t("home.value3Text") },
+  const featured = (products as readonly Product[]).filter((p) => p.featured);
+  const trust = [
+    { icon: <HandIcon size={26} />, text: t("home.trust1") },
+    { icon: <GlobeTruckIcon size={26} />, text: t("home.trust2") },
+    { icon: <ReturnIcon size={26} />, text: t("home.trust3", { days: RETURN_DAYS }) },
+    { icon: <ChatIcon size={26} />, text: t("home.trust4") },
+  ];
+  const gifts = [
+    { key: "Christmas", links: [{ href: "/shop/nativity", label: t("categories.nativity.name") }] },
+    {
+      key: "Faith",
+      links: [
+        { href: "/shop/crosses", label: t("categories.crosses.name") },
+        { href: "/shop/rosaries", label: t("categories.rosaries.name") },
+      ],
+    },
+    { key: "Home", links: [{ href: "/shop/home", label: t("categories.home.name") }] },
+    { key: "Far", links: [{ href: "/shop/crosses", label: t("categories.crosses.name") }] },
   ];
 
   return (
@@ -32,7 +51,8 @@ export default async function HomePage({ params }: Props) {
       <section className="hero dark" aria-labelledby="hero-title">
         <div className="container hero-grid">
           <div className="hero-figure">
-            <Image src={MARK_SRC} alt={t("home.heroAlt")} width={536} height={648} unoptimized className="hero-mark" />
+            {/* The emblem is the largest above-the-fold image on wide screens: load it first. */}
+            <Image src={MARK_SRC} alt={t("home.heroAlt")} width={536} height={648} unoptimized preload fetchPriority="high" className="hero-mark" />
           </div>
           <div className="hero-content">
             <span className="eyebrow">{t("meta.tagline")}</span>
@@ -50,6 +70,17 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
+      <section className="trust-strip" aria-label={t("home.trustLabel")}>
+        <ul className="container trust-list">
+          {trust.map((item) => (
+            <li key={item.text}>
+              {item.icon}
+              <span>{item.text}</span>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="section container" aria-labelledby="categories-title">
         <div className="section-head">
           <h2 id="categories-title">{t("home.categoriesTitle")}</h2>
@@ -58,7 +89,8 @@ export default async function HomePage({ params }: Props) {
           {categorySlugs.map((slug) => (
             <li key={slug}>
               <Link href={`/shop/${slug}`} className="category-card">
-                <Image src={categoryImage(slug)} alt={t(`categories.${slug}.name`)} width={800} height={600} sizes="(min-width: 1280px) 280px, (min-width: 768px) 45vw, 100vw" />
+                {/* The heading inside the link names the category. */}
+                <Image src={categoryImage(slug)} alt="" width={800} height={600} sizes="(min-width: 1280px) 280px, (min-width: 768px) 45vw, 100vw" />
                 <div className="body">
                   <h3>{t(`categories.${slug}.name`)}</h3>
                   <p>{t(`categories.${slug}.description`)}</p>
@@ -77,9 +109,33 @@ export default async function HomePage({ params }: Props) {
         <ProductGrid products={featured} />
       </section>
 
+      <section className="section container" aria-labelledby="gifts-title">
+        <h2 id="gifts-title">{t("home.giftsTitle")}</h2>
+        <ul className="gift-grid">
+          {gifts.map((gift) => (
+            <li key={gift.key} className="gift-card">
+              <h3>{t(`home.gift${gift.key}Title`)}</h3>
+              <p>{t(`home.gift${gift.key}Text`)}</p>
+              <p className="gift-links">
+                {gift.links.map((link) => (
+                  <Link key={link.href} href={link.href} className="text-link">
+                    {link.label}
+                    <span aria-hidden="true"> →</span>
+                  </Link>
+                ))}
+              </p>
+            </li>
+          ))}
+        </ul>
+      </section>
+
       <section className="section story dark" aria-labelledby="story-title">
         <div className="container story-grid">
-          <Image src="/images/about/olive-tree.webp" alt={t("about.title")} width={1200} height={900} sizes="(min-width: 768px) 50vw, 100vw" />
+          {HAS_WORKSHOP_PHOTO ? (
+            <Image src="/images/story/workshop.webp" alt={t("home.storyImageAlt")} width={1200} height={900} sizes="(min-width: 768px) 50vw, 100vw" />
+          ) : (
+            <Image src="/brand/gethsemane-logo.png" alt={t("about.emblemAlt")} width={1024} height={1024} sizes="(min-width: 768px) 360px, 70vw" className="story-emblem" />
+          )}
           <div>
             <span className="eyebrow">{t("meta.tagline")}</span>
             <h2 id="story-title">{t("home.storyTitle")}</h2>
@@ -91,18 +147,24 @@ export default async function HomePage({ params }: Props) {
         </div>
       </section>
 
-      <section className="section container" aria-labelledby="values-title">
-        <h2 id="values-title">{t("home.valuesTitle")}</h2>
+      <section className="section container" aria-labelledby="points-title">
+        <h2 id="points-title">{t("home.pointsTitle")}</h2>
         <ul className="values">
-          {values.map((v) => (
-            <li key={v.title}>
-              {v.icon}
-              <h3>{v.title}</h3>
-              <p>{v.text}</p>
+          {[1, 2, 3].map((n) => (
+            <li key={n}>
+              <h3>{t(`home.point${n}Title`)}</h3>
+              <p>{t(`home.point${n}Text`)}</p>
             </li>
           ))}
         </ul>
+        <p className="center">
+          <Link href="/how-to-order" className="btn btn-secondary">
+            <CartIcon size={18} />
+            {t("nav.howToOrder")}
+          </Link>
+        </p>
       </section>
+      <JsonLd data={website(locale)} />
     </>
   );
 }

@@ -113,3 +113,58 @@ export function ChatIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function GlobeTruckIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M3 7h11v9H3z" />
+      <path d="M14 10h4l3 3v3h-7" />
+      <circle cx="7" cy="17.5" r="1.6" />
+      <circle cx="17" cy="17.5" r="1.6" />
+    </svg>
+  );
+}
+
+export function ReturnIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M9 14 4 9l5-5" />
+      <path d="M4 9h10a6 6 0 0 1 0 12h-3" />
+    </svg>
+  );
+}
+
+export function InstagramIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <rect x="3" y="3" width="18" height="18" rx="5" />
+      <circle cx="12" cy="12" r="4" />
+      <circle cx="17.5" cy="6.5" r="0.8" fill="currentColor" />
+    </svg>
+  );
+}
+
+export function FacebookIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M14 8h3V4h-3a4 4 0 0 0-4 4v3H7v4h3v6h4v-6h3l1-4h-4V8z" />
+    </svg>
+  );
+}
+
+export function TikTokIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M14 3v11.5a3.5 3.5 0 1 1-3.5-3.5" />
+      <path d="M14 3c.5 3 2.5 5 6 5" />
+    </svg>
+  );
+}
+
+export function CloseIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <path d="M6 6l12 12M18 6 6 18" />
+    </svg>
+  );
+}

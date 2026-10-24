@@ -31,6 +31,7 @@ export default async function CategoryPage({ params }: Props) {
   return (
     <div className="container page">
       <Breadcrumb
+        currentPath={`/shop/${category}`}
         items={[
           { href: "/", label: t("nav.home") },
           { href: "/shop", label: t("shop.title") },

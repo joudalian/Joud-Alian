@@ -29,7 +29,8 @@ test.describe("security headers", () => {
     const res = await request.get("/en/shop");
     const nonce = res.headers()["content-security-policy"]?.match(/'nonce-([^']+)'/)?.[1];
     const html = await res.text();
-    const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map((m) => m[0]);
+    // JSON-LD blocks are data, not executed, so only executable scripts need the nonce.
+    const scripts = [...html.matchAll(/<script\b[^>]*>/g)].map((m) => m[0]).filter((tag) => !tag.includes("application/ld+json"));
     expect(scripts.length).toBeGreaterThan(0);
     for (const tag of scripts) expect(tag).toContain(`nonce="${nonce}"`);
   });

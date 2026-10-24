@@ -7,11 +7,14 @@ import {
   MAX_QTY,
   MAX_WISHLIST,
   STORAGE_KEYS,
+  emptyOrderDetails,
   parseCart,
+  parseOrderDetails,
   parseWishlist,
   readStorage,
   writeStorage,
   type CartLine,
+  type OrderDetailsState,
 } from "./storage";
 
 type Listener = () => void;
@@ -111,4 +114,37 @@ export function useHydrated(): boolean {
     () => true,
     () => false,
   );
+}
+
+/** Optional details for the WhatsApp message, stored in this browser only. */
+const detailsListeners = new Set<Listener>();
+let detailsRaw: string | null | undefined;
+let detailsValue: OrderDetailsState = emptyOrderDetails;
+let detailsMemory: string | null = null;
+
+function getDetails(): OrderDetailsState {
+  const raw = readStorage(STORAGE_KEYS.orderDetails) ?? detailsMemory;
+  if (raw !== detailsRaw) {
+    detailsRaw = raw;
+    detailsValue = parseOrderDetails(raw);
+  }
+  return detailsValue;
+}
+
+export function useOrderDetails() {
+  const details = useSyncExternalStore(
+    (l) => {
+      detailsListeners.add(l);
+      return () => detailsListeners.delete(l);
+    },
+    getDetails,
+    () => emptyOrderDetails,
+  );
+  const update = useCallback((patch: Partial<OrderDetailsState>) => {
+    const next = parseOrderDetails(JSON.stringify({ ...getDetails(), ...patch }));
+    detailsMemory = JSON.stringify(next);
+    writeStorage(STORAGE_KEYS.orderDetails, detailsMemory);
+    detailsListeners.forEach((l) => l());
+  }, []);
+  return { details, update };
 }

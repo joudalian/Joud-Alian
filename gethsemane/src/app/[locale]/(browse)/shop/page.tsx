@@ -21,7 +21,7 @@ export default async function ShopPage({ params }: Props) {
   const t = await getTranslations();
   return (
     <div className="container page">
-      <Breadcrumb items={[{ href: "/", label: t("nav.home") }, { label: t("shop.title") }]} />
+      <Breadcrumb currentPath="/shop" items={[{ href: "/", label: t("nav.home") }, { label: t("shop.title") }]} />
       <h1>{t("shop.title")}</h1>
       <p className="lead">{t("shop.intro")}</p>
       <CategoryChips />

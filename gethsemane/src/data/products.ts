@@ -8,6 +8,13 @@
  *   priceUsd  price in US dollars; other currencies are converted with the rates in src/lib/currency.ts
  *   image     path of the photo inside /public (portrait 4:5 recommended, e.g. 1200×1500 .webp or .jpg)
  *   featured  optional: true shows the product on the home page
+ *   Optional details (shown on the product page only when present):
+ *     sizeCm    [width, height, depth] in centimetres (inches are calculated)
+ *     weightG   weight in grams (ounces are calculated)
+ *     wood      "olive"
+ *     finish    "natural" | "oiled" | "waxed"
+ *     packaging "giftBox" | "box" | "pouch"
+ *     giftNote  true if a gift note can be added
  *   text      name and description in all 10 languages (every language is required)
  *
  * See "Editing products" in README.md. `npm run check:i18n` validates this file.
@@ -27,6 +34,12 @@ export type ProductRecord = {
   priceUsd: number;
   image: string;
   featured?: boolean;
+  sizeCm?: readonly [number, number, number];
+  weightG?: number;
+  wood?: "olive";
+  finish?: "natural" | "oiled" | "waxed";
+  packaging?: "giftBox" | "box" | "pouch";
+  giftNote?: boolean;
   text: Record<Locale, ProductText>;
 };
 
@@ -37,6 +50,7 @@ export const products = [
     category: "nativity",
     priceUsd: 89,
     image: "/images/products/nativity-set-classic.webp",
+    wood: "olive",
     featured: true,
     text: {
       en: {
@@ -87,6 +101,7 @@ export const products = [
     category: "nativity",
     priceUsd: 189,
     image: "/images/products/nativity-stable-grand.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Grand Nativity Stable",
@@ -136,6 +151,7 @@ export const products = [
     category: "nativity",
     priceUsd: 54,
     image: "/images/products/holy-family-figurine.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Holy Family Figurine",
@@ -185,6 +201,7 @@ export const products = [
     category: "crosses",
     priceUsd: 39,
     image: "/images/products/jerusalem-cross.webp",
+    wood: "olive",
     featured: true,
     text: {
       en: {
@@ -235,6 +252,7 @@ export const products = [
     category: "crosses",
     priceUsd: 45,
     image: "/images/products/wall-cross-carved.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Carved Wall Cross",
@@ -284,6 +302,7 @@ export const products = [
     category: "crosses",
     priceUsd: 14,
     image: "/images/products/pocket-holding-cross.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Pocket Holding Cross",
@@ -333,6 +352,7 @@ export const products = [
     category: "rosaries",
     priceUsd: 24,
     image: "/images/products/rosary-olive-wood.webp",
+    wood: "olive",
     featured: true,
     text: {
       en: {
@@ -383,6 +403,7 @@ export const products = [
     category: "rosaries",
     priceUsd: 16,
     image: "/images/products/chaplet-bracelet.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Chaplet Bracelet",
@@ -432,6 +453,7 @@ export const products = [
     category: "rosaries",
     priceUsd: 19,
     image: "/images/products/prayer-beads-33.webp",
+    wood: "olive",
     text: {
       en: {
         name: "33 Prayer Beads",
@@ -481,6 +503,7 @@ export const products = [
     category: "home",
     priceUsd: 69,
     image: "/images/products/salad-bowl.webp",
+    wood: "olive",
     featured: true,
     text: {
       en: {
@@ -531,6 +554,7 @@ export const products = [
     category: "home",
     priceUsd: 49,
     image: "/images/products/serving-board.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Serving Board",
@@ -580,6 +604,7 @@ export const products = [
     category: "home",
     priceUsd: 34,
     image: "/images/products/candle-holder-pair.webp",
+    wood: "olive",
     text: {
       en: {
         name: "Candle Holders, Pair",

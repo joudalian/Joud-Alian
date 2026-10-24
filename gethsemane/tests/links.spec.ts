@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
+import { findClaims } from "../scripts/forbidden-claims.mjs";
 
-const allowedExternal = ["https://wa.me", "https://holylandtimber.com"];
+const allowedExternal = ["https://wa.me", "https://holylandtimber.com", "https://www.instagram.com"];
 
 // Crawls every page listed in the sitemap (all languages) plus cart, wishlist and 404,
 // and checks that every link, image (including srcset candidates), stylesheet, script and icon resolves.
@@ -14,7 +15,7 @@ test("no broken links or images on any page", async ({ request, baseURL, isMobil
     pageUrls.add(`${origin}/${l}/cart`);
     pageUrls.add(`${origin}/${l}/wishlist`);
   }
-  expect(pageUrls.size).toBe(190 + 20);
+  expect(pageUrls.size).toBe(280 + 20);
 
   const checked = new Map<string, number>();
   const problems: string[] = [];
@@ -35,6 +36,12 @@ test("no broken links or images on any page", async ({ request, baseURL, isMobil
       continue;
     }
     const html = await res.text();
+    // No forbidden claim in the visible text of any page, in any language.
+    const visible = html
+      .replace(/<script[\s\S]*?<\/script>/g, " ")
+      .replace(/<style[\s\S]*?<\/style>/g, " ")
+      .replace(/<[^>]+>/g, " ");
+    for (const claim of findClaims(visible)) problems.push(`forbidden claim "${claim}" on ${pageUrl}`);
     for (const m of html.matchAll(/<a\b[^>]*href="https?:\/\/[^"]*"[^>]*>/g)) {
       if (!/rel="noopener noreferrer"/.test(m[0])) problems.push(`external link without rel="noopener noreferrer": ${m[0].slice(0, 80)} (on ${pageUrl})`);
     }

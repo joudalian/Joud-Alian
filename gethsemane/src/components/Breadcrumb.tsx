@@ -1,8 +1,17 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/locales";
+import { localizedUrl } from "@/lib/site";
+import { breadcrumbList } from "@/lib/structured-data";
+import { JsonLd } from "./JsonLd";
 
-export async function Breadcrumb({ items }: { items: { href?: string; label: string }[] }) {
+/** Visible breadcrumb plus BreadcrumbList JSON-LD. `currentPath` is the locale-less path of this page. */
+export async function Breadcrumb({ items, currentPath }: { items: { href?: string; label: string }[]; currentPath: string }) {
   const t = await getTranslations("nav");
+  const locale = (await getLocale()) as Locale;
+  const ld = breadcrumbList(
+    items.map((item, i) => ({ name: item.label, url: localizedUrl(locale, i === items.length - 1 ? currentPath : item.href === "/" ? "" : (item.href ?? currentPath)) })),
+  );
   return (
     <nav className="breadcrumb" aria-label={t("breadcrumb")}>
       <ol>
@@ -18,6 +27,7 @@ export async function Breadcrumb({ items }: { items: { href?: string; label: str
           ),
         )}
       </ol>
+      <JsonLd data={ld} />
     </nav>
   );
 }

@@ -7,10 +7,12 @@ import type { Locale } from "@/i18n/locales";
 import { getProduct, productText } from "@/lib/catalog";
 import { useCart, useHydrated, useWishlist } from "@/lib/client-store";
 import { HeartIcon } from "./Icons";
+import { announce } from "./LiveRegion";
 import { Price } from "./Price";
 
 export function WishlistView() {
   const t = useTranslations("wishlist");
+  const tCart = useTranslations("cart");
   const locale = useLocale() as Locale;
   const hydrated = useHydrated();
   const { items, remove } = useWishlist();
@@ -46,7 +48,7 @@ export function WishlistView() {
         const name = productText(product, locale).name;
         return (
           <li key={slug} className="line">
-            <Image src={product.image} alt={name} width={88} height={110} sizes="88px" />
+            <Image src={product.image} alt="" width={88} height={110} sizes="88px" />
             <div>
               <h2>
                 <Link href={`/product/${slug}`}>{name}</Link>
@@ -59,11 +61,20 @@ export function WishlistView() {
                   onClick={() => {
                     add(slug);
                     remove(slug);
+                    announce(tCart("added", { name }));
                   }}
                 >
                   {t("moveToCart")}
                 </button>
-                <button type="button" className="link-btn" aria-label={t("removeItem", { name })} onClick={() => remove(slug)}>
+                <button
+                  type="button"
+                  className="link-btn"
+                  aria-label={t("removeItem", { name })}
+                  onClick={() => {
+                    remove(slug);
+                    announce(t("removed", { name }));
+                  }}
+                >
                   {t("remove")}
                 </button>
               </div>

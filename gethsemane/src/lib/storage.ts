@@ -11,6 +11,7 @@ export const STORAGE_KEYS = {
   wishlist: "gethsemane.wishlist.v1",
   currency: "gethsemane.currency.v1",
   language: "gethsemane.language.v1",
+  orderDetails: "gethsemane.order-details.v1",
 } as const;
 
 export const MAX_CART_LINES = 50;
@@ -56,6 +57,27 @@ export function parseWishlist(raw: string | null | undefined): ProductSlug[] {
   const result = wishlistSchema.safeParse(safeJson(raw));
   if (!result.success) return [];
   return [...new Set(result.data.filter(isProductSlug))].slice(0, MAX_WISHLIST);
+}
+
+export const ORDER_DETAIL_LIMITS = { name: 100, country: 100, notes: 1000, giftNoteText: 500 } as const;
+
+export type OrderDetailsState = { name: string; country: string; notes: string; giftNote: boolean; giftNoteText: string };
+export const emptyOrderDetails: OrderDetailsState = { name: "", country: "", notes: "", giftNote: false, giftNoteText: "" };
+
+const orderDetailsSchema = z.object({
+  name: z.string().max(ORDER_DETAIL_LIMITS.name).catch(""),
+  country: z.string().max(ORDER_DETAIL_LIMITS.country).catch(""),
+  notes: z.string().max(ORDER_DETAIL_LIMITS.notes).catch(""),
+  giftNote: z.boolean().catch(false),
+  giftNoteText: z.string().max(ORDER_DETAIL_LIMITS.giftNoteText).catch(""),
+});
+
+/** Optional order details typed on the order page; kept in the browser only. Invalid fields reset to "". */
+export function parseOrderDetails(raw: string | null | undefined): OrderDetailsState {
+  const value = safeJson(raw);
+  if (!value || typeof value !== "object" || Array.isArray(value)) return emptyOrderDetails;
+  const result = orderDetailsSchema.safeParse(value);
+  return result.success ? result.data : emptyOrderDetails;
 }
 
 export function parseCurrency(raw: string | null | undefined): Currency {

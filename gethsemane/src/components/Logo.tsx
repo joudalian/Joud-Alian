@@ -9,7 +9,7 @@ export const TAGLINE = "OLIVE WOOD · HOLY LAND";
  * never inlines it (its clipPath id must stay unique) and the CSP needs no change.
  * Decorative next to the wordmark: the link's accessible name is the visible text.
  */
-function Mark({ height, preload = false }: { height: number; preload?: boolean }) {
+function Mark({ height }: { height: number }) {
   const width = Math.round((height * 536) / 648);
   return (
     <Image
@@ -19,8 +19,6 @@ function Mark({ height, preload = false }: { height: number; preload?: boolean }
       width={width}
       height={height}
       unoptimized
-      preload={preload}
-      fetchPriority={preload ? "high" : undefined}
       className="logo-mark"
     />
   );
@@ -30,7 +28,7 @@ function Mark({ height, preload = false }: { height: number; preload?: boolean }
 export function HeaderLogo() {
   return (
     <span className="logo-lockup" lang="en">
-      <Mark height={44} preload />
+      <Mark height={56} />
       <span className="logo-name">{WORDMARK}</span>
     </span>
   );

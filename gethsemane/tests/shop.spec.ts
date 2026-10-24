@@ -37,30 +37,30 @@ test("add to cart, change quantity, remove, and see the empty state", async ({ p
   await page.goto("/en/product/salad-bowl");
   await waitForHydration(page);
   const buy = page.locator(".buy-row");
-  await buy.getByRole("button", { name: "Add to cart" }).click();
-  await expect(buy.getByRole("status")).toHaveText("Added to cart");
-  await buy.getByRole("button", { name: "Added to cart" }).click();
+  await buy.getByRole("button", { name: "Add to order" }).click();
+  await expect(page.getByTestId("live-region")).toHaveText("Salad Bowl added to your order.");
+  await buy.getByRole("button", { name: "Added to your order" }).click();
 
   const cartLink = isMobile ? page.locator(".bottom-nav a[href='/en/cart']") : page.locator(".header-actions a[href='/en/cart']");
-  await expect(cartLink).toHaveAttribute("aria-label", "Cart, 2 items");
+  await expect(cartLink).toHaveAttribute("aria-label", "Your order, 2 items");
   await cartLink.click();
   await page.waitForURL("**/en/cart");
 
   await expect(page.locator(".line")).toHaveCount(1);
-  await expect(page.locator(".line output")).toHaveText("2");
-  await expect(page.locator(".subtotal")).toHaveText("$138.00");
+  await expect(page.locator(".line input[type=number]")).toHaveValue("2");
+  await expect(page.locator(".subtotal-usd")).toHaveText("$138.00");
   await page.getByRole("button", { name: "Increase quantity of Salad Bowl" }).click();
-  await expect(page.locator(".subtotal")).toHaveText("$207.00");
+  await expect(page.locator(".subtotal-usd")).toHaveText("$207.00");
   await page.getByRole("button", { name: "Decrease quantity of Salad Bowl" }).click();
-  await expect(page.locator(".line output")).toHaveText("2");
+  await expect(page.locator(".line input[type=number]")).toHaveValue("2");
 
   // Survives a reload.
   await page.reload();
-  await expect(page.locator(".line output")).toHaveText("2");
+  await expect(page.locator(".line input[type=number]")).toHaveValue("2");
 
-  await page.getByRole("button", { name: "Remove Salad Bowl from cart" }).click();
-  await expect(page.getByRole("heading", { name: "Your cart is empty" })).toBeVisible();
-  await expect(page.getByRole("link", { name: "Continue shopping" })).toBeVisible();
+  await page.getByRole("button", { name: "Remove Salad Bowl from your order" }).click();
+  await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
+  await expect(page.getByRole("link", { name: "Go to the shop" })).toBeVisible();
 });
 
 test("wishlist toggle, wishlist page, move to cart and empty state", async ({ page }) => {
@@ -73,7 +73,7 @@ test("wishlist toggle, wishlist page, move to cart and empty state", async ({ pa
 
   await page.goto("/en/wishlist");
   await expect(page.locator(".line h2")).toHaveText(["Olive Wood Rosary"]);
-  await page.getByRole("button", { name: "Move to cart" }).click();
+  await page.getByRole("button", { name: "Move to order" }).click();
   await expect(page.getByRole("heading", { name: "Your wishlist is empty" })).toBeVisible();
 
   await page.goto("/en/cart");
@@ -82,7 +82,7 @@ test("wishlist toggle, wishlist page, move to cart and empty state", async ({ pa
 
 test("empty states are translated", async ({ page }) => {
   await page.goto("/uk/cart");
-  await expect(page.getByRole("heading", { name: "Ваш кошик порожній" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Ваше замовлення порожнє." })).toBeVisible();
   await page.goto("/el/wishlist");
   await expect(page.getByRole("heading", { name: "Η λίστα αγαπημένων σας είναι άδεια" })).toBeVisible();
 });
@@ -105,7 +105,7 @@ test("tampered or oversized localStorage is sanitized", async ({ page }) => {
   });
   await page.goto("/en/cart");
   // The whole cart is rejected because it violates the schema (qty out of range); nothing unsafe renders.
-  await expect(page.getByRole("heading", { name: "Your cart is empty" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
 
   await page.evaluate(() => {
     localStorage.setItem(
@@ -120,7 +120,7 @@ test("tampered or oversized localStorage is sanitized", async ({ page }) => {
   });
   await page.reload();
   await expect(page.locator(".line")).toHaveCount(1);
-  await expect(page.locator(".line output")).toHaveText("20"); // merged and capped at the maximum
+  await expect(page.locator(".line input[type=number]")).toHaveValue("20"); // merged and capped at the maximum
   await page.goto("/en/wishlist");
   await expect(page.getByRole("heading", { name: "Your wishlist is empty" })).toBeVisible();
 
@@ -130,7 +130,7 @@ test("tampered or oversized localStorage is sanitized", async ({ page }) => {
 
   await page.evaluate(() => localStorage.setItem("gethsemane.cart.v1", "x".repeat(100_000)));
   await page.goto("/en/cart");
-  await expect(page.getByRole("heading", { name: "Your cart is empty" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
 });
 
 function decodeWhatsApp(href: string | null) {
@@ -148,7 +148,7 @@ test("cart orders via WhatsApp with items, quantities, currency and total in the
   await page.goto("/de/cart");
   await waitForHydration(page);
   await page.locator("#currency-select").selectOption("EUR");
-  const link = page.getByRole("link", { name: /Über WhatsApp bestellen/ });
+  const link = page.getByRole("link", { name: /Bestellung auf WhatsApp senden/ });
   await expect(link).toBeVisible();
   await expect(link).toHaveAttribute("target", "_blank");
   await expect(link).toHaveAttribute("rel", "noopener noreferrer");
@@ -156,10 +156,10 @@ test("cart orders via WhatsApp with items, quantities, currency and total in the
   expect(text).toContain("Hallo Gethsemane, ich möchte Folgendes bestellen:");
   expect(text).toMatch(/2 × Salatschüssel — 126,96\s€/);
   expect(text).toMatch(/1 × Jerusalemkreuz — 35,88\s€/);
-  expect(text).toMatch(/Gesamt: 162,84\s€/);
-  expect(text).toContain("Währung: EUR");
+  expect(text).toMatch(/Summe \(EUR, ungefähr\): 162,84\s€/);
+  expect(text).toMatch(/Summe in USD: 177,00\s\$/);
+  expect(text).toContain("Gewählte Währung: EUR");
   expect(text).toContain("— Gethsemane");
-  expect(text).not.toContain("$");
 
   // The message follows quantity changes.
   await page.getByRole("button", { name: "Menge von Jerusalemkreuz erhöhen" }).click();
@@ -169,16 +169,16 @@ test("cart orders via WhatsApp with items, quantities, currency and total in the
 test("product page orders a single piece via WhatsApp", async ({ page }) => {
   await page.goto("/fr/product/rosary-olive-wood");
   await waitForHydration(page);
-  const link = page.getByRole("link", { name: /Commander via WhatsApp/ });
+  const link = page.getByRole("link", { name: /Commander sur WhatsApp/ });
   await expect(link).toBeVisible();
   const text = decodeWhatsApp(await link.getAttribute("href"));
   expect(text).toContain("Bonjour Gethsemane");
   expect(text).toMatch(/1 × Chapelet en bois d'olivier — 24,00\s\$US/);
-  expect(text).toContain("Devise : USD");
+  expect(text).toContain("Devise choisie : USD");
 });
 
 test("an empty cart has no WhatsApp button", async ({ page }) => {
   await page.goto("/en/cart");
-  await expect(page.getByRole("heading", { name: "Your cart is empty" })).toBeVisible();
+  await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
   await expect(page.getByTestId("whatsapp-order")).toHaveCount(0);
 });

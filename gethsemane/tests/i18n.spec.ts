@@ -1,10 +1,10 @@
-import { expect, test } from "@playwright/test";
+import { expect, test, type Page } from "@playwright/test";
 import { locales, waitForHydration } from "./helpers";
 
 const heroTitles: Record<string, string> = {
-  en: "Carved from the olive trees of the Holy Land",
-  de: "Geschnitzt aus den Olivenbäumen des Heiligen Landes",
-  el: "Σκαλισμένο από τις ελιές των Αγίων Τόπων",
+  en: "Olive wood, carved by hand in Bethlehem.",
+  de: "Olivenholz, von Hand geschnitzt in Bethlehem.",
+  el: "Ελιόξυλο, σκαλισμένο στο χέρι στη Βηθλεέμ.",
 };
 
 for (const locale of locales) {
@@ -27,11 +27,21 @@ for (const locale of locales) {
   });
 }
 
-test("no Arabic option or text anywhere", async ({ page }) => {
+/** Opens the language list: the floating button on desktop, the bottom-navigation dialog on phones. */
+async function openLanguages(page: Page, isMobile: boolean) {
+  if (isMobile) {
+    await page.getByTestId("language-dialog-button").click();
+    await expect(page.getByRole("dialog")).toBeVisible();
+    return page.locator(".language-dialog-list a");
+  }
+  await page.locator(".lang-fab-button").click();
+  return page.locator(".lang-menu a");
+}
+
+test("no Arabic option or text anywhere", async ({ page, isMobile }) => {
   await page.goto("/en");
   await waitForHydration(page);
-  await page.locator(".lang-fab-button").click();
-  const options = page.locator(".lang-menu a");
+  const options = await openLanguages(page, isMobile);
   await expect(options).toHaveCount(10);
   await expect(options).toHaveText([
     /English/, /Français/, /Español/, /Italiano/, /Deutsch/, /Ελληνικά/, /Polski/, /Română/, /Українська/, /Português/,
@@ -61,21 +71,20 @@ test("root redirects using Accept-Language, then the saved choice", async ({ bro
   await context.close();
 });
 
-test("switching language keeps the page and the scroll position", async ({ page }) => {
+test("switching language keeps the page and the scroll position", async ({ page, isMobile }) => {
   await page.goto("/en/shop");
   await waitForHydration(page);
-  // Scroll down to a spot where the floating button is shown (it steps aside while over a control).
+  // Scroll down to a spot where the language control is shown (the floating button steps aside over controls).
   let target = 600;
   for (; target < 3000; target += 50) {
     await page.evaluate((y) => window.scrollTo(0, y), target);
     await page.waitForTimeout(200);
-    if (await page.locator(".lang-fab-button").isVisible()) break;
+    if (isMobile || (await page.locator(".lang-fab-button").isVisible())) break;
   }
   const before = await page.evaluate(() => window.scrollY);
   expect(before).toBeGreaterThan(500);
 
-  await page.locator(".lang-fab-button").click();
-  await page.locator('.lang-menu a[hreflang="de"]').click();
+  await (await openLanguages(page, isMobile)).and(page.locator('[hreflang="de"]')).click();
   await page.waitForURL("**/de/shop");
   await expect(page.locator("html")).toHaveAttribute("lang", "de");
   await expect(page.locator("h1")).toHaveText("Shop");
@@ -84,8 +93,7 @@ test("switching language keeps the page and the scroll position", async ({ page 
   expect(Math.abs(after - before)).toBeLessThan(40);
 
   // Back to the home page in Greek, and the choice is remembered.
-  await page.locator(".lang-fab-button").click();
-  await page.locator('.lang-menu a[hreflang="el"]').click();
+  await (await openLanguages(page, isMobile)).and(page.locator('[hreflang="el"]')).click();
   await page.waitForURL("**/el/shop");
   await page.goto("/");
   expect(new URL(page.url()).pathname).toBe("/el");
@@ -93,7 +101,8 @@ test("switching language keeps the page and the scroll position", async ({ page 
   expect(await page.evaluate(() => localStorage.getItem("gethsemane.language.v1"))).toBe("el");
 });
 
-test("language menu is keyboard accessible", async ({ page }) => {
+test("language menu is keyboard accessible", async ({ page, isMobile }) => {
+  test.skip(isMobile, "phones use the language dialog (see pages.spec.ts)");
   await page.goto("/en/about");
   await waitForHydration(page);
   const button = page.locator(".lang-fab-button");
@@ -130,7 +139,7 @@ test("sitemap.xml and robots.txt", async ({ request, baseURL }) => {
   expect(sitemap.status()).toBe(200);
   const xml = await sitemap.text();
   const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  expect(urls.length).toBe(10 * 19);
+  expect(urls.length).toBe(10 * 28);
   for (const l of locales) expect(urls).toContain(`${baseURL}/${l}`);
   expect(xml).toContain('hreflang="x-default"');
   expect(urls.some((u) => u?.includes("/cart"))).toBe(false);

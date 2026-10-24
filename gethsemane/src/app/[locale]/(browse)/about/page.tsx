@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { SISTER_STORE_URL } from "@/config/store";
+import { SISTER_STORE } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { pageMetadata } from "@/lib/metadata";
@@ -27,6 +27,7 @@ export default async function AboutPage({ params }: Props) {
           width={1024}
           height={1024}
           sizes="(min-width: 1024px) 440px, (min-width: 768px) 40vw, min(80vw, 400px)"
+          preload
           className="about-emblem"
         />
         <div className="prose">
@@ -35,11 +36,13 @@ export default async function AboutPage({ params }: Props) {
           <p className="lead">{t("about.intro")}</p>
           <p>{t("about.p1")}</p>
           <p>{t("about.p2")}</p>
+          <h2>{t("about.nameTitle")}</h2>
+          <p>{t("about.name")}</p>
           <p>{t("about.p3")}</p>
           <p>
             {t.rich("about.sister", {
               link: (chunks) => (
-                <a href={SISTER_STORE_URL} rel="noopener noreferrer">
+                <a href={SISTER_STORE.url} rel="noopener noreferrer">
                   {chunks}
                 </a>
               ),

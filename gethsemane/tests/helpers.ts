@@ -12,6 +12,9 @@ export const pages = {
   about: "/about",
 } as const;
 
+/** The help and policy pages. */
+export const infoPages = ["/how-to-order", "/faq", "/shipping", "/returns", "/contact", "/privacy", "/terms", "/accessibility", "/care"] as const;
+
 /** Collects console errors, failed requests and CSP violations for the lifetime of the page. */
 export function watchErrors(page: Page) {
   const errors: string[] = [];

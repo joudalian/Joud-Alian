@@ -18,7 +18,8 @@
     "assets": "node scripts/generate-assets.mjs",
     "test": "node scripts/ensure-build.mjs && playwright test",
     "audit": "npm audit --audit-level=high",
-    "verify": "npm run typecheck && npm run lint && npm run check:i18n && npm run check:contrast && npm run build && npm run audit && playwright test"
+    "verify": "npm run typecheck && npm run lint && npm run check:i18n && npm run check:claims && npm run check:contrast && npm run build && npm run audit && playwright test",
+    "check:claims": "node scripts/check-claims.mjs"
   },
   "dependencies": {
     "next": "16.4.3",

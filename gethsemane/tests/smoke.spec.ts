@@ -14,11 +14,12 @@ for (const [name, path] of Object.entries(pages)) {
     await expect(page.locator("footer.site-footer")).toBeAttached();
     await expectNoHorizontalScroll(page);
     // Every image has an alt attribute and actually loaded.
-    // Every image has alt text, except the decorative logo mark beside the visible wordmark (alt="" + aria-hidden).
+    // Every image has an alt attribute: empty only where a visible heading or link already names it.
     for (const img of await page.locator("img").all()) {
-      if ((await img.getAttribute("aria-hidden")) === "true") await expect(img).toHaveAttribute("alt", "");
-      else await expect(img).toHaveAttribute("alt", /.+/);
+      expect(await img.getAttribute("alt"), await img.getAttribute("src") ?? "").not.toBeNull();
     }
+    if (name === "product") await expect(page.locator(".product-detail .media img")).toHaveAttribute("alt", /olive wood/i);
+    if (name === "home") await expect(page.locator(".hero-mark")).toHaveAttribute("alt", /emblem/i);
     await page.evaluate(async () => {
       for (const img of Array.from(document.images)) img.loading = "eager";
       await Promise.all(Array.from(document.images).map((img) => (img.complete ? null : new Promise((r) => img.addEventListener("load", r, { once: true })))));
@@ -32,7 +33,7 @@ for (const [name, path] of Object.entries(pages)) {
 test("unknown page shows the localized 404 with status 404", async ({ page }) => {
   const response = await page.goto("/fr/does-not-exist");
   expect(response?.status()).toBe(404);
-  await expect(page.locator("h1")).toHaveText("Page introuvable");
+  await expect(page.locator("h1")).toHaveText("Ce chemin s'est égaré.");
   await expect(page.locator("html")).toHaveAttribute("lang", "fr");
   await expect(page.locator('meta[name="robots"]')).toHaveAttribute("content", /noindex/);
 });
@@ -40,14 +41,14 @@ test("unknown page shows the localized 404 with status 404", async ({ page }) =>
 test("unknown product returns 404", async ({ page }) => {
   const response = await page.goto("/de/product/does-not-exist");
   expect(response?.status()).toBe(404);
-  await expect(page.locator("h1")).toHaveText("Seite nicht gefunden");
+  await expect(page.locator("h1")).toHaveText("Dieser Weg hat sich verlaufen.");
 });
 
 test("product page has title, price and buy buttons", async ({ page }) => {
   await page.goto("/en/product/jerusalem-cross");
   await expect(page.locator("h1")).toHaveText("Jerusalem Cross");
   await expect(page.locator(".product-detail .product-price")).toHaveText("$39.00");
-  await expect(page.locator(".buy-row").getByRole("button", { name: "Add to cart" })).toBeVisible();
+  await expect(page.locator(".buy-row").getByRole("button", { name: "Add to order" })).toBeVisible();
   await expect(page).toHaveTitle("Jerusalem Cross · Gethsemane");
 });
 

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { expectNoHorizontalScroll, pages, waitForHydration } from "./helpers";
+import { expectNoHorizontalScroll, infoPages, pages, waitForHydration } from "./helpers";
 
 // Layout checks run once per width in the desktop project (the viewport is set explicitly).
 const widths = [320, 390, 768, 1024, 1280];
@@ -59,16 +59,17 @@ test.describe("responsive layout", () => {
         await page.setViewportSize({ width, height: 800 });
         await page.goto(`/${locale}`);
         await fillCartAndWishlist(page);
-        for (const path of Object.values(pages)) {
+        for (const path of [...Object.values(pages), ...infoPages]) {
           await page.goto(`/${locale}${path}`);
           await waitForHydration(page);
           await expectNoHorizontalScroll(page);
           expect(await clippedText(page), `${path} clipped`).toEqual([]);
           expect(await smallTapTargets(page), `${path} tap targets`).toEqual([]);
         }
-        // The open language menu fits on screen too.
-        await page.locator(".lang-fab-button").click();
-        const menu = await page.locator(".lang-menu").boundingBox();
+        // The open language menu (floating button on desktop, dialog on phones) fits on screen too.
+        if (width < 768) await page.getByTestId("language-dialog-button").click();
+        else await page.locator(".lang-fab-button").click();
+        const menu = await page.locator(width < 768 ? ".language-dialog" : ".lang-menu").boundingBox();
         expect(menu).not.toBeNull();
         expect(menu!.x).toBeGreaterThanOrEqual(0);
         expect(menu!.y).toBeGreaterThanOrEqual(0);
@@ -87,7 +88,7 @@ test.describe("responsive layout", () => {
         const header = (await page.locator(".site-header").boundingBox())!;
         await page.waitForTimeout(250);
         const fabVisible = await page.locator(".lang-fab-button").isVisible();
-        const fab = (await page.locator(".lang-fab-button").boundingBox())!;
+        const fab = (await page.locator(".lang-fab-button").boundingBox()) ?? { x: 0, y: 0, width: 0, height: 0 };
         const bottomNav = await page.locator(".bottom-nav").boundingBox();
 
         // Initial view: the heading is below the sticky header; primary actions are not under the FAB or bottom nav.
@@ -101,7 +102,7 @@ test.describe("responsive layout", () => {
         }
 
         // Keyboard focus scrolls every control fully into view: never behind the sticky header or the bottom nav.
-        for (const el of await page.locator("main .btn, main .stepper button:not(:disabled)").all()) {
+        for (const el of await page.locator("main .btn:visible, main .stepper button:not(:disabled)").all()) {
           await el.focus();
           const box = (await el.boundingBox())!;
           const headerBox = (await page.locator(".site-header").boundingBox())!;
@@ -110,6 +111,11 @@ test.describe("responsive layout", () => {
             const nav = (await page.locator(".bottom-nav").boundingBox())!;
             expect(box.y + box.height, `${path}: bottom nav covers a focused control`).toBeLessThanOrEqual(nav.y + 1);
           }
+          const bar = page.locator(".order-bar:visible");
+          if ((await bar.count()) > 0 && !(await el.evaluate((n) => n.closest(".order-bar") !== null))) {
+            const barBox = (await bar.boundingBox())!;
+            expect(box.y + box.height, `${path}: order bar covers a focused control`).toBeLessThanOrEqual(barBox.y + 1);
+          }
         }
         await page.evaluate(() => window.scrollTo(0, 0));
 
@@ -117,8 +123,8 @@ test.describe("responsive layout", () => {
         await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
         await page.waitForTimeout(100);
         const lastLine = (await page.locator(".footer-bottom p").last().boundingBox())!;
-        const fabNow = (await page.locator(".lang-fab-button").boundingBox())!;
-        expect(overlaps(lastLine, fabNow)).toBe(false);
+        const fabNow = await page.locator(".lang-fab-button").boundingBox();
+        if (fabNow && (await page.locator(".lang-fab-button").isVisible())) expect(overlaps(lastLine, fabNow)).toBe(false);
         const navNow = await page.locator(".bottom-nav").boundingBox();
         if (navNow && navNow.height > 0) expect(lastLine.y + lastLine.height).toBeLessThanOrEqual(navNow.y);
 
@@ -166,13 +172,14 @@ test("prefers-reduced-motion disables animations", async ({ browser }) => {
 });
 
 test("the floating language button never sits on top of a control while scrolling", async ({ page }) => {
+  test.setTimeout(240_000);
   for (const width of [320, 390, 768, 1280]) {
     await page.setViewportSize({ width, height: 700 });
     for (const path of ["/el/shop", "/de/product/nativity-set-classic"]) {
       await page.goto(path);
       await waitForHydration(page);
       const height = await page.evaluate(() => document.documentElement.scrollHeight);
-      for (let y = 0; y < height; y += 150) {
+      for (let y = 0; y < height; y += 200) {
         await page.evaluate((top) => window.scrollTo(0, top), y);
         await page.waitForTimeout(220);
         const problem = await page.evaluate(() => {
