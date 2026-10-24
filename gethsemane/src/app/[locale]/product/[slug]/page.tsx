@@ -10,11 +10,23 @@ import { ProductGrid } from "@/components/ProductCard";
 import { ProductOrderBar } from "@/components/ProductOrderBar";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
 import { WhatsAppOrderButton } from "@/components/WhatsAppOrder";
-import { DELIVERY_BY_REGION, DELIVERY_TIME, PROCESSING_TIME, RETURN_DAYS, STORE_NAME } from "@/config/store";
+import {
+  CATALOG_READY,
+  DELIVERY_BY_REGION,
+  DELIVERY_TIME,
+  EU_RESPONSIBLE_PERSON,
+  MANUFACTURER_ADDRESS,
+  MANUFACTURER_EMAIL,
+  MANUFACTURER_NAME,
+  PROCESSING_TIME,
+  RETURN_DAYS,
+  STORE_NAME,
+} from "@/config/store";
 import { Link } from "@/i18n/navigation";
-import type { Locale } from "@/i18n/locales";
+import { isLocale, type Locale } from "@/i18n/locales";
 import { getProduct, productText, productsInCategory, type Product, type ProductSlug } from "@/lib/catalog";
-import { cmToIn, gToOz } from "@/lib/format";
+import { RATES_AS_OF } from "@/lib/currency";
+import { cmToIn, formatDate, gToOz } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
 import { PRODUCT_IMAGE_SIZES, productImageSrcSet } from "@/lib/product-image";
 import { productLd } from "@/lib/structured-data";
@@ -24,9 +36,10 @@ type Props = { params: Promise<{ locale: Locale; slug: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const product = getProduct(slug);
-  if (!product) return {};
+  if (!product || !isLocale(locale)) notFound();
   const { name, description } = productText(product, locale);
-  return pageMetadata({ locale, path: `/product/${slug}`, title: name, description });
+  // Placeholder products stay out of search engines until the catalog is ready (see CATALOG_READY).
+  return pageMetadata({ locale, path: `/product/${slug}`, title: name, description, noindex: !CATALOG_READY });
 }
 
 /** Only the details that exist in the product data are shown. */
@@ -107,11 +120,11 @@ export default async function ProductPage({ params }: Props) {
           </p>
           <p>{description}</p>
           <div className="buy-row">
-            <AddToCartButton slug={productSlug} name={name} />
+            <AddToCartButton slug={productSlug} name={name} viewLink />
             <WishlistButton slug={productSlug} name={name} />
           </div>
           <div className="order-row" id="order-row">
-            <WhatsAppOrderButton lines={[{ slug: productSlug, qty: 1 }]} label={t("product.orderWhatsApp")} className="btn btn-whatsapp btn-block" />
+            <WhatsAppOrderButton lines={[{ slug: productSlug, qty: 1 }]} label={t("product.orderOnlyThis")} className="btn btn-whatsapp btn-block" />
             <p className="note">{t("cart.whatsappHint")}</p>
             <WhatsAppLink message={t("whatsapp.ask", { store: STORE_NAME, name })} className="text-link">
               {t("product.askAbout")}
@@ -119,7 +132,7 @@ export default async function ProductPage({ params }: Props) {
           </div>
           <Specs product={product} />
           <p className="note">{t("product.handmadeNote")}</p>
-          <p className="note">{t("currency.note")}</p>
+          <p className="note">{t("currency.note", { date: formatDate(RATES_AS_OF, locale) })}</p>
           <div className="accordion product-accordion">
             <details>
               <summary>{t("nav.shipping")}</summary>
@@ -151,6 +164,19 @@ export default async function ProductPage({ params }: Props) {
               </p>
             </details>
           </div>
+          {MANUFACTURER_NAME && (
+            <section className="safety-info" aria-labelledby="safety-title" data-testid="product-safety">
+              <h2 id="safety-title" className="small-heading">
+                {t("product.safetyTitle")}
+              </h2>
+              <ul className="plain-list">
+                <li>{t("product.safetyManufacturer", { name: MANUFACTURER_NAME })}</li>
+                {MANUFACTURER_ADDRESS && <li>{t("terms.address", { address: MANUFACTURER_ADDRESS })}</li>}
+                {MANUFACTURER_EMAIL && <li>{t("terms.email", { email: MANUFACTURER_EMAIL })}</li>}
+                {EU_RESPONSIBLE_PERSON && <li>{t("product.safetyEu", { name: EU_RESPONSIBLE_PERSON })}</li>}
+              </ul>
+            </section>
+          )}
         </div>
       </div>
       <section className="reviews-note" aria-labelledby="reviews-title">

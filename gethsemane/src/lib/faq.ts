@@ -23,6 +23,7 @@ export function paymentText(t: (key: string, values?: Record<string, string>) =>
 /** FAQ groups; answers are built from the same config values as the policy pages. */
 export async function faqGroups(locale: Locale) {
   const t = await getTranslations({ locale, namespace: "faq" });
+  // CONFIRM: a3 says the wood comes from branches trimmed when olive trees are pruned.
   const products: FaqItem[] = [1, 2, 3, 4, 5].map((n) => ({ id: `q${n}`, q: t(`q${n}`), a: t(`a${n}`) }));
   const ordering: FaqItem[] = [
     { id: "q6", q: t("q6"), a: t("a6") },
@@ -39,6 +40,7 @@ export async function faqGroups(locale: Locale) {
     },
     { id: "q8", q: t("q8"), a: t("a8") },
     { id: "q9", q: t("q9"), a: t("a9", { days: RETURN_DAYS }) },
+    // CONFIRM: "you will not need to send it back" must match how damage claims are really handled.
     { id: "q10", q: t("q10"), a: t("a10", { days: DAMAGE_REPORT_DAYS }) },
     { id: "q11", q: t("q11"), a: paymentText(t) },
     { id: "q12", q: t("q12"), a: t("a12") },

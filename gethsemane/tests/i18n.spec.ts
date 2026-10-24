@@ -9,18 +9,19 @@ const heroTitles: Record<string, string> = {
 
 for (const locale of locales) {
   test(`/${locale} has lang, canonical and a full hreflang set`, async ({ page }) => {
-    const res = await page.goto(`/${locale}/shop`);
+    // The shop is noindex until CATALOG_READY (no canonical/hreflang there), so this checks an indexable page.
+    const res = await page.goto(`/${locale}/about`);
     expect(res?.status()).toBe(200);
     await expect(page.locator("html")).toHaveAttribute("lang", locale);
     await expect(page.locator("html")).not.toHaveAttribute("dir", /.*/);
     const base = new URL(page.url()).origin;
-    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `${base}/${locale}/shop`);
+    await expect(page.locator('link[rel="canonical"]')).toHaveAttribute("href", `${base}/${locale}/about`);
     const alternates = page.locator('link[rel="alternate"][hreflang]');
     await expect(alternates).toHaveCount(locales.length + 1);
     for (const l of locales) {
-      await expect(page.locator(`link[rel="alternate"][hreflang="${l}"]`)).toHaveAttribute("href", `${base}/${l}/shop`);
+      await expect(page.locator(`link[rel="alternate"][hreflang="${l}"]`)).toHaveAttribute("href", `${base}/${l}/about`);
     }
-    await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", `${base}/en/shop`);
+    await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", `${base}/en/about`);
     // The logo lockup is English in every language.
     await expect(page.locator(".site-header .logo-name")).toHaveText("GETHSEMANE");
     await expect(page.locator(".site-footer .logo-tagline")).toHaveText("OLIVE WOOD · HOLY LAND");
@@ -134,12 +135,17 @@ test("home page title per language", async ({ page }) => {
 test("sitemap.xml and robots.txt", async ({ request, baseURL }) => {
   const robots = await request.get("/robots.txt");
   expect(robots.status()).toBe(200);
-  expect(await robots.text()).toContain(`Sitemap: ${baseURL}/sitemap.xml`);
+  const robotsText = await robots.text();
+  expect(robotsText).toContain(`Sitemap: ${baseURL}/sitemap.xml`);
+  expect(robotsText).toMatch(/Allow: \//);
+  expect(robotsText).not.toMatch(/^Host:/im);
   const sitemap = await request.get("/sitemap.xml");
   expect(sitemap.status()).toBe(200);
   const xml = await sitemap.text();
   const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  expect(urls.length).toBe(10 * 28);
+  // Home, about and 10 help/policy pages; shop, category and product pages join once CATALOG_READY is true.
+  expect(urls.length).toBe(10 * 12);
+  expect(urls.some((u) => /\/(shop|product)(\/|$)/.test(u ?? ""))).toBe(false);
   for (const l of locales) expect(urls).toContain(`${baseURL}/${l}`);
   expect(xml).toContain('hreflang="x-default"');
   expect(urls.some((u) => u?.includes("/cart"))).toBe(false);

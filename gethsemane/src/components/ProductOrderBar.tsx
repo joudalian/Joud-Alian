@@ -7,7 +7,7 @@ import { Price } from "./Price";
 import { WhatsAppOrderButton } from "./WhatsAppOrder";
 
 /**
- * Sticky "Order on WhatsApp" bar above the bottom navigation on phones. It appears only once the
+ * Sticky "Order only this piece" bar above the bottom navigation on phones. It appears only once the
  * inline order buttons (#order-row) have scrolled above the screen, so it never covers them or the price.
  * (A scroll listener rather than an IntersectionObserver: a jump past the row would not change its
  * intersection state and the bar would never appear.)
@@ -43,7 +43,7 @@ export function ProductOrderBar({ slug, name, priceUsd }: { slug: ProductSlug; n
         <span className="order-bar-name">{name}</span>
         <Price usd={priceUsd} />
       </div>
-      <WhatsAppOrderButton lines={[{ slug, qty: 1 }]} label={t("orderWhatsApp")} className="btn btn-primary" />
+      <WhatsAppOrderButton lines={[{ slug, qty: 1 }]} label={t("orderOnlyThis")} className="btn btn-primary" />
     </div>
   );
 }

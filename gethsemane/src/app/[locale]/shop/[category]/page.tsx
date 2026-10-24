@@ -4,7 +4,8 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductGrid } from "@/components/ProductCard";
-import type { Locale } from "@/i18n/locales";
+import { CATALOG_READY } from "@/config/store";
+import { isLocale, type Locale } from "@/i18n/locales";
 import { isCategorySlug, productsInCategory } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
 
@@ -12,13 +13,14 @@ type Props = { params: Promise<{ locale: Locale; category: string }> };
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, category } = await params;
-  if (!isCategorySlug(category)) return {};
+  if (!isCategorySlug(category) || !isLocale(locale)) notFound();
   const t = await getTranslations({ locale, namespace: "categories" });
   return pageMetadata({
     locale,
     path: `/shop/${category}`,
     title: t(`${category}.name`),
     description: t(`${category}.description`),
+    noindex: !CATALOG_READY,
   });
 }
 

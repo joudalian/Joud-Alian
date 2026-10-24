@@ -37,7 +37,7 @@ test.describe("help and policy pages", () => {
       }
     }
     // Every alternate in the sitemap carries the x-default.
-    expect((sitemap.match(/hreflang="x-default"/g) ?? []).length).toBe(10 * 28);
+    expect((sitemap.match(/hreflang="x-default"/g) ?? []).length).toBe(10 * 12);
   });
 
   test("pages render without console errors and fit 320px", async ({ page }) => {
@@ -220,7 +220,12 @@ test.describe("structured data", () => {
     expect(org.name).toBe("Gethsemane");
     expect(org.url).toBe(baseURL);
     expect((org.hasMerchantReturnPolicy as Record<string, unknown>).merchantReturnDays).toBe(14);
-    expect(org.sameAs).toEqual(["https://holylandtimber.com"]);
+    // Only our own (empty) social accounts; never the sister store, never "ZZ".
+    expect(org.sameAs).toBeUndefined();
+    expect(org.address).toEqual({ "@type": "PostalAddress", streetAddress: "129 Al Mahed Street", addressLocality: "Bethlehem", addressCountry: "PS" });
+    expect(JSON.stringify(data)).not.toContain('"ZZ"');
+    // SHIP_TO_COUNTRIES is empty: no applicableCountry.
+    expect((org.hasMerchantReturnPolicy as Record<string, unknown>).applicableCountry).toBeUndefined();
     expect(JSON.stringify(org)).not.toContain("vercel.app");
     expect(data.find((d) => d["@type"] === "WebSite")).toBeTruthy();
   });
@@ -231,15 +236,14 @@ test.describe("structured data", () => {
     const html = await res.text();
     const blocks = [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map((m) => JSON.parse(m[1]!));
     const product = blocks.find((d) => d["@type"] === "Product");
-    expect(product.offers.priceCurrency).toBe("USD");
-    expect(product.offers.price).toBe("69.00");
     expect(product.brand.name).toBe("Gethsemane");
     expect(product.material).toBe("Olive wood");
-    // The headline range from DELIVERY_TIME, in business days (not the regional maxima).
-    expect(product.offers.shippingDetails.deliveryTime.transitTime).toMatchObject({ minValue: 7, maxValue: 15 });
-    expect(product.offers.shippingDetails.deliveryTime.businessDays.dayOfWeek).toHaveLength(5);
-    expect(product.offers.hasMerchantReturnPolicy.merchantReturnDays).toBe(14);
-    expect(JSON.stringify(product)).not.toMatch(/EUR|€/);
+    expect(product.url).toBe(`${baseURL}/fr/product/salad-bowl`);
+    expect(product.sku).toMatch(/^GTH-\d{3}$/);
+    // CATALOG_READY is false: placeholder prices are never published as offers.
+    expect(product.offers).toBeUndefined();
+    expect(JSON.stringify(product)).not.toMatch(/EUR|€|InStock|"ZZ"/);
+    expect(html).toContain('<meta name="robots" content="noindex, follow"/>');
     const crumbs = blocks.find((d) => d["@type"] === "BreadcrumbList");
     expect(crumbs.itemListElement.map((i: { position: number }) => i.position)).toEqual([1, 2, 3, 4]);
     expect(crumbs.itemListElement[3].item).toBe(`${baseURL}/fr/product/salad-bowl`);

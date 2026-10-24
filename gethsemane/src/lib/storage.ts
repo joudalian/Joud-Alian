@@ -106,6 +106,14 @@ export function writeStorage(key: string, value: string): void {
   }
 }
 
+export function removeStorage(key: string): void {
+  try {
+    window.localStorage.removeItem(key);
+  } catch {
+    // Storage unavailable: nothing was stored.
+  }
+}
+
 export function setCookie(name: string, value: string): void {
   const secure = window.location.protocol === "https:" ? "; Secure" : "";
   document.cookie = `${name}=${encodeURIComponent(value)}; Path=/; Max-Age=31536000; SameSite=Lax${secure}`;

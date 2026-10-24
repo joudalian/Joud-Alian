@@ -11,7 +11,7 @@ type Props = { params: Promise<{ locale: Locale }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "shipping" });
-  return pageMetadata({ locale, path: "/shipping", title: t("title"), description: t("intro") });
+  return pageMetadata({ locale, path: "/shipping", title: t("title"), description: t("metaDescription") });
 }
 
 export default async function ShippingPage({ params }: Props) {
@@ -43,6 +43,7 @@ export default async function ShippingPage({ params }: Props) {
         <p>{t("tracking")}</p>
       </Section>
       <Section id="packing" title={t("packingTitle")}>
+        {/* CONFIRM: "protective double box, no straw" must match how parcels are really packed. */}
         <p>{t("packing")}</p>
       </Section>
       <Section id="not-shipped" title={t("notShippedTitle")}>
@@ -52,6 +53,7 @@ export default async function ShippingPage({ params }: Props) {
         <p>{t("lost", { days: LOST_PARCEL_DAYS })}</p>
       </Section>
       <Section id="damaged" title={t("damagedTitle")}>
+        {/* CONFIRM: "you do not need to send it back" must match how damage claims are really handled. */}
         <p>{t("damaged", { days: DAMAGE_REPORT_DAYS })}</p>
       </Section>
     </InfoPage>

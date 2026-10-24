@@ -48,6 +48,12 @@ function argNames(message, locale) {
   return [...names].sort().join();
 }
 
+/** Digits outside ICU placeholders and plural selectors, sorted (e.g. "14,2"). */
+function literalNumbers(message) {
+  const text = message.replace(/\{[^{}]*\}/g, " ").replace(/=\d+/g, " ");
+  return [...text.matchAll(/\d+/g)].map((m) => m[0]).sort().join(",");
+}
+
 const load = (locale) => flatten(JSON.parse(readFileSync(join(root, "messages", `${locale}.json`), "utf8")));
 const base = load("en");
 const baseKeys = Object.keys(base);
@@ -71,6 +77,10 @@ for (const locale of expectedLocales) {
       new IntlMessageFormat(value, locale);
     } catch (e) {
       errors.push(`${locale}: "${key}" is not valid ICU (${e.message})`);
+    }
+    // Literal numbers (days, percentages, years…) must be the same in every language as in English.
+    if (typeof base[key] === "string" && literalNumbers(value) !== literalNumbers(base[key])) {
+      errors.push(`${locale}: "${key}" states the numbers [${literalNumbers(value)}] but en states [${literalNumbers(base[key])}]`);
     }
     if (typeof base[key] === "string" && argNames(value, locale) !== argNames(base[key], "en")) {
       errors.push(`${locale}: "${key}" uses arguments {${argNames(value, locale)}} but en uses {${argNames(base[key], "en")}}`);

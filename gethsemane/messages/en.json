@@ -26,7 +26,8 @@
     "terms": "Terms",
     "accessibility": "Accessibility",
     "wholesale": "Wholesale and custom orders",
-    "orderShort": "Order"
+    "orderShort": "Order",
+    "withdrawal": "Withdraw from a contract"
   },
   "language": {
     "button": "Change language",
@@ -37,7 +38,7 @@
   },
   "currency": {
     "label": "Currency",
-    "note": "Prices are set in USD. Other currencies are approximate conversions; the final amount is confirmed on WhatsApp."
+    "note": "Prices are set in USD. Other currencies are approximate conversions (rates as of {date}); the final amount is confirmed on WhatsApp."
   },
   "home": {
     "heroTitle": "Olive wood, carved by hand in Bethlehem.",
@@ -58,8 +59,8 @@
     "trust4": "Orders confirmed personally on WhatsApp",
     "storyImageAlt": "Olive wood pieces on a carver’s workbench in Bethlehem",
     "pointsTitle": "What you can expect",
-    "point1Title": "Pruned, never felled.",
-    "point1Text": "Our wood comes from branches trimmed from old olive trees.",
+    "point1Title": "From pruned branches.",
+    "point1Text": "Our wood comes from branches trimmed when olive trees are pruned.",
     "point2Title": "Every piece is different.",
     "point2Text": "The grain is natural, so yours will be one of a kind.",
     "point3Title": "A real person answers.",
@@ -135,18 +136,22 @@
       "box": "Protective box",
       "pouch": "Cloth pouch"
     },
-    "orderWhatsApp": "Order on WhatsApp",
     "askAbout": "Ask about this piece",
     "orderBar": "Order bar",
     "deliveryIntro": "Business days after dispatch. Preparing your order takes {min}–{max} business days first.",
     "deliveryRegion": "{region}: {min}–{max} business days",
-    "shippingSummary": "Ships to most countries. Delivery typically takes {min}–{max} business days after dispatch; customs duties and import taxes are paid by the buyer.",
-    "returnsSummary": "{days}-day returns on unused pieces, arranged with us on WhatsApp first.",
+    "shippingSummary": "Ships to most countries. Delivery typically takes {min}–{max} business days after dispatch to most destinations; remote areas can take longer. Customs duties and import taxes are paid by the buyer.",
+    "returnsSummary": "Return within {days} days; please arrange it with us on WhatsApp first. Your statutory rights are not affected.",
     "careSummary": "Wipe with a dry cloth and keep away from heat and soaking.",
     "readMore": "Read more: {page}",
     "reviewsTitle": "Be the first to tell us",
     "reviewsText": "This piece has no reviews yet, and we will not invent any. After delivery we would be glad to receive a photo of it in its new home; with your permission, we may share it with your first name.",
-    "photoAlt": "{name}, handmade from olive wood"
+    "photoAlt": "{name}, handmade from olive wood",
+    "orderOnlyThis": "Order only this piece",
+    "viewOrder": "View your order",
+    "safetyTitle": "Product safety information",
+    "safetyManufacturer": "Manufacturer: {name}",
+    "safetyEu": "Responsible person in the EU: {name}"
   },
   "cart": {
     "title": "Your order",
@@ -163,7 +168,7 @@
     "summary": "Order summary",
     "whatsappHint": "Opens WhatsApp with your order. We confirm availability, shipping cost and the final total there.",
     "shop": "Go to the shop",
-    "subtotalUsd": "Total in USD",
+    "subtotalUsd": "Items total in USD (shipping not included)",
     "approxTotal": "Approximate total in {currency}",
     "stepsTitle": "How ordering works",
     "policiesTitle": "Good to know",
@@ -176,12 +181,21 @@
     "giftNoteText": "Gift note text",
     "send": "Send order on WhatsApp",
     "copy": "Copy message",
-    "copied": "Message copied. Paste it into WhatsApp or an email to us.",
+    "copied": "Message copied. Paste it into WhatsApp{email, select, none {} other { or an email to us}}.",
     "copyFailed": "Copying is not available here. Select the message below and copy it.",
     "messagePreview": "Message preview",
     "added": "{name} added to your order.",
     "removed": "{name} removed from your order.",
-    "quantityChanged": "Quantity of {name}: {qty}."
+    "quantityChanged": "Quantity of {name}: {qty}.",
+    "shippingLabel": "Shipping",
+    "shippingValue": "confirmed on WhatsApp",
+    "countryHint": "Add your country so we can quote shipping in our first reply.",
+    "clearDetails": "Clear my saved details",
+    "detailsCleared": "Your saved details were cleared from this browser.",
+    "needMore": "Need more? Ask about wholesale",
+    "noscript": "JavaScript is turned off, so your order cannot be shown here. You can still order directly:",
+    "shortenedNote": "Your notes are long, so the WhatsApp message shortens them. Use “Copy message” to paste the full text into the chat.",
+    "sendEmail": "Or send it by email to {email}"
   },
   "wishlist": {
     "title": "Your wishlist",
@@ -193,7 +207,8 @@
     "remove": "Remove",
     "removeItem": "Remove {name} from wishlist",
     "added": "{name} saved to your wishlist.",
-    "removed": "{name} removed from your wishlist."
+    "removed": "{name} removed from your wishlist.",
+    "storedNote": "Your wishlist is stored only in this browser. It is not sent to us and does not sync between devices."
   },
   "about": {
     "title": "Our story",
@@ -247,13 +262,15 @@
     "general": "Hello {store}, I have a question.",
     "ask": "Hello {store}, I have a question about “{name}”: ",
     "chat": "Chat on WhatsApp",
-    "chatFooter": "Chat with us on WhatsApp"
+    "chatFooter": "Chat with us on WhatsApp",
+    "giftNoteEmpty": "Gift note: (no text yet)",
+    "shortened": "(shortened)"
   },
   "announcement": {
     "label": "Announcement"
   },
   "regions": {
-    "europe": "Europe",
+    "europe": "Europe (including the UK)",
     "northAmerica": "United States and Canada",
     "oceania": "Australia and New Zealand",
     "middleEast": "Middle East",
@@ -272,7 +289,7 @@
     "step2Title": "Send your order on WhatsApp",
     "step2Text": "One button opens WhatsApp with your order already written. Nothing is sent until you press send.",
     "step3Title": "We confirm",
-    "step3Text": "We check availability and reply with the shipping cost and the final total.",
+    "step3Text": "We check availability and reply with the shipping cost and the final total. We will also ask for your full delivery address and a phone number for the courier.",
     "step4Title": "Pay and receive",
     "step4Text": "We send payment instructions. We ship after payment is received and send you the tracking number.",
     "cta": "Start in the shop"
@@ -289,19 +306,19 @@
     "q3": "Where does the wood come from?",
     "a3": "From branches trimmed when olive trees are pruned.",
     "q4": "Can a piece be engraved or customised?",
-    "a4": "Some pieces can be engraved. Ask us on WhatsApp before you order; engraved and personalised pieces cannot be returned.",
+    "a4": "Some pieces can be engraved. Ask us on WhatsApp before you order; engraved and personalised pieces cannot be returned unless faulty.",
     "q5": "Do you supply churches, ministries or shops?",
     "a5": "Yes. Write to us on WhatsApp or through the contact page with the pieces and quantities you need, and we will reply with a quote.",
     "q6": "How do I place an order?",
     "a6": "Add pieces to your order and send it to us on WhatsApp. We confirm availability, the shipping cost and the final total, then send payment instructions. Nothing is charged on this website.",
     "q7": "Where do orders ship from, and how long does delivery take?",
-    "a7": "{shipFrom} We prepare orders in {processingMin}–{processingMax} business days; delivery typically takes {deliveryMin}–{deliveryMax} business days after dispatch. These are estimates, not guarantees.",
+    "a7": "{shipFrom} We prepare orders in {processingMin}–{processingMax} business days; delivery typically takes {deliveryMin}–{deliveryMax} business days after dispatch to most destinations, and remote areas can take longer. These are estimates, not guarantees.",
     "q8": "Do I pay customs duties?",
-    "a8": "Customs duties, import taxes and any handling fees are paid by the buyer. We declare the contents of every parcel accurately.",
+    "a8": "Customs duties, import taxes and any handling fees are paid by the buyer. In some countries taxes are instead collected by the carrier or at the border. We describe the contents and value truthfully on customs forms.",
     "q9": "Can I return a piece?",
-    "a9": "Yes, within {days} days of delivery if it is unused and in its original condition and packaging. Contact us first with your order reference. Engraved or personalised pieces and final-sale pieces cannot be returned.",
+    "a9": "Yes, within {days} days of delivery. We ask that the piece is unused and in its original packaging, and that you contact us first with your order reference. Engraved or personalised pieces (unless faulty) and pieces marked as final sale cannot be returned this way. These limits do not apply to your statutory right of withdrawal (EU/UK) or your legal guarantees; exceptions to withdrawal apply only to personalised or custom-made items.",
     "q10": "What if my parcel arrives damaged?",
-    "a10": "Tell us within {days} days of delivery and send photos of the outer box and the item. We will replace it or refund you, and you will not need to send it back.",
+    "a10": "Tell us within {days} days of delivery and send photos of the outer box and the item. We will replace it or refund you, and you will not need to send it back. This does not affect your legal rights.",
     "q11": "How do I pay?",
     "a11Instructions": "After we confirm your order on WhatsApp, we send you payment instructions. We ship once payment is received. There is no payment on this website.",
     "a11Link": "After we confirm your order on WhatsApp, we send you a payment link ({methods}). We ship once payment is received. There is no payment on this website.",
@@ -315,7 +332,7 @@
     "fromTitle": "Where we ship from",
     "timesTitle": "Processing and delivery times",
     "processing": "Preparing your order: {min}–{max} business days.",
-    "delivery": "Delivery after dispatch: typically {min}–{max} business days.",
+    "delivery": "Delivery after dispatch: typically {min}–{max} business days to most destinations; remote areas can take longer.",
     "regionsTitle": "Estimated delivery by region",
     "regionCol": "Region",
     "timeCol": "Business days after dispatch",
@@ -324,8 +341,8 @@
     "costTitle": "Shipping cost",
     "cost": "The shipping cost depends on the destination and the size of the parcel. We tell you the exact amount on WhatsApp before you pay.",
     "customsTitle": "Customs, duties and taxes",
-    "customs": "Customs duties, import VAT or sales taxes and any carrier handling fees are paid by the buyer. Parcels to the European Union may carry a small customs duty at import, even for low values. Duties also apply to small parcels sent to the United States.",
-    "customs2": "Wooden items may be inspected at the border. We declare the contents of every parcel accurately.",
+    "customs": "Customs duties, import VAT or sales taxes and any carrier handling fees are paid by the buyer. Parcels to the European Union may carry a small customs duty at import, even for low values. Duties also apply to small parcels sent to the United States. In some countries taxes are instead collected by the carrier or at the border.",
+    "customs2": "Wooden items may be inspected at the border. We describe the contents and value truthfully on customs forms.",
     "trackingTitle": "Tracking",
     "tracking": "We send you the tracking number when your order is dispatched.",
     "packingTitle": "Packing",
@@ -335,17 +352,18 @@
     "lostTitle": "Lost parcels",
     "lost": "If tracking shows no movement for {days} days, we open a trace with the carrier. If the parcel is not found, we send the order again or refund you.",
     "damagedTitle": "Damaged parcels",
-    "damaged": "Tell us within {days} days of delivery and send photos of the outer box and the item. We replace it or refund you; you do not need to send it back.",
-    "regionsNote": "These are estimates, not guarantees. Customs and remote destinations can take longer."
+    "damaged": "Tell us within {days} days of delivery and send photos of the outer box and the item. We replace it or refund you; you do not need to send it back. This does not affect your legal rights.",
+    "regionsNote": "These are estimates, not guarantees. Customs and remote destinations can take longer.",
+    "metaDescription": "How Gethsemane ships handmade olive wood from Bethlehem: preparation and delivery times, estimates by region, customs duties, tracking and damaged parcels."
   },
   "returns": {
     "title": "Returns and refunds",
     "intro": "If a piece is not right for you, you can return it.",
     "periodTitle": "{days} days to return",
-    "period": "You can ask to return a piece within {days} days of delivery. It must be unused, in its original condition and packaging, and come with your order reference. Please contact us before sending anything back.",
+    "period": "If you change your mind, you can return a piece within {days} days of delivery. To make this simple for both of us, we ask that the piece is unused and in its original packaging, that you include your order reference, and that you contact us before sending it back.",
     "excludedTitle": "What cannot be returned",
-    "excluded1": "Engraved or personalised pieces (we tell you before you order).",
-    "excluded2": "Pieces sold as final sale.",
+    "excluded1": "Engraved or personalised pieces, except where faulty (we tell you before you order).",
+    "excluded2": "Pieces clearly marked as final sale before you order.",
     "excluded3": "Damage caused by misuse.",
     "excluded4": "Returns sent without our approval.",
     "variation": "Natural variation in grain and colour is a quality of olive wood, not a defect, and does not affect your statutory rights.",
@@ -356,7 +374,7 @@
     "refundOther": "Other customers: we refund to the original payment method within 5–10 business days after we receive and inspect the return.",
     "refundShipping": "If you withdraw under the statutory right below, we also refund the standard outbound delivery cost. Otherwise the original shipping cost is not refundable, unless we made a mistake.",
     "withdrawalTitle": "Right of withdrawal (EU and UK consumers)",
-    "withdrawal": "If you are a consumer in the European Union or the United Kingdom, you have the right to withdraw from the contract within 14 days without giving any reason. The period ends 14 days after the day you (or someone you name, other than the carrier) receive the goods. To withdraw, tell us clearly, for example on WhatsApp or by email. You may use the model form below, but you do not have to.",
+    "withdrawal": "If you are a consumer in the European Union or the United Kingdom, you have the right to withdraw from the contract within 14 days without giving any reason. The period ends 14 days after the day you (or someone you name, other than the carrier) receive the goods. To withdraw, tell us clearly, for example on WhatsApp{email, select, none {} other { or by email}}. You can use our <link>withdrawal page</link> or the model form below, but you do not have to.",
     "formTitle": "Model withdrawal form",
     "formIntro": "(Complete and return this form only if you wish to withdraw from the contract.)",
     "formTo": "To: {to}",
@@ -369,7 +387,11 @@
     "formNote": "(*) Delete as appropriate.",
     "formSend": "Send it to us on WhatsApp{email, select, none {} other { or by email to {email}}}.",
     "guaranteeTitle": "Your legal guarantees",
-    "guarantee": "Nothing in this policy limits your statutory rights. These include the legal guarantee of conformity in the European Union (at least two years) and the consumer guarantees under Australian Consumer Law, which cannot be excluded."
+    "guarantee": "Nothing in this policy limits your statutory rights. These include the legal guarantee of conformity in the European Union (at least two years) and the consumer guarantees under Australian Consumer Law, which cannot be excluded.",
+    "periodRights": "These are our requests for change-of-mind returns. They are not conditions on your statutory rights described below.",
+    "excludedIntro": "These limits do not apply to your statutory right of withdrawal (EU/UK) or your legal guarantees. Exceptions to withdrawal apply only to personalised or custom-made items.",
+    "refundMethod": "“Original payment method” means we refund the way you paid us: to the same card or account, or by the same kind of transfer if you paid by bank transfer or another non-card method.",
+    "metaDescription": "How to return a handmade olive wood piece from Gethsemane: {days} days to return, your EU and UK withdrawal rights, refunds and the model withdrawal form."
   },
   "contact": {
     "title": "Contact",
@@ -400,9 +422,9 @@
     "noAccountsTitle": "No accounts, no tracking",
     "noAccounts": "There are no customer accounts. The site uses no analytics, no advertising or tracking cookies, and loads no third-party scripts.",
     "browserTitle": "What stays in your browser",
-    "browser": "Your order, wishlist, chosen language and currency, and any details you type on the order page (name, country, notes, gift note) are stored only in your own browser (local storage and two small preference cookies for language and currency). They are not sent to us.",
+    "browser": "Your order, wishlist and any details you type on the order page (name, country, notes, gift note) are stored only in your own browser (local storage). They are not sent to us.",
     "whatsappTitle": "When you send an order or a message",
-    "whatsapp": "Information reaches us only when you choose to send a WhatsApp message (or an email). The message contains what you see before sending it. WhatsApp (Meta) processes it under its own privacy policy. To deliver an order we share your name, address and phone number with the shipping carrier.",
+    "whatsapp": "Information reaches us only when you choose to send a WhatsApp message{email, select, none {} other { or an email}}. The message contains what you see before sending it. WhatsApp (Meta) processes it under its own privacy policy. To deliver an order we share your name, address and phone number with the shipping carrier.",
     "useTitle": "How we use it",
     "use": "We use your details only to answer you and to fulfil your order. We do not sell or share personal data for marketing.",
     "retentionTitle": "How long we keep it",
@@ -411,7 +433,7 @@
     "rightsTitle": "Your rights",
     "rights": "You can ask to see, correct or delete the information we hold about you, and you can complain to your data protection authority. Contact us through the <link>contact page</link>.",
     "transferTitle": "International transfers",
-    "transfer": "We are based in Bethlehem. When you write to us from another country, your information is transferred to us there, and to the carriers that deliver your parcel.",
+    "transfer": "We are based in Bethlehem. When you write to us from another country, your information is transferred to us there; when we ship your order, it goes from Bethlehem to the carriers that deliver your parcel. The website itself is hosted in the United States (see Hosting).",
     "childrenTitle": "Children",
     "children": "This site is not aimed at children, and we do not knowingly collect information from anyone under 16.",
     "securityTitle": "Security",
@@ -419,13 +441,20 @@
     "changesTitle": "Changes",
     "changes": "If what the site does changes (for example, if we add analytics), we will update this page first.",
     "hostingTitle": "Hosting",
-    "hosting": "Like any website, our hosting provider processes technical data such as IP addresses in order to deliver pages and keep the site secure."
+    "hosting": "This site is hosted by Vercel Inc. in the United States. Like any web host, Vercel processes technical data such as IP addresses to deliver pages and keep the site secure, so this data is transferred to the United States.",
+    "controllerTitle": "Who is responsible",
+    "controller": "The controller responsible for your personal data is:",
+    "cookies": "The site uses two preference cookies: NEXT_LOCALE (your language) is set on your first visit, and currency (your currency) when you choose one. Both last one year and are sent to our server with every request, so that pages appear in your language and currency. They are not used for tracking.",
+    "basesTitle": "Legal bases",
+    "basisContract": "Performing your order: answering your request, confirming, shipping and handling returns.",
+    "basisInterest": "Our legitimate interest in running the site and keeping it secure.",
+    "basisConsent": "Your consent for anything optional, such as a gift note or the details you choose to type on the order page. You can withdraw it at any time."
   },
   "terms": {
     "title": "Terms of sale",
     "intro": "These terms apply to orders placed through this website and confirmed with us on WhatsApp.",
     "orderTitle": "How a contract is made",
-    "order": "Sending us your order is an offer to buy. A contract exists only when we confirm your order on WhatsApp.",
+    "order": "Your WhatsApp message is a request to order. It is not yet a contract.",
     "pricesTitle": "Prices",
     "prices": "Prices are set in US dollars. Amounts in other currencies are approximate conversions. Before you pay, we confirm the final total, including shipping, and remind you that customs duties and import taxes are paid by the buyer.",
     "paymentTitle": "Payment",
@@ -444,7 +473,12 @@
     "email": "Email: {email}",
     "whatsapp": "WhatsApp: {phone}",
     "sister": "Sister store of holylandtimber.com (same ownership).",
-    "taxId": "Tax / registration ID: {id}"
+    "taxId": "Tax / registration ID: {id}",
+    "orderConfirmation": "We reply with a confirmation that states the total, the delivery estimate and the payment instructions, and that accepting it means placing an order with an obligation to pay.",
+    "orderContract": "The contract is formed when you accept that confirmed total.",
+    "orderQuote": "Our quotes are valid for {hours} hours.",
+    "orderDelay": "If we cannot ship by the estimated date, we tell you, and you may cancel for a full refund.",
+    "orderDurable": "After the contract is formed, we send you an order confirmation on a durable medium (an email or a WhatsApp document), including information about your right of withdrawal."
   },
   "accessibilityPage": {
     "title": "Accessibility",
@@ -467,7 +501,7 @@
     "dailyTitle": "Every day",
     "daily": "Wipe with a soft, dry cloth to remove dust.",
     "oilTitle": "Now and then",
-    "oil": "If the wood looks dry, rub in a few drops of food-safe oil (for example olive oil), leave it for a few minutes and wipe off the rest. Once or twice a year is usually enough.",
+    "oil": "If the wood looks dry, rub in a few drops of food-safe mineral oil or a wood-bowl oil, leave it for a few minutes and wipe off the rest. Once or twice a year is usually enough. Avoid cooking oils such as olive oil, which can go rancid.",
     "kitchenTitle": "Bowls and boards",
     "kitchen": "Wash quickly by hand with a little mild soap and dry straight away.",
     "avoidTitle": "Please avoid",
@@ -475,5 +509,19 @@
     "avoid2": "The dishwasher.",
     "avoid3": "Radiators, heaters and long hours of strong sun.",
     "variation": "Small changes in colour over time are natural and part of the wood’s character."
+  },
+  "withdrawal": {
+    "title": "Withdraw from a contract",
+    "description": "EU and UK consumers can withdraw from a Gethsemane order within 14 days of receiving it. Send your notice on WhatsApp or use the model withdrawal form.",
+    "intro": "If you are a consumer in the European Union or the United Kingdom, you can withdraw from your contract within 14 days of receiving the goods, without giving a reason.",
+    "howTitle": "Send your withdrawal notice",
+    "how": "The button opens a message with the notice already written. Fill in the details and send it; nothing is sent from this page.",
+    "whatsapp": "Withdraw on WhatsApp",
+    "email": "Withdraw by email",
+    "fields": "Please include your name, your order number, the pieces you are returning and the date you received them.",
+    "message": "Hello {store}, I hereby withdraw from my contract of sale.\nName: \nOrder number: \nPieces: \nDate received: ",
+    "formSectionTitle": "Model withdrawal form",
+    "moreTitle": "Refunds and returns",
+    "more": "How refunds work, and how to send the pieces back, is explained on our <link>returns page</link>."
   }
 }

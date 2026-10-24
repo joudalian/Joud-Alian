@@ -17,6 +17,10 @@ export const forbiddenClaims = [
   ["100% untreated", /untreated|non traité|sin tratar|non trattat|unbehandelt|ανεπεξέργαστ|netratat|необроблен|não tratad/i],
   ["air-dried for months", /air[-\s]?dried|séché à l'air|secad[oa] al aire|essiccat[oa] all'aria|luftgetrocknet|στεγνωμέν\S* στον αέρα|suszon\S* na powietrzu|uscat\S* la aer|висушен\S* на повітрі|sec[oa] ao ar/i],
   ["never cut", /never cut|jamais coupé|nunca cortad|mai tagliat|nie geschnitten|ποτέ κομμέν|nigdy nie cię|niciodată tăiat|ніколи не зрізан/i],
+  [
+    "never felled",
+    /(never|not) (been )?felled|jamais abattu|pas abattu|nunca talad|no talad|mai abbattut|non abbattut|nie gefällt|nicht gefällt|ποτέ δεν κόπηκ|δεν κόβ|ποτέ δεν υλοτομ|χωρίς υλοτομ|όχι από υλοτομ|nigdy nie ści|nie ścina|niciodată tăiat|niciodată doborât|nu sunt tăiaț|ніколи не зруб|не зрубан|nunca abatid|não abatid/i,
+  ],
   ["free shipping", /free (shipping|delivery)|livraison gratuite|envío gratis|envío gratuito|spedizione gratuita|kostenlos\S* versand|versandkostenfrei|δωρεάν αποστολή|darmow\S* (dostaw|wysyłk)|livrare gratuită|безкоштовн\S* доставк|portes grátis|envio gratuito/i],
   ["star ratings", /[★☆]|\b\d(\.\d)?\s?(\/\s?5|out of 5)\b|\b(5|five)[-\s]star/i],
 ];

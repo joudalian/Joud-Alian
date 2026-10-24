@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=22.18.0"
+    "node": "22.x"
   },
   "scripts": {
     "predev": "node scripts/size-product-images.mjs",
@@ -20,17 +20,20 @@
     "assets": "node scripts/generate-assets.mjs",
     "test": "node scripts/ensure-build.mjs && playwright test",
     "audit": "npm audit --audit-level=high",
-    "verify": "npm run typecheck && npm run lint && npm run check:i18n && npm run check:claims && npm run check:contrast && npm run build && npm run audit && playwright test",
-    "check:claims": "node scripts/check-claims.mjs"
+    "verify": "npm run typecheck && npm run lint && npm run check:i18n && npm run check:claims && npm run check:contrast && node scripts/ensure-build.mjs --rebuild && npm run audit && playwright test",
+    "check:claims": "node scripts/check-claims.mjs",
+    "check:launch": "node scripts/check-launch.mjs"
   },
   "dependencies": {
     "next": "16.4.3",
     "next-intl": "4.14.9",
     "react": "19.3.1",
     "react-dom": "19.3.1",
+    "sharp": "0.35.5",
     "zod": "4.6.7"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.13.0",
     "@playwright/test": "1.63.0",
     "@types/node": "22.20.5",
     "@types/react": "19.3.0",
@@ -38,7 +41,6 @@
     "eslint": "9.39.5",
     "eslint-config-next": "16.4.3",
     "intl-messageformat": "11.2.15",
-    "sharp": "0.35.5",
     "typescript": "5.9.3"
   }
 }

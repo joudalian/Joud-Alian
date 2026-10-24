@@ -1,7 +1,7 @@
 {
   "meta": {
     "title": "Gethsemane — Lemn de măslin din Betleem",
-    "description": "Cadouri din lemn de măslin lucrate manual în Betleem: ieslee, cruci, rozarii și decorațiuni. Comenzile sunt confirmate personal pe WhatsApp.",
+    "description": "Cadouri din lemn de măslin lucrate manual în Betleem: iesle, cruci, rozarii și decorațiuni. Comenzile sunt confirmate personal pe WhatsApp.",
     "tagline": "Lemn de măslin · Țara Sfântă"
   },
   "nav": {
@@ -10,11 +10,11 @@
     "skip": "Salt la conținut",
     "home": "Acasă",
     "shop": "Magazin",
-    "about": "Povestea noastră",
+    "about": "Despre noi",
     "cart": "Comanda ta",
     "wishlist": "Favorite",
     "cartWithCount": "{count, plural, =0 {Comanda ta, goală} one {Comanda ta, # produs} few {Comanda ta, # produse} other {Comanda ta, # de produse}}",
-    "wishlistWithCount": "{count, plural, =0 {Favorite, gol} one {Favorite, # produs} few {Favorite, # produse} other {Favorite, # de produse}}",
+    "wishlistWithCount": "{count, plural, =0 {Favorite, goale} one {Favorite, # produs} few {Favorite, # produse} other {Favorite, # de produse}}",
     "breadcrumb": "Fir de navigare",
     "orderShort": "Comanda",
     "howToOrder": "Cum comanzi",
@@ -26,7 +26,8 @@
     "privacy": "Confidențialitate",
     "terms": "Condiții de vânzare",
     "accessibility": "Accesibilitate",
-    "wholesale": "Comenzi en-gros și personalizate"
+    "wholesale": "Comenzi angro și personalizate",
+    "withdrawal": "Retragerea din contract"
   },
   "language": {
     "button": "Schimbă limba",
@@ -37,11 +38,11 @@
   },
   "currency": {
     "label": "Monedă",
-    "note": "Prețurile sunt stabilite în USD. Celelalte monede sunt conversii aproximative; suma finală se confirmă pe WhatsApp."
+    "note": "Prețurile sunt stabilite în USD. Celelalte monede sunt conversii aproximative (cursuri din {date}); suma finală se confirmă pe WhatsApp."
   },
   "home": {
     "heroTitle": "Lemn de măslin, sculptat manual în Betleem.",
-    "heroText": "Ieslee, cruci și rozarii, făcute pentru a fi ținute în mână, dăruite și păstrate.",
+    "heroText": "Iesle, cruci și rozarii, făcute pentru a fi ținute în mână, dăruite și păstrate.",
     "heroAlt": "Emblema Gethsemane: un măslin și un teasc de ulei într-un arc încununat de o cruce",
     "heroCta": "Vezi colecția",
     "heroSecondary": "Citește povestea noastră",
@@ -58,8 +59,8 @@
     "trust4": "Comenzi confirmate personal pe WhatsApp",
     "storyImageAlt": "Piese din lemn de măslin pe bancul de lucru al unui sculptor din Betleem",
     "pointsTitle": "La ce te poți aștepta",
-    "point1Title": "Din toaletare, nu din tăiere.",
-    "point1Text": "Lemnul nostru provine din ramuri tăiate la toaletarea măslinilor bătrâni.",
+    "point1Title": "Din ramuri tăiate la toaletare.",
+    "point1Text": "Lemnul nostru provine din ramuri tăiate la toaletarea măslinilor.",
     "point2Title": "Fiecare piesă e diferită.",
     "point2Text": "Desenul lemnului e natural, așa că a ta va fi unică.",
     "point3Title": "Îți răspunde un om.",
@@ -85,8 +86,8 @@
   },
   "categories": {
     "nativity": {
-      "name": "Ieslee",
-      "description": "Ieslee și figurine ale Sfintei Familii pentru Crăciun și pentru tot anul."
+      "name": "Iesle",
+      "description": "Iesle și figurine ale Sfintei Familii pentru Crăciun și pentru tot anul."
     },
     "crosses": {
       "name": "Cruci",
@@ -121,7 +122,7 @@
     "wood": "Lemn",
     "finish": "Finisaj",
     "packaging": "Ambalaj",
-    "giftNote": "Bilet de cadou",
+    "giftNote": "Mesaj pentru cadou",
     "giftNoteAvailable": "Disponibil: adaugă mesajul pe pagina comenzii",
     "woodValue": {
       "olive": "Lemn de măslin"
@@ -136,17 +137,21 @@
       "box": "Cutie de protecție",
       "pouch": "Săculeț textil"
     },
-    "orderWhatsApp": "Comandă pe WhatsApp",
     "askAbout": "Întreabă despre această piesă",
     "orderBar": "Bara de comandă",
     "deliveryIntro": "Zile lucrătoare de la expediere. Înainte, pregătirea comenzii durează {min}–{max} zile lucrătoare.",
     "deliveryRegion": "{region}: {min}–{max} zile lucrătoare",
-    "shippingSummary": "Livrăm în majoritatea țărilor. Livrarea durează de obicei {min}–{max} zile lucrătoare de la expediere; taxele vamale și de import sunt plătite de cumpărător.",
-    "returnsSummary": "Retur în {days} zile pentru piesele nefolosite, stabilit mai întâi cu noi pe WhatsApp.",
+    "shippingSummary": "Livrăm în majoritatea țărilor. Livrarea durează de obicei {min}–{max} zile lucrătoare de la expediere spre majoritatea destinațiilor; zonele îndepărtate pot dura mai mult. Taxele vamale și de import sunt plătite de cumpărător.",
+    "returnsSummary": "Retur în {days} zile; stabilește-l mai întâi cu noi pe WhatsApp. Drepturile tale legale nu sunt afectate.",
     "careSummary": "Șterge cu o cârpă uscată și ferește de căldură și apă.",
     "readMore": "Află mai multe: {page}",
     "reviewsTitle": "Spune-ne tu primul",
-    "reviewsText": "Această piesă nu are încă recenzii și nu vom inventa niciuna. După livrare ne-ar bucura o fotografie a ei în noul cămin; cu acordul tău, am putea-o împărtăși alături de prenumele tău."
+    "reviewsText": "Această piesă nu are încă recenzii și nu vom inventa niciuna. După livrare ne-ar bucura o fotografie a ei în noul cămin; cu acordul tău, am putea-o împărtăși alături de prenumele tău.",
+    "orderOnlyThis": "Comandă doar această piesă",
+    "viewOrder": "Vezi comanda ta",
+    "safetyTitle": "Informații privind siguranța produsului",
+    "safetyManufacturer": "Producător: {name}",
+    "safetyEu": "Persoana responsabilă în UE: {name}"
   },
   "cart": {
     "title": "Comanda ta",
@@ -163,7 +168,7 @@
     "summary": "Sumarul comenzii",
     "whatsappHint": "Deschide WhatsApp cu comanda ta. Acolo confirmăm disponibilitatea, costul livrării și totalul final.",
     "shop": "Mergi la magazin",
-    "subtotalUsd": "Total în USD",
+    "subtotalUsd": "Total produse în USD (fără transport)",
     "approxTotal": "Total aproximativ în {currency}",
     "stepsTitle": "Cum decurge comanda",
     "policiesTitle": "Bine de știut",
@@ -172,16 +177,25 @@
     "name": "Numele tău",
     "country": "Țara de livrare",
     "notes": "Observații",
-    "giftNote": "Adaugă un bilet de cadou",
-    "giftNoteText": "Textul biletului",
+    "giftNote": "Adaugă un mesaj pentru cadou",
+    "giftNoteText": "Textul mesajului",
     "send": "Trimite comanda pe WhatsApp",
     "copy": "Copiază mesajul",
-    "copied": "Mesaj copiat. Lipește-l în WhatsApp sau într-un e-mail către noi.",
+    "copied": "Mesaj copiat. Lipește-l în WhatsApp{email, select, none {} other { sau într-un e-mail către noi}}.",
     "copyFailed": "Copierea nu este disponibilă aici. Selectează mesajul de mai jos și copiază-l.",
     "messagePreview": "Previzualizarea mesajului",
     "added": "{name} a fost adăugat la comandă.",
     "removed": "{name} a fost eliminat din comandă.",
-    "quantityChanged": "Cantitate pentru {name}: {qty}."
+    "quantityChanged": "Cantitate pentru {name}: {qty}.",
+    "shippingLabel": "Transport",
+    "shippingValue": "confirmat pe WhatsApp",
+    "countryHint": "Adaugă țara ta, ca să-ți putem spune costul transportului încă din primul răspuns.",
+    "clearDetails": "Șterge datele mele salvate",
+    "detailsCleared": "Datele tale au fost șterse din acest browser.",
+    "needMore": "Ai nevoie de mai multe? Întreabă despre vânzarea angro",
+    "noscript": "JavaScript este dezactivat, așa că nu putem afișa comanda aici. Poți totuși comanda direct:",
+    "shortenedNote": "Observațiile tale sunt lungi, așa că mesajul WhatsApp le scurtează. Folosește „Copiază mesajul” ca să lipești textul complet în conversație.",
+    "sendEmail": "Sau trimite-l pe e-mail la {email}"
   },
   "wishlist": {
     "title": "Favoritele tale",
@@ -193,7 +207,8 @@
     "remove": "Elimină",
     "removeItem": "Elimină {name} din favorite",
     "added": "{name} a fost salvat la favorite.",
-    "removed": "{name} a fost eliminat din favorite."
+    "removed": "{name} a fost eliminat din favorite.",
+    "storedNote": "Favoritele sunt salvate doar în acest browser. Nu ne sunt trimise și nu se sincronizează între dispozitive."
   },
   "about": {
     "title": "Povestea noastră",
@@ -243,17 +258,19 @@
     "name": "Nume: {name}",
     "country": "Țară: {country}",
     "notes": "Observații: {notes}",
-    "giftNote": "Bilet de cadou: {note}",
+    "giftNote": "Mesaj pentru cadou: {note}",
     "general": "Bună ziua, {store}! Am o întrebare.",
     "ask": "Bună ziua, {store}! Am o întrebare despre „{name}”: ",
     "chat": "Scrie-ne pe WhatsApp",
-    "chatFooter": "Scrie-ne pe WhatsApp"
+    "chatFooter": "Scrie-ne pe WhatsApp",
+    "giftNoteEmpty": "Mesaj pentru cadou: (încă fără text)",
+    "shortened": "(scurtat)"
   },
   "announcement": {
     "label": "Anunț"
   },
   "regions": {
-    "europe": "Europa",
+    "europe": "Europa (inclusiv Regatul Unit)",
     "northAmerica": "SUA și Canada",
     "oceania": "Australia și Noua Zeelandă",
     "middleEast": "Orientul Mijlociu",
@@ -272,7 +289,7 @@
     "step2Title": "Trimite comanda pe WhatsApp",
     "step2Text": "Un singur buton deschide WhatsApp cu comanda deja scrisă. Nu se trimite nimic până nu apeși trimite.",
     "step3Title": "Confirmăm",
-    "step3Text": "Verificăm disponibilitatea și îți răspundem cu costul livrării și totalul final.",
+    "step3Text": "Verificăm disponibilitatea și îți răspundem cu costul transportului și totalul final. Îți vom cere și adresa completă de livrare și un număr de telefon pentru curier.",
     "step4Title": "Plătești și primești",
     "step4Text": "Îți trimitem instrucțiunile de plată. Expediem după primirea plății și îți trimitem numărul de urmărire.",
     "cta": "Începe în magazin"
@@ -289,19 +306,19 @@
     "q3": "De unde provine lemnul?",
     "a3": "Din ramurile tăiate la toaletarea măslinilor.",
     "q4": "O piesă poate fi gravată sau personalizată?",
-    "a4": "Unele piese pot fi gravate. Întreabă-ne pe WhatsApp înainte de a comanda; piesele gravate sau personalizate nu pot fi returnate.",
+    "a4": "Unele piese pot fi gravate. Întreabă-ne pe WhatsApp înainte de a comanda; piesele gravate sau personalizate nu pot fi returnate, cu excepția celor defecte.",
     "q5": "Furnizați biserici, comunități sau magazine?",
     "a5": "Da. Scrie-ne pe WhatsApp sau din pagina de contact ce piese și ce cantități îți trebuie și îți trimitem o ofertă.",
     "q6": "Cum plasez o comandă?",
     "a6": "Adaugă piese la comandă și trimite-ne-o pe WhatsApp. Confirmăm disponibilitatea, costul livrării și totalul final, apoi trimitem instrucțiunile de plată. Pe acest site nu se încasează nimic.",
     "q7": "De unde se expediază comenzile și cât durează livrarea?",
-    "a7": "{shipFrom} Pregătim comenzile în {processingMin}–{processingMax} zile lucrătoare; livrarea durează de obicei {deliveryMin}–{deliveryMax} zile lucrătoare de la expediere. Sunt estimări, nu garanții.",
+    "a7": "{shipFrom} Pregătim comenzile în {processingMin}–{processingMax} zile lucrătoare; livrarea durează de obicei {deliveryMin}–{deliveryMax} zile lucrătoare de la expediere spre majoritatea destinațiilor, iar zonele îndepărtate pot dura mai mult. Sunt estimări, nu garanții.",
     "q8": "Trebuie să plătesc taxe vamale?",
-    "a8": "Taxele vamale, taxele de import și eventualele taxe de procesare sunt plătite de cumpărător. Declarăm corect conținutul fiecărui colet.",
+    "a8": "Taxele vamale, taxele de import și eventualele comisioane de procesare sunt plătite de cumpărător. În unele țări, taxele sunt încasate de curier sau la frontieră. Descriem conținutul și valoarea în mod corect pe formularele vamale.",
     "q9": "Pot returna o piesă?",
-    "a9": "Da, în {days} zile de la livrare, dacă este nefolosită și în starea și ambalajul originale. Contactează-ne mai întâi cu numărul comenzii. Piesele gravate sau personalizate și cele vândute ca vânzare finală nu pot fi returnate.",
+    "a9": "Da, în {days} zile de la livrare. Te rugăm ca piesa să fie nefolosită și în ambalajul original și să ne contactezi mai întâi cu numărul comenzii. Piesele gravate sau personalizate (cu excepția celor defecte) și cele marcate ca nereturnabile nu pot fi returnate pe această cale. Aceste limite nu se aplică dreptului tău legal de retragere (UE/Regatul Unit) și nici garanțiilor legale; excepțiile de la dreptul de retragere privesc doar articolele personalizate sau realizate la comandă.",
     "q10": "Ce fac dacă coletul ajunge deteriorat?",
-    "a10": "Anunță-ne în {days} zile de la livrare și trimite fotografii ale cutiei exterioare și ale piesei. O înlocuim sau îți dăm banii înapoi, fără să fie nevoie s-o trimiți înapoi.",
+    "a10": "Anunță-ne în {days} zile de la livrare și trimite fotografii cu cutia exterioară și cu obiectul. Îl vom înlocui sau îți vom returna banii, fără să fie nevoie să-l trimiți înapoi. Acest lucru nu îți afectează drepturile legale.",
     "q11": "Cum plătesc?",
     "a11Instructions": "După ce îți confirmăm comanda pe WhatsApp, îți trimitem instrucțiunile de plată. Expediem după ce primim plata. Pe acest site nu se fac plăți.",
     "a11Link": "După ce îți confirmăm comanda pe WhatsApp, îți trimitem un link de plată ({methods}). Expediem după ce primim plata. Pe acest site nu se fac plăți.",
@@ -315,7 +332,7 @@
     "fromTitle": "De unde expediem",
     "timesTitle": "Timp de pregătire și de livrare",
     "processing": "Pregătirea comenzii: {min}–{max} zile lucrătoare.",
-    "delivery": "Livrarea după expediere: de obicei {min}–{max} zile lucrătoare.",
+    "delivery": "Livrarea după expediere: de obicei {min}–{max} zile lucrătoare spre majoritatea destinațiilor; zonele îndepărtate pot dura mai mult.",
     "regionsTitle": "Timp estimat de livrare pe regiuni",
     "regionCol": "Regiune",
     "timeCol": "Zile lucrătoare de la expediere",
@@ -324,8 +341,8 @@
     "costTitle": "Costul livrării",
     "cost": "Costul livrării depinde de destinație și de mărimea coletului. Îți spunem suma exactă pe WhatsApp înainte să plătești.",
     "customsTitle": "Vamă, taxe și impozite",
-    "customs": "Taxele vamale, TVA-ul sau taxele de import și eventualele taxe de procesare ale curierului sunt plătite de cumpărător. Coletele către Uniunea Europeană pot avea o mică taxă vamală la import, chiar și pentru valori mici. Taxe se aplică și coletelor mici trimise în SUA.",
-    "customs2": "Obiectele din lemn pot fi verificate la frontieră. Declarăm corect conținutul fiecărui colet.",
+    "customs": "Taxele vamale, TVA-ul la import sau taxele pe vânzări și eventualele comisioane de procesare ale curierului sunt plătite de cumpărător. Coletele către Uniunea Europeană pot avea o mică taxă vamală la import, chiar și pentru valori mici. Taxe se aplică și coletelor mici trimise în Statele Unite. În unele țări, taxele sunt încasate de curier sau la frontieră.",
+    "customs2": "Obiectele din lemn pot fi verificate la frontieră. Descriem conținutul și valoarea în mod corect pe formularele vamale.",
     "trackingTitle": "Urmărire",
     "tracking": "Îți trimitem numărul de urmărire când comanda este expediată.",
     "packingTitle": "Ambalare",
@@ -335,17 +352,18 @@
     "lostTitle": "Colete pierdute",
     "lost": "Dacă urmărirea nu arată nicio mișcare timp de {days} zile, deschidem o cercetare la curier. Dacă coletul nu este găsit, retrimitem comanda sau îți returnăm banii.",
     "damagedTitle": "Colete deteriorate",
-    "damaged": "Anunță-ne în {days} zile de la livrare și trimite fotografii ale cutiei exterioare și ale piesei. O înlocuim sau îți returnăm banii; nu trebuie s-o trimiți înapoi.",
-    "regionsNote": "Sunt estimări, nu garanții. Vama și destinațiile îndepărtate pot dura mai mult."
+    "damaged": "Anunță-ne în {days} zile de la livrare și trimite fotografii cu cutia exterioară și cu obiectul. Îl înlocuim sau îți returnăm banii; nu trebuie să-l trimiți înapoi. Acest lucru nu îți afectează drepturile legale.",
+    "regionsNote": "Sunt estimări, nu garanții. Vama și destinațiile îndepărtate pot dura mai mult.",
+    "metaDescription": "Cum expediază Gethsemane lemnul de măslin din Betleem: timpi de pregătire și livrare, estimări pe regiuni, taxe vamale, urmărire și colete deteriorate."
   },
   "returns": {
     "title": "Retururi și rambursări",
     "intro": "Dacă o piesă nu ți se potrivește, o poți returna.",
     "periodTitle": "{days} zile pentru retur",
-    "period": "Poți cere returul unei piese în {days} zile de la livrare. Trebuie să fie nefolosită, în starea și ambalajul originale și însoțită de numărul comenzii. Te rugăm să ne contactezi înainte de a trimite ceva înapoi.",
+    "period": "Dacă te răzgândești, poți returna o piesă în {days} zile de la livrare. Ca să fie simplu pentru toată lumea, te rugăm să fie nefolosită și în ambalajul original, să incluzi numărul comenzii și să ne scrii înainte de a o trimite înapoi.",
     "excludedTitle": "Ce nu se poate returna",
-    "excluded1": "Piesele gravate sau personalizate (te anunțăm înainte de comandă).",
-    "excluded2": "Piesele vândute ca vânzare finală.",
+    "excluded1": "Piesele gravate sau personalizate, cu excepția celor defecte (îți spunem înainte de comandă).",
+    "excluded2": "Piesele marcate înainte de comandă ca nereturnabile.",
     "excluded3": "Deteriorările cauzate de folosire necorespunzătoare.",
     "excluded4": "Retururile trimise fără acordul nostru.",
     "variation": "Variațiile naturale ale desenului și culorii sunt o calitate a lemnului de măslin, nu un defect, și nu îți afectează drepturile legale.",
@@ -356,7 +374,7 @@
     "refundOther": "Ceilalți clienți: rambursăm prin aceeași metodă de plată în 5–10 zile lucrătoare după ce primim și verificăm returul.",
     "refundShipping": "Dacă te retragi în baza dreptului legal de mai jos, rambursăm și costul livrării standard. În rest, costul inițial al livrării nu se rambursează, cu excepția cazului în care am greșit noi.",
     "withdrawalTitle": "Dreptul de retragere (consumatori din UE și Regatul Unit)",
-    "withdrawal": "Dacă ești consumator în Uniunea Europeană sau în Regatul Unit, ai dreptul de a te retrage din contract în termen de 14 zile fără a preciza motivele. Perioada expiră după 14 zile de la ziua în care intri (sau o parte terță, alta decât transportatorul, indicată de tine intră) în posesia fizică a produselor. Pentru a te retrage, informează-ne clar, de exemplu pe WhatsApp sau prin e-mail. Poți folosi modelul de formular de mai jos, dar nu este obligatoriu.",
+    "withdrawal": "Dacă ești consumator în Uniunea Europeană sau în Regatul Unit, ai dreptul să te retragi din contract în termen de 14 zile, fără a preciza motivul. Termenul expiră la 14 zile de la data la care tu (sau o persoană indicată de tine, alta decât transportatorul) intri în posesia bunurilor. Pentru a te retrage, anunță-ne clar, de exemplu pe WhatsApp{email, select, none {} other { sau prin e-mail}}. Poți folosi <link>pagina de retragere</link> sau modelul de formular de mai jos, dar nu este obligatoriu.",
     "formTitle": "Model de formular de retragere",
     "formIntro": "(completați și returnați acest formular doar dacă doriți să vă retrageți din contract)",
     "formTo": "Către: {to}",
@@ -369,7 +387,11 @@
     "formNote": "(*) Se elimină mențiunea inutilă.",
     "formSend": "Trimite-ni-l pe WhatsApp{email, select, none {} other { sau prin e-mail la {email}}}.",
     "guaranteeTitle": "Garanțiile tale legale",
-    "guarantee": "Nimic din această politică nu îți limitează drepturile legale. Printre ele se numără garanția legală de conformitate în Uniunea Europeană (cel puțin doi ani) și garanțiile prevăzute de legislația australiană privind consumatorii, care nu pot fi excluse."
+    "guarantee": "Nimic din această politică nu îți limitează drepturile legale. Printre ele se numără garanția legală de conformitate în Uniunea Europeană (cel puțin doi ani) și garanțiile prevăzute de legislația australiană privind consumatorii, care nu pot fi excluse.",
+    "periodRights": "Acestea sunt rugămințile noastre pentru retururile la schimbarea deciziei. Nu sunt condiții pentru drepturile tale legale descrise mai jos.",
+    "excludedIntro": "Aceste limite nu se aplică dreptului tău legal de retragere (UE/Regatul Unit) și nici garanțiilor legale. Excepțiile de la dreptul de retragere privesc doar articolele personalizate sau realizate la comandă.",
+    "refundMethod": "„Metoda de plată inițială” înseamnă că îți returnăm banii pe aceeași cale pe care ne-ai plătit: pe același card sau cont ori prin același tip de transfer, dacă ai plătit prin transfer bancar sau altfel decât cu cardul.",
+    "metaDescription": "Cum returnezi o piesă din lemn de măslin Gethsemane: {days} zile pentru retur, dreptul de retragere în UE și Regatul Unit, rambursări și modelul de formular."
   },
   "contact": {
     "title": "Contact",
@@ -378,12 +400,12 @@
     "topicSales": "Cumpărare",
     "topicSupport": "Ajutor",
     "topicCustom": "Comenzi personalizate",
-    "topicWholesale": "En-gros",
+    "topicWholesale": "Angro",
     "topicOther": "Altceva",
     "msgSales": "Bună ziua, {store}! Am o întrebare despre o piesă pe care aș vrea s-o cumpăr.",
     "msgSupport": "Bună ziua, {store}! Am nevoie de ajutor cu o comandă. Numărul comenzii mele este: ",
     "msgCustom": "Bună ziua, {store}! Mă interesează o piesă personalizată sau gravată. Iată ce am în minte: ",
-    "msgWholesale": "Bună ziua, {store}! Vă scriu pentru o comandă en-gros pentru biserica, comunitatea sau magazinul nostru. Piese și cantități: ",
+    "msgWholesale": "Bună ziua, {store}! Vă scriu pentru o comandă angro pentru biserica, comunitatea sau magazinul nostru. Piese și cantități: ",
     "msgOther": "Bună ziua, {store}! ",
     "emailTitle": "E-mail",
     "addressTitle": "Adresa atelierului",
@@ -400,11 +422,11 @@
     "noAccountsTitle": "Fără conturi, fără urmărire",
     "noAccounts": "Nu există conturi de client. Site-ul nu folosește instrumente de analiză, cookie-uri de publicitate sau de urmărire și nu încarcă scripturi ale terților.",
     "browserTitle": "Ce rămâne în browserul tău",
-    "browser": "Comanda ta, favoritele, limba și moneda alese și datele pe care le scrii pe pagina comenzii (nume, țară, observații, bilet de cadou) sunt salvate doar în propriul tău browser (stocare locală și două mici cookie-uri de preferință pentru limbă și monedă). Nu ne sunt trimise.",
+    "browser": "Comanda ta, favoritele și datele pe care le scrii pe pagina comenzii (nume, țară, observații, mesaj pentru cadou) sunt salvate doar în propriul tău browser (stocare locală). Nu ne sunt trimise.",
     "whatsappTitle": "Când trimiți o comandă sau un mesaj",
-    "whatsapp": "Informațiile ajung la noi doar când alegi să trimiți un mesaj pe WhatsApp (sau un e-mail). Mesajul conține ceea ce vezi înainte de a-l trimite. WhatsApp (Meta) îl prelucrează conform propriei politici de confidențialitate. Pentru a livra o comandă, comunicăm curierului numele, adresa și numărul tău de telefon.",
+    "whatsapp": "Informațiile ajung la noi doar când alegi să trimiți un mesaj pe WhatsApp{email, select, none {} other { sau un e-mail}}. Mesajul conține ce vezi înainte de a-l trimite. WhatsApp (Meta) îl prelucrează conform propriei politici de confidențialitate. Pentru a livra o comandă, transmitem curierului numele, adresa și numărul tău de telefon.",
     "hostingTitle": "Găzduire",
-    "hosting": "Ca orice site, furnizorul nostru de găzduire prelucrează date tehnice precum adresele IP pentru a afișa paginile și a menține site-ul în siguranță.",
+    "hosting": "Site-ul este găzduit de Vercel Inc. în Statele Unite. Ca orice furnizor de găzduire, Vercel prelucrează date tehnice precum adresele IP pentru a livra paginile și a proteja site-ul, așa că aceste date sunt transferate în Statele Unite.",
     "useTitle": "Cum le folosim",
     "use": "Folosim datele tale doar ca să-ți răspundem și să îți onorăm comanda. Nu vindem și nu împărtășim date personale în scopuri de marketing.",
     "retentionTitle": "Cât timp le păstrăm",
@@ -413,19 +435,26 @@
     "rightsTitle": "Drepturile tale",
     "rights": "Poți cere să vezi, să corectezi sau să ștergi informațiile pe care le avem despre tine și poți depune o plângere la autoritatea de protecție a datelor. Contactează-ne prin <link>pagina de contact</link>.",
     "transferTitle": "Transferuri internaționale",
-    "transfer": "Suntem în Betleem. Când ne scrii din altă țară, informațiile tale ne sunt transferate acolo, precum și curierilor care livrează coletul.",
+    "transfer": "Ne aflăm în Betleem. Când ne scrii din altă țară, datele tale ne sunt transferate aici; când îți expediem comanda, ele pleacă din Betleem către curierii care livrează coletul. Site-ul este găzduit în Statele Unite (vezi Găzduire).",
     "childrenTitle": "Copii",
     "children": "Acest site nu se adresează copiilor și nu colectăm cu bună știință informații de la persoane sub 16 ani.",
     "securityTitle": "Securitate",
     "security": "Acest site este servit prin HTTPS. Nu primește plăți și nu stochează datele tale pe serverele noastre.",
     "changesTitle": "Modificări",
-    "changes": "Dacă se schimbă ceea ce face site-ul (de exemplu, dacă adăugăm statistici de trafic), vom actualiza mai întâi această pagină."
+    "changes": "Dacă se schimbă ceea ce face site-ul (de exemplu, dacă adăugăm statistici de trafic), vom actualiza mai întâi această pagină.",
+    "controllerTitle": "Operatorul datelor",
+    "controller": "Operatorul responsabil pentru datele tale personale este:",
+    "cookies": "Site-ul folosește două cookie-uri de preferință: NEXT_LOCALE (limba ta) este setat la prima vizită, iar currency (moneda ta) când alegi o monedă. Amândouă durează un an și sunt trimise serverului nostru la fiecare cerere, ca paginile să apară în limba și moneda ta. Nu sunt folosite pentru urmărire.",
+    "basesTitle": "Temeiuri legale",
+    "basisContract": "Executarea comenzii tale: răspunsul la cerere, confirmarea, expedierea și gestionarea retururilor.",
+    "basisInterest": "Interesul nostru legitim de a administra site-ul și de a-l menține sigur.",
+    "basisConsent": "Consimțământul tău pentru tot ce este opțional, cum ar fi un mesaj pentru cadou sau datele pe care alegi să le scrii pe pagina comenzii. Îl poți retrage oricând."
   },
   "terms": {
     "title": "Condiții de vânzare",
     "intro": "Aceste condiții se aplică comenzilor plasate prin acest site și confirmate cu noi pe WhatsApp.",
     "orderTitle": "Cum se încheie contractul",
-    "order": "Trimiterea comenzii este o ofertă de cumpărare. Contractul există doar după ce îți confirmăm comanda pe WhatsApp.",
+    "order": "Mesajul tău pe WhatsApp este o cerere de comandă. Nu este încă un contract.",
     "pricesTitle": "Prețuri",
     "prices": "Prețurile sunt stabilite în dolari americani. Sumele în alte monede sunt conversii aproximative. Înainte de plată confirmăm totalul final, inclusiv livrarea, și îți amintim că taxele vamale și de import sunt plătite de cumpărător.",
     "paymentTitle": "Plata",
@@ -444,7 +473,12 @@
     "email": "E-mail: {email}",
     "whatsapp": "WhatsApp: {phone}",
     "sister": "Magazinul soră al holylandtimber.com (aceiași proprietari).",
-    "taxId": "Cod fiscal / număr de înregistrare: {id}"
+    "taxId": "Cod fiscal / număr de înregistrare: {id}",
+    "orderConfirmation": "Îți răspundem cu o confirmare care indică totalul, estimarea de livrare și instrucțiunile de plată și precizează că acceptarea ei înseamnă plasarea unei comenzi cu obligație de plată.",
+    "orderContract": "Contractul se încheie atunci când accepți totalul confirmat.",
+    "orderQuote": "Ofertele noastre sunt valabile {hours, plural, one {# oră} few {# ore} other {# de ore}}.",
+    "orderDelay": "Dacă nu putem expedia până la data estimată, te anunțăm și poți anula comanda cu rambursarea integrală.",
+    "orderDurable": "După încheierea contractului, îți trimitem o confirmare a comenzii pe un suport durabil (un e-mail sau un document WhatsApp), cu informații despre dreptul de retragere."
   },
   "accessibilityPage": {
     "title": "Accesibilitate",
@@ -467,7 +501,7 @@
     "dailyTitle": "Zi de zi",
     "daily": "Șterge praful cu o cârpă moale și uscată.",
     "oilTitle": "Din când în când",
-    "oil": "Dacă lemnul pare uscat, aplică câteva picături de ulei alimentar (de exemplu, ulei de măsline), lasă câteva minute și șterge surplusul. De obicei ajunge o dată sau de două ori pe an.",
+    "oil": "Dacă lemnul pare uscat, aplică câteva picături de ulei mineral alimentar sau de ulei pentru boluri din lemn, lasă câteva minute și șterge excesul. De obicei sunt suficiente una-două aplicări pe an. Evită uleiurile de gătit, precum uleiul de măsline, care se pot râncezi.",
     "kitchenTitle": "Boluri și platouri",
     "kitchen": "Spală repede de mână cu puțin săpun delicat și șterge imediat.",
     "avoidTitle": "Evită",
@@ -475,5 +509,19 @@
     "avoid2": "Mașina de spălat vase.",
     "avoid3": "Caloriferele, aerotermele și multe ore în soare puternic.",
     "variation": "Micile schimbări de culoare în timp sunt naturale și fac parte din caracterul lemnului."
+  },
+  "withdrawal": {
+    "title": "Retragerea din contract",
+    "description": "Consumatorii din UE și Regatul Unit se pot retrage dintr-o comandă Gethsemane în 14 zile de la primire, pe WhatsApp sau cu modelul de formular.",
+    "intro": "Dacă ești consumator în Uniunea Europeană sau în Regatul Unit, te poți retrage din contract în 14 zile de la primirea bunurilor, fără a preciza motivul.",
+    "howTitle": "Trimite notificarea de retragere",
+    "how": "Butonul deschide un mesaj deja scris. Completează datele și trimite-l; de pe această pagină nu se trimite nimic.",
+    "whatsapp": "Retrage-te pe WhatsApp",
+    "email": "Retrage-te prin e-mail",
+    "fields": "Te rugăm să incluzi numele, numărul comenzii, piesele returnate și data la care le-ai primit.",
+    "message": "Bună ziua, {store}! Prin prezenta mă retrag din contractul de vânzare.\nNume: \nNumărul comenzii: \nPiese: \nData primirii: ",
+    "formSectionTitle": "Model de formular de retragere",
+    "moreTitle": "Rambursări și retururi",
+    "more": "Cum funcționează rambursarea și cum trimiți piesele înapoi explicăm pe <link>pagina de retururi</link>."
   }
 }

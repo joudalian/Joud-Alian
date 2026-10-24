@@ -1,4 +1,4 @@
-import { expect, type Page } from "@playwright/test";
+import { expect, type APIRequestContext, type Page } from "@playwright/test";
 
 export const locales = ["en", "fr", "es", "it", "de", "el", "pl", "ro", "uk", "pt"] as const;
 
@@ -13,7 +13,20 @@ export const pages = {
 } as const;
 
 /** The help and policy pages. */
-export const infoPages = ["/how-to-order", "/faq", "/shipping", "/returns", "/contact", "/privacy", "/terms", "/accessibility", "/care"] as const;
+export const infoPages = ["/how-to-order", "/faq", "/shipping", "/returns", "/withdrawal", "/contact", "/privacy", "/terms", "/accessibility", "/care"] as const;
+
+/**
+ * Every public page: the sitemap plus the shop, category and product pages, which stay out of the sitemap
+ * (noindex) until CATALOG_READY. Catalog links are read from the English shop page.
+ */
+export async function publicPageUrls(request: APIRequestContext, origin: string): Promise<string[]> {
+  const xml = await (await request.get("/sitemap.xml")).text();
+  const urls = new Set([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]!));
+  const shop = await (await request.get("/en/shop")).text();
+  const catalog = new Set(["/shop", ...[...shop.matchAll(/href="\/en(\/(?:shop\/[a-z-]+|product\/[a-z0-9-]+))"/g)].map((m) => m[1]!)]);
+  for (const l of locales) for (const path of catalog) urls.add(`${origin}/${l}${path}`);
+  return [...urls];
+}
 
 /** Collects console errors, failed requests and CSP violations for the lifetime of the page. */
 export function watchErrors(page: Page) {

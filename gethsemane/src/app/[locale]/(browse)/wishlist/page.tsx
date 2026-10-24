@@ -19,6 +19,7 @@ export default async function WishlistPage({ params }: Props) {
   return (
     <div className="container page">
       <h1>{t("title")}</h1>
+      <p className="note">{t("storedNote")}</p>
       <WishlistView />
     </div>
   );

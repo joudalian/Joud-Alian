@@ -12,6 +12,7 @@ import {
   parseOrderDetails,
   parseWishlist,
   readStorage,
+  removeStorage,
   writeStorage,
   type CartLine,
   type OrderDetailsState,
@@ -146,5 +147,11 @@ export function useOrderDetails() {
     writeStorage(STORAGE_KEYS.orderDetails, detailsMemory);
     detailsListeners.forEach((l) => l());
   }, []);
-  return { details, update };
+  /** Forgets everything typed on the order page (name, country, notes, gift note) in this browser. */
+  const clear = useCallback(() => {
+    detailsMemory = JSON.stringify(emptyOrderDetails);
+    removeStorage(STORAGE_KEYS.orderDetails);
+    detailsListeners.forEach((l) => l());
+  }, []);
+  return { details, update, clear };
 }

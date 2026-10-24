@@ -8,6 +8,7 @@
 //
 //   npm run assets                         keep existing product photos, create missing placeholders
 //   npm run assets -- --force-placeholders  overwrite every product image with a placeholder
+import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
@@ -98,6 +99,9 @@ function placeholderSvg(name) {
   </svg>`;
 }
 
+// SHA-256 of every placeholder ever generated, so `npm run check:launch` can tell a placeholder from a photo.
+const hashFile = join(root, "scripts/placeholder-hashes.json");
+const placeholderHashes = new Set(existsSync(hashFile) ? JSON.parse(readFileSync(hashFile, "utf8")) : []);
 let created = 0;
 for (const product of products) {
   if (!product.image.startsWith("/")) throw new Error(`${product.slug}: image must start with "/"`);
@@ -105,8 +109,10 @@ for (const product of products) {
   if (!forcePlaceholders && existsSync(join(root, path))) continue;
   if (!/\.webp$/.test(path)) throw new Error(`${product.slug}: placeholders are generated as .webp; use a .webp path or add your photo`);
   await writeWebp(placeholderSvg(product.text.en.name), path, 800, 1000);
+  placeholderHashes.add(createHash("sha256").update(readFileSync(join(root, path))).digest("hex"));
   created++;
 }
+writeFileSync(hashFile, JSON.stringify([...placeholderHashes].sort(), null, 2) + "\n");
 
 // ---------- Category banners (4:3): neutral cards with the mark ----------
 const categories = ["nativity", "crosses", "rosaries", "home"];

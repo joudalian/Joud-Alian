@@ -2,19 +2,51 @@
 
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useRef, useState } from "react";
+import { useId, useRef, useState, type KeyboardEvent } from "react";
+import { CONTACT_EMAIL, STORE_NAME } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { getProduct, productText, type ProductSlug } from "@/lib/catalog";
 import { useCart, useHydrated, useOrderDetails } from "@/lib/client-store";
 import { formatPrice } from "@/lib/currency";
-import { buildOrderMessage } from "@/lib/order-message";
-import { MAX_QTY, ORDER_DETAIL_LIMITS } from "@/lib/storage";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { buildOrderMessage, fitOrderMessage } from "@/lib/order-message";
+import { MAX_CART_LINES, MAX_QTY, ORDER_DETAIL_LIMITS } from "@/lib/storage";
+import { encodeMessage, whatsappUrl } from "@/lib/whatsapp";
 import { useCurrency } from "./CurrencyProvider";
 import { CartIcon, ChatIcon } from "./Icons";
 import { announce } from "./LiveRegion";
 import { Price } from "./Price";
+
+const clampQty = (value: number) => Math.max(1, Math.min(MAX_QTY, Math.round(value) || 1));
+
+/**
+ * Quantity field that keeps what is typed while editing (so "12" can be typed digit by digit) and commits the
+ * clamped number on blur or Enter.
+ */
+function QtyInput({ id, qty, onCommit }: { id: string; qty: number; onCommit: (qty: number) => void }) {
+  const [draft, setDraft] = useState<string | null>(null);
+  const commit = () => {
+    if (draft === null) return;
+    setDraft(null);
+    const next = clampQty(Number(draft));
+    if (next !== qty) onCommit(next);
+  };
+  return (
+    <input
+      id={id}
+      type="number"
+      inputMode="numeric"
+      min={1}
+      max={MAX_QTY}
+      value={draft ?? String(qty)}
+      onChange={(e) => setDraft(e.target.value)}
+      onBlur={commit}
+      onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === "Enter") commit();
+      }}
+    />
+  );
+}
 
 export function CartView() {
   const t = useTranslations("cart");
@@ -23,10 +55,11 @@ export function CartView() {
   const { currency } = useCurrency();
   const hydrated = useHydrated();
   const { lines, setQty, remove } = useCart();
-  const { details, update } = useOrderDetails();
+  const { details, update, clear } = useOrderDetails();
   const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">("idle");
   const previewRef = useRef<HTMLTextAreaElement>(null);
-  const ids = { name: useId(), country: useId(), notes: useId(), gift: useId(), giftText: useId(), preview: useId() };
+  const ids = { name: useId(), country: useId(), countryHint: useId(), notes: useId(), gift: useId(), giftText: useId(), preview: useId() };
+  const email = CONTACT_EMAIL ? "set" : "none";
 
   if (!hydrated) {
     return (
@@ -51,15 +84,21 @@ export function CartView() {
   }
 
   const totalUsd = lines.reduce((sum, l) => sum + (getProduct(l.slug)?.priceUsd ?? 0) * l.qty, 0);
-  const message = buildOrderMessage(tw, lines, currency, locale, {
+  const orderDetails = {
     name: details.name,
     country: details.country,
     notes: details.notes,
-    giftNote: details.giftNote ? details.giftNoteText : "",
-  });
+    // A ticked gift-note box is always mentioned, even before any text is typed.
+    giftNote: details.giftNote ? details.giftNoteText : undefined,
+  };
+  // The preview and the copy button carry the full message; the WhatsApp link may shorten very long notes.
+  const message = buildOrderMessage(tw, lines, currency, locale, orderDetails);
+  const { message: linkMessage, shortened } = fitOrderMessage(tw, lines, currency, locale, orderDetails);
+  const hasDetails = Boolean(details.name || details.country || details.notes || details.giftNote || details.giftNoteText);
+  const atLimit = lines.length >= MAX_CART_LINES;
 
   const changeQty = (slug: ProductSlug, name: string, qty: number) => {
-    const next = Math.max(1, Math.min(MAX_QTY, Math.round(qty) || 1));
+    const next = clampQty(qty);
     setQty(slug, next);
     announce(t("quantityChanged", { name, qty: next }));
   };
@@ -75,67 +114,69 @@ export function CartView() {
     }
   };
 
+  const wholesale = (
+    <Link href="/contact?topic=wholesale" className="text-link">
+      {t("needMore")}
+    </Link>
+  );
+
   return (
     <div className="cart-layout">
-      <ul className="line-list">
-        {lines.map((line) => {
-          const product = getProduct(line.slug);
-          if (!product) return null;
-          const name = productText(product, locale).name;
-          const qtyId = `qty-${line.slug}`;
-          return (
-            <li key={line.slug} className="line">
-              {/* The product name next to the photo already names it. */}
-              <Image src={product.image} alt="" width={88} height={110} sizes="88px" />
-              <div>
-                <h2>
-                  <Link href={`/product/${line.slug}`}>{name}</Link>
-                </h2>
-                <Price usd={product.priceUsd} />
-                <div className="line-controls">
-                  <div className="stepper">
-                    <button type="button" aria-label={t("decrease", { name })} disabled={line.qty <= 1} onClick={() => changeQty(line.slug, name, line.qty - 1)}>
-                      −
-                    </button>
-                    <label htmlFor={qtyId} className="sr-only">
-                      {t("quantityOf", { name })}
-                    </label>
-                    <input
-                      id={qtyId}
-                      type="number"
-                      inputMode="numeric"
-                      min={1}
-                      max={MAX_QTY}
-                      value={line.qty}
-                      onChange={(e) => changeQty(line.slug, name, Number(e.target.value))}
-                    />
+      <div className="cart-lines">
+        <ul className="line-list">
+          {lines.map((line) => {
+            const product = getProduct(line.slug);
+            if (!product) return null;
+            const name = productText(product, locale).name;
+            const qtyId = `qty-${line.slug}`;
+            return (
+              <li key={line.slug} className="line">
+                {/* The product name next to the photo already names it. */}
+                <Image src={product.image} alt="" width={88} height={110} sizes="88px" />
+                <div>
+                  <h2>
+                    <Link href={`/product/${line.slug}`}>{name}</Link>
+                  </h2>
+                  <Price usd={product.priceUsd} />
+                  <div className="line-controls">
+                    <div className="stepper">
+                      <button type="button" aria-label={t("decrease", { name })} disabled={line.qty <= 1} onClick={() => changeQty(line.slug, name, line.qty - 1)}>
+                        −
+                      </button>
+                      <label htmlFor={qtyId} className="sr-only">
+                        {t("quantityOf", { name })}
+                      </label>
+                      <QtyInput id={qtyId} qty={line.qty} onCommit={(qty) => changeQty(line.slug, name, qty)} />
+                      <button
+                        type="button"
+                        aria-label={t("increase", { name })}
+                        disabled={line.qty >= MAX_QTY}
+                        onClick={() => changeQty(line.slug, name, line.qty + 1)}
+                      >
+                        +
+                      </button>
+                    </div>
                     <button
                       type="button"
-                      aria-label={t("increase", { name })}
-                      disabled={line.qty >= MAX_QTY}
-                      onClick={() => changeQty(line.slug, name, line.qty + 1)}
+                      className="link-btn"
+                      aria-label={t("removeItem", { name })}
+                      onClick={() => {
+                        remove(line.slug);
+                        announce(t("removed", { name }));
+                      }}
                     >
-                      +
+                      {t("remove")}
                     </button>
+                    <Price usd={product.priceUsd * line.qty} className="price line-total" />
                   </div>
-                  <button
-                    type="button"
-                    className="link-btn"
-                    aria-label={t("removeItem", { name })}
-                    onClick={() => {
-                      remove(line.slug);
-                      announce(t("removed", { name }));
-                    }}
-                  >
-                    {t("remove")}
-                  </button>
-                  <Price usd={product.priceUsd * line.qty} className="price line-total" />
+                  {line.qty >= MAX_QTY && <p className="note limit-note">{wholesale}</p>}
                 </div>
-              </div>
-            </li>
-          );
-        })}
-      </ul>
+              </li>
+            );
+          })}
+        </ul>
+        {atLimit && <p className="note limit-note">{wholesale}</p>}
+      </div>
 
       <section className="summary" aria-labelledby="summary-title">
         <h2 id="summary-title">{t("summary")}</h2>
@@ -149,6 +190,10 @@ export function CartView() {
             <span className="price subtotal">≈ {formatPrice(totalUsd, currency, locale)}</span>
           </div>
         )}
+        <div className="summary-row summary-shipping">
+          <span>{t("shippingLabel")}</span>
+          <span>{t("shippingValue")}</span>
+        </div>
 
         <fieldset className="order-details">
           <legend>{t("detailsTitle")}</legend>
@@ -163,10 +208,14 @@ export function CartView() {
               id={ids.country}
               type="text"
               autoComplete="country-name"
+              aria-describedby={ids.countryHint}
               maxLength={ORDER_DETAIL_LIMITS.country}
               value={details.country}
               onChange={(e) => update({ country: e.target.value })}
             />
+            <p className="note field-hint" id={ids.countryHint}>
+              {t("countryHint")}
+            </p>
           </div>
           <div className="field">
             <label htmlFor={ids.notes}>{t("notes")}</label>
@@ -188,20 +237,48 @@ export function CartView() {
               />
             </div>
           )}
+          {hasDetails && (
+            <button
+              type="button"
+              className="link-btn clear-details"
+              onClick={() => {
+                clear();
+                announce(t("detailsCleared"));
+              }}
+            >
+              {t("clearDetails")}
+            </button>
+          )}
         </fieldset>
 
-        <a className="btn btn-primary btn-block" href={whatsappUrl(message)} target="_blank" rel="noopener noreferrer" data-testid="whatsapp-order">
+        <a className="btn btn-primary btn-block" href={whatsappUrl(linkMessage)} target="_blank" rel="noopener noreferrer" data-testid="whatsapp-order">
           <ChatIcon size={18} />
           {t("send")}
           <span className="sr-only"> ({tw("newTab")})</span>
         </a>
+        {shortened && (
+          <p className="note warning-note" role="status">
+            {t("shortenedNote")}
+          </p>
+        )}
         <p className="note">{t("whatsappHint")}</p>
         <button type="button" className="btn btn-secondary btn-block" onClick={copy}>
           {t("copy")}
         </button>
         <p className="note" role="status">
-          {copyState === "copied" ? t("copied") : copyState === "failed" ? t("copyFailed") : ""}
+          {copyState === "copied" ? t("copied", { email }) : copyState === "failed" ? t("copyFailed") : ""}
         </p>
+        {CONTACT_EMAIL && (
+          <p className="note">
+            <a
+              className="text-link"
+              href={`mailto:${CONTACT_EMAIL}?subject=${encodeMessage(`${STORE_NAME} order request`)}&body=${encodeMessage(message)}`}
+              data-testid="email-order"
+            >
+              {t("sendEmail", { email: CONTACT_EMAIL })}
+            </a>
+          </p>
+        )}
         <details className="message-preview" open={copyState === "failed" || undefined}>
           <summary>{t("messagePreview")}</summary>
           <label htmlFor={ids.preview} className="sr-only">

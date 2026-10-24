@@ -1,0 +1,2 @@
+order_number,date_request,date_confirmed,customer_name,customer_country,site_language,items_sku_qty,items_total_usd,shipping_usd,total_usd,quote_sent,quote_expires,payment_method,date_paid,date_shipped,carrier,tracking,date_delivered,gift_note,status,notes
+GTH-2611-0001,2026-11-02,2026-11-03,Example Customer,Germany,de,GTH-001 x1; GTH-007 x2,137.00,24.00,161.00,2026-11-02 10:15,2026-11-04 10:15,bank transfer,2026-11-03,2026-11-04,[carrier],[tracking],,yes,shipped,example row: delete it

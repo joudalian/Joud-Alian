@@ -1,7 +1,9 @@
 import { existsSync } from "node:fs";
 import type { NextConfig } from "next";
+import { PHASE_PRODUCTION_BUILD } from "next/constants";
 import createNextIntlPlugin from "next-intl/plugin";
 import { staticSecurityHeaders } from "./src/lib/security-headers";
+import { siteUrlMissing } from "./src/lib/site-url";
 
 const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
 
@@ -9,6 +11,8 @@ const nextConfig: NextConfig = {
   env: {
     // The home story section shows this photo when it exists (see README "Story photo"), otherwise the emblem.
     NEXT_PUBLIC_HAS_WORKSHOP_PHOTO: existsSync("./public/images/story/workshop.webp") ? "1" : "",
+    // security.txt expires one year after the build.
+    BUILD_TIME: new Date().toISOString(),
   },
   poweredByHeader: false,
   reactStrictMode: true,
@@ -30,6 +34,9 @@ const nextConfig: NextConfig = {
     // These headers apply to every response, including static files.
     return [
       { source: "/:path*", headers: staticSecurityHeaders },
+      // Photos and brand files change rarely; a day of caching keeps updates visible quickly.
+      { source: "/images/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400" }] },
+      { source: "/brand/:path*", headers: [{ key: "Cache-Control", value: "public, max-age=86400" }] },
       // Preview deployments on *.vercel.app must never be indexed; only the custom domain (SITE_URL) is.
       {
         source: "/:path*",
@@ -40,4 +47,10 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withNextIntl(nextConfig);
+export default function config(phase: string): NextConfig {
+  // Canonical URLs, hreflang, the sitemap and robots.txt are built from the site URL: never ship localhost.
+  if (phase === PHASE_PRODUCTION_BUILD && siteUrlMissing()) {
+    throw new Error("SITE_URL is not set. Set SITE_URL=https://your-domain for production builds (see README, Deploying).");
+  }
+  return withNextIntl(nextConfig);
+}

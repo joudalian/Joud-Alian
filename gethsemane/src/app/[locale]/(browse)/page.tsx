@@ -149,6 +149,7 @@ export default async function HomePage({ params }: Props) {
 
       <section className="section container" aria-labelledby="points-title">
         <h2 id="points-title">{t("home.pointsTitle")}</h2>
+        {/* CONFIRM: point 1 ("From pruned branches") is a factual claim about where the wood comes from. */}
         <ul className="values">
           {[1, 2, 3].map((n) => (
             <li key={n}>

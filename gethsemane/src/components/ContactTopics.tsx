@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useId, useState } from "react";
 import { STORE_NAME } from "@/config/store";
-import { contactTopics, type ContactTopic } from "@/lib/contact";
+import { contactSubjects, contactTopics, type ContactTopic } from "@/lib/contact";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { ChatIcon } from "./Icons";
 
@@ -14,7 +14,7 @@ export function ContactTopics({ initial }: { initial: ContactTopic }) {
   const t = useTranslations();
   const [topic, setTopic] = useState<ContactTopic>(initial);
   const name = useId();
-  const message = t(`contact.msg${cap(topic)}`, { store: STORE_NAME });
+  const message = `Subject: ${contactSubjects[topic]}\n${t(`contact.msg${cap(topic)}`, { store: STORE_NAME })}`;
   return (
     <div className="contact-topics">
       <fieldset className="chip-group">

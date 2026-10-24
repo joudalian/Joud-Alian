@@ -77,8 +77,23 @@ anything the site does not promise.
 > • [quantity] × [piece] — [price] USD
 > Subtotal: [ ] USD · Shipping ([carrier], tracked): [ ] USD · **Total: [ ] USD**
 > Ships from [Bethlehem / partner location]; estimated delivery [date range] after payment.
-> Import duties or taxes, if your country charges them, are paid on delivery.
-> This quote is held for 48 hours. Would you like us to go ahead?
+> Import duties or taxes, if your country charges them, are paid by you (in some countries the carrier collects them).
+> To send it we will need your full delivery address and a phone number for the courier.
+> This quote is held for 48 hours. If you accept it, that is your order, with an obligation to pay.
+> Would you like us to go ahead?
+
+**B2. Order confirmation (after the customer accepts; send as an email or a PDF on WhatsApp)**
+
+The terms promise a confirmation on a **durable medium** (an email, or a PDF/document on WhatsApp, not just a chat
+bubble), including the withdrawal information. Use `docs/templates/invoice.md` as the base and add:
+
+> Order GTH-YYMM-NNNN — confirmed on [date]. Pieces: […]. Total paid / to pay: [ ] USD, including shipping
+> [ ] USD. Estimated delivery: [date range]. Seller: [legal name, address, WhatsApp, email].
+> Right of withdrawal (EU/UK consumers): you can withdraw within 14 days of receiving the goods without giving a
+> reason, by telling us clearly (WhatsApp or email) or with the form at https://your-domain/en/withdrawal.
+> We refund the price and standard outbound shipping within 14 days of your notice, the way you paid us.
+
+If you cannot ship by the estimated date, tell the customer and offer cancellation with a full refund.
 
 **C. Item not available**
 
@@ -171,3 +186,85 @@ it). Delete personal details you no longer need after that.
 
 Customer details are used only to fulfil the order and are shared only with the carrier. Never add customers to
 broadcast lists or marketing without their clear consent.
+
+## 10. Templates and records
+
+Files in `docs/templates/` (open the CSV files in any spreadsheet app):
+
+- **`orders.csv`**: the order sheet, one row per order (number, dates, customer, country, items with SKUs, totals,
+  payment, carrier, tracking, status, notes). Order numbers follow section 2.
+- **`refunds.csv`**: the refund log: order number, date of the request, reason (change of mind, statutory
+  withdrawal, damaged, faulty, lost), pieces, amount refunded (USD), outbound shipping refunded (yes/no), method
+  (same way as paid), date refunded, notes. Keep it with the order records.
+- **`packing-list.md`**: printed and put inside every parcel.
+- **`invoice.md`**: a simple invoice / order confirmation (also the durable-medium confirmation, B2).
+
+The order messages from the site list each piece with its **English name and SKU** (e.g. `GTH-001`) after the
+customer's language, and a line "Site language: …". Use the SKU in the order sheet.
+
+## 11. WhatsApp templates in the other languages
+
+Short versions of the greeting / auto-reply, the confirmation and the dispatch notice. Replace the brackets.
+
+**Français**
+> Paix à vous, et merci d'avoir écrit à Gethsemane. Nous avons bien reçu votre demande et vous répondons au plus
+> vite (du lundi au vendredi, 9 h–17 h, heure de Bethléem).
+> Votre commande GTH-[…] est confirmée : total [ ] USD, livraison estimée [dates]. Vous recevrez la confirmation
+> écrite par e-mail ou en document.
+> Votre commande GTH-[…] est partie. Suivi : [numéro]. Livraison estimée : [dates].
+
+**Español**
+> La paz sea contigo, y gracias por escribir a Gethsemane. Hemos recibido tu solicitud y te responderemos lo antes
+> posible (de lunes a viernes, de 9:00 a 17:00, hora de Belén).
+> Tu pedido GTH-[…] está confirmado: total [ ] USD, entrega estimada [fechas]. Te enviaremos la confirmación por
+> escrito por correo o como documento.
+> Tu pedido GTH-[…] ya está en camino. Seguimiento: [número]. Entrega estimada: [fechas].
+
+**Italiano**
+> Pace a te, e grazie per aver scritto a Gethsemane. Abbiamo ricevuto la tua richiesta e ti risponderemo al più
+> presto (dal lunedì al venerdì, 9:00–17:00, ora di Betlemme).
+> Il tuo ordine GTH-[…] è confermato: totale [ ] USD, consegna stimata [date]. Riceverai la conferma scritta via
+> email o come documento.
+> Il tuo ordine GTH-[…] è partito. Tracciamento: [numero]. Consegna stimata: [date].
+
+**Deutsch**
+> Friede sei mit Ihnen, und danke für Ihre Nachricht an Gethsemane. Wir haben Ihre Anfrage erhalten und antworten
+> so bald wie möglich (Montag bis Freitag, 9–17 Uhr Ortszeit Bethlehem).
+> Ihre Bestellung GTH-[…] ist bestätigt: Gesamtbetrag [ ] USD, voraussichtliche Lieferung [Daten]. Die schriftliche
+> Bestätigung erhalten Sie per E-Mail oder als Dokument.
+> Ihre Bestellung GTH-[…] ist unterwegs. Sendungsnummer: [Nummer]. Voraussichtliche Lieferung: [Daten].
+
+**Ελληνικά**
+> Ειρήνη σε εσάς, και ευχαριστούμε που γράψατε στη Gethsemane. Λάβαμε το αίτημά σας και θα απαντήσουμε το
+> συντομότερο (Δευτέρα–Παρασκευή, 09:00–17:00, ώρα Βηθλεέμ).
+> Η παραγγελία σας GTH-[…] επιβεβαιώθηκε: σύνολο [ ] USD, εκτιμώμενη παράδοση [ημερομηνίες]. Θα λάβετε τη γραπτή
+> επιβεβαίωση με email ή ως έγγραφο.
+> Η παραγγελία σας GTH-[…] στάλθηκε. Αριθμός αποστολής: [αριθμός]. Εκτιμώμενη παράδοση: [ημερομηνίες].
+
+**Polski**
+> Pokój z Tobą i dziękujemy za wiadomość do Gethsemane. Otrzymaliśmy Twoje zapytanie i odpowiemy najszybciej, jak
+> to możliwe (od poniedziałku do piątku, 9:00–17:00 czasu betlejemskiego).
+> Twoje zamówienie GTH-[…] jest potwierdzone: razem [ ] USD, szacowana dostawa [daty]. Pisemne potwierdzenie
+> wyślemy e-mailem lub jako dokument.
+> Twoje zamówienie GTH-[…] zostało wysłane. Numer przesyłki: [numer]. Szacowana dostawa: [daty].
+
+**Română**
+> Pace ție și mulțumim că ai scris la Gethsemane. Am primit cererea ta și îți răspundem cât mai curând (de luni
+> până vineri, 9:00–17:00, ora Betleemului).
+> Comanda ta GTH-[…] este confirmată: total [ ] USD, livrare estimată [date]. Vei primi confirmarea scrisă pe
+> e-mail sau ca document.
+> Comanda ta GTH-[…] a plecat. Număr de urmărire: [număr]. Livrare estimată: [date].
+
+**Українська**
+> Мир вам, і дякуємо, що написали до Gethsemane. Ми отримали ваш запит і відповімо якнайшвидше (з понеділка до
+> п'ятниці, 9:00–17:00 за часом Вифлеєма).
+> Ваше замовлення GTH-[…] підтверджено: разом [ ] USD, орієнтовна доставка [дати]. Письмове підтвердження ми
+> надішлемо електронною поштою або документом.
+> Ваше замовлення GTH-[…] відправлено. Номер відстеження: [номер]. Орієнтовна доставка: [дати].
+
+**Português**
+> A paz esteja consigo, e obrigado por escrever à Gethsemane. Recebemos o seu pedido e respondemos o mais depressa
+> possível (de segunda a sexta, 9:00–17:00, hora de Belém).
+> A sua encomenda GTH-[…] está confirmada: total [ ] USD, entrega estimada [datas]. Enviaremos a confirmação
+> escrita por e-mail ou em documento.
+> A sua encomenda GTH-[…] foi enviada. Seguimento: [número]. Entrega estimada: [datas].

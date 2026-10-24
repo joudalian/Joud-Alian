@@ -2,11 +2,12 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CartView } from "@/components/CartView";
 import { OrderSteps } from "@/components/OrderSteps";
-import { DELIVERY_TIME, PROCESSING_TIME, RETURN_DAYS, SHIP_FROM_TEXT } from "@/config/store";
+import { DELIVERY_TIME, PROCESSING_TIME, RETURN_DAYS, SHIP_FROM_TEXT, STORE_NAME } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { paymentText } from "@/lib/faq";
 import { pageMetadata } from "@/lib/metadata";
+import { whatsappUrl } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -24,6 +25,14 @@ export default async function CartPage({ params }: Props) {
   return (
     <div className="container page">
       <h1>{t("cart.title")}</h1>
+      <noscript>
+        <p className="noscript-note">
+          {t("cart.noscript")}{" "}
+          <a href={whatsappUrl(t("whatsapp.general", { store: STORE_NAME }))} target="_blank" rel="noopener noreferrer">
+            {t("whatsapp.chat")}
+          </a>
+        </p>
+      </noscript>
       <CartView />
       <div className="order-info">
         <section aria-labelledby="steps-title">

@@ -1,6 +1,9 @@
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { SISTER_STORE, SOCIAL, STORE_NAME } from "@/config/store";
 import { Link } from "@/i18n/navigation";
+import type { Locale } from "@/i18n/locales";
+import { RATES_AS_OF } from "@/lib/currency";
+import { formatDate } from "@/lib/format";
 import { categorySlugs } from "@/lib/catalog";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { FooterLanguages } from "./FooterLanguages";
@@ -12,6 +15,7 @@ const socialNames = { instagram: "Instagram", facebook: "Facebook", tiktok: "Tik
 
 export async function Footer() {
   const t = await getTranslations();
+  const locale = (await getLocale()) as Locale;
   const social = (Object.keys(SOCIAL) as (keyof typeof SOCIAL)[]).filter((k) => SOCIAL[k]);
   const support = [
     { href: "/how-to-order", label: t("nav.howToOrder") },
@@ -26,8 +30,8 @@ export async function Footer() {
   const legal = [
     { href: "/privacy", label: t("nav.privacy") },
     { href: "/terms", label: t("nav.terms") },
+    { href: "/withdrawal", label: t("nav.withdrawal") },
     { href: "/accessibility", label: t("nav.accessibility") },
-    { href: "/returns", label: t("nav.returns") },
   ];
   return (
     <footer className="site-footer dark">
@@ -116,7 +120,7 @@ export async function Footer() {
         </div>
         <div className="footer-bottom">
           <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
-          <p>{t("currency.note")}</p>
+          <p>{t("currency.note", { date: formatDate(RATES_AS_OF, locale) })}</p>
         </div>
       </div>
     </footer>

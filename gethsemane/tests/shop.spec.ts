@@ -169,12 +169,13 @@ test("cart orders via WhatsApp with items, quantities, currency and total in the
 test("product page orders a single piece via WhatsApp", async ({ page }) => {
   await page.goto("/fr/product/rosary-olive-wood");
   await waitForHydration(page);
-  const link = page.getByRole("link", { name: /Commander sur WhatsApp/ });
+  const link = page.getByRole("link", { name: /Commander seulement cette pièce/ });
   await expect(link).toBeVisible();
   const text = decodeWhatsApp(await link.getAttribute("href"));
   expect(text).toContain("Bonjour Gethsemane");
-  expect(text).toMatch(/1 × Chapelet en bois d'olivier — 24,00\s\$US/);
-  expect(text).toContain("Devise choisie : USD");
+  expect(text).toMatch(/1 × Chapelet en bois d'olivier — 24,00\s\$US \(Olive Wood Rosary, GTH-\d{3}\)/);
+  expect(text).toMatch(/Devise choisie\s:\sUSD/);
+  expect(text).toContain("Site language: Français (fr)");
 });
 
 test("an empty cart has no WhatsApp button", async ({ page }) => {

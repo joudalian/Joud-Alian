@@ -13,12 +13,12 @@ export const localeNames: Record<Locale, string> = {
   pl: "Polski",
   ro: "Română",
   uk: "Українська",
-  pt: "Português",
+  pt: "Português (PT)",
 };
 
 /** BCP 47 tags used for hreflang and Open Graph. */
 export const ogLocales: Record<Locale, string> = {
-  en: "en_US",
+  en: "en_GB", // the English copy uses British spelling
   fr: "fr_FR",
   es: "es_ES",
   it: "it_IT",

@@ -21,13 +21,36 @@ export const TAX_ID = ""; // CONFIRM (TODO)
 
 /** Workshop / contact address (not a returns address: returns are arranged on WhatsApp first). */
 export const ADDRESS = "129 Al Mahed Street, Bethlehem, Palestinian Territory"; // CONFIRM
+/** The same address in parts, for structured data (schema.org PostalAddress). */
+export const ADDRESS_STREET = "129 Al Mahed Street"; // CONFIRM
+export const ADDRESS_LOCALITY = "Bethlehem"; // CONFIRM
+/** ISO 3166-1 alpha-2 country code. */
+export const ADDRESS_COUNTRY = "PS"; // CONFIRM
 
 /** Public contact email (the owner is creating a new mailbox). Empty = not shown anywhere. */
 export const CONTACT_EMAIL = ""; // CONFIRM
 
-/** Opening hours: ISO weekdays (1 = Monday … 7 = Sunday) and local times, in TIMEZONE. */
+/**
+ * Opening hours: ISO weekdays (1 = Monday … 7 = Sunday) and local times, in TIMEZONE.
+ * CONFIRM: the Palestinian work week is often Sunday–Thursday ([7, 1, 2, 3, 4]); set the days you really answer.
+ */
 export const OPENING_HOURS = { days: [1, 2, 3, 4, 5], open: "09:00", close: "17:00" } as const; // CONFIRM
+/** IANA time zone of the opening hours (used for calculations only; never shown on the site). */
 export const TIMEZONE = "Asia/Hebron"; // CONFIRM
+/** How the time zone is shown to visitors, in every language. */
+export const TIMEZONE_LABEL: Record<Locale, string> = {
+  // CONFIRM
+  en: "Bethlehem time",
+  fr: "heure de Bethléem",
+  es: "hora de Belén",
+  it: "ora di Betlemme",
+  de: "Ortszeit Bethlehem",
+  el: "ώρα Βηθλεέμ",
+  pl: "czas betlejemski",
+  ro: "ora Betleemului",
+  uk: "за часом Вифлеєма",
+  pt: "hora de Belém",
+};
 
 /** Our own social accounts (new). Empty = no icon rendered. Use full https:// URLs. */
 export const SOCIAL = {
@@ -47,7 +70,7 @@ export const SISTER_STORE = {
 export const SHIP_FROM_TEXT: Record<Locale, string> = {
   // CONFIRM
   en: "Crafted in Bethlehem. Your order is dispatched from Bethlehem or from a partner stock location; we confirm which, with an estimated delivery date, before you pay.",
-  fr: "Fabriqué à Bethléem. Votre commande est expédiée depuis Bethléem ou depuis un stock partenaire ; nous vous confirmons lequel, avec une date de livraison estimée, avant le paiement.",
+  fr: "Fabriqué à Bethléem. Votre commande est expédiée depuis Bethléem ou depuis un stock partenaire ; nous vous confirmons lequel, avec une date de livraison estimée, avant le paiement.",
   es: "Hecho en Belén. Tu pedido se envía desde Belén o desde un almacén asociado; antes de que pagues te confirmamos desde dónde, con una fecha de entrega estimada.",
   it: "Realizzato a Betlemme. Il tuo ordine parte da Betlemme o da un magazzino partner; prima del pagamento ti confermiamo da dove, con una data di consegna stimata.",
   de: "In Bethlehem gefertigt. Ihre Bestellung wird aus Bethlehem oder von einem Partnerlager versendet; vor der Zahlung bestätigen wir Ihnen, von wo, zusammen mit einem voraussichtlichen Liefertermin.",
@@ -72,7 +95,7 @@ export const DELIVERY_BY_REGION = [
   { region: "restOfWorld", min: 10, max: 25 }, // CONFIRM
 ] as const;
 
-/** Days after delivery to request a return. */
+/** Days after delivery to request a return. Never below 14: the EU/UK statutory withdrawal period (checked below). */
 export const RETURN_DAYS = 14; // CONFIRM
 /** Days after delivery to report damage in transit. */
 export const DAMAGE_REPORT_DAYS = 7; // CONFIRM
@@ -94,6 +117,32 @@ export const ANNOUNCEMENT: { enabled: boolean; text: Partial<Record<Locale, stri
   text: {}, // e.g. { en: "…", fr: "…" }; falls back to English
 };
 
+/** Hours a quote sent on WhatsApp stays valid (prices, shipping and stock held). */
+export const QUOTE_VALID_HOURS = 48; // CONFIRM
+
+/**
+ * Countries we ship to, as ISO 3166-1 alpha-2 codes (e.g. ["DE", "FR", "GB", "US"]). Used only in the structured
+ * data for search engines; while empty, no shipping details or return-policy countries are published there.
+ */
+export const SHIP_TO_COUNTRIES: readonly string[] = []; // CONFIRM
+
+/**
+ * LAUNCH GATE. While false, shop, category and product pages are noindex, product and category pages are left
+ * out of the sitemap and no Product offers are published in structured data (placeholder products must never
+ * reach search engines). Set to true as the very last launch step, then run `npm run check:launch`.
+ */
+export const CATALOG_READY = false; // CONFIRM
+
+/**
+ * Product safety information (EU General Product Safety Regulation). Needs legal advice before selling into
+ * the EU. When MANUFACTURER_NAME is set, a "Product safety information" block appears on every product page.
+ */
+export const MANUFACTURER_NAME = ""; // CONFIRM
+export const MANUFACTURER_ADDRESS = ""; // CONFIRM
+export const MANUFACTURER_EMAIL = ""; // CONFIRM
+/** Name and address of the economic operator responsible in the EU, if one is required. */
+export const EU_RESPONSIBLE_PERSON = ""; // CONFIRM
+
 /** Date the policy pages were last updated (YYYY-MM-DD). */
 export const POLICY_UPDATED = "2026-10-24"; // CONFIRM
 
@@ -109,3 +158,6 @@ export const ACCESSIBILITY_REVIEWED = "2026-10-24"; // CONFIRM
 // Backwards-compatible aliases.
 export const SISTER_STORE_URL = SISTER_STORE.url;
 export const SISTER_STORE_NAME = SISTER_STORE.name;
+
+// Build-time guards: a wrong value here must fail the build, not reach customers.
+if (RETURN_DAYS < 14) throw new Error("RETURN_DAYS must be at least 14 (EU/UK statutory withdrawal period).");

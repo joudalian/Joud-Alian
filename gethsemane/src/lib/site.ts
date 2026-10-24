@@ -1,18 +1,6 @@
 import { STORE_NAME } from "@/config/store";
 import { defaultLocale, locales, type Locale } from "@/i18n/locales";
-
-function resolveSiteUrl(): string {
-  const raw = process.env.SITE_URL;
-  if (raw) {
-    try {
-      const url = new URL(raw);
-      if (url.protocol === "https:" || url.protocol === "http:") return url.origin;
-    } catch {
-      // fall through to the default
-    }
-  }
-  return "http://localhost:3000";
-}
+import { resolveSiteUrl } from "./site-url";
 
 /** Read at request time (pages are rendered per request), so it can be set by the host without a rebuild. */
 export const siteUrl = resolveSiteUrl();

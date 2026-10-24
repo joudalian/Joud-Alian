@@ -40,6 +40,8 @@ export type ProductRecord = {
   finish?: "natural" | "oiled" | "waxed";
   packaging?: "giftBox" | "box" | "pouch";
   giftNote?: boolean;
+  /** Stock status; defaults to "made_to_order" when omitted. CONFIRM per piece before launch. */
+  availability?: "in_stock" | "made_to_order" | "sold_out";
   text: Record<Locale, ProductText>;
 };
 

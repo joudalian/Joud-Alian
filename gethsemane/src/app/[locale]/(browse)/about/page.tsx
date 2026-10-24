@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { Breadcrumb } from "@/components/Breadcrumb";
 import { SISTER_STORE } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
@@ -20,6 +21,7 @@ export default async function AboutPage({ params }: Props) {
   const t = await getTranslations();
   return (
     <div className="container page">
+      <Breadcrumb currentPath="/about" items={[{ href: "/", label: t("nav.home") }, { label: t("about.title") }]} />
       <div className="story-grid about-grid">
         <Image
           src="/brand/gethsemane-logo.png"
@@ -34,6 +36,7 @@ export default async function AboutPage({ params }: Props) {
           <span className="eyebrow">{t("meta.tagline")}</span>
           <h1>{t("about.title")}</h1>
           <p className="lead">{t("about.intro")}</p>
+          {/* CONFIRM: the wood comes from branches trimmed when the trees are pruned. */}
           <p>{t("about.p1")}</p>
           <p>{t("about.p2")}</p>
           <h2>{t("about.nameTitle")}</h2>

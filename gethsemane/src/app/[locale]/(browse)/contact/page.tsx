@@ -3,7 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ContactTopics } from "@/components/ContactTopics";
 import { contactTopics, type ContactTopic } from "@/lib/contact";
 import { InfoPage, Section } from "@/components/InfoPage";
-import { ADDRESS, CONTACT_EMAIL, OPENING_HOURS, SISTER_STORE, TIMEZONE } from "@/config/store";
+import { ADDRESS, CONTACT_EMAIL, OPENING_HOURS, SISTER_STORE, TIMEZONE_LABEL } from "@/config/store";
 import type { Locale } from "@/i18n/locales";
 import { formatOpeningDays } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
@@ -41,7 +41,7 @@ export default async function ContactPage({ params, searchParams }: Props) {
       )}
       {days && (
         <Section id="hours" title={t("hoursTitle")}>
-          <p>{t("hours", { days, open: OPENING_HOURS.open, close: OPENING_HOURS.close, timezone: TIMEZONE })}</p>
+          <p>{t("hours", { days, open: OPENING_HOURS.open, close: OPENING_HOURS.close, timezone: TIMEZONE_LABEL[locale] })}</p>
           <p className="note">{t("hoursNote")}</p>
         </Section>
       )}

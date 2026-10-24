@@ -27,7 +27,13 @@ export function productsInCategory(category: CategorySlug): Product[] {
 }
 
 export function productText(product: Product, locale: Locale): ProductText {
-  return product.text[locale];
+  // Fall back to English for anything that is not one of the ten locales (e.g. a malformed URL segment).
+  return product.text[locale] ?? product.text.en;
+}
+
+/** Stock-keeping code used in order messages and structured data, e.g. "GTH-001". */
+export function productSku(product: Product): string {
+  return `GTH-${String(product.id).padStart(3, "0")}`;
 }
 
 export function categoryImage(slug: CategorySlug): string {

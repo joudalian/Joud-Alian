@@ -1,5 +1,6 @@
 import { expect, test } from "@playwright/test";
 import { findClaims } from "../scripts/forbidden-claims.mjs";
+import { publicPageUrls } from "./helpers";
 
 const allowedExternal = ["https://wa.me", "https://holylandtimber.com", "https://www.instagram.com"];
 
@@ -9,13 +10,13 @@ test("no broken links or images on any page", async ({ request, baseURL, isMobil
   test.skip(isMobile, "run once");
   test.setTimeout(240_000);
   const origin = baseURL!;
-  const xml = await (await request.get("/sitemap.xml")).text();
-  const pageUrls = new Set([...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]!));
+  const pageUrls = new Set(await publicPageUrls(request, origin));
   for (const l of ["en", "fr", "es", "it", "de", "el", "pl", "ro", "uk", "pt"]) {
     pageUrls.add(`${origin}/${l}/cart`);
     pageUrls.add(`${origin}/${l}/wishlist`);
   }
-  expect(pageUrls.size).toBe(280 + 20);
+  // 12 sitemap paths + shop, 4 categories and 12 products (noindex until CATALOG_READY) + cart and wishlist.
+  expect(pageUrls.size).toBe(10 * (12 + 17 + 2));
 
   const checked = new Map<string, number>();
   const problems: string[] = [];

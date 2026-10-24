@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductGrid } from "@/components/ProductCard";
+import { CATALOG_READY } from "@/config/store";
 import type { Locale } from "@/i18n/locales";
 import { products } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
@@ -12,7 +13,7 @@ type Props = { params: Promise<{ locale: Locale }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale } = await params;
   const t = await getTranslations({ locale, namespace: "shop" });
-  return pageMetadata({ locale, path: "/shop", title: t("title"), description: t("intro") });
+  return pageMetadata({ locale, path: "/shop", title: t("title"), description: t("intro"), noindex: !CATALOG_READY });
 }
 
 export default async function ShopPage({ params }: Props) {

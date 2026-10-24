@@ -85,10 +85,15 @@ The current 12 products, their names, descriptions, photos and prices are **plac
 
 There is **no online checkout** and no payment on the site. Visitors collect pieces in **Your order**
 (`/[locale]/cart`, "Add to order" on every product), optionally add their name, country, notes and a gift note
-(kept only in their browser), and press **Send order on WhatsApp**: it opens `https://wa.me/<number>` with a
-message in the visitor's language listing the items, quantities, prices in USD (plus an approximate total in the
-chosen currency) and those details. A **Copy message** button and a readable preview are the fallback when
-WhatsApp is not installed. The order is then confirmed personally on WhatsApp: availability, shipping cost,
+(kept only in their browser; "Clear my saved details" removes them), and press **Send order on WhatsApp**: it
+opens `https://wa.me/<number>` with a message in the visitor's language listing the items, quantities, prices in
+USD (plus an approximate total in the chosen currency) and those details. For the owner, every line also carries
+the English product name and SKU (`GTH-001`…), and a line names the site language. A ticked gift-note box is
+always mentioned, even without text. Very long notes are shortened in the link (wa.me links over ~2000 encoded
+characters fail in some apps); the visitor is told, and the full text stays in the **Copy message** fallback and
+its preview. When `CONTACT_EMAIL` is set, a "send it by email" link appears too. On the product page the primary
+action is **Add to order**; **Order only this piece** opens WhatsApp for that one piece. Contact-page messages
+start with an English "Subject:" line so the owner sees the topic in any language. The order is then confirmed personally on WhatsApp: availability, shipping cost,
 delivery estimate and how to pay (see `docs/OPERATIONS.md`).
 
 **Change the WhatsApp number** in `src/config/store.ts`:
@@ -102,8 +107,9 @@ The message wording is in the `whatsapp` section of each `messages/<locale>.json
 ## Currencies
 
 USD (base), EUR, GBP, CAD and AUD. **The conversion rates are fixed values in `src/lib/currency.ts`, not live
-rates: update them before launch and review them regularly.** The visitor's choice is stored in a cookie, so
-prices render in the right currency on the first paint.
+rates: update them on launch day and then monthly, together with `RATES_AS_OF`** (shown as "rates as of …"
+next to converted prices). The visitor's choice is stored in a cookie, so prices render in the right currency on
+the first paint.
 
 ## Languages
 
@@ -127,7 +133,10 @@ of the link's accessible name. `tests/layout.spec.ts` fails if a label is cut of
 Every business detail shown on the site lives in **one file, `src/config/store.ts`**: WhatsApp number, legal
 name, tax ID, address, contact email, opening hours and time zone, social links, sister store, where orders ship
 from (per language), processing and delivery times (overall and by region), return and damage-report windows,
-payment mode, announcement bar, policy and accessibility dates, data-retention period and governing law.
+payment mode, announcement bar, policy and accessibility dates, data-retention period, governing law, quote
+validity, ship-to countries (structured data only), the launch gate `CATALOG_READY` and the EU product-safety
+block. Opening hours are shown with `TIMEZONE_LABEL` ("Bethlehem time" in each language), never the IANA ID;
+check `OPENING_HOURS.days`, since the Palestinian work week is often Sunday–Thursday.
 **Every value is marked `// CONFIRM`** and must be checked before launch. Optional fields render only when
 non-empty: an empty `CONTACT_EMAIL` hides the email everywhere, an empty `SOCIAL` entry renders no icon,
 `ANNOUNCEMENT.enabled: false` hides the bar, an empty `GOVERNING_LAW` hides the governing-law sentence on the
@@ -157,17 +166,29 @@ is non-empty, names the methods. No payment brands, logos or "secure checkout" w
 Home, shop (`/[locale]/shop`), category (`/[locale]/shop/[category]`), product (`/[locale]/product/[slug]`),
 Our Story (`/[locale]/about`), and the help and policy pages: how to order, FAQ, shipping, returns (with the
 model withdrawal form), contact (WhatsApp with topic chips; no form), privacy, terms (with legal notice),
-accessibility and care. Your order (`/cart`) and wishlist are `noindex`. Localized 404 (HTTP 404) and error
-pages, `/sitemap.xml` (28 paths × 10 languages, hreflang alternates and `x-default`), `/robots.txt` and
-`/.well-known/security.txt`.
+accessibility, care and **withdraw from a contract** (`/withdrawal`: the model form plus a prefilled WhatsApp
+notice, and an email button when `CONTACT_EMAIL` is set; no backend). Your order (`/cart`) and wishlist are
+`noindex`. Localized 404 (HTTP 404) and error pages, `/sitemap.xml` (hreflang alternates and `x-default`),
+`/robots.txt` and `/.well-known/security.txt` (expires one year after each build).
 
-There is no cookie banner because the site sets no tracking cookies: only the language and currency cookies the
-visitor chooses, and localStorage for the order, wishlist and order details (see the privacy page). There is
+**Launch gate.** `CATALOG_READY = false` in `src/config/store.ts` keeps the placeholder catalog out of search
+engines: shop, category and product pages are `noindex`, they are left out of the sitemap (12 paths × 10
+languages until then), and no Product offers are published in structured data. Visitors see the pages as usual.
+**Setting `CATALOG_READY = true` is the last launch step**, followed by `npm run check:launch` (not part of
+`verify`), which fails while the gate is closed, while any product text says "Placeholder" or any product image is
+a generated placeholder (hashes in `scripts/placeholder-hashes.json`), or if `SITE_URL` is missing, not https, or
+a `vercel.app`/localhost host. The owner's ordered checklist is in `docs/LAUNCH.md`.
+
+There is no cookie banner because the site sets no tracking cookies: only two preference cookies, `NEXT_LOCALE`
+(set on the first visit) and `currency` (set when the visitor picks one), both for one year, and localStorage for the order, wishlist and order details (see the privacy page). There is
 no analytics and no order tracking on the site.
 
-**Structured data** (JSON-LD): Organization with `MerchantReturnPolicy` (every page), WebSite (home),
-BreadcrumbList (inner pages), Product with `Offer` in USD, shipping details and the return policy (product
-pages), FAQPage (FAQ). None of it contains ratings or reviews.
+**Structured data** (JSON-LD): Organization (street, Bethlehem, `PS`; `sameAs` lists only our own social
+accounts) with `MerchantReturnPolicy` (every page), WebSite (home), BreadcrumbList (inner pages, About included),
+Product with `url`, SKU and, once `CATALOG_READY`, an `Offer` in USD whose availability comes from each product's
+`availability` field (`in_stock`, `made_to_order` (default) or `sold_out`), FAQPage (FAQ). Shipping details and the
+return policy's `applicableCountry` are published only for the ISO codes in `SHIP_TO_COUNTRIES` (empty = left out;
+no "ZZ" placeholder). None of it contains ratings or reviews.
 
 **Story photo**: the home page shows the Our Story emblem until a real workshop photo exists. Save it as
 `public/images/story/workshop.webp`, 1200×900 px (4:3), and rebuild: the build detects the file and the home
@@ -181,15 +202,26 @@ that review:
 
 - **Governing law and jurisdiction**: `GOVERNING_LAW` is empty, so the terms show only the consumer-protection
   sentence until it is set.
-- **Withdrawal button**: EU Directive 2023/2673 requires a "withdraw from contract" function for contracts
-  concluded online from 19 June 2026. Orders here are concluded on WhatsApp, not on the site; confirm whether a
-  withdrawal button is still needed and how it should work.
+- **Withdrawal function**: EU Directive 2023/2673 requires a "withdraw from contract" function for contracts
+  concluded online from 19 June 2026. Orders here are concluded on WhatsApp (a chat), not on the site; the
+  `/withdrawal` page offers a prefilled WhatsApp notice and the model form, but **whether that satisfies the rule
+  for chat-concluded contracts needs a legal opinion.**
+- **Contract formation** (terms): the WhatsApp message is a request to order; the contract is formed when the
+  customer accepts the confirmed total; quotes expire after `QUOTE_VALID_HOURS` (48); confirmation on a durable
+  medium. Confirm this matches how orders are really handled.
+- **Product safety (EU GPSR)**: selling into the EU may require a manufacturer and an EU responsible person on
+  every product page. Fill `MANUFACTURER_NAME`, `MANUFACTURER_ADDRESS`, `MANUFACTURER_EMAIL` and
+  `EU_RESPONSIBLE_PERSON` (a "Product safety information" block then appears) **after legal advice**.
+- **Privacy**: names Vercel (USA) as host, the transfer of data to and from Bethlehem, the two preference cookies
+  and the legal bases; check them against the final setup.
 - **Origin marking** for the US and EU (e.g. "Made in Bethlehem" / "Product of the West Bank") on packaging,
   invoices and customs forms.
 - **Trademark clearance** for the name "Gethsemane" in the target markets.
 - Legal entity name, tax ID and address for the legal notice (`LEGAL_ENTITY_NAME`, `TAX_ID`, `ADDRESS`).
 - Data-retention period for order records (`DATA_RETENTION_YEARS`), and whether a contact email is required.
 - The ODR platform link is intentionally absent (the EU ODR platform closed on 20 July 2025).
+- `RETURN_DAYS` can never be set below 14 (the build fails), so the change-of-mind window never undercuts the
+  statutory withdrawal period.
 
 ## Honesty check
 
@@ -197,7 +229,7 @@ that review:
 all 10 languages, for claims the store must not make: online checkout or card payments, SSL/256-bit, payment
 brands, "secure checkout", "data never stored", "insured", "24/7", "fair trade", "Christian artisans", "since
 1999", "family-owned", "passed down through generations", "blessed", "100% untreated", "air-dried for months",
-"never cut", "free shipping", star ratings or reviews. The patterns are in `scripts/forbidden-claims.mjs`; the
+"never cut", "never felled", "free shipping", star ratings or reviews. The patterns are in `scripts/forbidden-claims.mjs`; the
 link-crawl test also checks the rendered pages. The same command checks that delivery times match
 `DELIVERY_TIME` (see Store settings).
 
@@ -207,7 +239,9 @@ link-crawl test also checks the rendered pages. The same command checks that del
   nonce (`'strict-dynamic'`, no `'unsafe-eval'`), images from self/data/blob, fonts from self,
   `object-src 'none'`, `frame-ancestors 'none'`, `upgrade-insecure-requests`. Styles allow `'unsafe-inline'`
   (required by `next/image` inline styles). Every page is rendered per request because of the nonce.
-- Static headers on every response (`src/lib/security-headers.ts`): HSTS, `X-Content-Type-Options: nosniff`,
+- Static headers on every response (`src/lib/security-headers.ts`): HSTS (`max-age=63072000`, without
+  `includeSubDomains` and `preload`: add them only once every subdomain of the domain serves HTTPS for good, since
+  preload is hard to undo), `X-Content-Type-Options: nosniff`,
   `X-Frame-Options: DENY`, `Referrer-Policy: strict-origin-when-cross-origin`, `Permissions-Policy`
   (camera, microphone, geolocation, payment and more disabled), COOP/CORP `same-origin`. No `X-Powered-By`,
   no production source maps.
@@ -225,17 +259,21 @@ link-crawl test also checks the rendered pages. The same command checks that del
 | `npm run build` / `start`| Production build / server                                                         |
 | `npm run typecheck`      | TypeScript, strict                                                                |
 | `npm run lint`           | ESLint, zero warnings allowed                                                     |
-| `npm run check:i18n`     | Translations, product data file, no Arabic / RTL                                  |
+| `npm run check:i18n`     | Translations (same numbers in every language), product data, no Arabic / RTL     |
 | `npm run check:contrast` | WCAG AA contrast of the design tokens                                             |
 | `npm run check:claims`   | Fails on forbidden claims or a delivery range that differs from the config, in all languages |
-| `npm run check:links`    | Crawls all 300 pages for broken links and images                                  |
+| `npm run check:links`    | Crawls all 310 pages for broken links and images                                  |
 | `npm test`               | Playwright tests on the production build (desktop + mobile)                       |
 | `npm run audit`          | `npm audit --audit-level=high`                                                    |
 | `npm run verify`         | typecheck → lint → i18n → claims → contrast → build → audit → all tests           |
+| `npm run check:launch`   | Launch gate (not in verify): catalog open, real product texts and photos, real `SITE_URL` |
 | `npm run assets`         | Rebuilds brand files, favicons and images from `../brand/`; creates missing product placeholders |
 
-Requires Node.js 22.18 or newer (the check scripts read `src/data/products.ts` directly). On a fresh machine,
-install the test browser once with `npx playwright install chromium`.
+Requires Node.js 22 (22.18 or newer; the check scripts read `src/data/products.ts` directly). On a fresh machine,
+install the test browser once with `npx playwright install chromium`. `npm run verify` builds with
+`SITE_URL=http://localhost:3100` (the test server) unless you set one. CI (`.github/workflows/verify.yml`) runs
+`npm run verify` on every push and pull request; Dependabot (`.github/dependabot.yml`) proposes dependency updates
+weekly.
 
 ## Deploying
 
@@ -245,15 +283,27 @@ The site needs a Node.js server (it is not a static export, because each page ge
 
 1. Import the repository and set the project's *Root Directory* to `gethsemane`.
 2. Add the environment variable `SITE_URL=https://your-domain` (no trailing slash) for Production. It drives
-   canonical URLs, hreflang links, the sitemap, `robots.txt`, JSON-LD and Open Graph URLs.
+   canonical URLs, hreflang links, the sitemap, `robots.txt`, JSON-LD and Open Graph URLs. Without it, Vercel
+   production builds use `VERCEL_PROJECT_PRODUCTION_URL` and previews their `VERCEL_URL`; **a production build
+   with none of these fails** rather than publishing localhost URLs. Note that Vercel's Hobby plan is for
+   non-commercial use; a shop needs a Pro plan.
 3. **Settings → Deployment Protection: turn Vercel Authentication off** for Production, otherwise visitors and
    search engines get a Vercel login page.
 4. **Settings → Domains**: add the custom domain (and `www`), and set the `*.vercel.app` domain to **redirect
    (301) to the custom domain**. Even without that redirect, `*.vercel.app` hosts are served with
    `X-Robots-Tag: noindex` and a `robots.txt` that disallows everything, so they never compete with the real
    domain.
-5. After the first deployment: verify the domain in **Google Search Console** and **Bing Webmaster Tools**
-   and submit `https://your-domain/sitemap.xml` in both.
+5. Check the live domain (replace `example.com`):
+
+   ```bash
+   curl -sI https://example.com/en | grep -i x-robots-tag          # must print nothing
+   curl -s https://example.com/robots.txt                           # "Allow: /" and "Sitemap: https://example.com/sitemap.xml"
+   curl -s https://example.com/sitemap.xml | grep -o '<loc>[^<]*' | grep -v '<loc>https://example.com/'   # must print nothing
+   curl -sI https://example-git-main-you.vercel.app/en | grep -i x-robots-tag   # "noindex, nofollow" on previews
+   ```
+
+6. After the first deployment: verify the domain in **Google Search Console** and **Bing Webmaster Tools**
+   and submit `https://your-domain/sitemap.xml` in both (after `CATALOG_READY = true`, resubmit it).
 
 Vercel runs `npm run build` and serves the security headers from the app.
 
@@ -275,8 +325,8 @@ PORT=3000 npm start             # put it behind HTTPS (e.g. Nginx or Caddy)
 ```
 
 If you put a CDN or reverse proxy in front, it must pass the security headers through unchanged and must not
-cache HTML pages (they are sent with `Cache-Control: private, no-store`). Static files under `/_next/static`
-and `/images` can be cached.
+cache HTML pages (they are sent with `Cache-Control: private, no-store`). Static files under `/_next/static` are
+immutable; `/images` and `/brand` are sent with a one-day cache.
 
 ## Status
 
@@ -287,5 +337,5 @@ and `/images` can be cached.
   currency rates and every `// CONFIRM` value in `src/config/store.ts` are placeholders until confirmed.
 - Lighthouse (mobile, simulated slow 4G, fresh server start before every run): product page performance 96–98,
   accessibility, best practices and SEO 100.
-- Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
+- Owner launch checklist: `docs/LAUNCH.md`. Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
   `docs/OPERATIONS.md`.

@@ -1,26 +1,38 @@
 import {
-  ADDRESS,
+  ADDRESS_COUNTRY,
+  ADDRESS_LOCALITY,
+  ADDRESS_STREET,
+  CATALOG_READY,
   CONTACT_EMAIL,
   DELIVERY_TIME,
   PROCESSING_TIME,
   RETURN_DAYS,
-  SISTER_STORE,
+  SHIP_TO_COUNTRIES,
   SOCIAL,
   STORE_NAME,
   WHATSAPP_NUMBER,
 } from "@/config/store";
 import type { Locale } from "@/i18n/locales";
 import type { Product } from "./catalog";
-import { productText } from "./catalog";
+import { productSku, productText } from "./catalog";
 import { localizedUrl, siteUrl } from "./site";
 
 const orgId = () => `${siteUrl}/#organization`;
 
-/** Return policy as schema.org MerchantReturnPolicy (worldwide, mail returns, customer pays postage). */
+const availability = {
+  in_stock: "https://schema.org/InStock",
+  made_to_order: "https://schema.org/MadeToOrder",
+  sold_out: "https://schema.org/SoldOut",
+} as const;
+
+/**
+ * Return policy as schema.org MerchantReturnPolicy (mail returns, customer pays postage). The countries it
+ * applies to come from SHIP_TO_COUNTRIES and are left out while that list is empty.
+ */
 export function returnPolicy(locale: Locale) {
   return {
     "@type": "MerchantReturnPolicy",
-    applicableCountry: "ZZ",
+    ...(SHIP_TO_COUNTRIES.length ? { applicableCountry: [...SHIP_TO_COUNTRIES] } : {}),
     returnPolicyCategory: "https://schema.org/MerchantReturnFiniteReturnWindow",
     merchantReturnDays: RETURN_DAYS,
     returnMethod: "https://schema.org/ReturnByMail",
@@ -30,11 +42,15 @@ export function returnPolicy(locale: Locale) {
 }
 
 export function organization(locale: Locale) {
-  const sameAs = [...Object.values(SOCIAL).filter(Boolean), SISTER_STORE.url];
+  // Only our own accounts; the sister store is a separate business, not another profile of this one.
+  const sameAs = Object.values(SOCIAL).filter(Boolean);
   const contactPoint: Record<string, unknown>[] = [
     { "@type": "ContactPoint", contactType: "customer service", telephone: `+${WHATSAPP_NUMBER}`, url: localizedUrl(locale, "/contact") },
   ];
   if (CONTACT_EMAIL) contactPoint.push({ "@type": "ContactPoint", contactType: "customer service", email: CONTACT_EMAIL });
+  const address = ADDRESS_STREET
+    ? { "@type": "PostalAddress", streetAddress: ADDRESS_STREET, addressLocality: ADDRESS_LOCALITY, addressCountry: ADDRESS_COUNTRY }
+    : undefined;
   return {
     "@context": "https://schema.org",
     "@type": "Organization",
@@ -42,7 +58,7 @@ export function organization(locale: Locale) {
     name: STORE_NAME,
     url: siteUrl,
     logo: `${siteUrl}/brand/gethsemane-logo.png`,
-    ...(ADDRESS ? { address: { "@type": "PostalAddress", streetAddress: ADDRESS } } : {}),
+    ...(address ? { address } : {}),
     ...(sameAs.length ? { sameAs } : {}),
     contactPoint,
     hasMerchantReturnPolicy: returnPolicy(locale),
@@ -68,42 +84,57 @@ export function breadcrumbList(items: { name: string; url: string }[]) {
   };
 }
 
-/** Product in USD only (the other currencies on the site are approximate conversions). */
+/** Shipping details for SHIP_TO_COUNTRIES; none while that list is empty. Transit time is the headline range. */
+function shippingDetails() {
+  if (!SHIP_TO_COUNTRIES.length) return undefined;
+  return {
+    "@type": "OfferShippingDetails",
+    shippingDestination: SHIP_TO_COUNTRIES.map((country) => ({ "@type": "DefinedRegion", addressCountry: country })),
+    deliveryTime: {
+      "@type": "ShippingDeliveryTime",
+      businessDays: {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((d) => `https://schema.org/${d}`),
+      },
+      handlingTime: { "@type": "QuantitativeValue", minValue: PROCESSING_TIME.min, maxValue: PROCESSING_TIME.max, unitCode: "DAY" },
+      transitTime: { "@type": "QuantitativeValue", minValue: DELIVERY_TIME.min, maxValue: DELIVERY_TIME.max, unitCode: "DAY" },
+    },
+  };
+}
+
+/**
+ * Product in USD only (the other currencies on the site are approximate conversions). Offers are published only
+ * once CATALOG_READY is true, so placeholder prices never reach search results.
+ */
 export function productLd(product: Product, locale: Locale) {
   const { name, description } = productText(product, locale);
   const url = localizedUrl(locale, `/product/${product.slug}`);
+  const shipping = shippingDetails();
   return {
     "@context": "https://schema.org",
     "@type": "Product",
     name,
     description,
+    url,
     image: [`${siteUrl}${product.image}`],
-    sku: `GTH-${product.id}`,
+    sku: productSku(product),
     material: "Olive wood",
     brand: { "@type": "Brand", name: STORE_NAME },
-    offers: {
-      "@type": "Offer",
-      url,
-      priceCurrency: "USD",
-      price: product.priceUsd.toFixed(2),
-      availability: "https://schema.org/InStock",
-      itemCondition: "https://schema.org/NewCondition",
-      seller: { "@id": orgId() },
-      shippingDetails: {
-        "@type": "OfferShippingDetails",
-        shippingDestination: { "@type": "DefinedRegion", addressCountry: "ZZ" },
-        deliveryTime: {
-          "@type": "ShippingDeliveryTime",
-          businessDays: {
-            "@type": "OpeningHoursSpecification",
-            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((d) => `https://schema.org/${d}`),
+    ...(CATALOG_READY
+      ? {
+          offers: {
+            "@type": "Offer",
+            url,
+            priceCurrency: "USD",
+            price: product.priceUsd.toFixed(2),
+            availability: availability[product.availability ?? "made_to_order"],
+            itemCondition: "https://schema.org/NewCondition",
+            seller: { "@id": orgId() },
+            ...(shipping ? { shippingDetails: shipping } : {}),
+            hasMerchantReturnPolicy: returnPolicy(locale),
           },
-          handlingTime: { "@type": "QuantitativeValue", minValue: PROCESSING_TIME.min, maxValue: PROCESSING_TIME.max, unitCode: "DAY" },
-          transitTime: { "@type": "QuantitativeValue", minValue: DELIVERY_TIME.min, maxValue: DELIVERY_TIME.max, unitCode: "DAY" },
-        },
-      },
-      hasMerchantReturnPolicy: returnPolicy(locale),
-    },
+        }
+      : {}),
   };
 }
 

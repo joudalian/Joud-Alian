@@ -1,5 +1,5 @@
 import { expect, test } from "@playwright/test";
-import { locales, waitForHydration } from "./helpers";
+import { locales, publicPageUrls, waitForHydration } from "./helpers";
 
 // Public pages must never show unfinished content: bracketed placeholders, TODO/TBD/CONFIRM notes,
 // lorem ipsum, or empty paragraphs, list items and table cells left behind by an empty config value.
@@ -29,11 +29,10 @@ function findProblems(text: string, html: string, where: string) {
   return problems;
 }
 
-test("no placeholders or empty gaps on any public page, in any language (server HTML)", async ({ request, isMobile }) => {
+test("no placeholders or empty gaps on any public page, in any language (server HTML)", async ({ request, baseURL, isMobile }) => {
   test.skip(isMobile, "run once");
   test.setTimeout(240_000);
-  const xml = await (await request.get("/sitemap.xml")).text();
-  const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]!);
+  const urls = await publicPageUrls(request, baseURL!);
   for (const l of locales) urls.push(`/${l}/cart`, `/${l}/wishlist`, `/${l}/does-not-exist`);
   const problems: string[] = [];
   for (const url of urls) {
