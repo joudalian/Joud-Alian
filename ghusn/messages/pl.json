@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "Ghusn — Drewno oliwne z Betlejem",
+    "description": "Ręcznie robione prezenty z drewna oliwnego z Betlejem w Ziemi Świętej: szopki, krzyże, różańce i dekoracje do domu.",
+    "tagline": "Drewno oliwne · Ziemia Święta"
+  },
+  "nav": {
+    "main": "Główna nawigacja",
+    "mobile": "Szybka nawigacja",
+    "skip": "Przejdź do treści",
+    "home": "Strona główna",
+    "shop": "Sklep",
+    "about": "Nasza historia",
+    "cart": "Koszyk",
+    "wishlist": "Ulubione",
+    "cartWithCount": "{count, plural, =0 {Koszyk, pusty} one {Koszyk, # produkt} few {Koszyk, # produkty} many {Koszyk, # produktów} other {Koszyk, # produktu}}",
+    "wishlistWithCount": "{count, plural, =0 {Ulubione, puste} one {Ulubione, # produkt} few {Ulubione, # produkty} many {Ulubione, # produktów} other {Ulubione, # produktu}}",
+    "breadcrumb": "Ścieżka nawigacji"
+  },
+  "language": {
+    "button": "Zmień język",
+    "current": "Bieżący język: {language}",
+    "list": "Języki"
+  },
+  "currency": {
+    "label": "Waluta",
+    "note": "Ceny są ustalane w USD. Pozostałe waluty to przybliżone przeliczenia; ostateczną kwotę potwierdzamy na WhatsAppie."
+  },
+  "home": {
+    "heroTitle": "Wyrzeźbione z drzew oliwnych Ziemi Świętej",
+    "heroText": "Szopki, krzyże, różańce i przedmioty do domu, każdy ręcznie wykonany z drewna oliwnego.",
+    "heroAlt": "Godło Ghusn: łuk utworzony z gałązki oliwnej",
+    "heroCta": "Zobacz kolekcję",
+    "heroSecondary": "Poznaj naszą historię",
+    "categoriesTitle": "Kupuj według kategorii",
+    "featuredTitle": "Wyróżnione produkty",
+    "viewAll": "Zobacz wszystkie produkty",
+    "valuesTitle": "Dlaczego drewno oliwne",
+    "value1Title": "Ręcznie rzeźbione",
+    "value1Text": "Każdy przedmiot jest ręcznie cięty, rzeźbiony i polerowany, więc nie ma dwóch identycznych.",
+    "value2Title": "Z Ziemi Świętej",
+    "value2Text": "Drewno pochodzi z przycinanych gałęzi drzew oliwnych, które żyją przez stulecia.",
+    "value3Title": "Na lata",
+    "value3Text": "Drewno oliwne jest gęste i trwałe, a jego ciepły rysunek z biegiem lat staje się coraz piękniejszy.",
+    "storyTitle": "Rzemiosło przekazywane z pokolenia na pokolenie",
+    "storyText": "Rzeźbienie w drewnie oliwnym jest praktykowane w Betlejem i okolicach od stuleci. Współpracujemy z rzeźbiarzami, którzy podtrzymują tę tradycję.",
+    "storyCta": "Nasza historia"
+  },
+  "shop": {
+    "title": "Sklep",
+    "intro": "Przeglądaj całą kolekcję ręcznie rzeźbionego drewna oliwnego.",
+    "all": "Wszystkie produkty",
+    "filterLabel": "Kategorie",
+    "count": "{count, plural, =0 {Brak produktów} one {# produkt} few {# produkty} many {# produktów} other {# produktu}}",
+    "empty": "W tej kategorii nie ma jeszcze produktów."
+  },
+  "categories": {
+    "nativity": {
+      "name": "Szopki",
+      "description": "Szopki i figurki Świętej Rodziny na Boże Narodzenie i na cały rok."
+    },
+    "crosses": {
+      "name": "Krzyże",
+      "description": "Krzyże ścienne, krzyże jerozolimskie i małe krzyżyki do trzymania w dłoni podczas modlitwy."
+    },
+    "rosaries": {
+      "name": "Różańce",
+      "description": "Różańce, dziesiątki i sznury modlitewne z koralikami z drewna oliwnego."
+    },
+    "home": {
+      "name": "Dekoracje",
+      "description": "Miski, deski i świeczniki, które wnoszą drewno oliwne na stół."
+    }
+  },
+  "product": {
+    "addToCart": "Dodaj do koszyka",
+    "addedToCart": "Dodano do koszyka",
+    "addToWishlist": "Dodaj {name} do ulubionych",
+    "removeFromWishlist": "Usuń {name} z ulubionych",
+    "saveToWishlist": "Dodaj do ulubionych",
+    "savedToWishlist": "W ulubionych",
+    "details": "Szczegóły",
+    "material": "Materiał",
+    "materialValue": "Drewno oliwne",
+    "care": "Pielęgnacja",
+    "careText": "Przecierać suchą ściereczką. Przedmioty kuchenne myć ręcznie i od czasu do czasu natłuszczać olejem.",
+    "handmadeNote": "Rękodzieło: rysunek drewna, kolor i rozmiar nieznacznie różnią się między egzemplarzami.",
+    "related": "Może Ci się spodobać",
+    "view": "Zobacz: {name}"
+  },
+  "cart": {
+    "title": "Twój koszyk",
+    "loading": "Wczytywanie koszyka…",
+    "empty": "Twój koszyk jest pusty",
+    "emptyText": "Przeglądaj kolekcję i dodaj coś, co Ci się podoba.",
+    "continue": "Kontynuuj zakupy",
+    "quantity": "Ilość",
+    "quantityOf": "Ilość: {name}",
+    "increase": "Zwiększ ilość: {name}",
+    "decrease": "Zmniejsz ilość: {name}",
+    "remove": "Usuń",
+    "removeItem": "Usuń {name} z koszyka",
+    "subtotal": "Suma częściowa",
+    "summary": "Podsumowanie zamówienia",
+    "shippingNote": "Koszt wysyłki zostanie obliczony przy kasie.",
+    "whatsappHint": "Otwiera WhatsApp z Twoim zamówieniem. Tam potwierdzamy dostępność, wysyłkę i płatność."
+  },
+  "wishlist": {
+    "title": "Twoje ulubione",
+    "loading": "Wczytywanie ulubionych…",
+    "empty": "Twoja lista ulubionych jest pusta",
+    "emptyText": "Dotknij serca przy dowolnym produkcie, aby zapisać go tutaj.",
+    "browse": "Przeglądaj kolekcję",
+    "moveToCart": "Przenieś do koszyka",
+    "remove": "Usuń",
+    "removeItem": "Usuń {name} z ulubionych"
+  },
+  "about": {
+    "title": "Nasza historia",
+    "intro": "Ghusn znaczy „gałąź”. Każdy oferowany przez nas przedmiot zaczyna się od gałęzi drzewa oliwnego w Betlejem i okolicach.",
+    "p1": "Drzewa oliwne żyją tu nawet setki lat. Rzeźbiarze używają drewna z gałęzi ściętych podczas przycinania i powoli je suszą, zanim zaczną pracę.",
+    "p2": "Rodziny rzeźbiarzy z Betlejem pracują w drewnie oliwnym od pokoleń. Każdy przedmiot jest ręcznie cięty, rzeźbiony, szlifowany i polerowany, dlatego rysunek drewna, kolor i rozmiar nieco się różnią.",
+    "p3": "Jesteśmy małym sklepem i wolimy jasno powiedzieć, co kupujesz, niż obiecywać za dużo. Jeśli masz pytanie o jakiś przedmiot, napisz do nas na WhatsAppie – odpowiemy szczerze.",
+    "sister": "Ghusn to sklep siostrzany <link>holylandtimber.com</link>."
+  },
+  "footer": {
+    "about": "Ręcznie robione prezenty z drewna oliwnego z Betlejem, Ziemia Święta.",
+    "shopTitle": "Sklep",
+    "infoTitle": "Informacje",
+    "rights": "© {year} Ghusn. Wszelkie prawa zastrzeżone.",
+    "languageTitle": "Język",
+    "sister": "Sklep siostrzany <link>holylandtimber.com</link>"
+  },
+  "notFound": {
+    "title": "Nie znaleziono strony",
+    "text": "Strona, której szukasz, nie istnieje lub została przeniesiona.",
+    "home": "Wróć na stronę główną"
+  },
+  "error": {
+    "title": "Coś poszło nie tak",
+    "text": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.",
+    "retry": "Spróbuj ponownie",
+    "home": "Wróć na stronę główną"
+  },
+  "common": {
+    "loading": "Wczytywanie…"
+  },
+  "whatsapp": {
+    "button": "Zamów przez WhatsApp",
+    "newTab": "otwiera się w nowej karcie",
+    "greeting": "Dzień dobry, {store}. Chciałbym zamówić:",
+    "line": "{qty} × {name} — {price}",
+    "total": "Razem: {total}",
+    "currency": "Waluta: {currency}",
+    "closing": "Proszę o potwierdzenie dostępności, wysyłki i płatności. Dziękuję!"
+  }
+}
