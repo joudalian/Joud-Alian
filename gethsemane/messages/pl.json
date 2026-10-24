@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "title": "Gethsemane — Drewno oliwne z Ziemi Świętej",
+    "description": "Ręcznie rzeźbione prezenty z drewna oliwnego z Ziemi Świętej: szopki, krzyże, różańce i przedmioty do domu.",
+    "tagline": "Drewno oliwne · Ziemia Święta"
+  },
+  "nav": {
+    "main": "Główna nawigacja",
+    "mobile": "Szybka nawigacja",
+    "skip": "Przejdź do treści",
+    "home": "Strona główna",
+    "shop": "Sklep",
+    "about": "Nasza historia",
+    "cart": "Koszyk",
+    "wishlist": "Ulubione",
+    "cartWithCount": "{count, plural, =0 {Koszyk, pusty} one {Koszyk, # produkt} few {Koszyk, # produkty} many {Koszyk, # produktów} other {Koszyk, # produktu}}",
+    "wishlistWithCount": "{count, plural, =0 {Ulubione, puste} one {Ulubione, # produkt} few {Ulubione, # produkty} many {Ulubione, # produktów} other {Ulubione, # produktu}}",
+    "breadcrumb": "Ścieżka nawigacji"
+  },
+  "language": {
+    "button": "Zmień język",
+    "current": "Bieżący język: {language}",
+    "list": "Języki"
+  },
+  "currency": {
+    "label": "Waluta",
+    "note": "Płatność jest pobierana w USD. Pozostałe waluty to przybliżone przeliczenia."
+  },
+  "home": {
+    "heroTitle": "Wyrzeźbione z drzew oliwnych Ziemi Świętej",
+    "heroText": "Szopki, krzyże, różańce i przedmioty do domu, każdy ręcznie wykonany z drewna oliwnego.",
+    "heroAlt": "Szopka i krzyż z drewna oliwnego obok gałązki oliwnej",
+    "heroCta": "Zobacz kolekcję",
+    "heroSecondary": "Poznaj naszą historię",
+    "categoriesTitle": "Kupuj według kategorii",
+    "featuredTitle": "Wyróżnione produkty",
+    "viewAll": "Zobacz wszystkie produkty",
+    "valuesTitle": "Dlaczego drewno oliwne",
+    "value1Title": "Ręcznie rzeźbione",
+    "value1Text": "Każdy przedmiot jest ręcznie cięty, rzeźbiony i polerowany, więc nie ma dwóch identycznych.",
+    "value2Title": "Z Ziemi Świętej",
+    "value2Text": "Drewno pochodzi z przycinanych gałęzi drzew oliwnych, które żyją przez stulecia.",
+    "value3Title": "Na lata",
+    "value3Text": "Drewno oliwne jest gęste i trwałe, a jego ciepły rysunek z biegiem lat staje się coraz piękniejszy.",
+    "storyTitle": "Rzemiosło przekazywane z pokolenia na pokolenie",
+    "storyText": "Rzeźbienie w drewnie oliwnym jest praktykowane w Betlejem i okolicach od stuleci. Współpracujemy z rzeźbiarzami, którzy podtrzymują tę tradycję.",
+    "storyCta": "Nasza historia"
+  },
+  "shop": {
+    "title": "Sklep",
+    "intro": "Przeglądaj całą kolekcję ręcznie rzeźbionego drewna oliwnego.",
+    "all": "Wszystkie produkty",
+    "filterLabel": "Kategorie",
+    "count": "{count, plural, =0 {Brak produktów} one {# produkt} few {# produkty} many {# produktów} other {# produktu}}",
+    "empty": "W tej kategorii nie ma jeszcze produktów."
+  },
+  "categories": {
+    "nativity": {
+      "name": "Szopki",
+      "description": "Szopki i figurki Świętej Rodziny na Boże Narodzenie i na cały rok."
+    },
+    "crosses": {
+      "name": "Krzyże",
+      "description": "Krzyże ścienne, krzyże jerozolimskie i małe krzyżyki do trzymania w dłoni podczas modlitwy."
+    },
+    "rosaries": {
+      "name": "Różańce",
+      "description": "Różańce, dziesiątki i sznury modlitewne z koralikami z drewna oliwnego."
+    },
+    "home": {
+      "name": "Dom",
+      "description": "Miski, deski i świeczniki, które wnoszą drewno oliwne na stół."
+    }
+  },
+  "product": {
+    "addToCart": "Dodaj do koszyka",
+    "addedToCart": "Dodano do koszyka",
+    "addToWishlist": "Dodaj {name} do ulubionych",
+    "removeFromWishlist": "Usuń {name} z ulubionych",
+    "saveToWishlist": "Dodaj do ulubionych",
+    "savedToWishlist": "W ulubionych",
+    "details": "Szczegóły",
+    "material": "Materiał",
+    "materialValue": "Drewno oliwne",
+    "size": "Przybliżone wymiary",
+    "sizeValue": "{w} × {h} × {d} cm",
+    "care": "Pielęgnacja",
+    "careText": "Przecierać suchą ściereczką. Przedmioty kuchenne myć ręcznie i od czasu do czasu natłuszczać olejem.",
+    "handmadeNote": "Rękodzieło: rysunek drewna, kolor i rozmiar nieznacznie różnią się między egzemplarzami.",
+    "related": "Może Ci się spodobać",
+    "view": "Zobacz: {name}"
+  },
+  "cart": {
+    "title": "Twój koszyk",
+    "loading": "Wczytywanie koszyka…",
+    "empty": "Twój koszyk jest pusty",
+    "emptyText": "Przeglądaj kolekcję i dodaj coś, co Ci się podoba.",
+    "continue": "Kontynuuj zakupy",
+    "quantity": "Ilość",
+    "quantityOf": "Ilość: {name}",
+    "increase": "Zwiększ ilość: {name}",
+    "decrease": "Zmniejsz ilość: {name}",
+    "remove": "Usuń",
+    "removeItem": "Usuń {name} z koszyka",
+    "subtotal": "Suma częściowa",
+    "summary": "Podsumowanie zamówienia",
+    "shippingNote": "Koszt wysyłki zostanie obliczony przy kasie.",
+    "checkoutSoon": "Płatności online będą dostępne wkrótce."
+  },
+  "wishlist": {
+    "title": "Twoje ulubione",
+    "loading": "Wczytywanie ulubionych…",
+    "empty": "Twoja lista ulubionych jest pusta",
+    "emptyText": "Dotknij serca przy dowolnym produkcie, aby zapisać go tutaj.",
+    "browse": "Przeglądaj kolekcję",
+    "moveToCart": "Przenieś do koszyka",
+    "remove": "Usuń",
+    "removeItem": "Usuń {name} z ulubionych"
+  },
+  "about": {
+    "title": "Nasza historia",
+    "intro": "Nazwa Gethsemane pochodzi od ogrodu oliwnego u stóp Góry Oliwnej w Jerozolimie.",
+    "p1": "Drzewa oliwne mogą żyć przez wiele stuleci. Podczas przycinania ścięte gałęzie są powoli suszone i przekazywane rzeźbiarzom, dlatego dla tego drewna nie ścina się żadnego drzewa.",
+    "p2": "Każdy przedmiot jest ręcznie cięty, rzeźbiony, szlifowany i polerowany. Rysunek drewna oliwnego jest inny w każdej gałęzi, dlatego każdy produkt w naszym sklepie jest niepowtarzalny.",
+    "p3": "Chcemy dzielić się tym rzemiosłem z domami na całym świecie i wspierać rodziny, które je kultywują."
+  },
+  "footer": {
+    "about": "Ręcznie rzeźbione drewno oliwne z Ziemi Świętej.",
+    "shopTitle": "Sklep",
+    "infoTitle": "Informacje",
+    "rights": "© {year} Gethsemane. Wszelkie prawa zastrzeżone.",
+    "languageTitle": "Język"
+  },
+  "notFound": {
+    "title": "Nie znaleziono strony",
+    "text": "Strona, której szukasz, nie istnieje lub została przeniesiona.",
+    "home": "Wróć na stronę główną"
+  },
+  "error": {
+    "title": "Coś poszło nie tak",
+    "text": "Wystąpił nieoczekiwany błąd. Spróbuj ponownie.",
+    "retry": "Spróbuj ponownie",
+    "home": "Wróć na stronę główną"
+  },
+  "common": {
+    "loading": "Wczytywanie…"
+  },
+  "products": {
+    "nativity-set-classic": {
+      "name": "Klasyczna szopka",
+      "description": "Dwunastoelementowa szopka ze Świętą Rodziną, pasterzami, Trzema Królami i zwierzętami, wyrzeźbiona z litego drewna oliwnego."
+    },
+    "nativity-stable-grand": {
+      "name": "Duża stajenka betlejemska",
+      "description": "Duża stajenka z rzeźbionym dachem i gwiazdą, z kompletem figurek, która stanie się sercem wigilijnego stołu."
+    },
+    "holy-family-figurine": {
+      "name": "Figurka Świętej Rodziny",
+      "description": "Maryja, Józef i Dzieciątko wyrzeźbieni razem z jednego kawałka drewna oliwnego."
+    },
+    "jerusalem-cross": {
+      "name": "Krzyż jerozolimski",
+      "description": "Tradycyjny krzyż jerozolimski z czterema małymi krzyżykami, płaski, do powieszenia na ścianie lub postawienia na półce."
+    },
+    "wall-cross-carved": {
+      "name": "Rzeźbiony krzyż ścienny",
+      "description": "Krzyż ścienny ze ściętą krawędzią i gładko wypolerowaną powierzchnią, która podkreśla rysunek drewna."
+    },
+    "pocket-holding-cross": {
+      "name": "Krzyżyk do dłoni",
+      "description": "Mały, zaokrąglony krzyżyk, wyprofilowany tak, by wygodnie spoczywał w dłoni podczas modlitwy."
+    },
+    "rosary-olive-wood": {
+      "name": "Różaniec z drewna oliwnego",
+      "description": "Różaniec pięciodziesiątkowy z polerowanymi koralikami i krzyżykiem z drewna oliwnego."
+    },
+    "chaplet-bracelet": {
+      "name": "Bransoletka dziesiątka",
+      "description": "Bransoletka z jedną dziesiątką na elastycznej żyłce, z małym krzyżykiem z drewna oliwnego."
+    },
+    "prayer-beads-33": {
+      "name": "Sznur modlitewny 33 koraliki",
+      "description": "Sznur trzydziestu trzech koralików z drewna oliwnego, po jednym na każdy rok życia Jezusa."
+    },
+    "salad-bowl": {
+      "name": "Miska do sałatek",
+      "description": "Głęboka miska toczona z jednego kawałka drewna oliwnego, zaolejowana i gotowa do użytku."
+    },
+    "serving-board": {
+      "name": "Deska do serwowania",
+      "description": "Długa deska z uchwytem na pieczywo, sery i oliwki, wycięta zgodnie z naturalnym rysunkiem drewna."
+    },
+    "candle-holder-pair": {
+      "name": "Świeczniki, para",
+      "description": "Dwa toczone świeczniki na standardowe świece, z mosiężną wkładką."
+    }
+  }
+}

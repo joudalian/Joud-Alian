@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "title": "Gethsemane — Olive Wood from the Holy Land",
+    "description": "Hand-carved olive wood gifts from the Holy Land: nativity sets, crosses, rosaries and pieces for the home.",
+    "tagline": "Olive wood · Holy Land"
+  },
+  "nav": {
+    "main": "Main navigation",
+    "mobile": "Quick navigation",
+    "skip": "Skip to content",
+    "home": "Home",
+    "shop": "Shop",
+    "about": "Our story",
+    "cart": "Cart",
+    "wishlist": "Wishlist",
+    "cartWithCount": "{count, plural, =0 {Cart, empty} one {Cart, # item} other {Cart, # items}}",
+    "wishlistWithCount": "{count, plural, =0 {Wishlist, empty} one {Wishlist, # item} other {Wishlist, # items}}",
+    "breadcrumb": "Breadcrumb"
+  },
+  "language": {
+    "button": "Change language",
+    "current": "Current language: {language}",
+    "list": "Languages"
+  },
+  "currency": {
+    "label": "Currency",
+    "note": "Prices are charged in USD. Other currencies are approximate conversions."
+  },
+  "home": {
+    "heroTitle": "Carved from the olive trees of the Holy Land",
+    "heroText": "Nativity sets, crosses, rosaries and pieces for the home, each one shaped by hand from olive wood.",
+    "heroAlt": "Olive wood nativity stable and cross beside an olive branch",
+    "heroCta": "Shop the collection",
+    "heroSecondary": "Read our story",
+    "categoriesTitle": "Shop by category",
+    "featuredTitle": "Featured pieces",
+    "viewAll": "View all products",
+    "valuesTitle": "Why olive wood",
+    "value1Title": "Hand-carved",
+    "value1Text": "Every piece is cut, carved and polished by hand, so no two are exactly alike.",
+    "value2Title": "From the Holy Land",
+    "value2Text": "The wood comes from pruned branches of olive trees, a tree that lives for centuries.",
+    "value3Title": "Made to last",
+    "value3Text": "Olive wood is dense and hard-wearing, with a warm grain that deepens over the years.",
+    "storyTitle": "A craft passed down through generations",
+    "storyText": "Olive wood carving has been practised in and around Bethlehem for centuries. We work with carvers who keep that tradition alive.",
+    "storyCta": "Our story"
+  },
+  "shop": {
+    "title": "Shop",
+    "intro": "Browse the full collection of hand-carved olive wood.",
+    "all": "All products",
+    "filterLabel": "Categories",
+    "count": "{count, plural, =0 {No products} one {# product} other {# products}}",
+    "empty": "There are no products in this category yet."
+  },
+  "categories": {
+    "nativity": {
+      "name": "Nativity",
+      "description": "Nativity sets and Holy Family figures to gather around at Christmas and all year."
+    },
+    "crosses": {
+      "name": "Crosses",
+      "description": "Wall crosses, Jerusalem crosses and small holding crosses for prayer."
+    },
+    "rosaries": {
+      "name": "Rosaries",
+      "description": "Rosaries, chaplets and prayer beads strung with olive wood beads."
+    },
+    "home": {
+      "name": "Home",
+      "description": "Bowls, boards and candle holders that bring olive wood to the table."
+    }
+  },
+  "product": {
+    "addToCart": "Add to cart",
+    "addedToCart": "Added to cart",
+    "addToWishlist": "Add {name} to wishlist",
+    "removeFromWishlist": "Remove {name} from wishlist",
+    "saveToWishlist": "Save to wishlist",
+    "savedToWishlist": "Saved to wishlist",
+    "details": "Details",
+    "material": "Material",
+    "materialValue": "Olive wood",
+    "size": "Approximate size",
+    "sizeValue": "{w} × {h} × {d} cm",
+    "care": "Care",
+    "careText": "Wipe with a dry cloth. For the kitchen pieces, wash by hand and oil now and then.",
+    "handmadeNote": "Handmade: grain, colour and size vary slightly from piece to piece.",
+    "related": "You may also like",
+    "view": "View {name}"
+  },
+  "cart": {
+    "title": "Your cart",
+    "loading": "Loading your cart…",
+    "empty": "Your cart is empty",
+    "emptyText": "Browse the collection and add a piece you love.",
+    "continue": "Continue shopping",
+    "quantity": "Quantity",
+    "quantityOf": "Quantity of {name}",
+    "increase": "Increase quantity of {name}",
+    "decrease": "Decrease quantity of {name}",
+    "remove": "Remove",
+    "removeItem": "Remove {name} from cart",
+    "subtotal": "Subtotal",
+    "summary": "Order summary",
+    "shippingNote": "Shipping is calculated at checkout.",
+    "checkoutSoon": "Online checkout is coming soon."
+  },
+  "wishlist": {
+    "title": "Your wishlist",
+    "loading": "Loading your wishlist…",
+    "empty": "Your wishlist is empty",
+    "emptyText": "Tap the heart on any piece to save it here.",
+    "browse": "Browse the collection",
+    "moveToCart": "Move to cart",
+    "remove": "Remove",
+    "removeItem": "Remove {name} from wishlist"
+  },
+  "about": {
+    "title": "Our story",
+    "intro": "Gethsemane is named after the olive garden at the foot of the Mount of Olives in Jerusalem.",
+    "p1": "Olive trees can live for many centuries. When the trees are pruned, the cut branches are dried slowly and given to carvers, so no tree is felled for this wood.",
+    "p2": "Each piece is cut, carved, sanded and polished by hand. The grain of olive wood is different in every branch, which is why every piece in our shop is unique.",
+    "p3": "We want to share this craft with homes around the world and support the families who practise it."
+  },
+  "footer": {
+    "about": "Hand-carved olive wood from the Holy Land.",
+    "shopTitle": "Shop",
+    "infoTitle": "Information",
+    "rights": "© {year} Gethsemane. All rights reserved.",
+    "languageTitle": "Language"
+  },
+  "notFound": {
+    "title": "Page not found",
+    "text": "The page you are looking for does not exist or has moved.",
+    "home": "Back to the home page"
+  },
+  "error": {
+    "title": "Something went wrong",
+    "text": "An unexpected error occurred. Please try again.",
+    "retry": "Try again",
+    "home": "Back to the home page"
+  },
+  "common": {
+    "loading": "Loading…"
+  },
+  "products": {
+    "nativity-set-classic": {
+      "name": "Classic Nativity Set",
+      "description": "A twelve-piece nativity with the Holy Family, shepherds, wise men and animals, carved in solid olive wood."
+    },
+    "nativity-stable-grand": {
+      "name": "Grand Nativity Stable",
+      "description": "A large stable with a carved roof and star, complete with figures, made to be the centre of your Christmas table."
+    },
+    "holy-family-figurine": {
+      "name": "Holy Family Figurine",
+      "description": "Mary, Joseph and the Child carved together from a single block of olive wood."
+    },
+    "jerusalem-cross": {
+      "name": "Jerusalem Cross",
+      "description": "The traditional Jerusalem cross with four small crosses, carved flat to hang on a wall or stand on a shelf."
+    },
+    "wall-cross-carved": {
+      "name": "Carved Wall Cross",
+      "description": "A wall cross with a bevelled edge and a smooth polished finish that shows the grain."
+    },
+    "pocket-holding-cross": {
+      "name": "Pocket Holding Cross",
+      "description": "A small, rounded cross shaped to rest in the palm of your hand during prayer."
+    },
+    "rosary-olive-wood": {
+      "name": "Olive Wood Rosary",
+      "description": "A five-decade rosary with polished olive wood beads and an olive wood crucifix."
+    },
+    "chaplet-bracelet": {
+      "name": "Chaplet Bracelet",
+      "description": "A one-decade bracelet on an elastic cord, with a small olive wood cross."
+    },
+    "prayer-beads-33": {
+      "name": "33 Prayer Beads",
+      "description": "A strand of thirty-three olive wood beads, one for each year of the life of Jesus."
+    },
+    "salad-bowl": {
+      "name": "Salad Bowl",
+      "description": "A deep bowl turned from a single piece of olive wood, oiled and ready for the table."
+    },
+    "serving-board": {
+      "name": "Serving Board",
+      "description": "A long board with a handle for bread, cheese and olives, cut to follow the natural grain."
+    },
+    "candle-holder-pair": {
+      "name": "Candle Holders, Pair",
+      "description": "Two turned candle holders for standard taper candles, with a brass insert."
+    }
+  }
+}

@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "title": "Gethsemane — Olivenholz aus dem Heiligen Land",
+    "description": "Handgeschnitzte Geschenke aus Olivenholz aus dem Heiligen Land: Krippen, Kreuze, Rosenkränze und Stücke für Ihr Zuhause.",
+    "tagline": "Olivenholz · Heiliges Land"
+  },
+  "nav": {
+    "main": "Hauptnavigation",
+    "mobile": "Schnellnavigation",
+    "skip": "Zum Inhalt springen",
+    "home": "Startseite",
+    "shop": "Shop",
+    "about": "Unsere Geschichte",
+    "cart": "Warenkorb",
+    "wishlist": "Wunschliste",
+    "cartWithCount": "{count, plural, =0 {Warenkorb, leer} one {Warenkorb, # Artikel} other {Warenkorb, # Artikel}}",
+    "wishlistWithCount": "{count, plural, =0 {Wunschliste, leer} one {Wunschliste, # Artikel} other {Wunschliste, # Artikel}}",
+    "breadcrumb": "Brotkrümelnavigation"
+  },
+  "language": {
+    "button": "Sprache ändern",
+    "current": "Aktuelle Sprache: {language}",
+    "list": "Sprachen"
+  },
+  "currency": {
+    "label": "Währung",
+    "note": "Die Abrechnung erfolgt in USD. Andere Währungen sind ungefähre Umrechnungen."
+  },
+  "home": {
+    "heroTitle": "Geschnitzt aus den Olivenbäumen des Heiligen Landes",
+    "heroText": "Krippen, Kreuze, Rosenkränze und Stücke für Ihr Zuhause, jedes einzelne von Hand aus Olivenholz gefertigt.",
+    "heroAlt": "Krippe und Kreuz aus Olivenholz neben einem Olivenzweig",
+    "heroCta": "Zur Kollektion",
+    "heroSecondary": "Unsere Geschichte lesen",
+    "categoriesTitle": "Nach Kategorie einkaufen",
+    "featuredTitle": "Ausgewählte Stücke",
+    "viewAll": "Alle Produkte ansehen",
+    "valuesTitle": "Warum Olivenholz",
+    "value1Title": "Handgeschnitzt",
+    "value1Text": "Jedes Stück wird von Hand gesägt, geschnitzt und poliert, daher gleicht keines genau dem anderen.",
+    "value2Title": "Aus dem Heiligen Land",
+    "value2Text": "Das Holz stammt aus dem Rückschnitt von Olivenbäumen, die Jahrhunderte alt werden.",
+    "value3Title": "Für die Ewigkeit gemacht",
+    "value3Text": "Olivenholz ist dicht und strapazierfähig, mit einer warmen Maserung, die mit den Jahren noch schöner wird.",
+    "storyTitle": "Ein Handwerk, das von Generation zu Generation weitergegeben wird",
+    "storyText": "In und um Bethlehem wird seit Jahrhunderten Olivenholz geschnitzt. Wir arbeiten mit Schnitzern zusammen, die diese Tradition lebendig halten.",
+    "storyCta": "Unsere Geschichte"
+  },
+  "shop": {
+    "title": "Shop",
+    "intro": "Entdecken Sie die gesamte Kollektion aus handgeschnitztem Olivenholz.",
+    "all": "Alle Produkte",
+    "filterLabel": "Kategorien",
+    "count": "{count, plural, =0 {Keine Produkte} one {# Produkt} other {# Produkte}}",
+    "empty": "In dieser Kategorie gibt es noch keine Produkte."
+  },
+  "categories": {
+    "nativity": {
+      "name": "Krippen",
+      "description": "Weihnachtskrippen und Figuren der Heiligen Familie für Weihnachten und das ganze Jahr."
+    },
+    "crosses": {
+      "name": "Kreuze",
+      "description": "Wandkreuze, Jerusalemkreuze und kleine Handkreuze für das Gebet."
+    },
+    "rosaries": {
+      "name": "Rosenkränze",
+      "description": "Rosenkränze, Zehner und Gebetsketten mit Perlen aus Olivenholz."
+    },
+    "home": {
+      "name": "Wohnen",
+      "description": "Schalen, Bretter und Kerzenhalter, die Olivenholz auf den Tisch bringen."
+    }
+  },
+  "product": {
+    "addToCart": "In den Warenkorb",
+    "addedToCart": "Im Warenkorb",
+    "addToWishlist": "{name} zur Wunschliste hinzufügen",
+    "removeFromWishlist": "{name} von der Wunschliste entfernen",
+    "saveToWishlist": "Auf die Wunschliste",
+    "savedToWishlist": "Auf der Wunschliste",
+    "details": "Details",
+    "material": "Material",
+    "materialValue": "Olivenholz",
+    "size": "Ungefähre Größe",
+    "sizeValue": "{w} × {h} × {d} cm",
+    "care": "Pflege",
+    "careText": "Mit einem trockenen Tuch abwischen. Küchenstücke von Hand spülen und gelegentlich ölen.",
+    "handmadeNote": "Handarbeit: Maserung, Farbe und Größe variieren von Stück zu Stück leicht.",
+    "related": "Das könnte Ihnen auch gefallen",
+    "view": "{name} ansehen"
+  },
+  "cart": {
+    "title": "Ihr Warenkorb",
+    "loading": "Warenkorb wird geladen…",
+    "empty": "Ihr Warenkorb ist leer",
+    "emptyText": "Stöbern Sie in der Kollektion und legen Sie ein Lieblingsstück in den Warenkorb.",
+    "continue": "Weiter einkaufen",
+    "quantity": "Menge",
+    "quantityOf": "Menge von {name}",
+    "increase": "Menge von {name} erhöhen",
+    "decrease": "Menge von {name} verringern",
+    "remove": "Entfernen",
+    "removeItem": "{name} aus dem Warenkorb entfernen",
+    "subtotal": "Zwischensumme",
+    "summary": "Bestellübersicht",
+    "shippingNote": "Die Versandkosten werden an der Kasse berechnet.",
+    "checkoutSoon": "Die Online-Kasse ist bald verfügbar."
+  },
+  "wishlist": {
+    "title": "Ihre Wunschliste",
+    "loading": "Wunschliste wird geladen…",
+    "empty": "Ihre Wunschliste ist leer",
+    "emptyText": "Tippen Sie bei einem Stück auf das Herz, um es hier zu speichern.",
+    "browse": "Kollektion entdecken",
+    "moveToCart": "In den Warenkorb legen",
+    "remove": "Entfernen",
+    "removeItem": "{name} von der Wunschliste entfernen"
+  },
+  "about": {
+    "title": "Unsere Geschichte",
+    "intro": "Gethsemane ist nach dem Ölgarten am Fuß des Ölbergs in Jerusalem benannt.",
+    "p1": "Olivenbäume können viele Jahrhunderte alt werden. Beim Rückschnitt werden die abgeschnittenen Äste langsam getrocknet und an Schnitzer weitergegeben – für dieses Holz wird kein Baum gefällt.",
+    "p2": "Jedes Stück wird von Hand gesägt, geschnitzt, geschliffen und poliert. Die Maserung des Olivenholzes ist bei jedem Ast anders, deshalb ist jedes Stück in unserem Shop ein Unikat.",
+    "p3": "Wir möchten dieses Handwerk mit Menschen in aller Welt teilen und die Familien unterstützen, die es ausüben."
+  },
+  "footer": {
+    "about": "Handgeschnitztes Olivenholz aus dem Heiligen Land.",
+    "shopTitle": "Shop",
+    "infoTitle": "Informationen",
+    "rights": "© {year} Gethsemane. Alle Rechte vorbehalten.",
+    "languageTitle": "Sprache"
+  },
+  "notFound": {
+    "title": "Seite nicht gefunden",
+    "text": "Die gesuchte Seite existiert nicht oder wurde verschoben.",
+    "home": "Zurück zur Startseite"
+  },
+  "error": {
+    "title": "Etwas ist schiefgelaufen",
+    "text": "Ein unerwarteter Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "retry": "Erneut versuchen",
+    "home": "Zurück zur Startseite"
+  },
+  "common": {
+    "loading": "Wird geladen…"
+  },
+  "products": {
+    "nativity-set-classic": {
+      "name": "Klassische Weihnachtskrippe",
+      "description": "Eine zwölfteilige Krippe mit Heiliger Familie, Hirten, Heiligen Drei Königen und Tieren, geschnitzt aus massivem Olivenholz."
+    },
+    "nativity-stable-grand": {
+      "name": "Großer Krippenstall",
+      "description": "Ein großer Stall mit geschnitztem Dach und Stern, komplett mit Figuren – der Mittelpunkt Ihrer Weihnachtstafel."
+    },
+    "holy-family-figurine": {
+      "name": "Figur der Heiligen Familie",
+      "description": "Maria, Josef und das Kind, gemeinsam aus einem einzigen Block Olivenholz geschnitzt."
+    },
+    "jerusalem-cross": {
+      "name": "Jerusalemkreuz",
+      "description": "Das traditionelle Jerusalemkreuz mit vier kleinen Kreuzen, flach geschnitzt zum Aufhängen oder Hinstellen."
+    },
+    "wall-cross-carved": {
+      "name": "Geschnitztes Wandkreuz",
+      "description": "Ein Wandkreuz mit abgeschrägter Kante und glatt polierter Oberfläche, die die Maserung zeigt."
+    },
+    "pocket-holding-cross": {
+      "name": "Handschmeichler-Kreuz",
+      "description": "Ein kleines, abgerundetes Kreuz, das beim Gebet angenehm in der Handfläche liegt."
+    },
+    "rosary-olive-wood": {
+      "name": "Rosenkranz aus Olivenholz",
+      "description": "Ein Rosenkranz mit fünf Gesätzen, polierten Olivenholzperlen und einem Kruzifix aus Olivenholz."
+    },
+    "chaplet-bracelet": {
+      "name": "Zehner-Armband",
+      "description": "Ein Armband mit einem Gesätz auf elastischer Schnur und einem kleinen Kreuz aus Olivenholz."
+    },
+    "prayer-beads-33": {
+      "name": "Gebetskette mit 33 Perlen",
+      "description": "Eine Kette aus dreiunddreißig Olivenholzperlen, eine für jedes Lebensjahr Jesu."
+    },
+    "salad-bowl": {
+      "name": "Salatschüssel",
+      "description": "Eine tiefe Schüssel, aus einem einzigen Stück Olivenholz gedrechselt, geölt und bereit für den Tisch."
+    },
+    "serving-board": {
+      "name": "Servierbrett",
+      "description": "Ein langes Brett mit Griff für Brot, Käse und Oliven, entlang der natürlichen Maserung geschnitten."
+    },
+    "candle-holder-pair": {
+      "name": "Kerzenhalter, Paar",
+      "description": "Zwei gedrechselte Kerzenhalter für Standard-Stabkerzen, mit Messingeinsatz."
+    }
+  }
+}

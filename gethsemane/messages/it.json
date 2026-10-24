@@ -1,0 +1,198 @@
+{
+  "meta": {
+    "title": "Gethsemane — Legno d'ulivo dalla Terra Santa",
+    "description": "Regali in legno d'ulivo intagliati a mano in Terra Santa: presepi, croci, rosari e oggetti per la casa.",
+    "tagline": "Legno d'ulivo · Terra Santa"
+  },
+  "nav": {
+    "main": "Navigazione principale",
+    "mobile": "Navigazione rapida",
+    "skip": "Vai al contenuto",
+    "home": "Home",
+    "shop": "Negozio",
+    "about": "La nostra storia",
+    "cart": "Carrello",
+    "wishlist": "Preferiti",
+    "cartWithCount": "{count, plural, =0 {Carrello, vuoto} one {Carrello, # articolo} other {Carrello, # articoli}}",
+    "wishlistWithCount": "{count, plural, =0 {Preferiti, vuoto} one {Preferiti, # articolo} other {Preferiti, # articoli}}",
+    "breadcrumb": "Percorso di navigazione"
+  },
+  "language": {
+    "button": "Cambia lingua",
+    "current": "Lingua attuale: {language}",
+    "list": "Lingue"
+  },
+  "currency": {
+    "label": "Valuta",
+    "note": "I prezzi sono addebitati in USD. Le altre valute sono conversioni approssimative."
+  },
+  "home": {
+    "heroTitle": "Intagliato dagli ulivi della Terra Santa",
+    "heroText": "Presepi, croci, rosari e oggetti per la casa, ognuno modellato a mano nel legno d'ulivo.",
+    "heroAlt": "Presepe e croce in legno d'ulivo accanto a un ramo d'ulivo",
+    "heroCta": "Scopri la collezione",
+    "heroSecondary": "Leggi la nostra storia",
+    "categoriesTitle": "Acquista per categoria",
+    "featuredTitle": "Pezzi in evidenza",
+    "viewAll": "Vedi tutti i prodotti",
+    "valuesTitle": "Perché il legno d'ulivo",
+    "value1Title": "Intagliato a mano",
+    "value1Text": "Ogni pezzo è tagliato, intagliato e lucidato a mano: non ce ne sono due uguali.",
+    "value2Title": "Dalla Terra Santa",
+    "value2Text": "Il legno proviene dai rami potati dell'ulivo, un albero che vive per secoli.",
+    "value3Title": "Fatto per durare",
+    "value3Text": "Il legno d'ulivo è denso e resistente, con una venatura calda che si intensifica negli anni.",
+    "storyTitle": "Un mestiere tramandato di generazione in generazione",
+    "storyText": "L'intaglio del legno d'ulivo si pratica a Betlemme e dintorni da secoli. Lavoriamo con artigiani che mantengono viva questa tradizione.",
+    "storyCta": "La nostra storia"
+  },
+  "shop": {
+    "title": "Negozio",
+    "intro": "Sfoglia l'intera collezione in legno d'ulivo intagliato a mano.",
+    "all": "Tutti i prodotti",
+    "filterLabel": "Categorie",
+    "count": "{count, plural, =0 {Nessun prodotto} one {# prodotto} other {# prodotti}}",
+    "empty": "Non ci sono ancora prodotti in questa categoria."
+  },
+  "categories": {
+    "nativity": {
+      "name": "Presepi",
+      "description": "Presepi e statuine della Sacra Famiglia per Natale e per tutto l'anno."
+    },
+    "crosses": {
+      "name": "Croci",
+      "description": "Croci da parete, croci di Gerusalemme e piccole croci da tenere in mano durante la preghiera."
+    },
+    "rosaries": {
+      "name": "Rosari",
+      "description": "Rosari, decine e coroncine di preghiera con grani in legno d'ulivo."
+    },
+    "home": {
+      "name": "Casa",
+      "description": "Ciotole, taglieri e portacandele che portano il legno d'ulivo in tavola."
+    }
+  },
+  "product": {
+    "addToCart": "Aggiungi al carrello",
+    "addedToCart": "Aggiunto al carrello",
+    "addToWishlist": "Aggiungi {name} ai preferiti",
+    "removeFromWishlist": "Rimuovi {name} dai preferiti",
+    "saveToWishlist": "Salva nei preferiti",
+    "savedToWishlist": "Salvato nei preferiti",
+    "details": "Dettagli",
+    "material": "Materiale",
+    "materialValue": "Legno d'ulivo",
+    "size": "Dimensioni approssimative",
+    "sizeValue": "{w} × {h} × {d} cm",
+    "care": "Manutenzione",
+    "careText": "Pulire con un panno asciutto. Per gli oggetti da cucina, lavare a mano e oliare di tanto in tanto.",
+    "handmadeNote": "Fatto a mano: venatura, colore e misure variano leggermente da un pezzo all'altro.",
+    "related": "Potrebbe piacerti anche",
+    "view": "Vedi {name}"
+  },
+  "cart": {
+    "title": "Il tuo carrello",
+    "loading": "Caricamento del carrello…",
+    "empty": "Il tuo carrello è vuoto",
+    "emptyText": "Sfoglia la collezione e aggiungi un pezzo che ami.",
+    "continue": "Continua lo shopping",
+    "quantity": "Quantità",
+    "quantityOf": "Quantità di {name}",
+    "increase": "Aumenta la quantità di {name}",
+    "decrease": "Diminuisci la quantità di {name}",
+    "remove": "Rimuovi",
+    "removeItem": "Rimuovi {name} dal carrello",
+    "subtotal": "Subtotale",
+    "summary": "Riepilogo dell'ordine",
+    "shippingNote": "La spedizione viene calcolata al momento del pagamento.",
+    "checkoutSoon": "Il pagamento online sarà presto disponibile."
+  },
+  "wishlist": {
+    "title": "I tuoi preferiti",
+    "loading": "Caricamento dei preferiti…",
+    "empty": "La tua lista dei preferiti è vuota",
+    "emptyText": "Tocca il cuore su qualsiasi pezzo per salvarlo qui.",
+    "browse": "Sfoglia la collezione",
+    "moveToCart": "Sposta nel carrello",
+    "remove": "Rimuovi",
+    "removeItem": "Rimuovi {name} dai preferiti"
+  },
+  "about": {
+    "title": "La nostra storia",
+    "intro": "Gethsemane prende il nome dall'orto degli ulivi ai piedi del Monte degli Ulivi, a Gerusalemme.",
+    "p1": "Gli ulivi possono vivere molti secoli. Quando vengono potati, i rami tagliati sono essiccati lentamente e affidati agli intagliatori: nessun albero viene abbattuto per questo legno.",
+    "p2": "Ogni pezzo è tagliato, intagliato, levigato e lucidato a mano. La venatura del legno d'ulivo è diversa in ogni ramo, per questo ogni pezzo del nostro negozio è unico.",
+    "p3": "Vogliamo condividere questo mestiere con le case di tutto il mondo e sostenere le famiglie che lo praticano."
+  },
+  "footer": {
+    "about": "Legno d'ulivo intagliato a mano in Terra Santa.",
+    "shopTitle": "Negozio",
+    "infoTitle": "Informazioni",
+    "rights": "© {year} Gethsemane. Tutti i diritti riservati.",
+    "languageTitle": "Lingua"
+  },
+  "notFound": {
+    "title": "Pagina non trovata",
+    "text": "La pagina che cerchi non esiste o è stata spostata.",
+    "home": "Torna alla pagina iniziale"
+  },
+  "error": {
+    "title": "Qualcosa è andato storto",
+    "text": "Si è verificato un errore imprevisto. Riprova.",
+    "retry": "Riprova",
+    "home": "Torna alla pagina iniziale"
+  },
+  "common": {
+    "loading": "Caricamento…"
+  },
+  "products": {
+    "nativity-set-classic": {
+      "name": "Presepe classico",
+      "description": "Un presepe di dodici pezzi con la Sacra Famiglia, pastori, Re Magi e animali, intagliato in legno d'ulivo massello."
+    },
+    "nativity-stable-grand": {
+      "name": "Grande capanna della Natività",
+      "description": "Una grande capanna con tetto intagliato e stella, completa di statuine, pensata per essere il cuore della tavola di Natale."
+    },
+    "holy-family-figurine": {
+      "name": "Statuina della Sacra Famiglia",
+      "description": "Maria, Giuseppe e il Bambino intagliati insieme in un unico blocco di legno d'ulivo."
+    },
+    "jerusalem-cross": {
+      "name": "Croce di Gerusalemme",
+      "description": "La tradizionale croce di Gerusalemme con quattro piccole croci, intagliata in piano da appendere o appoggiare."
+    },
+    "wall-cross-carved": {
+      "name": "Croce da parete intagliata",
+      "description": "Una croce da parete con bordo smussato e finitura lucida che mette in risalto la venatura."
+    },
+    "pocket-holding-cross": {
+      "name": "Croce tascabile",
+      "description": "Una piccola croce arrotondata, sagomata per riposare nel palmo della mano durante la preghiera."
+    },
+    "rosary-olive-wood": {
+      "name": "Rosario in legno d'ulivo",
+      "description": "Un rosario a cinque decine con grani lucidati e crocifisso in legno d'ulivo."
+    },
+    "chaplet-bracelet": {
+      "name": "Bracciale decina",
+      "description": "Un bracciale a una decina su cordino elastico, con una piccola croce in legno d'ulivo."
+    },
+    "prayer-beads-33": {
+      "name": "Coroncina di 33 grani",
+      "description": "Un filo di trentatré grani in legno d'ulivo, uno per ogni anno della vita di Gesù."
+    },
+    "salad-bowl": {
+      "name": "Insalatiera",
+      "description": "Una ciotola profonda tornita da un unico pezzo di legno d'ulivo, oliata e pronta per la tavola."
+    },
+    "serving-board": {
+      "name": "Tagliere da portata",
+      "description": "Un tagliere lungo con manico per pane, formaggi e olive, tagliato seguendo la venatura naturale."
+    },
+    "candle-holder-pair": {
+      "name": "Portacandele, coppia",
+      "description": "Due portacandele torniti per candele standard, con inserto in ottone."
+    }
+  }
+}
