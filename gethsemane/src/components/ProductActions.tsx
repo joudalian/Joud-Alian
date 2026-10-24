@@ -18,11 +18,18 @@ export function AddToCartButton({
   name,
   className = "btn btn-primary btn-block",
   viewLink = false,
+  options,
+  disabled = false,
+  describedBy,
 }: {
   slug: ProductSlug;
   name: string;
   className?: string;
   viewLink?: boolean;
+  /** Chosen variant and engraving text (product page). */
+  options?: { variantId?: string; engraving?: string };
+  disabled?: boolean;
+  describedBy?: string;
 }) {
   const t = useTranslations("product");
   const tCart = useTranslations("cart");
@@ -40,8 +47,10 @@ export function AddToCartButton({
         type="button"
         className={className}
         aria-label={`${label}: ${name}`}
+        aria-describedby={describedBy}
+        disabled={disabled}
         onClick={() => {
-          add(slug);
+          add(slug, options);
           setAdded(true);
           setEverAdded(true);
           announce(tCart("added", { name }));

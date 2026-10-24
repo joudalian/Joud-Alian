@@ -6,7 +6,7 @@ import { CategoryChips } from "@/components/CategoryChips";
 import { ProductGrid } from "@/components/ProductCard";
 import { CATALOG_READY } from "@/config/store";
 import { isLocale, type Locale } from "@/i18n/locales";
-import { isCategorySlug, productsInCategory } from "@/lib/catalog";
+import { categoryText, getCategory, isCategorySlug, productsInCategory } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
 
 type Props = { params: Promise<{ locale: Locale; category: string }> };
@@ -14,12 +14,12 @@ type Props = { params: Promise<{ locale: Locale; category: string }> };
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, category } = await params;
   if (!isCategorySlug(category) || !isLocale(locale)) notFound();
-  const t = await getTranslations({ locale, namespace: "categories" });
+  const text = categoryText(getCategory(category)!, locale);
   return pageMetadata({
     locale,
     path: `/shop/${category}`,
-    title: t(`${category}.name`),
-    description: t(`${category}.description`),
+    title: text.name,
+    description: text.description,
     noindex: !CATALOG_READY,
   });
 }
@@ -30,6 +30,8 @@ export default async function CategoryPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations();
   const items = productsInCategory(category);
+  const text = categoryText(getCategory(category)!, locale);
+  const lang = text.lang === locale ? undefined : text.lang;
   return (
     <div className="container page">
       <Breadcrumb
@@ -37,11 +39,13 @@ export default async function CategoryPage({ params }: Props) {
         items={[
           { href: "/", label: t("nav.home") },
           { href: "/shop", label: t("shop.title") },
-          { label: t(`categories.${category}.name`) },
+          { label: text.name },
         ]}
       />
-      <h1>{t(`categories.${category}.name`)}</h1>
-      <p className="lead">{t(`categories.${category}.description`)}</p>
+      <h1 lang={lang}>{text.name}</h1>
+      <p className="lead" lang={lang}>
+        {text.description}
+      </p>
       <CategoryChips active={category} />
       <p className="result-count">{t("shop.count", { count: items.length })}</p>
       {items.length > 0 ? <ProductGrid products={items} headingLevel={2} /> : <p>{t("shop.empty")}</p>}

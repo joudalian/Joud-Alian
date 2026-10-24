@@ -4,7 +4,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { RATES_AS_OF } from "@/lib/currency";
 import { formatDate } from "@/lib/format";
-import { categorySlugs } from "@/lib/catalog";
+import { categories, categoryText } from "@/lib/catalog";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { FooterLanguages } from "./FooterLanguages";
 import { ChatIcon, FacebookIcon, InstagramIcon, TikTokIcon } from "./Icons";
@@ -89,9 +89,9 @@ export async function Footer() {
               <li>
                 <Link href="/shop">{t("shop.all")}</Link>
               </li>
-              {categorySlugs.map((slug) => (
-                <li key={slug}>
-                  <Link href={`/shop/${slug}`}>{t(`categories.${slug}.name`)}</Link>
+              {categories.map((c) => (
+                <li key={c.slug}>
+                  <Link href={`/shop/${c.slug}`}>{categoryText(c, locale).name}</Link>
                 </li>
               ))}
             </ul>

@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {Keine Produkte} one {# Produkt} other {# Produkte}}",
     "empty": "In dieser Kategorie gibt es noch keine Produkte."
   },
-  "categories": {
-    "nativity": {
-      "name": "Krippen",
-      "description": "Weihnachtskrippen und Figuren der Heiligen Familie für Weihnachten und das ganze Jahr."
-    },
-    "crosses": {
-      "name": "Kreuze",
-      "description": "Wandkreuze, Jerusalemkreuze und kleine Handkreuze für das Gebet."
-    },
-    "rosaries": {
-      "name": "Rosenkränze",
-      "description": "Rosenkränze, Zehner und Gebetsketten mit Perlen aus Olivenholz."
-    },
-    "home": {
-      "name": "Wohndeko",
-      "description": "Schalen, Bretter und Kerzenhalter, die Olivenholz auf den Tisch bringen."
-    }
-  },
   "product": {
     "addToCart": "Zur Bestellung",
     "addedToCart": "Zur Bestellung hinzugefügt",
@@ -151,13 +133,38 @@
     "viewOrder": "Ihre Bestellung ansehen",
     "safetyTitle": "Informationen zur Produktsicherheit",
     "safetyManufacturer": "Hersteller: {name}",
-    "safetyEu": "Verantwortliche Person in der EU: {name}"
+    "safetyEu": "Verantwortliche Person in der EU: {name}",
+    "chooseOptions": "Optionen wählen",
+    "viewPiece": "Stück ansehen",
+    "availability": {
+      "in_stock": "Vorrätig",
+      "made_to_order": "Wird auf Bestellung gefertigt",
+      "sold_out": "Ausverkauft"
+    },
+    "leadTime": "In der Regel nach etwa {days} Tagen versandbereit.",
+    "variantLabel": "Option wählen",
+    "engravingAdd": "Gravur hinzufügen (+{price})",
+    "engravingText": "Gravurtext",
+    "engravingMax": "Bis zu {max} Zeichen.",
+    "engravingNote": "Die Gravur kostet {price} pro Stück. Gravierte Stücke sind von der Rückgabe ausgeschlossen, außer sie sind mangelhaft.",
+    "engravingMissing": "Geben Sie den Gravurtext ein oder entfernen Sie das Häkchen bei der Gravur.",
+    "soldOutNote": "Zurzeit ausverkauft. Fragen Sie uns, ob es wieder gefertigt werden kann.",
+    "priceWas": "Vorher",
+    "priceNow": "Jetzt",
+    "priceFrom": "Ab {price}",
+    "gallery": "Galerie",
+    "gallerySlide": "Foto",
+    "galleryLabel": "Fotos von {name} ({count})",
+    "photoNumber": "Foto {n} von {count}",
+    "previousPhoto": "Vorheriges Foto",
+    "nextPhoto": "Nächstes Foto",
+    "photoAltN": "{name}, Foto {n}"
   },
   "cart": {
     "title": "Ihre Bestellung",
     "loading": "Ihre Bestellung wird geladen…",
     "empty": "Ihre Bestellung ist leer.",
-    "emptyText": "Ein guter Anfang: unsere <link>Krippen</link>.",
+    "emptyText": "Ein guter Anfang: <link>{category}</link>.",
     "continue": "Weiter stöbern",
     "quantity": "Menge",
     "quantityOf": "Menge von {name}",
@@ -195,7 +202,11 @@
     "needMore": "Sie brauchen mehr? Fragen Sie nach Großhandel",
     "noscript": "JavaScript ist ausgeschaltet, daher kann Ihre Bestellung hier nicht angezeigt werden. Sie können trotzdem direkt bestellen:",
     "shortenedNote": "Ihre Anmerkungen sind lang, deshalb kürzt die WhatsApp-Nachricht sie. Mit „Nachricht kopieren“ können Sie den vollständigen Text in den Chat einfügen.",
-    "sendEmail": "Oder per E-Mail an {email} senden"
+    "sendEmail": "Oder per E-Mail an {email} senden",
+    "unavailable": "Dieses Stück ist nicht mehr erhältlich. Entfernen Sie es aus Ihrer Bestellung oder fragen Sie uns nach einem ähnlichen.",
+    "engravingLine": "Gravur: „{text}“",
+    "soldOutLine": "Ausverkauft: Wir sagen Ihnen, ob es wieder gefertigt werden kann.",
+    "nothingToSend": "Noch kann nichts gesendet werden: Entfernen Sie die Stücke, die nicht mehr erhältlich sind."
   },
   "wishlist": {
     "title": "Ihre Merkliste",
@@ -264,7 +275,8 @@
     "chat": "Auf WhatsApp schreiben",
     "chatFooter": "Schreiben Sie uns auf WhatsApp",
     "giftNoteEmpty": "Grußkarte: (noch kein Text)",
-    "shortened": "(gekürzt)"
+    "shortened": "(gekürzt)",
+    "engraving": "Gravur: „{text}“"
   },
   "announcement": {
     "label": "Hinweis"

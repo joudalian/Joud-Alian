@@ -15,18 +15,23 @@ if (!store.CATALOG_READY) problems.push("CATALOG_READY is false in src/config/st
 const { products } = await import("../src/data/products.ts");
 const placeholderHashes = new Set(JSON.parse(readFileSync(join(root, "scripts/placeholder-hashes.json"), "utf8")));
 for (const product of products) {
+  if (!product.launchReady) problems.push(`${product.slug}: not marked launchReady (every language written and checked).`);
+  if (product.needsReview?.length) problems.push(`${product.slug}: languages still marked for review: ${product.needsReview.join(", ")}.`);
   for (const [locale, text] of Object.entries(product.text)) {
     if (/placeholder/i.test(text.description) || /placeholder/i.test(text.name)) {
       problems.push(`${product.slug}: the ${locale} text still says "Placeholder".`);
     }
   }
-  const file = join(root, "public", product.image);
-  if (!existsSync(file)) {
-    problems.push(`${product.slug}: image ${product.image} does not exist.`);
-  } else if (placeholderHashes.has(createHash("sha256").update(readFileSync(file)).digest("hex"))) {
-    problems.push(`${product.slug}: ${product.image} is a generated placeholder, not a photo.`);
+  for (const image of product.images) {
+    const file = join(root, "catalog/photos", image.file);
+    if (!existsSync(file)) {
+      problems.push(`${product.slug}: photo catalog/photos/${image.file} does not exist.`);
+    } else if (placeholderHashes.has(createHash("sha256").update(readFileSync(file)).digest("hex"))) {
+      problems.push(`${product.slug}: catalog/photos/${image.file} is a generated placeholder, not a photo.`);
+    }
   }
 }
+if (process.env.NEXT_PUBLIC_CATALOG_FIXTURES) problems.push("NEXT_PUBLIC_CATALOG_FIXTURES is set: test products would appear in the shop. Unset it.");
 
 const { resolveSiteUrl } = await import("../src/lib/site-url.ts");
 const site = new URL(resolveSiteUrl());

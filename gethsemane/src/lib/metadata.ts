@@ -14,12 +14,18 @@ export async function pageMetadata({
   title,
   description,
   noindex = false,
+  image = socialImage,
+  ogType = "website",
 }: {
   locale: Locale;
   path: string;
   title?: string;
   description?: string;
   noindex?: boolean;
+  /** Social sharing image; defaults to the brand image (products pass their own photo). */
+  image?: { url: string; width: number; height: number; alt: string };
+  /** null leaves og:type to the page (product pages render og:type "product" themselves). */
+  ogType?: "website" | null;
 }): Promise<Metadata> {
   // A malformed locale segment (e.g. /x.y/product/...) is a 404, never an error.
   if (!isLocale(locale)) notFound();
@@ -32,15 +38,15 @@ export async function pageMetadata({
     alternates: noindex ? undefined : alternates(locale, path),
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
-      type: "website",
+      ...(ogType ? { type: ogType } : {}),
       siteName,
       title: fullTitle,
       description: desc,
       url: localizedUrl(locale, path),
       locale: ogLocales[locale],
       alternateLocale: locales.filter((l) => l !== locale).map((l) => ogLocales[l]),
-      images: [socialImage],
+      images: [image],
     },
-    twitter: { card: "summary_large_image", title: fullTitle, description: desc, images: [socialImage.url] },
+    twitter: { card: "summary_large_image", title: fullTitle, description: desc, images: [image.url] },
   };
 }

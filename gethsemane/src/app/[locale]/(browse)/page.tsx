@@ -8,7 +8,7 @@ import { ProductGrid } from "@/components/ProductCard";
 import { DELIVERY_TIME, RETURN_DAYS } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import { categoryImage, categorySlugs, products, type Product } from "@/lib/catalog";
+import { categories, categoryText, products } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
 import { website } from "@/lib/structured-data";
 
@@ -26,25 +26,20 @@ export default async function HomePage({ params }: Props) {
   const { locale } = await params;
   setRequestLocale(locale);
   const t = await getTranslations();
-  const featured = (products as readonly Product[]).filter((p) => p.featured);
+  const featured = products.filter((p) => p.featured);
   const trust = [
     { icon: <HandIcon size={26} />, text: t("home.trust1") },
     { icon: <GlobeTruckIcon size={26} />, text: t("home.trust2", { min: DELIVERY_TIME.min, max: DELIVERY_TIME.max }) },
     { icon: <ReturnIcon size={26} />, text: t("home.trust3", { days: RETURN_DAYS }) },
     { icon: <ChatIcon size={26} />, text: t("home.trust4") },
   ];
-  const gifts = [
-    { key: "Christmas", links: [{ href: "/shop/nativity", label: t("categories.nativity.name") }] },
-    {
-      key: "Faith",
-      links: [
-        { href: "/shop/crosses", label: t("categories.crosses.name") },
-        { href: "/shop/rosaries", label: t("categories.rosaries.name") },
-      ],
-    },
-    { key: "Home", links: [{ href: "/shop/home", label: t("categories.home.name") }] },
-    { key: "Far", links: [{ href: "/shop/crosses", label: t("categories.crosses.name") }] },
-  ];
+  // Gift ideas link to the categories that list them (src/data/categories.ts → gifts); empty ideas are hidden.
+  const gifts = (["christmas", "faith", "home", "far"] as const)
+    .map((id) => ({
+      key: `${id[0]!.toUpperCase()}${id.slice(1)}`,
+      links: categories.filter((c) => c.gifts.includes(id)).map((c) => ({ href: `/shop/${c.slug}`, label: categoryText(c, locale).name })),
+    }))
+    .filter((gift) => gift.links.length > 0);
 
   return (
     <>
@@ -86,18 +81,21 @@ export default async function HomePage({ params }: Props) {
           <h2 id="categories-title">{t("home.categoriesTitle")}</h2>
         </div>
         <ul className="category-grid">
-          {categorySlugs.map((slug) => (
-            <li key={slug}>
-              <Link href={`/shop/${slug}`} className="category-card">
-                {/* The heading inside the link names the category. */}
-                <Image src={categoryImage(slug)} alt="" width={800} height={600} sizes="(min-width: 1280px) 280px, (min-width: 768px) 45vw, 100vw" />
-                <div className="body">
-                  <h3>{t(`categories.${slug}.name`)}</h3>
-                  <p>{t(`categories.${slug}.description`)}</p>
-                </div>
-              </Link>
-            </li>
-          ))}
+          {categories.map((category) => {
+            const text = categoryText(category, locale);
+            return (
+              <li key={category.slug}>
+                <Link href={`/shop/${category.slug}`} className="category-card">
+                  {/* The heading inside the link names the category. */}
+                  <Image src={category.image} alt="" width={800} height={600} sizes="(min-width: 1280px) 280px, (min-width: 768px) 45vw, 100vw" />
+                  <div className="body" lang={text.lang === locale ? undefined : text.lang}>
+                    <h3>{text.name}</h3>
+                    <p>{text.description}</p>
+                  </div>
+                </Link>
+              </li>
+            );
+          })}
         </ul>
       </section>
 

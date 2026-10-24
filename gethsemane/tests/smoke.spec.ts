@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { nameOf, price, priceOf, simple2 } from "./catalog";
 import { expectNoHorizontalScroll, pages, waitForHydration, watchErrors } from "./helpers";
 
 for (const [name, path] of Object.entries(pages)) {
@@ -45,11 +46,11 @@ test("unknown product returns 404", async ({ page }) => {
 });
 
 test("product page has title, price and buy buttons", async ({ page }) => {
-  await page.goto("/en/product/jerusalem-cross");
-  await expect(page.locator("h1")).toHaveText("Jerusalem Cross");
-  await expect(page.locator(".product-detail .product-price")).toHaveText("$39.00");
+  await page.goto(`/en/product/${simple2.slug}`);
+  await expect(page.locator("h1")).toHaveText(nameOf(simple2));
+  await expect(page.getByTestId("product-price")).toHaveText(price(priceOf(simple2)));
   await expect(page.locator(".buy-row").getByRole("button", { name: "Add to order" })).toBeVisible();
-  await expect(page).toHaveTitle("Jerusalem Cross · Gethsemane");
+  await expect(page).toHaveTitle(`${nameOf(simple2)} · Gethsemane`);
 });
 
 test("brand: header and footer use the logo mark file, icons and manifest resolve", async ({ page, request }) => {

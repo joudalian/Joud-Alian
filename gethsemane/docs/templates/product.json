@@ -1,0 +1,76 @@
+{
+  "id": 13,
+  "slug": "olive-wood-angel",
+  "categories": [
+    "nativity",
+    "home"
+  ],
+  "priceUsd": 29,
+  "availability": "in_stock",
+  "images": [
+    {
+      "file": "olive-wood-angel/01.jpg",
+      "width": 1600,
+      "height": 1600,
+      "alt": {
+        "en": "Olive wood angel with folded wings, front view"
+      }
+    },
+    {
+      "file": "olive-wood-angel/02.jpg",
+      "width": 1600,
+      "height": 1600
+    }
+  ],
+  "variants": [
+    {
+      "id": "small",
+      "label": {
+        "en": "Small, 8 cm",
+        "fr": "Petit, 8 cm"
+      },
+      "sizeCm": [
+        4,
+        8,
+        2
+      ]
+    },
+    {
+      "id": "large",
+      "label": {
+        "en": "Large, 15 cm",
+        "fr": "Grand, 15 cm"
+      },
+      "sizeCm": [
+        7,
+        15,
+        3
+      ],
+      "priceUsd": 39
+    }
+  ],
+  "weightG": 60,
+  "wood": "olive",
+  "finish": "natural",
+  "packaging": "giftBox",
+  "giftNote": true,
+  "tags": [
+    "angel",
+    "christmas"
+  ],
+  "text": {
+    "en": {
+      "name": "Olive Wood Angel",
+      "summary": "A small angel carved from a single piece of olive wood.",
+      "description": "Carved by hand in Bethlehem from olive wood branches trimmed during pruning. Each angel is unique in grain and colour."
+    },
+    "fr": {
+      "name": "Ange en bois d'olivier",
+      "description": "Sculpté à la main à Bethléem dans des branches d'olivier issues de la taille. Chaque ange a un grain et une couleur uniques."
+    }
+  },
+  "needsReview": [
+    "fr"
+  ],
+  "launchReady": false
+}

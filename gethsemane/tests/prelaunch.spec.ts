@@ -1,6 +1,9 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-import { locales, waitForHydration } from "./helpers";
+import { firstCategory, nameOf, simple } from "./catalog";
+import { locales, pages, waitForHydration } from "./helpers";
+
+const NAME = nameOf(simple);
 
 const waText = (href: string | null) => decodeURIComponent(new URL(href ?? "").searchParams.get("text") ?? "");
 
@@ -8,7 +11,7 @@ async function withCart(page: Page, lines: { slug: string; qty: number }[], deta
   await page.goto("/en");
   await page.evaluate(
     ([l, d]) => {
-      localStorage.setItem("gethsemane.cart.v1", JSON.stringify(l));
+      localStorage.setItem("gethsemane.cart.v2", JSON.stringify(l));
       if (d) localStorage.setItem("gethsemane.order-details.v1", JSON.stringify(d));
       else localStorage.removeItem("gethsemane.order-details.v1");
     },
@@ -37,7 +40,7 @@ test.describe("indexing", () => {
 
   test("cart and wishlist are noindex and not in the sitemap; catalog pages wait for CATALOG_READY", async ({ request }) => {
     const sitemap = await (await request.get("/sitemap.xml")).text();
-    for (const path of ["/cart", "/wishlist", "/shop", "/shop/nativity", "/product/salad-bowl"]) {
+    for (const path of ["/cart", "/wishlist", "/shop", pages.category, pages.product]) {
       const html = await (await request.get(`/en${path}`)).text();
       expect(html, path).toContain('<meta name="robots" content="noindex, follow"/>');
       expect(sitemap).not.toContain(`/en${path}<`);
@@ -47,14 +50,14 @@ test.describe("indexing", () => {
   });
 
   test("a malformed locale segment is a 404, not an error", async ({ request }) => {
-    expect((await request.get("/x.y/product/salad-bowl")).status()).toBe(404);
-    expect((await request.get("/x.y/shop/nativity")).status()).toBe(404);
+    expect((await request.get(`/x.y${pages.product}`)).status()).toBe(404);
+    expect((await request.get(`/x.y${pages.category}`)).status()).toBe(404);
   });
 
   test("security headers, caching and security.txt", async ({ request }) => {
     const res = await request.get("/en");
     expect(res.headers()["strict-transport-security"]).toBe("max-age=63072000");
-    expect((await request.get("/images/categories/nativity.webp")).headers()["cache-control"]).toBe("public, max-age=86400");
+    expect((await request.get(firstCategory.image)).headers()["cache-control"]).toBe("public, max-age=86400");
     expect((await request.get("/brand/gethsemane-mark.svg")).headers()["cache-control"]).toBe("public, max-age=86400");
     const txt = await (await request.get("/.well-known/security.txt")).text();
     const expires = new Date(txt.match(/Expires: (.+)/)![1]!);
@@ -66,9 +69,9 @@ test.describe("indexing", () => {
 
 test.describe("order flow", () => {
   test("product page: Add to order, then a lasting View your order link; Order only this piece", async ({ page }) => {
-    await page.goto("/en/product/salad-bowl");
+    await page.goto(`/en${pages.product}`);
     await waitForHydration(page);
-    const add = page.locator(".buy-row").getByRole("button", { name: "Add to order: Salad Bowl" });
+    const add = page.locator(".buy-row").getByRole("button", { name: `Add to order: ${NAME}` });
     await expect(page.getByTestId("view-order")).toHaveCount(0);
     await add.click();
     await expect(page.getByTestId("view-order")).toBeVisible();
@@ -84,7 +87,7 @@ test.describe("order flow", () => {
   });
 
   test("cart summary, country hint, gift note without text and clearing saved details", async ({ page }) => {
-    await withCart(page, [{ slug: "salad-bowl", qty: 1 }], { name: "Ana", country: "Portugal", notes: "", giftNote: false, giftNoteText: "" });
+    await withCart(page, [{ slug: simple.slug, qty: 1 }], { name: "Ana", country: "Portugal", notes: "", giftNote: false, giftNoteText: "" });
     await page.goto("/en/cart");
     await waitForHydration(page);
     await expect(page.getByText("Items total in USD (shipping not included)")).toBeVisible();
@@ -105,16 +108,16 @@ test.describe("order flow", () => {
   });
 
   test("quantity can be typed (12) and is committed on blur or Enter", async ({ page }) => {
-    await withCart(page, [{ slug: "salad-bowl", qty: 1 }]);
+    await withCart(page, [{ slug: simple.slug, qty: 1 }]);
     await page.goto("/en/cart");
     await waitForHydration(page);
-    const qty = page.locator("#qty-salad-bowl");
+    const qty = page.locator(`#qty-${simple.slug}`);
     await qty.fill("");
     await qty.pressSequentially("12");
     await expect(qty).toHaveValue("12");
     await qty.press("Tab");
     await expect(qty).toHaveValue("12");
-    await expect(page.getByTestId("message-preview")).toHaveValue(/12 × Salad Bowl/);
+    await expect(page.getByTestId("message-preview")).toHaveValue(new RegExp(`12 × ${NAME}`));
     await qty.fill("99");
     await qty.press("Enter");
     await expect(qty).toHaveValue("20");
@@ -131,11 +134,11 @@ test.describe("order flow", () => {
       };
       Object.defineProperty(window, "localStorage", { get: fail, configurable: true });
     });
-    await page.goto("/en/product/salad-bowl");
+    await page.goto(`/en${pages.product}`);
     await waitForHydration(page);
     await page.locator(".buy-row").getByRole("button", { name: /Add to order/ }).click();
     await page.getByTestId("view-order").click();
-    await expect(page.getByRole("heading", { name: "Salad Bowl" })).toBeVisible();
+    await expect(page.getByRole("heading", { name: NAME })).toBeVisible();
     expect(errors).toEqual([]);
   });
 
@@ -223,9 +226,9 @@ test.describe("contact, legal and footer", () => {
 });
 
 test.describe("accessibility (axe)", () => {
-  for (const path of ["/en", "/en/product/salad-bowl", "/en/cart", "/en/faq"]) {
+  for (const path of ["/en", `/en${pages.product}`, `/en${pages.fixture}`, "/en/cart", "/en/faq"]) {
     test(`no axe violations on ${path}`, async ({ page }) => {
-      if (path === "/en/cart") await withCart(page, [{ slug: "salad-bowl", qty: 2 }]);
+      if (path === "/en/cart") await withCart(page, [{ slug: simple.slug, qty: 2 }]);
       await page.goto(path);
       await waitForHydration(page);
       const results = await new AxeBuilder({ page }).withTags(["wcag2a", "wcag2aa", "wcag21a", "wcag21aa", "wcag22aa"]).analyze();

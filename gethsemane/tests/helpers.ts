@@ -1,12 +1,15 @@
 import { expect, type APIRequestContext, type Page } from "@playwright/test";
+import { fixture, firstCategory, simple } from "./catalog";
 
 export const locales = ["en", "fr", "es", "it", "de", "el", "pl", "ro", "uk", "pt"] as const;
 
 export const pages = {
   home: "",
   shop: "/shop",
-  category: "/shop/nativity",
-  product: "/product/nativity-set-classic",
+  category: `/shop/${firstCategory.slug}`,
+  product: `/product/${simple.slug}`,
+  /** The test-only product with variants, engraving and a gallery. */
+  fixture: `/product/${fixture.slug}`,
   cart: "/cart",
   wishlist: "/wishlist",
   about: "/about",

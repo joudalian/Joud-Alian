@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import type { ProductSlug } from "@/lib/catalog";
+import type { OrderLine } from "@/lib/order-message";
 import { Price } from "./Price";
 import { WhatsAppOrderButton } from "./WhatsAppOrder";
 
@@ -12,7 +12,7 @@ import { WhatsAppOrderButton } from "./WhatsAppOrder";
  * (A scroll listener rather than an IntersectionObserver: a jump past the row would not change its
  * intersection state and the bar would never appear.)
  */
-export function ProductOrderBar({ slug, name, priceUsd }: { slug: ProductSlug; name: string; priceUsd: number }) {
+export function ProductOrderBar({ lines, name, priceUsd }: { lines: readonly OrderLine[]; name: string; priceUsd: number }) {
   const t = useTranslations("product");
   const [visible, setVisible] = useState(false);
 
@@ -43,7 +43,7 @@ export function ProductOrderBar({ slug, name, priceUsd }: { slug: ProductSlug; n
         <span className="order-bar-name">{name}</span>
         <Price usd={priceUsd} />
       </div>
-      <WhatsAppOrderButton lines={[{ slug, qty: 1 }]} label={t("orderOnlyThis")} className="btn btn-primary" />
+      <WhatsAppOrderButton lines={lines} label={t("orderOnlyThis")} className="btn btn-primary" />
     </div>
   );
 }

@@ -22,7 +22,8 @@
     "audit": "npm audit --audit-level=high",
     "verify": "npm run typecheck && npm run lint && npm run check:i18n && npm run check:claims && npm run check:contrast && node scripts/ensure-build.mjs --rebuild && npm run audit && playwright test",
     "check:claims": "node scripts/check-claims.mjs",
-    "check:launch": "node scripts/check-launch.mjs"
+    "check:launch": "node scripts/check-launch.mjs",
+    "catalog:import": "node scripts/import-products.mjs"
   },
   "dependencies": {
     "next": "16.4.3",

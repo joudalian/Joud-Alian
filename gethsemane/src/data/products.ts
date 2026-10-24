@@ -1,57 +1,41 @@
 /**
- * PRODUCT CATALOG — the one file to edit when adding, changing or removing products.
+ * PRODUCT CATALOG — the one file to edit when adding, changing or removing products. Data only: no code changes
+ * are needed to add a product (see docs/CATALOG.md and "Editing products" in README.md).
  *
- * Each product has:
- *   id        unique number (never reuse an id)
- *   slug      unique URL name: lowercase letters, numbers and dashes (/en/product/<slug>)
- *   category  one of: "nativity", "crosses", "rosaries", "home"
- *   priceUsd  price in US dollars; other currencies are converted with the rates in src/lib/currency.ts
- *   image     path of the photo inside /public (portrait 4:5 recommended, e.g. 1200×1500 .webp or .jpg)
- *   featured  optional: true shows the product on the home page
+ * Fields (validated by src/data/catalog-schema.ts; a mistake fails `npm run check:i18n` and the build):
+ *   id            unique number (never reuse an id)
+ *   slug          unique URL name, English, lowercase letters, numbers and dashes (/fr/product/<slug> too)
+ *   sku           optional; defaults to "GTH-" + id with three digits (GTH-007)
+ *   categories    one or more category slugs from src/data/categories.ts; the first is the main one
+ *   priceUsd      price in US dollars; other currencies are converted with the rates in src/lib/currency.ts
+ *   compareAtUsd  optional previous price; shown struck through only when set (must be higher than priceUsd)
+ *   availability  "in_stock" | "made_to_order" (default) | "sold_out"
+ *   leadTimeDays  optional days to make the piece before dispatch (shown with "made to order")
+ *   images        photos in catalog/photos/ ({ file: "<slug>/01.jpg", width, height, alt?: { en: "…" } });
+ *                 the first one is the main photo. Sized copies are generated at build time.
+ *   variants      optional [{ id, label: { en: "…", … }, sizeCm?, weightG?, priceUsd?, sku? }]
+ *   engraving     optional { enabled: true, maxChars: 30, extraUsd: 10 }
+ *   featured      optional: true shows the product on the home page
+ *   tags          optional list of lowercase words (not shown; for search and grouping later)
  *   Optional details (shown on the product page only when present):
- *     sizeCm    [width, height, depth] in centimetres (inches are calculated)
- *     weightG   weight in grams (ounces are calculated)
- *     wood      "olive"
- *     finish    "natural" | "oiled" | "waxed"
- *     packaging "giftBox" | "box" | "pouch"
- *     giftNote  true if a gift note can be added
- *   text      name and description in all 10 languages (every language is required)
+ *     sizeCm [width, height, depth] in cm · weightG in grams · wood "olive" · finish "natural" | "oiled" | "waxed"
+ *     packaging "giftBox" | "box" | "pouch" · giftNote true if a gift note can be added
+ *   text          { en: { name, summary?, description }, fr: …, … } — English is required; missing languages
+ *                 show English and are listed as needing review
+ *   needsReview   optional languages whose text still needs a native check
+ *   launchReady   true once every language is written and checked: `npm run check:i18n` is strict for these
  *
- * See "Editing products" in README.md. `npm run check:i18n` validates this file.
  * Names and descriptions below are placeholders.
  */
-import type { Locale } from "../i18n/locales";
+import type { ProductInput } from "./catalog-schema";
 
-export const categorySlugs = ["nativity", "crosses", "rosaries", "home"] as const;
-export type CategorySlug = (typeof categorySlugs)[number];
-
-export type ProductText = { name: string; description: string };
-
-export type ProductRecord = {
-  id: number;
-  slug: string;
-  category: CategorySlug;
-  priceUsd: number;
-  image: string;
-  featured?: boolean;
-  sizeCm?: readonly [number, number, number];
-  weightG?: number;
-  wood?: "olive";
-  finish?: "natural" | "oiled" | "waxed";
-  packaging?: "giftBox" | "box" | "pouch";
-  giftNote?: boolean;
-  /** Stock status; defaults to "made_to_order" when omitted. CONFIRM per piece before launch. */
-  availability?: "in_stock" | "made_to_order" | "sold_out";
-  text: Record<Locale, ProductText>;
-};
-
-export const products = [
+export const products: ProductInput[] = [
   {
     id: 1,
     slug: "nativity-set-classic",
-    category: "nativity",
+    categories: ["nativity"],
     priceUsd: 89,
-    image: "/images/products/nativity-set-classic.webp",
+    images: [{ file: "nativity-set-classic/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     featured: true,
     text: {
@@ -100,9 +84,9 @@ export const products = [
   {
     id: 2,
     slug: "nativity-stable-grand",
-    category: "nativity",
+    categories: ["nativity"],
     priceUsd: 189,
-    image: "/images/products/nativity-stable-grand.webp",
+    images: [{ file: "nativity-stable-grand/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -150,9 +134,9 @@ export const products = [
   {
     id: 3,
     slug: "holy-family-figurine",
-    category: "nativity",
+    categories: ["nativity"],
     priceUsd: 54,
-    image: "/images/products/holy-family-figurine.webp",
+    images: [{ file: "holy-family-figurine/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -200,9 +184,9 @@ export const products = [
   {
     id: 4,
     slug: "jerusalem-cross",
-    category: "crosses",
+    categories: ["crosses"],
     priceUsd: 39,
-    image: "/images/products/jerusalem-cross.webp",
+    images: [{ file: "jerusalem-cross/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     featured: true,
     text: {
@@ -251,9 +235,9 @@ export const products = [
   {
     id: 5,
     slug: "wall-cross-carved",
-    category: "crosses",
+    categories: ["crosses"],
     priceUsd: 45,
-    image: "/images/products/wall-cross-carved.webp",
+    images: [{ file: "wall-cross-carved/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -301,9 +285,9 @@ export const products = [
   {
     id: 6,
     slug: "pocket-holding-cross",
-    category: "crosses",
+    categories: ["crosses"],
     priceUsd: 14,
-    image: "/images/products/pocket-holding-cross.webp",
+    images: [{ file: "pocket-holding-cross/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -351,9 +335,9 @@ export const products = [
   {
     id: 7,
     slug: "rosary-olive-wood",
-    category: "rosaries",
+    categories: ["rosaries"],
     priceUsd: 24,
-    image: "/images/products/rosary-olive-wood.webp",
+    images: [{ file: "rosary-olive-wood/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     featured: true,
     text: {
@@ -402,9 +386,9 @@ export const products = [
   {
     id: 8,
     slug: "chaplet-bracelet",
-    category: "rosaries",
+    categories: ["rosaries"],
     priceUsd: 16,
-    image: "/images/products/chaplet-bracelet.webp",
+    images: [{ file: "chaplet-bracelet/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -452,9 +436,9 @@ export const products = [
   {
     id: 9,
     slug: "prayer-beads-33",
-    category: "rosaries",
+    categories: ["rosaries"],
     priceUsd: 19,
-    image: "/images/products/prayer-beads-33.webp",
+    images: [{ file: "prayer-beads-33/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -502,9 +486,9 @@ export const products = [
   {
     id: 10,
     slug: "salad-bowl",
-    category: "home",
+    categories: ["home"],
     priceUsd: 69,
-    image: "/images/products/salad-bowl.webp",
+    images: [{ file: "salad-bowl/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     featured: true,
     text: {
@@ -553,9 +537,9 @@ export const products = [
   {
     id: 11,
     slug: "serving-board",
-    category: "home",
+    categories: ["home"],
     priceUsd: 49,
-    image: "/images/products/serving-board.webp",
+    images: [{ file: "serving-board/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -603,9 +587,9 @@ export const products = [
   {
     id: 12,
     slug: "candle-holder-pair",
-    category: "home",
+    categories: ["home"],
     priceUsd: 34,
-    image: "/images/products/candle-holder-pair.webp",
+    images: [{ file: "candle-holder-pair/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
     text: {
       en: {
@@ -650,4 +634,4 @@ export const products = [
       },
     },
   },
-] as const satisfies readonly ProductRecord[];
+];

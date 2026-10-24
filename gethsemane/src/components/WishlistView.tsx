@@ -1,18 +1,19 @@
 "use client";
 
-import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import { getProduct, productText } from "@/lib/catalog";
+import { fromPriceUsd, getProduct, hasPriceRange, mainImage, productText } from "@/lib/catalog";
 import { useCart, useHydrated, useWishlist } from "@/lib/client-store";
 import { HeartIcon } from "./Icons";
 import { announce } from "./LiveRegion";
-import { Price } from "./Price";
+import { PriceTag } from "./Price";
+import { ProductPicture } from "./ProductPicture";
 
 export function WishlistView() {
   const t = useTranslations("wishlist");
   const tCart = useTranslations("cart");
+  const tProduct = useTranslations("product");
   const locale = useLocale() as Locale;
   const hydrated = useHydrated();
   const { items, remove } = useWishlist();
@@ -45,27 +46,41 @@ export function WishlistView() {
       {items.map((slug) => {
         const product = getProduct(slug);
         if (!product) return null;
-        const name = productText(product, locale).name;
+        const text = productText(product, locale);
+        const name = text.name;
+        // Pieces with sizes or engraving are chosen on the product page; sold-out pieces cannot be ordered.
+        const needsChoice = product.variants.length > 0;
+        const from = fromPriceUsd(product);
         return (
           <li key={slug} className="line">
-            <Image src={product.image} alt="" width={88} height={110} sizes="88px" />
+            <ProductPicture image={mainImage(product)} alt="" sizes="88px" className="line-thumb" />
             <div>
               <h2>
-                <Link href={`/product/${slug}`}>{name}</Link>
+                <Link href={`/product/${slug}`} lang={text.lang === locale ? undefined : text.lang}>
+                  {name}
+                </Link>
               </h2>
-              <Price usd={product.priceUsd} />
+              <PriceTag usd={from} compareAtUsd={hasPriceRange(product) ? undefined : product.compareAtUsd} from={hasPriceRange(product)} />
               <div className="line-controls">
-                <button
-                  type="button"
-                  className="btn btn-primary"
-                  onClick={() => {
-                    add(slug);
-                    remove(slug);
-                    announce(tCart("added", { name }));
-                  }}
-                >
-                  {t("moveToCart")}
-                </button>
+                {needsChoice ? (
+                  <Link href={`/product/${slug}`} className="btn btn-primary">
+                    {tProduct("chooseOptions")}
+                  </Link>
+                ) : product.availability === "sold_out" ? (
+                  <span className="tag tag-sold_out">{tProduct("availability.sold_out")}</span>
+                ) : (
+                  <button
+                    type="button"
+                    className="btn btn-primary"
+                    onClick={() => {
+                      add(slug);
+                      remove(slug);
+                      announce(tCart("added", { name }));
+                    }}
+                  >
+                    {t("moveToCart")}
+                  </button>
+                )}
                 <button
                   type="button"
                   className="link-btn"

@@ -15,6 +15,7 @@ import {
 import type { Locale } from "@/i18n/locales";
 import type { Product } from "./catalog";
 import { productSku, productText } from "./catalog";
+import { productImageSrc } from "./product-image";
 import { localizedUrl, siteUrl } from "./site";
 
 const orgId = () => `${siteUrl}/#organization`;
@@ -116,23 +117,26 @@ export function productLd(product: Product, locale: Locale) {
     name,
     description,
     url,
-    image: [`${siteUrl}${product.image}`],
+    image: product.images.map((img) => `${siteUrl}${productImageSrc(img.file, 1080)}`),
     sku: productSku(product),
     material: "Olive wood",
     brand: { "@type": "Brand", name: STORE_NAME },
     ...(CATALOG_READY
       ? {
-          offers: {
+          // One offer per variant (each with its own SKU and price), or one for the piece.
+          offers: (product.variants.length ? product.variants : [undefined]).map((variant) => ({
             "@type": "Offer",
             url,
+            sku: variant?.sku ?? product.sku,
+            ...(variant ? { name: variant.label[locale] ?? variant.label.en } : {}),
             priceCurrency: "USD",
-            price: product.priceUsd.toFixed(2),
-            availability: availability[product.availability ?? "made_to_order"],
+            price: (variant?.priceUsd ?? product.priceUsd).toFixed(2),
+            availability: availability[product.availability],
             itemCondition: "https://schema.org/NewCondition",
             seller: { "@id": orgId() },
             ...(shipping ? { shippingDetails: shipping } : {}),
             hasMerchantReturnPolicy: returnPolicy(locale),
-          },
+          })),
         }
       : {}),
   };

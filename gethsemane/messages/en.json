@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {No products} one {# product} other {# products}}",
     "empty": "There are no products in this category yet."
   },
-  "categories": {
-    "nativity": {
-      "name": "Nativity",
-      "description": "Nativity sets and Holy Family figures to gather around at Christmas and all year."
-    },
-    "crosses": {
-      "name": "Crosses",
-      "description": "Wall crosses, Jerusalem crosses and small holding crosses for prayer."
-    },
-    "rosaries": {
-      "name": "Rosaries",
-      "description": "Rosaries, chaplets and prayer beads strung with olive wood beads."
-    },
-    "home": {
-      "name": "Home decor",
-      "description": "Bowls, boards and candle holders that bring olive wood to the table."
-    }
-  },
   "product": {
     "addToCart": "Add to order",
     "addedToCart": "Added to your order",
@@ -151,13 +133,38 @@
     "viewOrder": "View your order",
     "safetyTitle": "Product safety information",
     "safetyManufacturer": "Manufacturer: {name}",
-    "safetyEu": "Responsible person in the EU: {name}"
+    "safetyEu": "Responsible person in the EU: {name}",
+    "chooseOptions": "Choose options",
+    "viewPiece": "View this piece",
+    "availability": {
+      "in_stock": "In stock",
+      "made_to_order": "Made to order",
+      "sold_out": "Sold out"
+    },
+    "leadTime": "Usually ready to ship in about {days} days.",
+    "variantLabel": "Choose an option",
+    "engravingAdd": "Add engraving (+{price})",
+    "engravingText": "Engraving text",
+    "engravingMax": "Up to {max} characters.",
+    "engravingNote": "Engraving adds {price} per piece. Engraved pieces cannot be returned unless faulty.",
+    "engravingMissing": "Type the engraving text, or untick engraving.",
+    "soldOutNote": "Sold out for now. Ask us whether it can be made again.",
+    "priceWas": "Was",
+    "priceNow": "Now",
+    "priceFrom": "From {price}",
+    "gallery": "gallery",
+    "gallerySlide": "photo",
+    "galleryLabel": "Photos of {name} ({count})",
+    "photoNumber": "Photo {n} of {count}",
+    "previousPhoto": "Previous photo",
+    "nextPhoto": "Next photo",
+    "photoAltN": "{name}, photo {n}"
   },
   "cart": {
     "title": "Your order",
     "loading": "Loading your order…",
     "empty": "Your order is empty.",
-    "emptyText": "A good place to begin: our <link>Nativity sets</link>.",
+    "emptyText": "A good place to begin: <link>{category}</link>.",
     "continue": "Continue browsing",
     "quantity": "Quantity",
     "quantityOf": "Quantity of {name}",
@@ -195,7 +202,11 @@
     "needMore": "Need more? Ask about wholesale",
     "noscript": "JavaScript is turned off, so your order cannot be shown here. You can still order directly:",
     "shortenedNote": "Your notes are long, so the WhatsApp message shortens them. Use “Copy message” to paste the full text into the chat.",
-    "sendEmail": "Or send it by email to {email}"
+    "sendEmail": "Or send it by email to {email}",
+    "unavailable": "This piece is no longer available. Remove it from your order, or ask us about a similar one.",
+    "engravingLine": "Engraving: “{text}”",
+    "soldOutLine": "Sold out: we will tell you whether it can be made again.",
+    "nothingToSend": "Nothing in your order can be sent yet: remove the pieces that are no longer available."
   },
   "wishlist": {
     "title": "Your wishlist",
@@ -264,7 +275,8 @@
     "chat": "Chat on WhatsApp",
     "chatFooter": "Chat with us on WhatsApp",
     "giftNoteEmpty": "Gift note: (no text yet)",
-    "shortened": "(shortened)"
+    "shortened": "(shortened)",
+    "engraving": "Engraving: “{text}”"
   },
   "announcement": {
     "label": "Announcement"

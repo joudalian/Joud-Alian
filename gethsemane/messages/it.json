@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {Nessun prodotto} one {# prodotto} other {# prodotti}}",
     "empty": "Non ci sono ancora prodotti in questa categoria."
   },
-  "categories": {
-    "nativity": {
-      "name": "Presepi",
-      "description": "Presepi e statuine della Sacra Famiglia per Natale e per tutto l'anno."
-    },
-    "crosses": {
-      "name": "Croci",
-      "description": "Croci da parete, croci di Gerusalemme e piccole croci da tenere in mano durante la preghiera."
-    },
-    "rosaries": {
-      "name": "Rosari",
-      "description": "Rosari, decine e coroncine di preghiera con grani in legno d'ulivo."
-    },
-    "home": {
-      "name": "Decorazione",
-      "description": "Ciotole, taglieri e portacandele che portano il legno d'ulivo in tavola."
-    }
-  },
   "product": {
     "addToCart": "Aggiungi all'ordine",
     "addedToCart": "Aggiunto al tuo ordine",
@@ -151,13 +133,38 @@
     "viewOrder": "Vedi il tuo ordine",
     "safetyTitle": "Informazioni sulla sicurezza del prodotto",
     "safetyManufacturer": "Produttore: {name}",
-    "safetyEu": "Persona responsabile nell'UE: {name}"
+    "safetyEu": "Persona responsabile nell'UE: {name}",
+    "chooseOptions": "Scegli le opzioni",
+    "viewPiece": "Vedi questo pezzo",
+    "availability": {
+      "in_stock": "Disponibile",
+      "made_to_order": "Realizzato su ordinazione",
+      "sold_out": "Esaurito"
+    },
+    "leadTime": "Di solito pronto per la spedizione in circa {days} giorni.",
+    "variantLabel": "Scegli un'opzione",
+    "engravingAdd": "Aggiungi incisione (+{price})",
+    "engravingText": "Testo dell'incisione",
+    "engravingMax": "Fino a {max} caratteri.",
+    "engravingNote": "L'incisione aggiunge {price} a pezzo. I pezzi incisi non possono essere resi, salvo se difettosi.",
+    "engravingMissing": "Scrivi il testo dell'incisione oppure togli la spunta.",
+    "soldOutNote": "Esaurito per ora. Chiedici se può essere realizzato di nuovo.",
+    "priceWas": "Prima",
+    "priceNow": "Ora",
+    "priceFrom": "Da {price}",
+    "gallery": "galleria",
+    "gallerySlide": "foto",
+    "galleryLabel": "Foto di {name} ({count})",
+    "photoNumber": "Foto {n} di {count}",
+    "previousPhoto": "Foto precedente",
+    "nextPhoto": "Foto successiva",
+    "photoAltN": "{name}, foto {n}"
   },
   "cart": {
     "title": "Il tuo ordine",
     "loading": "Caricamento del tuo ordine…",
     "empty": "Il tuo ordine è vuoto.",
-    "emptyText": "Un buon punto di partenza: i nostri <link>presepi</link>.",
+    "emptyText": "Un buon punto di partenza: <link>{category}</link>.",
     "continue": "Continua a guardare",
     "quantity": "Quantità",
     "quantityOf": "Quantità di {name}",
@@ -195,7 +202,11 @@
     "needMore": "Ti serve di più? Chiedi dell'ingrosso",
     "noscript": "JavaScript è disattivato, quindi il tuo ordine non può essere mostrato qui. Puoi comunque ordinare direttamente:",
     "shortenedNote": "Le tue note sono lunghe, quindi il messaggio WhatsApp le abbrevia. Usa «Copia il messaggio» per incollare il testo completo nella chat.",
-    "sendEmail": "Oppure invialo via email a {email}"
+    "sendEmail": "Oppure invialo via email a {email}",
+    "unavailable": "Questo pezzo non è più disponibile. Toglilo dall'ordine o chiedici di uno simile.",
+    "engravingLine": "Incisione: «{text}»",
+    "soldOutLine": "Esaurito: ti diremo se può essere realizzato di nuovo.",
+    "nothingToSend": "Non c'è ancora nulla da inviare: togli i pezzi non più disponibili."
   },
   "wishlist": {
     "title": "I tuoi preferiti",
@@ -264,7 +275,8 @@
     "chat": "Scrivici su WhatsApp",
     "chatFooter": "Scrivici su WhatsApp",
     "giftNoteEmpty": "Biglietto regalo: (ancora senza testo)",
-    "shortened": "(abbreviato)"
+    "shortened": "(abbreviato)",
+    "engraving": "Incisione: «{text}»"
   },
   "announcement": {
     "label": "Avviso"

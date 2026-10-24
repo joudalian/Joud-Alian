@@ -22,6 +22,8 @@ for (const file of readdirSync(join(root, "messages"))) {
 }
 const { products } = await import("../src/data/products.ts");
 walk(products, "", "src/data/products.ts");
+const { categories } = await import("../src/data/categories.ts");
+walk(categories, "", "src/data/categories.ts");
 const store = await import("../src/config/store.ts");
 walk({ SHIP_FROM_TEXT: store.SHIP_FROM_TEXT, ANNOUNCEMENT: store.ANNOUNCEMENT, SOCIAL: store.SOCIAL }, "", "src/config/store.ts");
 if (store.PAYMENT_MODE !== "link" && store.PAYMENT_METHODS.length > 0) {

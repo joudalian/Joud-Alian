@@ -3,17 +3,18 @@
 // the design tokens in src/app/globals.css.
 //   - public/brand/: full emblem PNG and the compact mark SVG (arch scene + cross, no rings, no text)
 //   - favicons (16/32/48 PNG + .ico, Apple touch 180, manifest 192/512) and the Open Graph / Twitter image
-//   - category banners
-//   - neutral placeholder photos for products whose image file does not exist yet
+//   - category banners, for every category in src/data/categories.ts that uses the default image path
+//   - neutral square placeholder photos in catalog/photos/ for product photos that do not exist yet
 //
 //   npm run assets                         keep existing product photos, create missing placeholders
-//   npm run assets -- --force-placeholders  overwrite every product image with a placeholder
+//   npm run assets -- --force-placeholders  overwrite every product photo with a placeholder
 import { createHash } from "node:crypto";
 import { copyFileSync, existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { dirname, join } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 import { buildMarkSvg } from "./brand-mark.mjs";
+import { categories } from "../src/data/categories.ts";
 import { products } from "../src/data/products.ts";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
@@ -70,7 +71,7 @@ async function writeWebp(svg, path, width, height, quality = 80) {
   await sharp(Buffer.from(svg), { density: 96 }).resize(width, height).webp({ quality, effort: 6 }).toFile(out(path));
 }
 
-// ---------- Product placeholders (4:5) ----------
+// ---------- Product placeholders (square, in catalog/photos/) ----------
 /** Splits a name into at most 3 lines of about `max` characters. */
 function wrap(text, max = 18) {
   const lines = [];
@@ -88,14 +89,14 @@ function wrap(text, max = 18) {
 function placeholderSvg(name) {
   const lines = wrap(name.toUpperCase());
   const text = lines
-    .map((l, i) => `<text x="400" y="${690 + i * 58}" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="44" letter-spacing="5" fill="${C.ink}">${escapeXml(l)}</text>`)
+    .map((l, i) => `<text x="500" y="${700 + i * 58}" text-anchor="middle" font-family="DejaVu Serif, serif" font-size="44" letter-spacing="5" fill="${C.ink}">${escapeXml(l)}</text>`)
     .join("");
-  return `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="1000" viewBox="0 0 800 1000">
-    <rect width="800" height="1000" fill="${C.cream}"/>
-    <rect x="40" y="40" width="720" height="920" rx="28" fill="${C.linen}" opacity="0.55" stroke="${C.line}" stroke-width="2"/>
-    ${mark(400, 170, 420, 0.3)}
+  return `<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000" viewBox="0 0 1000 1000">
+    <rect width="1000" height="1000" fill="${C.cream}"/>
+    <rect x="40" y="40" width="920" height="920" rx="28" fill="${C.linen}" opacity="0.55" stroke="${C.line}" stroke-width="2"/>
+    ${mark(500, 150, 440, 0.3)}
     ${text}
-    <text x="400" y="${690 + lines.length * 58 + 40}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="22" letter-spacing="6" fill="${C.inkMuted}">PHOTO COMING SOON</text>
+    <text x="500" y="${700 + lines.length * 58 + 40}" text-anchor="middle" font-family="DejaVu Sans, sans-serif" font-size="22" letter-spacing="6" fill="${C.inkMuted}">PHOTO COMING SOON</text>
   </svg>`;
 }
 
@@ -104,19 +105,23 @@ const hashFile = join(root, "scripts/placeholder-hashes.json");
 const placeholderHashes = new Set(existsSync(hashFile) ? JSON.parse(readFileSync(hashFile, "utf8")) : []);
 let created = 0;
 for (const product of products) {
-  if (!product.image.startsWith("/")) throw new Error(`${product.slug}: image must start with "/"`);
-  const path = join("public", product.image);
-  if (!forcePlaceholders && existsSync(join(root, path))) continue;
-  if (!/\.webp$/.test(path)) throw new Error(`${product.slug}: placeholders are generated as .webp; use a .webp path or add your photo`);
-  await writeWebp(placeholderSvg(product.text.en.name), path, 800, 1000);
-  placeholderHashes.add(createHash("sha256").update(readFileSync(join(root, path))).digest("hex"));
-  created++;
+  for (const image of product.images) {
+    const path = join("catalog/photos", image.file);
+    if (!forcePlaceholders && existsSync(join(root, path))) continue;
+    if (!/\.webp$/.test(path)) throw new Error(`${product.slug}: placeholders are generated as .webp; use a .webp file name or add your photo`);
+    await sharp(Buffer.from(placeholderSvg(product.text.en.name)), { density: 96 })
+      .resize(image.width, image.height, { fit: "contain", background: C.cream })
+      .webp({ quality: 80, effort: 6 })
+      .toFile(out(path));
+    placeholderHashes.add(createHash("sha256").update(readFileSync(join(root, path))).digest("hex"));
+    created++;
+  }
 }
 writeFileSync(hashFile, JSON.stringify([...placeholderHashes].sort(), null, 2) + "\n");
 
 // ---------- Category banners (4:3): neutral cards with the mark ----------
-const categories = ["nativity", "crosses", "rosaries", "home"];
-for (const [i, cat] of categories.entries()) {
+for (const [i, { slug: cat, image }] of categories.entries()) {
+  if (image && image !== `/images/categories/${cat}.webp`) continue; // a custom banner is kept as it is
   const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="800" height="600" viewBox="0 0 800 600">
     <rect width="800" height="600" fill="${i % 2 ? C.linen : C.cream}"/>
     <rect x="30" y="30" width="740" height="540" rx="22" fill="none" stroke="${C.line}" stroke-width="2"/>

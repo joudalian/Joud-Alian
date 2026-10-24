@@ -1,5 +1,6 @@
 import { expect, test, type Page } from "@playwright/test";
-import { expectNoHorizontalScroll, infoPages, locales, waitForHydration, watchErrors } from "./helpers";
+import { categoryName, firstCategory, nameOf, price, priceOf, priceRe, seedCart, simple, simple2, simple3 } from "./catalog";
+import { expectNoHorizontalScroll, infoPages, locales, pages, waitForHydration, watchErrors } from "./helpers";
 
 const WA = "https://wa.me/970569741193";
 
@@ -132,13 +133,14 @@ test.describe("help and policy pages", () => {
 });
 
 test.describe("WhatsApp ordering", () => {
-  for (const [locale, slug, expected] of [
-    ["uk", "salad-bowl", "1 × Салатниця"],
-    ["el", "jerusalem-cross", "1 × Σταυρός Ιερουσαλήμ"],
-    ["pl", "rosary-olive-wood", "1 × Różaniec z drewna oliwnego"],
+  for (const [locale, product] of [
+    ["uk", simple],
+    ["el", simple2],
+    ["pl", simple3],
   ] as const) {
+    const expected = `1 × ${nameOf(product, locale)}`;
     test(`product page message in ${locale} is correctly encoded`, async ({ page }) => {
-      await page.goto(`/${locale}/product/${slug}`);
+      await page.goto(`/${locale}/product/${product.slug}`);
       await waitForHydration(page);
       const text = waText(await page.locator("#order-row [data-testid=whatsapp-order]").getAttribute("href"));
       expect(text).toContain(expected);
@@ -150,8 +152,7 @@ test.describe("WhatsApp ordering", () => {
   }
 
   test("order page message lists items, quantities, currency, USD total, country and gift note", async ({ page }) => {
-    await page.goto("/uk");
-    await page.evaluate(() => localStorage.setItem("gethsemane.cart.v1", JSON.stringify([{ slug: "salad-bowl", qty: 2 }])));
+    await seedCart(page, [{ slug: simple.slug, qty: 2 }]);
     await page.goto("/uk/cart");
     await waitForHydration(page);
     await page.locator("#currency-select").selectOption("GBP");
@@ -160,9 +161,9 @@ test.describe("WhatsApp ordering", () => {
     await page.getByLabel("Текст листівки").fill("З Різдвом!");
     const link = page.getByRole("link", { name: /Надіслати замовлення у WhatsApp/ });
     const text = waText(await link.getAttribute("href"));
-    expect(text).toContain("2 × Салатниця");
+    expect(text).toContain(`2 × ${nameOf(simple, "uk")}`);
     expect(text).toContain("Обрана валюта: GBP");
-    expect(text).toMatch(/Разом у USD: 138,00\sUSD|Разом у USD: 138,00\s\$/);
+    expect(text).toMatch(priceRe(`Разом у USD: ${price(priceOf(simple) * 2, "USD", "uk")}`));
     expect(text).toContain("Країна: Україна");
     expect(text).toContain("Листівка до подарунка: З Різдвом!");
     // Details persist in this browser only.
@@ -172,13 +173,13 @@ test.describe("WhatsApp ordering", () => {
     await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
     await page.getByRole("button", { name: "Копіювати повідомлення" }).click();
     await expect(page.getByText(/Повідомлення скопійовано|Копіювання тут недоступне/)).toBeVisible();
-    await expect(page.getByTestId("message-preview")).toHaveValue(/2 × Салатниця/);
+    await expect(page.getByTestId("message-preview")).toHaveValue(new RegExp(`2 × ${nameOf(simple, "uk")}`));
   });
 
   test("order page shows the steps and the policy summary even when empty", async ({ page }) => {
     await page.goto("/en/cart");
     await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
-    await expect(page.getByRole("link", { name: "Nativity sets" })).toHaveAttribute("href", "/en/shop/nativity");
+    await expect(page.locator("main").getByRole("link", { name: categoryName(firstCategory.slug), exact: true })).toHaveAttribute("href", `/en/shop/${firstCategory.slug}`);
     await expect(page.getByRole("heading", { name: "How ordering works" })).toBeVisible();
     await expect(page.locator(".order-steps li")).toHaveCount(4);
     await expect(page.locator(".policy-summary")).toContainText("payment instructions");
@@ -190,16 +191,16 @@ test.describe("delivery times", () => {
     const headline = /typically (takes )?7–15 business days/;
     await page.goto("/en");
     await expect(page.locator(".trust-strip")).toContainText("Ships to most countries, typically in 7–15 business days");
-    for (const path of ["/shipping", "/faq", "/product/nativity-set-classic"]) {
+    for (const path of ["/shipping", "/faq", pages.product]) {
       await page.goto(`/en${path}`);
       expect(await page.locator("main").textContent(), path).toMatch(headline);
     }
     await page.goto("/en/shipping");
     await expect(page.getByRole("table", { name: "Estimated delivery by region" })).toBeVisible();
     await expect(page.getByText("These are estimates, not guarantees. Customs and remote destinations can take longer.")).toBeVisible();
-    await page.goto("/en/product/nativity-set-classic");
+    await page.goto(`/en${pages.product}`);
     expect(await page.locator(".product-accordion").textContent()).toContain("Estimated delivery by region");
-    await page.evaluate(() => localStorage.setItem("gethsemane.cart.v1", JSON.stringify([{ slug: "nativity-set-classic", qty: 1 }])));
+    await seedCart(page, [{ slug: simple.slug, qty: 1 }]);
     await page.goto("/en/cart");
     expect(await page.locator("main").textContent()).toMatch(headline);
   });
@@ -232,21 +233,22 @@ test.describe("structured data", () => {
 
   test("product: USD only, server-rendered, with breadcrumbs", async ({ page, context, baseURL }) => {
     await context.addCookies([{ name: "currency", value: "EUR", url: baseURL! }]);
-    const res = await page.request.get("/fr/product/salad-bowl", { headers: { cookie: "currency=EUR" } });
+    const res = await page.request.get(`/fr/product/${simple.slug}`, { headers: { cookie: "currency=EUR" } });
     const html = await res.text();
     const blocks = [...html.matchAll(/<script type="application\/ld\+json">([^<]+)<\/script>/g)].map((m) => JSON.parse(m[1]!));
     const product = blocks.find((d) => d["@type"] === "Product");
     expect(product.brand.name).toBe("Gethsemane");
     expect(product.material).toBe("Olive wood");
-    expect(product.url).toBe(`${baseURL}/fr/product/salad-bowl`);
-    expect(product.sku).toMatch(/^GTH-\d{3}$/);
+    expect(product.url).toBe(`${baseURL}/fr/product/${simple.slug}`);
+    expect(product.sku).toBe(simple.sku);
+    expect(product.image).toHaveLength(simple.images.length);
     // CATALOG_READY is false: placeholder prices are never published as offers.
     expect(product.offers).toBeUndefined();
     expect(JSON.stringify(product)).not.toMatch(/EUR|€|InStock|"ZZ"/);
     expect(html).toContain('<meta name="robots" content="noindex, follow"/>');
     const crumbs = blocks.find((d) => d["@type"] === "BreadcrumbList");
     expect(crumbs.itemListElement.map((i: { position: number }) => i.position)).toEqual([1, 2, 3, 4]);
-    expect(crumbs.itemListElement[3].item).toBe(`${baseURL}/fr/product/salad-bowl`);
+    expect(crumbs.itemListElement[3].item).toBe(`${baseURL}/fr/product/${simple.slug}`);
   });
 });
 
@@ -308,7 +310,7 @@ test.describe("layout and navigation", () => {
 
   test("sticky order bar appears after the inline buttons and never covers the bottom nav", async ({ page, isMobile }) => {
     test.skip(!isMobile, "phones only");
-    await page.goto("/en/product/nativity-set-classic");
+    await page.goto(`/en${pages.product}`);
     await waitForHydration(page);
     const bar = page.locator(".order-bar");
     await expect(bar).toBeHidden();
@@ -317,7 +319,7 @@ test.describe("layout and navigation", () => {
     const barBox = (await bar.boundingBox())!;
     const navBox = (await page.locator(".bottom-nav").boundingBox())!;
     expect(barBox.y + barBox.height).toBeLessThanOrEqual(navBox.y + 1);
-    expect(waText(await bar.locator("a").getAttribute("href"))).toContain("1 × Classic Nativity Set");
+    expect(waText(await bar.locator("a").getAttribute("href"))).toContain(`1 × ${nameOf(simple)}`);
     // At the end of the page nothing in the footer is covered.
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     const last = (await page.locator(".footer-bottom p").last().boundingBox())!;
@@ -325,10 +327,12 @@ test.describe("layout and navigation", () => {
   });
 
   test("product page: specs only for existing data, accordions link to policy pages", async ({ page }) => {
-    await page.goto("/en/product/salad-bowl");
+    await page.goto(`/en${pages.product}`);
+    // One row per detail the data actually has, nothing else.
+    const fields = (["sizeCm", "weightG", "wood", "finish", "packaging", "giftNote"] as const).filter((f) => simple[f] !== undefined);
     const specs = page.getByTestId("specs");
-    await expect(specs.locator("dt")).toHaveText(["Wood"]);
-    await expect(specs.locator("dd")).toHaveText(["Olive wood"]);
+    await expect(specs.locator("dt")).toHaveCount(fields.length);
+    if (simple.wood) await expect(specs).toContainText("Olive wood");
     for (const [summary, href] of [
       ["Shipping", "/en/shipping"],
       ["Returns", "/en/returns"],

@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { products } from "./catalog";
 import { locales, waitForHydration } from "./helpers";
 
 const heroTitles: Record<string, string> = {
@@ -89,7 +90,7 @@ test("switching language keeps the page and the scroll position", async ({ page,
   await page.waitForURL("**/de/shop");
   await expect(page.locator("html")).toHaveAttribute("lang", "de");
   await expect(page.locator("h1")).toHaveText("Shop");
-  await expect(page.locator(".result-count")).toHaveText("12 Produkte");
+  await expect(page.locator(".result-count")).toHaveText(`${products.length} Produkte`);
   const after = await page.evaluate(() => window.scrollY);
   expect(Math.abs(after - before)).toBeLessThan(40);
 

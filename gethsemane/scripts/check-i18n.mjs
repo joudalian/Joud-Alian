@@ -88,28 +88,26 @@ for (const locale of expectedLocales) {
   }
 }
 
-// Product catalog: every product needs valid fields and a name and description in all languages.
-const { products, categorySlugs } = await import("../src/data/products.ts");
-const ids = new Set();
-const slugs = new Set();
-for (const [i, p] of products.entries()) {
-  const where = `src/data/products.ts product #${i + 1} (${p.slug ?? "no slug"})`;
-  if (!Number.isInteger(p.id) || p.id <= 0) errors.push(`${where}: id must be a positive whole number`);
-  if (ids.has(p.id)) errors.push(`${where}: duplicate id ${p.id}`);
-  ids.add(p.id);
-  if (typeof p.slug !== "string" || !/^[a-z0-9]+(-[a-z0-9]+)*$/.test(p.slug)) errors.push(`${where}: slug must use lowercase letters, numbers and dashes`);
-  if (slugs.has(p.slug)) errors.push(`${where}: duplicate slug`);
-  slugs.add(p.slug);
-  if (!categorySlugs.includes(p.category)) errors.push(`${where}: unknown category "${p.category}"`);
-  if (typeof p.priceUsd !== "number" || !(p.priceUsd > 0)) errors.push(`${where}: priceUsd must be a positive number`);
-  if (typeof p.image !== "string" || !/^\/[\w\-/.]+\.(webp|jpe?g|png|avif)$/i.test(p.image)) errors.push(`${where}: image must be a path like /images/products/name.webp`);
-  else if (!existsSync(join(root, "public", p.image))) errors.push(`${where}: image file public${p.image} does not exist`);
-  for (const locale of expectedLocales) {
-    const text = p.text?.[locale];
-    if (!text || typeof text.name !== "string" || !text.name.trim()) errors.push(`${where}: missing ${locale} name`);
-    if (!text || typeof text.description !== "string" || !text.description.trim()) errors.push(`${where}: missing ${locale} description`);
-  }
-  for (const locale of Object.keys(p.text ?? {})) if (!expectedLocales.includes(locale)) errors.push(`${where}: unexpected language "${locale}"`);
+// Catalog: categories and products are validated by the same schema the site uses (src/data/catalog-schema.ts).
+// Products flagged launchReady must have every language written and none marked for review; for the others a
+// missing or unreviewed language is only a warning (the site shows English until the translation is added).
+const warnings = [];
+const { catalogLanguageIssues, parseCatalog } = await import("../src/data/catalog-schema.ts");
+const { categories } = await import("../src/data/categories.ts");
+const { products } = await import("../src/data/products.ts");
+const { fixtures } = await import("../src/data/fixtures.ts");
+const catalog = parseCatalog({ categories, products, fixtures }, expectedLocales);
+for (const problem of catalog.problems) errors.push(`catalog: ${problem}`);
+for (const p of catalog.products) {
+  const where = `${p.fixture ? "src/data/fixtures.ts" : "src/data/products.ts"} "${p.slug}"`;
+  const base = p.fixture ? "catalog/fixtures" : "catalog/photos";
+  for (const image of p.images) if (!existsSync(join(root, base, image.file))) errors.push(`${where}: photo ${base}/${image.file} does not exist`);
+}
+const language = catalogLanguageIssues(catalog, expectedLocales);
+errors.push(...language.errors);
+warnings.push(...language.warnings);
+for (const c of catalog.categories) {
+  if (!existsSync(join(root, "public", c.image))) errors.push(`src/data/categories.ts "${c.slug}": banner public${c.image} does not exist (run npm run assets)`);
 }
 
 // No Arabic and no right-to-left logic anywhere in the project sources.
@@ -134,10 +132,11 @@ function walk(dir) {
 }
 walk(root);
 
+if (warnings.length) console.warn(`Warnings (${warnings.length}):\n- ${warnings.join("\n- ")}`);
 if (errors.length) {
   console.error(`i18n check failed with ${errors.length} problem(s):\n- ${errors.join("\n- ")}`);
   process.exit(1);
 }
 console.log(
-  `i18n check passed: ${expectedLocales.length} languages × ${baseKeys.length} keys, ${products.length} products complete, no Arabic or RTL handling.`,
+  `i18n check passed: ${expectedLocales.length} languages × ${baseKeys.length} keys, ${catalog.products.filter((p) => !p.fixture).length} products and ${catalog.categories.length} categories valid, no Arabic or RTL handling.`,
 );

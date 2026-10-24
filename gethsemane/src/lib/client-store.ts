@@ -2,12 +2,14 @@
 
 import { useCallback, useSyncExternalStore } from "react";
 import type { ProductSlug } from "./catalog";
+import { lineProduct } from "./order-message";
 import {
   MAX_CART_LINES,
   MAX_QTY,
   MAX_WISHLIST,
   STORAGE_KEYS,
   emptyOrderDetails,
+  lineKey,
   parseCart,
   parseOrderDetails,
   parseWishlist,
@@ -21,7 +23,7 @@ import {
 type Listener = () => void;
 
 /** A localStorage-backed list that is validated on every read and synced across tabs. */
-function createListStore<T>(key: string, parse: (raw: string | null) => T[]) {
+function createListStore<T>(key: string, parse: (raw: string | null) => T[], legacyKey?: string) {
   const listeners = new Set<Listener>();
   const empty: T[] = [];
   let cachedRaw: string | null | undefined;
@@ -30,7 +32,17 @@ function createListStore<T>(key: string, parse: (raw: string | null) => T[]) {
   let memory: string | null = null;
 
   function getSnapshot(): T[] {
-    const raw = readStorage(key) ?? memory;
+    let raw = readStorage(key) ?? memory;
+    if (raw === null && legacyKey) {
+      // One-time migration from the previous format: copy it to the new key and drop the old one.
+      const legacy = readStorage(legacyKey);
+      if (legacy !== null) {
+        raw = JSON.stringify(parse(legacy));
+        memory = raw;
+        writeStorage(key, raw);
+        removeStorage(legacyKey);
+      }
+    }
     if (raw !== cachedRaw) {
       cachedRaw = raw;
       cachedValue = parse(raw);
@@ -60,33 +72,39 @@ function createListStore<T>(key: string, parse: (raw: string | null) => T[]) {
   return { getSnapshot, getServerSnapshot: () => empty, subscribe, set };
 }
 
-const cartStore = createListStore<CartLine>(STORAGE_KEYS.cart, parseCart);
+const cartStore = createListStore<CartLine>(STORAGE_KEYS.cart, parseCart, STORAGE_KEYS.cartV1);
 const wishlistStore = createListStore<ProductSlug>(STORAGE_KEYS.wishlist, parseWishlist);
 
 export function useCart() {
   const lines = useSyncExternalStore(cartStore.subscribe, cartStore.getSnapshot, cartStore.getServerSnapshot);
 
-  const add = useCallback((slug: ProductSlug, qty = 1) => {
+  /** Adds a piece; the same piece, variant and engraving text adds to the existing line. */
+  const add = useCallback((slug: ProductSlug, options: { qty?: number; variantId?: string; engraving?: string } = {}) => {
+    const qty = options.qty ?? 1;
+    const engraving = options.engraving?.replace(/\s+/g, " ").trim() || undefined;
+    const line: CartLine = { slug, qty, ...(options.variantId ? { variantId: options.variantId } : {}), ...(engraving ? { engraving } : {}) };
+    const key = lineKey(line);
     const current = cartStore.getSnapshot();
-    const existing = current.find((l) => l.slug === slug);
-    if (existing) {
-      cartStore.set(current.map((l) => (l.slug === slug ? { ...l, qty: Math.min(MAX_QTY, l.qty + qty) } : l)));
+    if (current.some((l) => lineKey(l) === key)) {
+      cartStore.set(current.map((l) => (lineKey(l) === key ? { ...l, qty: Math.min(MAX_QTY, l.qty + qty) } : l)));
     } else if (current.length < MAX_CART_LINES) {
-      cartStore.set([...current, { slug, qty: Math.min(MAX_QTY, qty) }]);
+      cartStore.set([...current, { ...line, qty: Math.min(MAX_QTY, qty) }]);
     }
   }, []);
 
-  const setQty = useCallback((slug: ProductSlug, qty: number) => {
+  /** `key` is lineKey(line). */
+  const setQty = useCallback((key: string, qty: number) => {
     const current = cartStore.getSnapshot();
-    if (qty < 1) cartStore.set(current.filter((l) => l.slug !== slug));
-    else cartStore.set(current.map((l) => (l.slug === slug ? { ...l, qty: Math.min(MAX_QTY, qty) } : l)));
+    if (qty < 1) cartStore.set(current.filter((l) => lineKey(l) !== key));
+    else cartStore.set(current.map((l) => (lineKey(l) === key ? { ...l, qty: Math.min(MAX_QTY, qty) } : l)));
   }, []);
 
-  const remove = useCallback((slug: ProductSlug) => {
-    cartStore.set(cartStore.getSnapshot().filter((l) => l.slug !== slug));
+  const remove = useCallback((key: string) => {
+    cartStore.set(cartStore.getSnapshot().filter((l) => lineKey(l) !== key));
   }, []);
 
-  const count = lines.reduce((sum, l) => sum + l.qty, 0);
+  // Pieces that can still be ordered (lines for removed products are not counted).
+  const count = lines.reduce((sum, l) => sum + (lineProduct(l) ? l.qty : 0), 0);
   return { lines, count, add, setQty, remove };
 }
 

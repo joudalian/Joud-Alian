@@ -1,36 +1,46 @@
-import Image from "next/image";
-import { getLocale } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import { productText, type Product, type ProductSlug } from "@/lib/catalog";
-import { Price } from "./Price";
+import { fromPriceUsd, hasPriceRange, mainImage, productText, type Product } from "@/lib/catalog";
+import { CARD_IMAGE_SIZES } from "@/lib/product-image";
+import { PriceTag } from "./Price";
 import { AddToCartButton, WishlistToggle } from "./ProductActions";
+import { ProductPicture } from "./ProductPicture";
 
 /** The heading link names the piece, so the photo is decorative here (alt=""). */
 export async function ProductCard({ product, headingLevel = 3 }: { product: Product; headingLevel?: 2 | 3 }) {
   const locale = (await getLocale()) as Locale;
-  const slug = product.slug as ProductSlug;
-  const name = productText(product, locale).name;
+  const t = await getTranslations("product");
+  const text = productText(product, locale);
   const Heading = headingLevel === 2 ? "h2" : "h3";
+  const range = hasPriceRange(product);
   return (
     <article className="product-card">
       <div className="media">
-        <Image
-          src={product.image}
-          alt=""
-          width={800}
-          height={1000}
-          sizes="(min-width: 1280px) 280px, (min-width: 768px) 30vw, (min-width: 360px) 50vw, 100vw"
-        />
-        <WishlistToggle slug={slug} name={name} />
+        <ProductPicture image={mainImage(product)} alt="" sizes={CARD_IMAGE_SIZES} />
+        {product.availability === "sold_out" && <span className="tag tag-sold_out card-tag">{t("availability.sold_out")}</span>}
+        <WishlistToggle slug={product.slug} name={text.name} />
       </div>
       <div className="body">
         <Heading>
-          <Link href={`/product/${slug}`}>{name}</Link>
+          <Link href={`/product/${product.slug}`} lang={text.lang === locale ? undefined : text.lang}>
+            {text.name}
+          </Link>
         </Heading>
-        <Price usd={product.priceUsd} />
+        <PriceTag usd={fromPriceUsd(product)} compareAtUsd={range ? undefined : product.compareAtUsd} from={range} />
         <div className="actions">
-          <AddToCartButton slug={slug} name={name} />
+          {product.variants.length > 0 ? (
+            // Sizes are chosen on the product page.
+            <Link href={`/product/${product.slug}`} className="btn btn-primary btn-block" aria-label={`${t("chooseOptions")}: ${text.name}`}>
+              {t("chooseOptions")}
+            </Link>
+          ) : product.availability === "sold_out" ? (
+            <Link href={`/product/${product.slug}`} className="btn btn-secondary btn-block" aria-label={`${t("viewPiece")}: ${text.name}`}>
+              {t("viewPiece")}
+            </Link>
+          ) : (
+            <AddToCartButton slug={product.slug} name={text.name} />
+          )}
         </div>
       </div>
     </article>

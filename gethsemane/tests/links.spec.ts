@@ -1,6 +1,7 @@
 import { expect, test } from "@playwright/test";
 import { findClaims } from "../scripts/forbidden-claims.mjs";
-import { publicPageUrls } from "./helpers";
+import { categories, products } from "./catalog";
+import { locales, publicPageUrls } from "./helpers";
 
 const allowedExternal = ["https://wa.me", "https://holylandtimber.com", "https://www.instagram.com"];
 
@@ -15,8 +16,9 @@ test("no broken links or images on any page", async ({ request, baseURL, isMobil
     pageUrls.add(`${origin}/${l}/cart`);
     pageUrls.add(`${origin}/${l}/wishlist`);
   }
-  // 12 sitemap paths + shop, 4 categories and 12 products (noindex until CATALOG_READY) + cart and wishlist.
-  expect(pageUrls.size).toBe(10 * (12 + 17 + 2));
+  // Sitemap paths + shop, every category and every product (noindex until CATALOG_READY) + cart and wishlist.
+  // (The same whether or not CATALOG_READY moves the catalog into the sitemap.)
+  expect(pageUrls.size).toBe(locales.length * (12 + 1 + categories.length + products.length + 2));
 
   const checked = new Map<string, number>();
   const problems: string[] = [];

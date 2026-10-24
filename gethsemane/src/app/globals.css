@@ -862,10 +862,19 @@ main:focus {
   background: var(--linen);
 }
 
+/* Product photos are framed square and never cropped (recommended: 1600×1600 on white or cream). */
 .product-card .media img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+.card-tag {
+  position: absolute;
+  left: 10px;
+  top: 10px;
 }
 
 .product-card .body {
@@ -1029,9 +1038,153 @@ main:focus {
 }
 
 .product-detail .media img {
+  display: block;
   width: 100%;
-  aspect-ratio: 4 / 5;
-  object-fit: cover;
+  height: auto;
+  aspect-ratio: 1;
+  object-fit: contain;
+}
+
+/* ---------- Product gallery ---------- */
+.gallery-track {
+  display: flex;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scrollbar-width: none;
+  overscroll-behavior-x: contain;
+}
+
+.gallery-track::-webkit-scrollbar {
+  display: none;
+}
+
+.gallery-track:focus-visible {
+  outline: 3px solid var(--focus);
+  outline-offset: -3px;
+}
+
+.gallery-slide {
+  flex: 0 0 100%;
+  margin: 0;
+  scroll-snap-align: start;
+}
+
+.gallery-controls {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px;
+  border-top: 1px solid var(--line);
+  background: var(--surface);
+}
+
+.gallery-thumbs {
+  display: flex;
+  flex: 1;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  overflow-x: auto;
+}
+
+.gallery-thumb {
+  width: 56px;
+  height: 56px;
+  padding: 2px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background: var(--linen);
+  cursor: pointer;
+}
+
+.gallery-thumb img {
+  width: 100%;
+  height: 100%;
+  aspect-ratio: auto;
+  object-fit: contain;
+}
+
+.gallery-thumb[aria-current="true"] {
+  border-color: var(--olive-700);
+}
+
+.gallery-prev,
+.gallery-next {
+  flex: none;
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+/* ---------- Availability, prices, options ---------- */
+.tag {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--surface);
+  color: var(--ink);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tag-in_stock {
+  border-color: var(--olive-700);
+  color: var(--olive-700);
+}
+
+.tag-sold_out {
+  background: var(--linen);
+  color: var(--ink-muted);
+}
+
+.availability {
+  margin: 0 0 16px;
+}
+
+.price-tag {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 10px;
+}
+
+.price-was {
+  color: var(--ink-muted);
+  font-weight: 400;
+  font-size: 0.9em;
+}
+
+.variant-picker {
+  margin-bottom: 12px;
+}
+
+.variant-specs {
+  flex-basis: 100%;
+  margin: 4px 0 0;
+}
+
+.engraving {
+  margin-bottom: 8px;
+}
+
+.engraving input[type="text"] {
+  width: 100%;
+}
+
+.engraving-count {
+  font-variant-numeric: tabular-nums;
+  font-weight: 600;
+}
+
+.line-detail {
+  margin: 0 0 4px;
+  color: var(--ink-muted);
+  font-size: 0.95rem;
+}
+
+.line-unavailable h2 {
+  color: var(--ink-muted);
 }
 
 .product-detail .product-price {
@@ -1174,10 +1327,11 @@ main:focus {
   border-bottom: 1px solid var(--line);
 }
 
-.line img {
+.line .line-thumb {
+  display: block;
   width: 88px;
-  height: 110px;
-  object-fit: cover;
+  height: 88px;
+  object-fit: contain;
   border-radius: 8px;
   background: var(--linen);
 }

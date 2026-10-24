@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {Nenhum produto} one {# produto} other {# produtos}}",
     "empty": "Ainda não há produtos nesta categoria."
   },
-  "categories": {
-    "nativity": {
-      "name": "Presépios",
-      "description": "Presépios e figuras da Sagrada Família para o Natal e para todo o ano."
-    },
-    "crosses": {
-      "name": "Cruzes",
-      "description": "Cruzes de parede, cruzes de Jerusalém e pequenas cruzes para segurar durante a oração."
-    },
-    "rosaries": {
-      "name": "Terços",
-      "description": "Terços, dezenas e contas de oração em madeira de oliveira."
-    },
-    "home": {
-      "name": "Decoração",
-      "description": "Taças, tábuas e castiçais que levam a madeira de oliveira para a mesa."
-    }
-  },
   "product": {
     "addToCart": "Adicionar à encomenda",
     "addedToCart": "Adicionado à sua encomenda",
@@ -151,13 +133,38 @@
     "viewOrder": "Ver a sua encomenda",
     "safetyTitle": "Informações de segurança do produto",
     "safetyManufacturer": "Fabricante: {name}",
-    "safetyEu": "Pessoa responsável na UE: {name}"
+    "safetyEu": "Pessoa responsável na UE: {name}",
+    "chooseOptions": "Escolher opções",
+    "viewPiece": "Ver esta peça",
+    "availability": {
+      "in_stock": "Em stock",
+      "made_to_order": "Feito por encomenda",
+      "sold_out": "Esgotado"
+    },
+    "leadTime": "Normalmente pronta a enviar em cerca de {days} dias.",
+    "variantLabel": "Escolha uma opção",
+    "engravingAdd": "Adicionar gravação (+{price})",
+    "engravingText": "Texto da gravação",
+    "engravingMax": "Até {max} caracteres.",
+    "engravingNote": "A gravação acrescenta {price} por peça. As peças gravadas não podem ser devolvidas, exceto se tiverem defeito.",
+    "engravingMissing": "Escreva o texto da gravação ou desmarque a gravação.",
+    "soldOutNote": "Esgotada de momento. Pergunte-nos se pode ser feita de novo.",
+    "priceWas": "Antes",
+    "priceNow": "Agora",
+    "priceFrom": "Desde {price}",
+    "gallery": "galeria",
+    "gallerySlide": "fotografia",
+    "galleryLabel": "Fotografias de {name} ({count})",
+    "photoNumber": "Fotografia {n} de {count}",
+    "previousPhoto": "Fotografia anterior",
+    "nextPhoto": "Fotografia seguinte",
+    "photoAltN": "{name}, fotografia {n}"
   },
   "cart": {
     "title": "A sua encomenda",
     "loading": "A carregar a sua encomenda…",
     "empty": "A sua encomenda está vazia.",
-    "emptyText": "Um bom ponto de partida: os nossos <link>presépios</link>.",
+    "emptyText": "Um bom ponto de partida: <link>{category}</link>.",
     "continue": "Continuar a ver",
     "quantity": "Quantidade",
     "quantityOf": "Quantidade de {name}",
@@ -195,7 +202,11 @@
     "needMore": "Precisa de mais? Pergunte pela venda por grosso",
     "noscript": "O JavaScript está desativado, por isso não é possível mostrar aqui a sua encomenda. Pode, ainda assim, encomendar diretamente:",
     "shortenedNote": "As suas observações são longas, por isso a mensagem do WhatsApp encurta-as. Use «Copiar mensagem» para colar o texto completo na conversa.",
-    "sendEmail": "Ou envie-a por e-mail para {email}"
+    "sendEmail": "Ou envie-a por e-mail para {email}",
+    "unavailable": "Esta peça já não está disponível. Retire-a da encomenda ou pergunte-nos por uma semelhante.",
+    "engravingLine": "Gravação: «{text}»",
+    "soldOutLine": "Esgotada: diremos se pode ser feita de novo.",
+    "nothingToSend": "Ainda não há nada para enviar: retire as peças que já não estão disponíveis."
   },
   "wishlist": {
     "title": "Os seus favoritos",
@@ -264,7 +275,8 @@
     "chat": "Falar no WhatsApp",
     "chatFooter": "Fale connosco no WhatsApp",
     "giftNoteEmpty": "Cartão de oferta: (ainda sem texto)",
-    "shortened": "(encurtado)"
+    "shortened": "(encurtado)",
+    "engraving": "Gravação: «{text}»"
   },
   "announcement": {
     "label": "Aviso"

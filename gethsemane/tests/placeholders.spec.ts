@@ -1,4 +1,5 @@
 import { expect, test } from "@playwright/test";
+import { fixture, seedCart, simple, simple2 } from "./catalog";
 import { locales, publicPageUrls, waitForHydration } from "./helpers";
 
 // Public pages must never show unfinished content: bracketed placeholders, TODO/TBD/CONFIRM notes,
@@ -45,11 +46,14 @@ test("no placeholders or empty gaps on any public page, in any language (server 
 test("no placeholders in the rendered order and wishlist pages", async ({ page, isMobile }) => {
   test.skip(isMobile, "run once");
   test.setTimeout(120_000);
-  await page.goto("/en");
-  await page.evaluate(() => {
-    localStorage.setItem("gethsemane.cart.v1", JSON.stringify([{ slug: "nativity-set-classic", qty: 1 }]));
-    localStorage.setItem("gethsemane.wishlist.v1", JSON.stringify(["serving-board"]));
-  });
+  await seedCart(
+    page,
+    [
+      { slug: simple.slug, qty: 1 },
+      { slug: fixture.slug, qty: 1, variantId: fixture.variants[0]!.id, engraving: "Anna" },
+    ],
+    [simple2.slug],
+  );
   const problems: string[] = [];
   for (const l of locales) {
     for (const path of ["/cart", "/wishlist"]) {

@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {Niciun produs} one {# produs} few {# produse} other {# de produse}}",
     "empty": "Nu există încă produse în această categorie."
   },
-  "categories": {
-    "nativity": {
-      "name": "Iesle",
-      "description": "Iesle și figurine ale Sfintei Familii pentru Crăciun și pentru tot anul."
-    },
-    "crosses": {
-      "name": "Cruci",
-      "description": "Cruci de perete, cruci de Ierusalim și cruciulițe de ținut în mână la rugăciune."
-    },
-    "rosaries": {
-      "name": "Rozarii",
-      "description": "Rozarii, decade și metănii cu mărgele din lemn de măslin."
-    },
-    "home": {
-      "name": "Decorațiuni",
-      "description": "Boluri, platouri și sfeșnice care aduc lemnul de măslin pe masă."
-    }
-  },
   "product": {
     "addToCart": "Adaugă la comandă",
     "addedToCart": "Adăugat la comanda ta",
@@ -151,13 +133,38 @@
     "viewOrder": "Vezi comanda ta",
     "safetyTitle": "Informații privind siguranța produsului",
     "safetyManufacturer": "Producător: {name}",
-    "safetyEu": "Persoana responsabilă în UE: {name}"
+    "safetyEu": "Persoana responsabilă în UE: {name}",
+    "chooseOptions": "Alege opțiunile",
+    "viewPiece": "Vezi piesa",
+    "availability": {
+      "in_stock": "În stoc",
+      "made_to_order": "Realizat la comandă",
+      "sold_out": "Epuizat"
+    },
+    "leadTime": "De obicei gata de expediere în aproximativ {days} zile.",
+    "variantLabel": "Alege o variantă",
+    "engravingAdd": "Adaugă gravură (+{price})",
+    "engravingText": "Textul gravurii",
+    "engravingMax": "Până la {max} caractere.",
+    "engravingNote": "Gravura adaugă {price} pe piesă. Piesele gravate nu pot fi returnate, cu excepția celor defecte.",
+    "engravingMissing": "Scrie textul gravurii sau debifează gravura.",
+    "soldOutNote": "Epuizată deocamdată. Întreabă-ne dacă poate fi realizată din nou.",
+    "priceWas": "Înainte",
+    "priceNow": "Acum",
+    "priceFrom": "De la {price}",
+    "gallery": "galerie",
+    "gallerySlide": "fotografie",
+    "galleryLabel": "Fotografii: {name} ({count})",
+    "photoNumber": "Fotografia {n} din {count}",
+    "previousPhoto": "Fotografia anterioară",
+    "nextPhoto": "Fotografia următoare",
+    "photoAltN": "{name}, fotografia {n}"
   },
   "cart": {
     "title": "Comanda ta",
     "loading": "Se încarcă comanda…",
     "empty": "Comanda ta este goală.",
-    "emptyText": "Un început bun: <link>ieslele</link> noastre.",
+    "emptyText": "Un început bun: <link>{category}</link>.",
     "continue": "Continuă să explorezi",
     "quantity": "Cantitate",
     "quantityOf": "Cantitate pentru {name}",
@@ -195,7 +202,11 @@
     "needMore": "Ai nevoie de mai multe? Întreabă despre vânzarea angro",
     "noscript": "JavaScript este dezactivat, așa că nu putem afișa comanda aici. Poți totuși comanda direct:",
     "shortenedNote": "Observațiile tale sunt lungi, așa că mesajul WhatsApp le scurtează. Folosește „Copiază mesajul” ca să lipești textul complet în conversație.",
-    "sendEmail": "Sau trimite-l pe e-mail la {email}"
+    "sendEmail": "Sau trimite-l pe e-mail la {email}",
+    "unavailable": "Această piesă nu mai este disponibilă. Scoate-o din comandă sau întreabă-ne de una asemănătoare.",
+    "engravingLine": "Gravură: „{text}”",
+    "soldOutLine": "Epuizată: îți vom spune dacă poate fi realizată din nou.",
+    "nothingToSend": "Nu se poate trimite încă nimic: scoate piesele care nu mai sunt disponibile."
   },
   "wishlist": {
     "title": "Favoritele tale",
@@ -264,7 +275,8 @@
     "chat": "Scrie-ne pe WhatsApp",
     "chatFooter": "Scrie-ne pe WhatsApp",
     "giftNoteEmpty": "Mesaj pentru cadou: (încă fără text)",
-    "shortened": "(scurtat)"
+    "shortened": "(scurtat)",
+    "engraving": "Gravură: „{text}”"
   },
   "announcement": {
     "label": "Anunț"

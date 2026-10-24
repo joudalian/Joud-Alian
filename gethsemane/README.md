@@ -41,43 +41,74 @@ generator reads the same tokens.
 
 **Type**: EB Garamond for headings and the wordmark, Inter for body text (self-hosted by `next/font`).
 
-## Editing products
+## Editing products and categories
 
-All product data is in **one file: `src/data/products.ts`**. Each entry looks like this:
+The catalog is **data only**: adding products or categories never needs a code change. Everything is validated by
+`src/data/catalog-schema.ts`; a mistake (unknown category, missing English text, duplicate slug or SKU, a photo that
+does not exist…) fails `npm run check:i18n` and the build with a readable message. What to collect for each product
+from the sister store: **`docs/CATALOG.md`**.
+
+| What | Where |
+| ---- | ----- |
+| Products | `src/data/products.ts` |
+| Categories (names, descriptions, order, home-page gift ideas) | `src/data/categories.ts` |
+| Product photos (originals) | `catalog/photos/<slug>/01.jpg`, `02.jpg`, … |
+| Test-only product (variants, engraving, 3 photos) | `src/data/fixtures.ts`, `catalog/fixtures/` — only in test builds |
+| Generated photo sizes (not committed) | `public/images/products/sized/<slug>/01-400.avif` … `01-1600.webp`, `01-og.jpg` |
+
+A product entry (all fields: header of `src/data/products.ts`; a full example: `docs/templates/product.json`):
 
 ```ts
 {
-  id: 13,                                   // unique number, never reuse one
-  slug: "olive-wood-angel",                 // URL: /en/product/olive-wood-angel (lowercase, numbers, dashes)
-  category: "nativity",                     // "nativity" | "crosses" | "rosaries" | "home"
-  priceUsd: 29,                             // price in US dollars
-  image: "/images/products/olive-wood-angel.jpg", // file in /public
-  featured: true,                           // optional: show on the home page
+  id: 13,                                    // unique number, never reuse one; SKU defaults to GTH-013
+  slug: "olive-wood-angel",                  // English, shared by every language: /fr/product/olive-wood-angel
+  categories: ["nativity", "home"],          // slugs from src/data/categories.ts; the first is the main one
+  priceUsd: 29,
+  availability: "in_stock",                  // or "made_to_order" (default, with leadTimeDays) or "sold_out"
+  images: [{ file: "olive-wood-angel/01.jpg", width: 1600, height: 1600 }],
+  variants: [{ id: "large", label: { en: "Large, 15 cm" }, priceUsd: 39 }],   // optional
+  engraving: { enabled: true, maxChars: 30, extraUsd: 10 },                    // optional
   text: {
-    en: { name: "Olive Wood Angel", description: "…" },
-    fr: { name: "…", description: "…" },
-    // …all 10 languages are required: en, fr, es, it, de, el, pl, ro, uk, pt
+    en: { name: "Olive Wood Angel", summary: "…", description: "…" },          // English is required
+    fr: { name: "…", description: "…" },                                       // others fall back to English
   },
+  launchReady: false,                        // true once every language is written and checked
 },
 ```
 
-**Add a product**: copy an existing entry, give it a new `id` and `slug`, fill in the price and the name and
-description in all 10 languages, and put its photo in `public/images/products/`.
+**Languages.** English is required; a missing language shows the English text (marked `lang="en"`) and the product
+is listed as needing review. `npm run check:i18n` only **warns** about that, except for products flagged
+`launchReady: true`, which must have all 10 languages (and variant labels) with nothing in `needsReview`.
+`npm run check:launch` requires every product to be `launchReady`.
 
-**Replace a placeholder photo**: save your photo over the placeholder file with the same name (for example
-`public/images/products/salad-bowl.webp`), or save it under a new name (`.webp`, `.jpg`, `.png` or `.avif`)
-and change `image` in the data file. Use portrait photos with a 4:5 ratio (for example 1200×1500 px); other
-ratios are cropped to fit. Next.js serves them in the right size and format automatically. The product page's
-main photo (its largest paint) is served from static copies instead: `scripts/size-product-images.mjs` writes
-AVIF and WebP versions at 400–1600 px wide to `public/images/products/sized/` before every `npm run build` and
-`npm run dev` (they are generated, not committed). Nothing to do by hand.
+**Photos.** Put the originals in `catalog/photos/<slug>/` named `01.jpg`, `02.jpg`, … in the order they should
+appear (the first one is the main photo: cards, order page, social sharing). Recommended: **square, 1600×1600 px,
+on a plain white or cream background**, the piece filling most of the frame, JPEG or PNG. Other shapes are shown
+whole (never cropped) inside a square frame. Before every build, `scripts/size-product-images.mjs`:
 
-**Remove a product**: delete its entry (and its photo).
+- rewrites an original that is larger than 2000 px or carries metadata: turned upright, at most 2000 px, with
+  **all EXIF removed (including GPS location)**, so no location ever reaches the repository or the site;
+- writes AVIF and WebP copies 400, 640, 828, 1080 and 1600 px wide, and a 1200×630 social image for the first
+  photo, into `public/images/products/sized/` (git-ignored);
+- fails if a photo listed in the data is missing or its `width`/`height` do not match the file's shape.
 
-Then run `npm run check:i18n`: it fails if any product is missing a language, has a duplicate id or slug, an
-unknown category, an invalid price or an image file that does not exist. `npm run assets` creates a neutral
-placeholder image (cream card with the logo mark and the product name) for any product whose image file is missing;
-it never overwrites existing photos (use `npm run assets -- --force-placeholders` to reset them all).
+Originals are never served: pages use only the sized copies (`<picture>` with AVIF/WebP, preloaded for the main
+photo). `npm run assets` creates a neutral square placeholder for any listed photo that does not exist yet.
+
+**Add a product in 5 steps**
+
+1. Put its photos in `catalog/photos/<slug>/` (`01.jpg`, `02.jpg`, …; square 1600×1600 recommended).
+2. Add a row to a copy of `docs/templates/products.csv` (or an entry to `src/data/products.ts` directly).
+3. Run `npm run catalog:import -- my-products.csv` to check it, then again with `--write` to append it.
+4. Run `npm run check:i18n` (errors must be fixed; warnings list languages still to translate).
+5. Run `npm run verify`, commit and deploy. When every language is checked, set `launchReady: true`.
+
+**Add a category**: add an entry to `src/data/categories.ts` (slug, order, names and descriptions, optional
+`gifts`), run `npm run assets` to create its banner card (or add `public/images/categories/<slug>.webp`), and list
+the category in products' `categories`. Menus, the shop filters, the home page, breadcrumbs and the sitemap follow.
+
+**Remove a product**: delete its entry and its photo folder. Orders already in a visitor's browser show it as "no
+longer available" with a remove button; it is never sent.
 
 The current 12 products, their names, descriptions, photos and prices are **placeholders**.
 
@@ -88,7 +119,9 @@ There is **no online checkout** and no payment on the site. Visitors collect pie
 (kept only in their browser; "Clear my saved details" removes them), and press **Send order on WhatsApp**: it
 opens `https://wa.me/<number>` with a message in the visitor's language listing the items, quantities, prices in
 USD (plus an approximate total in the chosen currency) and those details. For the owner, every line also carries
-the English product name and SKU (`GTH-001`…), and a line names the site language. A ticked gift-note box is
+the English product name and SKU (`GTH-001`…, or the variant's SKU), the chosen variant and any engraving text, and
+a line names the site language. The order is kept in the browser under `gethsemane.cart.v2` (lines of product,
+quantity, variant and engraving; an older `gethsemane.cart.v1` order is migrated automatically). A ticked gift-note box is
 always mentioned, even without text. Very long notes are shortened in the link (wa.me links over ~2000 encoded
 characters fail in some apps); the visitor is told, and the full text stays in the **Copy message** fallback and
 its preview. When `CONTACT_EMAIL` is set, a "send it by email" link appears too. On the product page the primary
@@ -267,6 +300,7 @@ link-crawl test also checks the rendered pages. The same command checks that del
 | `npm run audit`          | `npm audit --audit-level=high`                                                    |
 | `npm run verify`         | typecheck → lint → i18n → claims → contrast → build → audit → all tests           |
 | `npm run check:launch`   | Launch gate (not in verify): catalog open, real product texts and photos, real `SITE_URL` |
+| `npm run catalog:import` | Checks a products CSV against the schema (`--write` appends it to `src/data/products.ts`) |
 | `npm run assets`         | Rebuilds brand files, favicons and images from `../brand/`; creates missing product placeholders |
 
 Requires Node.js 22 (22.18 or newer; the check scripts read `src/data/products.ts` directly). On a fresh machine,

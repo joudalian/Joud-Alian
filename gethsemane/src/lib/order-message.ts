@@ -1,10 +1,29 @@
 import { STORE_NAME } from "@/config/store";
 import { localeNames, type Locale } from "@/i18n/locales";
-import { getProduct, productSku, productText } from "./catalog";
+import { getProduct, getVariant, productSku, productText, unitPriceUsd, variantLabel, type Product } from "./catalog";
 import { formatPrice, type Currency } from "./currency";
 import { encodeMessage, MAX_ENCODED_MESSAGE } from "./whatsapp";
 
-export type OrderLine = { slug: string; qty: number };
+export type OrderLine = { slug: string; qty: number; variantId?: string; engraving?: string };
+
+/**
+ * Whether a cart line can still be ordered: the product (and its variant) must exist, and engraving text needs a
+ * product that still offers engraving. Other lines are shown as "no longer available" and left out of the order.
+ */
+export function lineProduct(line: OrderLine): Product | undefined {
+  const product = getProduct(line.slug);
+  if (!product) return undefined;
+  if (line.variantId && !getVariant(product, line.variantId)) return undefined;
+  if (!line.variantId && product.variants.length > 0) return undefined;
+  if (line.engraving && !product.engraving?.enabled) return undefined;
+  if (line.engraving && Array.from(line.engraving).length > product.engraving!.maxChars) return undefined;
+  return product;
+}
+
+/** Price of a whole line in USD (variant price and engraving included). */
+export function linePriceUsd(product: Product, line: OrderLine): number {
+  return unitPriceUsd(product, line.variantId, Boolean(line.engraving)) * line.qty;
+}
 /** `giftNote` is the gift-note text when the gift-note box is ticked (possibly ""), undefined when it is not. */
 export type OrderDetails = { name?: string; country?: string; notes?: string; giftNote?: string };
 type Translate = (key: string, values?: Record<string, string | number>) => string;
@@ -19,13 +38,18 @@ export function buildOrderMessage(t: Translate, lines: readonly OrderLine[], cur
   let totalUsd = 0;
   const items: string[] = [];
   for (const line of lines) {
-    const product = getProduct(line.slug);
+    const product = lineProduct(line);
     if (!product) continue;
-    totalUsd += product.priceUsd * line.qty;
-    const name = productText(product, locale).name;
-    const english = product.text.en.name;
-    const ref = locale === "en" || name === english ? productSku(product) : `${english}, ${productSku(product)}`;
-    items.push(`• ${t("line", { qty: line.qty, name, price: formatPrice(product.priceUsd * line.qty, currency, locale) })} (${ref})`);
+    const price = linePriceUsd(product, line);
+    totalUsd += price;
+    const variant = getVariant(product, line.variantId);
+    const localName = productText(product, locale).name;
+    const name = variant ? `${localName}, ${variantLabel(variant, locale)}` : localName;
+    const english = variant ? `${product.text.en.name}, ${variant.label.en}` : product.text.en.name;
+    const sku = productSku(product, line.variantId);
+    const ref = locale === "en" || name === english ? sku : `${english}, ${sku}`;
+    items.push(`• ${t("line", { qty: line.qty, name, price: formatPrice(price, currency, locale) })} (${ref})`);
+    if (line.engraving) items.push(`  ${t("engraving", { text: line.engraving })}`);
   }
   if (items.length === 0) return "";
   const out = [t("greeting", { store: STORE_NAME }), "", ...items, ""];

@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {Ningún producto} one {# producto} other {# productos}}",
     "empty": "Todavía no hay productos en esta categoría."
   },
-  "categories": {
-    "nativity": {
-      "name": "Belenes",
-      "description": "Belenes y figuras de la Sagrada Familia para Navidad y todo el año."
-    },
-    "crosses": {
-      "name": "Cruces",
-      "description": "Cruces de pared, cruces de Jerusalén y pequeñas cruces para sostener al rezar."
-    },
-    "rosaries": {
-      "name": "Rosarios",
-      "description": "Rosarios, decenarios y cuentas de oración de madera de olivo."
-    },
-    "home": {
-      "name": "Decoración",
-      "description": "Cuencos, tablas y candelabros que llevan la madera de olivo a la mesa."
-    }
-  },
   "product": {
     "addToCart": "Añadir al pedido",
     "addedToCart": "Añadido a tu pedido",
@@ -151,13 +133,38 @@
     "viewOrder": "Ver tu pedido",
     "safetyTitle": "Información de seguridad del producto",
     "safetyManufacturer": "Fabricante: {name}",
-    "safetyEu": "Persona responsable en la UE: {name}"
+    "safetyEu": "Persona responsable en la UE: {name}",
+    "chooseOptions": "Elegir opciones",
+    "viewPiece": "Ver esta pieza",
+    "availability": {
+      "in_stock": "En stock",
+      "made_to_order": "Hecho por encargo",
+      "sold_out": "Agotado"
+    },
+    "leadTime": "Suele estar lista para enviar en unos {days} días.",
+    "variantLabel": "Elige una opción",
+    "engravingAdd": "Añadir grabado (+{price})",
+    "engravingText": "Texto del grabado",
+    "engravingMax": "Hasta {max} caracteres.",
+    "engravingNote": "El grabado suma {price} por pieza. Las piezas grabadas no se pueden devolver, salvo que sean defectuosas.",
+    "engravingMissing": "Escribe el texto del grabado o desmarca el grabado.",
+    "soldOutNote": "Agotada por ahora. Pregúntanos si se puede volver a hacer.",
+    "priceWas": "Antes",
+    "priceNow": "Ahora",
+    "priceFrom": "Desde {price}",
+    "gallery": "galería",
+    "gallerySlide": "foto",
+    "galleryLabel": "Fotos de {name} ({count})",
+    "photoNumber": "Foto {n} de {count}",
+    "previousPhoto": "Foto anterior",
+    "nextPhoto": "Foto siguiente",
+    "photoAltN": "{name}, foto {n}"
   },
   "cart": {
     "title": "Tu pedido",
     "loading": "Cargando tu pedido…",
     "empty": "Tu pedido está vacío.",
-    "emptyText": "Un buen lugar para empezar: nuestros <link>belenes</link>.",
+    "emptyText": "Un buen lugar para empezar: <link>{category}</link>.",
     "continue": "Seguir mirando",
     "quantity": "Cantidad",
     "quantityOf": "Cantidad de {name}",
@@ -195,7 +202,11 @@
     "needMore": "¿Necesitas más? Pregunta por la venta al por mayor",
     "noscript": "JavaScript está desactivado, así que tu pedido no se puede mostrar aquí. Aun así puedes pedir directamente:",
     "shortenedNote": "Tus notas son largas, así que el mensaje de WhatsApp las acorta. Usa «Copiar mensaje» para pegar el texto completo en el chat.",
-    "sendEmail": "O envíalo por correo a {email}"
+    "sendEmail": "O envíalo por correo a {email}",
+    "unavailable": "Esta pieza ya no está disponible. Quítala de tu pedido o pregúntanos por una parecida.",
+    "engravingLine": "Grabado: «{text}»",
+    "soldOutLine": "Agotada: te diremos si se puede volver a hacer.",
+    "nothingToSend": "Todavía no se puede enviar nada: quita las piezas que ya no están disponibles."
   },
   "wishlist": {
     "title": "Tus favoritos",
@@ -264,7 +275,8 @@
     "chat": "Escribir por WhatsApp",
     "chatFooter": "Escríbenos por WhatsApp",
     "giftNoteEmpty": "Nota de regalo: (aún sin texto)",
-    "shortened": "(acortado)"
+    "shortened": "(acortado)",
+    "engraving": "Grabado: «{text}»"
   },
   "announcement": {
     "label": "Aviso"

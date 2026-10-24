@@ -4,12 +4,10 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { preload } from "react-dom";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { JsonLd } from "@/components/JsonLd";
-import { Price } from "@/components/Price";
-import { AddToCartButton, WishlistButton } from "@/components/ProductActions";
 import { ProductGrid } from "@/components/ProductCard";
-import { ProductOrderBar } from "@/components/ProductOrderBar";
+import { ProductGallery } from "@/components/ProductGallery";
+import { ProductPurchase } from "@/components/ProductPurchase";
 import { WhatsAppLink } from "@/components/WhatsAppLink";
-import { WhatsAppOrderButton } from "@/components/WhatsAppOrder";
 import {
   CATALOG_READY,
   DELIVERY_BY_REGION,
@@ -24,11 +22,11 @@ import {
 } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import { isLocale, type Locale } from "@/i18n/locales";
-import { getProduct, productText, productsInCategory, type Product, type ProductSlug } from "@/lib/catalog";
+import { categoryText, getProduct, imageAlt, mainCategory, mainImage, productText, productsInCategory, type Product } from "@/lib/catalog";
 import { RATES_AS_OF } from "@/lib/currency";
 import { cmToIn, formatDate, gToOz } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
-import { PRODUCT_IMAGE_SIZES, productImageSrcSet } from "@/lib/product-image";
+import { OG_SIZE, PRODUCT_IMAGE_SIZES, productImageSrcSet, productOgImage } from "@/lib/product-image";
 import { productLd } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: Locale; slug: string }> };
@@ -37,9 +35,18 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
   const product = getProduct(slug);
   if (!product || !isLocale(locale)) notFound();
-  const { name, description } = productText(product, locale);
+  const { name, summary, description } = productText(product, locale);
   // Placeholder products stay out of search engines until the catalog is ready (see CATALOG_READY).
-  return pageMetadata({ locale, path: `/product/${slug}`, title: name, description, noindex: !CATALOG_READY });
+  return pageMetadata({
+    locale,
+    path: `/product/${slug}`,
+    title: name,
+    description: summary ?? description,
+    noindex: !CATALOG_READY,
+    // og:type "product" is rendered by the page itself (Next.js metadata has no product type).
+    ogType: null,
+    image: { url: productOgImage(mainImage(product).file), ...OG_SIZE, alt: name },
+  });
 }
 
 /** Only the details that exist in the product data are shown. */
@@ -77,59 +84,54 @@ export default async function ProductPage({ params }: Props) {
   if (!product) notFound();
   setRequestLocale(locale);
   const t = await getTranslations();
-  const productSlug = product.slug as ProductSlug;
-  const { name, description } = productText(product, locale);
-  const related = productsInCategory(product.category).filter((p) => p.slug !== product.slug);
+  const text = productText(product, locale);
+  const { name, summary, description } = text;
+  const lang = text.lang === locale ? undefined : text.lang;
+  const category = mainCategory(product);
+  const related = productsInCategory(category.slug).filter((p) => p.slug !== product.slug);
   const path = `/product/${product.slug}`;
-  const avifSrcSet = productImageSrcSet(product.image, "avif");
+  const first = mainImage(product);
+  const avifSrcSet = productImageSrcSet(first.file, "avif");
   preload(avifSrcSet.split(" ")[0]!, { as: "image", type: "image/avif", imageSrcSet: avifSrcSet, imageSizes: PRODUCT_IMAGE_SIZES, fetchPriority: "high" });
+  const gallery = product.images.map((image, i) => ({
+    image,
+    alt: imageAlt(image, locale) ?? (i === 0 ? t("product.photoAlt", { name }) : t("product.photoAltN", { name, n: i + 1 })),
+  }));
 
   return (
     <div className="container page product-page">
+      {/* Open Graph: a product page (React hoists these into <head>). */}
+      <meta property="og:type" content="product" />
+      {CATALOG_READY && <meta property="product:price:amount" content={product.priceUsd.toFixed(2)} />}
+      {CATALOG_READY && <meta property="product:price:currency" content="USD" />}
       <Breadcrumb
         currentPath={path}
         items={[
           { href: "/", label: t("nav.home") },
           { href: "/shop", label: t("shop.title") },
-          { href: `/shop/${product.category}`, label: t(`categories.${product.category}.name`) },
+          { href: `/shop/${category.slug}`, label: categoryText(category, locale).name },
           { label: name },
         ]}
       />
       <div className="product-detail">
         <div className="media">
-          {/* The largest paint of the page: static pre-sized files (scripts/size-product-images.mjs), preloaded
-              in <head>, so it never waits for the on-demand image optimizer. */}
-          <picture>
-            <source type="image/avif" srcSet={avifSrcSet} sizes={PRODUCT_IMAGE_SIZES} />
-            <img
-              src={productImageSrcSet(product.image, "webp").split(" ")[0]}
-              srcSet={productImageSrcSet(product.image, "webp")}
-              sizes={PRODUCT_IMAGE_SIZES}
-              alt={t("product.photoAlt", { name })}
-              width={800}
-              height={1000}
-              fetchPriority="high"
-              decoding="async"
-            />
-          </picture>
+          {/* The first photo is the largest paint: static pre-sized files, preloaded in <head>. */}
+          <ProductGallery images={gallery} name={name} />
         </div>
         <div>
-          <h1>{name}</h1>
-          <p className="product-price">
-            <Price usd={product.priceUsd} />
-          </p>
-          <p>{description}</p>
-          <div className="buy-row">
-            <AddToCartButton slug={productSlug} name={name} viewLink />
-            <WishlistButton slug={productSlug} name={name} />
-          </div>
-          <div className="order-row" id="order-row">
-            <WhatsAppOrderButton lines={[{ slug: productSlug, qty: 1 }]} label={t("product.orderOnlyThis")} className="btn btn-whatsapp btn-block" />
+          <h1 lang={lang}>{name}</h1>
+          {summary && (
+            <p className="lead" lang={lang}>
+              {summary}
+            </p>
+          )}
+          <ProductPurchase slug={product.slug} name={name}>
             <p className="note">{t("cart.whatsappHint")}</p>
             <WhatsAppLink message={t("whatsapp.ask", { store: STORE_NAME, name })} className="text-link">
               {t("product.askAbout")}
             </WhatsAppLink>
-          </div>
+          </ProductPurchase>
+          <p lang={lang}>{description}</p>
           <Specs product={product} />
           <p className="note">{t("product.handmadeNote")}</p>
           <p className="note">{t("currency.note", { date: formatDate(RATES_AS_OF, locale) })}</p>
@@ -189,7 +191,6 @@ export default async function ProductPage({ params }: Props) {
           <ProductGrid products={related} />
         </section>
       )}
-      <ProductOrderBar slug={productSlug} name={name} priceUsd={product.priceUsd} />
       <JsonLd data={productLd(product, locale)} />
     </div>
   );

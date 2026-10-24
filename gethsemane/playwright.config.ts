@@ -1,5 +1,9 @@
 import { defineConfig, devices } from "@playwright/test";
 
+// The tests run against a test build that includes the fixture products (scripts/ensure-build.mjs); the test
+// code reads the same catalog, so it must see them too.
+process.env.NEXT_PUBLIC_CATALOG_FIXTURES = "1";
+
 const PORT = Number(process.env.PORT ?? 3100);
 const baseURL = `http://localhost:${PORT}`;
 
@@ -22,6 +26,6 @@ export default defineConfig({
     url: `${baseURL}/en`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
-    env: { SITE_URL: baseURL },
+    env: { SITE_URL: baseURL, NEXT_PUBLIC_CATALOG_FIXTURES: "1" },
   },
 });

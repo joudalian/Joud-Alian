@@ -1,4 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
+import { fixture, simple, simple2 } from "./catalog";
 import { expectNoHorizontalScroll, infoPages, locales, pages, waitForHydration } from "./helpers";
 
 // Layout checks run once per width in the desktop project (the viewport is set explicitly).
@@ -9,11 +10,22 @@ const layoutLocales = ["en", "de", "el"];
 type Box = { x: number; y: number; width: number; height: number };
 const overlaps = (a: Box, b: Box) => a.x < b.x + b.width && a.x + a.width > b.x && a.y < b.y + b.height && a.y + a.height > b.y;
 
+// A long order: a simple piece, the fixture with a variant and engraving, and a piece that no longer exists.
+const cart = [
+  { slug: simple.slug, qty: 2 },
+  { slug: fixture.slug, qty: 1, variantId: fixture.variants.at(-1)!.id, engraving: "W".repeat(fixture.engraving!.maxChars) },
+  { slug: "a-piece-that-was-removed", qty: 1 },
+];
+const wishlist = [simple2.slug, fixture.slug];
+
 async function fillCartAndWishlist(page: Page) {
-  await page.evaluate(() => {
-    localStorage.setItem("gethsemane.cart.v1", JSON.stringify([{ slug: "nativity-stable-grand", qty: 2 }, { slug: "pocket-holding-cross", qty: 1 }]));
-    localStorage.setItem("gethsemane.wishlist.v1", JSON.stringify(["chaplet-bracelet", "serving-board"]));
-  });
+  await page.evaluate(
+    ([c, w]) => {
+      localStorage.setItem("gethsemane.cart.v2", JSON.stringify(c));
+      localStorage.setItem("gethsemane.wishlist.v1", JSON.stringify(w));
+    },
+    [cart, wishlist] as const,
+  );
 }
 
 /** Interactive elements that are smaller than 44×44 CSS px (inline links inside text are exempt). */
@@ -36,7 +48,8 @@ async function clippedText(page: Page) {
   return page.evaluate(() => {
     const out: string[] = [];
     for (const el of document.querySelectorAll<HTMLElement>("main *, header *, footer *")) {
-      if (el.closest(".sr-only")) continue;
+      // Photos waiting off-screen in the swipeable gallery strip are scrolled into view, not cut off.
+      if (el.closest(".sr-only") || el.closest(".gallery-track, .gallery-thumbs")) continue;
       const style = getComputedStyle(el);
       if ((style.overflowX === "hidden" || style.overflow === "hidden") && el.scrollWidth > el.clientWidth + 1 && el.children.length === 0 && el.textContent?.trim()) {
         out.push(`${el.tagName.toLowerCase()}.${el.className} "${el.textContent.trim().slice(0, 40)}"`);
@@ -82,7 +95,7 @@ test.describe("responsive layout", () => {
       await page.setViewportSize({ width, height: 700 });
       await page.goto("/de");
       await fillCartAndWishlist(page);
-      for (const path of ["", "/product/nativity-set-classic", "/cart", "/shop"]) {
+      for (const path of ["", pages.product, pages.fixture, "/cart", "/shop"]) {
         await page.goto(`/de${path}`);
         await waitForHydration(page);
         const header = (await page.locator(".site-header").boundingBox())!;
@@ -175,7 +188,7 @@ test("the floating language button never sits on top of a control while scrollin
   test.setTimeout(240_000);
   for (const width of [320, 390, 768, 1280]) {
     await page.setViewportSize({ width, height: 700 });
-    for (const path of ["/el/shop", "/de/product/nativity-set-classic"]) {
+    for (const path of ["/el/shop", `/de${pages.product}`, `/de${pages.fixture}`]) {
       await page.goto(path);
       await waitForHydration(page);
       const height = await page.evaluate(() => document.documentElement.scrollHeight);

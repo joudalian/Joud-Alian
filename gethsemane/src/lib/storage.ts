@@ -8,7 +8,9 @@ import { isLocale, type Locale } from "@/i18n/locales";
 z.config({ jitless: true });
 
 export const STORAGE_KEYS = {
-  cart: "gethsemane.cart.v1",
+  cart: "gethsemane.cart.v2",
+  /** Previous cart format ({ slug, qty }[]), migrated to v2 on first read. */
+  cartV1: "gethsemane.cart.v1",
   wishlist: "gethsemane.wishlist.v1",
   currency: "gethsemane.currency.v1",
   language: "gethsemane.language.v1",
@@ -21,16 +23,29 @@ export const MAX_WISHLIST = 100;
 /** Anything larger than this cannot be a legitimate value and is discarded before parsing. */
 const MAX_RAW_LENGTH = 16_384;
 
-export type CartLine = { slug: ProductSlug; qty: number };
+/**
+ * One line of the order. The same piece with another variant or engraving text is a separate line.
+ * `slug` may name a product that no longer exists: the order page then shows it as no longer available.
+ */
+export type CartLine = { slug: ProductSlug; qty: number; variantId?: string; engraving?: string };
+export const MAX_ENGRAVING = 200;
 
+const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
 const cartSchema = z
   .array(
     z.object({
-      slug: z.string().check(z.maxLength(64)),
+      slug: z.string().check(z.maxLength(80), z.regex(SLUG)),
       qty: z.int().check(z.minimum(1), z.maximum(MAX_QTY)),
+      variantId: z.optional(z.string().check(z.maxLength(40), z.regex(SLUG))),
+      engraving: z.optional(z.string().check(z.maxLength(MAX_ENGRAVING))),
     }),
   )
   .check(z.maxLength(MAX_CART_LINES * 4));
+
+/** Identity of a cart line: product, variant and engraving text. */
+export function lineKey(line: Pick<CartLine, "slug" | "variantId" | "engraving">): string {
+  return `${line.slug}|${line.variantId ?? ""}|${line.engraving ?? ""}`;
+}
 
 const wishlistSchema = z.array(z.string().check(z.maxLength(64))).check(z.maxLength(MAX_WISHLIST * 4));
 
@@ -43,15 +58,19 @@ function safeJson(raw: string | null | undefined): unknown {
   }
 }
 
+/** Reads the v2 cart (or a v1 cart: same shape without variant and engraving). Unknown slugs are kept. */
 export function parseCart(raw: string | null | undefined): CartLine[] {
   const result = cartSchema.safeParse(safeJson(raw));
   if (!result.success) return [];
-  const merged = new Map<ProductSlug, number>();
+  const merged = new Map<string, CartLine>();
   for (const line of result.data) {
-    if (!isProductSlug(line.slug)) continue;
-    merged.set(line.slug, Math.min(MAX_QTY, (merged.get(line.slug) ?? 0) + line.qty));
+    const engraving = line.engraving?.replace(/\s+/g, " ").trim() || undefined;
+    const clean: CartLine = { slug: line.slug, qty: line.qty, ...(line.variantId ? { variantId: line.variantId } : {}), ...(engraving ? { engraving } : {}) };
+    const key = lineKey(clean);
+    const existing = merged.get(key);
+    merged.set(key, existing ? { ...existing, qty: Math.min(MAX_QTY, existing.qty + clean.qty) } : clean);
   }
-  return [...merged].slice(0, MAX_CART_LINES).map(([slug, qty]) => ({ slug, qty }));
+  return [...merged.values()].slice(0, MAX_CART_LINES);
 }
 
 export function parseWishlist(raw: string | null | undefined): ProductSlug[] {

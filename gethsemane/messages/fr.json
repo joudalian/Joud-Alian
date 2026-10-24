@@ -84,24 +84,6 @@
     "count": "{count, plural, =0 {Aucun produit} one {# produit} other {# produits}}",
     "empty": "Il n'y a pas encore de produits dans cette catégorie."
   },
-  "categories": {
-    "nativity": {
-      "name": "Crèches",
-      "description": "Crèches et figurines de la Sainte Famille, pour Noël et toute l'année."
-    },
-    "crosses": {
-      "name": "Croix",
-      "description": "Croix murales, croix de Jérusalem et petites croix de prière à tenir en main."
-    },
-    "rosaries": {
-      "name": "Chapelets",
-      "description": "Chapelets, dizainiers et chapelets de prière en perles de bois d'olivier."
-    },
-    "home": {
-      "name": "Décoration",
-      "description": "Saladiers, planches et bougeoirs qui apportent le bois d'olivier à table."
-    }
-  },
   "product": {
     "addToCart": "Ajouter à la commande",
     "addedToCart": "Ajouté à votre commande",
@@ -151,13 +133,38 @@
     "viewOrder": "Voir votre commande",
     "safetyTitle": "Informations sur la sécurité du produit",
     "safetyManufacturer": "Fabricant : {name}",
-    "safetyEu": "Personne responsable dans l'UE : {name}"
+    "safetyEu": "Personne responsable dans l'UE : {name}",
+    "chooseOptions": "Choisir les options",
+    "viewPiece": "Voir cette pièce",
+    "availability": {
+      "in_stock": "En stock",
+      "made_to_order": "Fabriqué sur commande",
+      "sold_out": "Épuisé"
+    },
+    "leadTime": "Prête à l'expédition en général sous {days} jours environ.",
+    "variantLabel": "Choisissez une option",
+    "engravingAdd": "Ajouter une gravure (+{price})",
+    "engravingText": "Texte de la gravure",
+    "engravingMax": "Jusqu'à {max} caractères.",
+    "engravingNote": "La gravure ajoute {price} par pièce. Les pièces gravées ne peuvent pas être retournées, sauf si elles sont défectueuses.",
+    "engravingMissing": "Saisissez le texte de la gravure, ou décochez la gravure.",
+    "soldOutNote": "Épuisée pour le moment. Demandez-nous si elle peut être refaite.",
+    "priceWas": "Avant",
+    "priceNow": "Maintenant",
+    "priceFrom": "À partir de {price}",
+    "gallery": "galerie",
+    "gallerySlide": "photo",
+    "galleryLabel": "Photos de {name} ({count})",
+    "photoNumber": "Photo {n} sur {count}",
+    "previousPhoto": "Photo précédente",
+    "nextPhoto": "Photo suivante",
+    "photoAltN": "{name}, photo {n}"
   },
   "cart": {
     "title": "Votre commande",
     "loading": "Chargement de votre commande…",
     "empty": "Votre commande est vide.",
-    "emptyText": "Un bon point de départ : nos <link>crèches</link>.",
+    "emptyText": "Un bon point de départ : <link>{category}</link>.",
     "continue": "Continuer la visite",
     "quantity": "Quantité",
     "quantityOf": "Quantité de {name}",
@@ -195,7 +202,11 @@
     "needMore": "Besoin de plus ? Renseignez-vous sur la vente en gros",
     "noscript": "JavaScript est désactivé : votre commande ne peut pas s'afficher ici. Vous pouvez tout de même commander directement :",
     "shortenedNote": "Vos remarques sont longues : le message WhatsApp les raccourcit. Utilisez « Copier le message » pour coller le texte complet dans la conversation.",
-    "sendEmail": "Ou envoyez-la par e-mail à {email}"
+    "sendEmail": "Ou envoyez-la par e-mail à {email}",
+    "unavailable": "Cette pièce n'est plus disponible. Retirez-la de votre commande ou demandez-nous une pièce similaire.",
+    "engravingLine": "Gravure : « {text} »",
+    "soldOutLine": "Épuisée : nous vous dirons si elle peut être refaite.",
+    "nothingToSend": "Rien ne peut encore être envoyé : retirez les pièces qui ne sont plus disponibles."
   },
   "wishlist": {
     "title": "Vos favoris",
@@ -264,7 +275,8 @@
     "chat": "Écrire sur WhatsApp",
     "chatFooter": "Écrivez-nous sur WhatsApp",
     "giftNoteEmpty": "Mot pour le cadeau : (pas encore de texte)",
-    "shortened": "(raccourci)"
+    "shortened": "(raccourci)",
+    "engraving": "Gravure : « {text} »"
   },
   "announcement": {
     "label": "Annonce"
