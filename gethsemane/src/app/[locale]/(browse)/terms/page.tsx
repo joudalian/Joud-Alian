@@ -20,7 +20,6 @@ export default async function TermsPage({ params }: Props) {
   setRequestLocale(locale);
   const t = await getTranslations("terms");
   const tFaq = await getTranslations("faq");
-  const tPolicy = await getTranslations("policy");
   return (
     <InfoPage locale={locale} path="/terms" title={t("title")} intro={t("intro")} updated={POLICY_UPDATED}>
       <Section id="order" title={t("orderTitle")}>
@@ -44,8 +43,9 @@ export default async function TermsPage({ params }: Props) {
         <p>{t("variation")}</p>
       </Section>
       <Section id="law" title={t("lawTitle")}>
-        {/* TODO: governing law must be confirmed by a lawyer (GOVERNING_LAW in src/config/store.ts). */}
-        <p>{t("law", { law: GOVERNING_LAW || `[${tPolicy("toBeConfirmed")}]` })}</p>
+        <p>{t("consumerLaw")}</p>
+        {/* Governing law is shown only once confirmed by a lawyer (GOVERNING_LAW in src/config/store.ts). */}
+        {GOVERNING_LAW && <p>{t("law", { law: GOVERNING_LAW })}</p>}
       </Section>
       <Section id="liability" title={t("liabilityTitle")}>
         <p>{t("liability")}</p>

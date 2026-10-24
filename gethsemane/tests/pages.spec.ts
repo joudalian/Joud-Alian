@@ -91,7 +91,9 @@ test.describe("help and policy pages", () => {
     await expect(notice).not.toContainText("Business name");
     await expect(notice).not.toContainText("Email:");
     expect(await page.content()).not.toContain("ec.europa.eu/consumers/odr");
-    await expect(page.getByText("Otherwise these terms are governed by: [to be confirmed].")).toBeVisible();
+    // GOVERNING_LAW is empty: only the consumer-protection sentence is shown, no placeholder.
+    await expect(page.getByText("The mandatory consumer-protection law of your country of residence always applies.")).toBeVisible();
+    await expect(page.locator("main")).not.toContainText("governed by");
   });
 
   test("contact: topic chips change the WhatsApp message; no form; email hidden while not set", async ({ page }) => {
@@ -113,6 +115,8 @@ test.describe("help and policy pages", () => {
     expect(text).toContain("There are no customer accounts");
     expect(text).toContain("stored only in your own browser");
     expect(text).toContain("We do not sell or share personal data");
+    // DATA_RETENTION_YEARS is 0: the general retention sentence, not a number or a placeholder.
+    expect(text).toContain("We keep order details only as long as needed to fulfil your order and meet legal obligations such as accounting.");
     // The site really sets no third-party or tracking cookies.
     const cookies = await page.context().cookies();
     expect(cookies.map((c) => c.name).filter((n) => !["NEXT_LOCALE", "currency"].includes(n))).toEqual([]);
@@ -181,6 +185,33 @@ test.describe("WhatsApp ordering", () => {
   });
 });
 
+test.describe("delivery times", () => {
+  test("the headline range comes from config on every page that states it, and the regional table is labelled as estimates", async ({ page }) => {
+    const headline = /typically (takes )?7–15 business days/;
+    await page.goto("/en");
+    await expect(page.locator(".trust-strip")).toContainText("Ships to most countries, typically in 7–15 business days");
+    for (const path of ["/shipping", "/faq", "/product/nativity-set-classic"]) {
+      await page.goto(`/en${path}`);
+      expect(await page.locator("main").textContent(), path).toMatch(headline);
+    }
+    await page.goto("/en/shipping");
+    await expect(page.getByRole("table", { name: "Estimated delivery by region" })).toBeVisible();
+    await expect(page.getByText("These are estimates, not guarantees. Customs and remote destinations can take longer.")).toBeVisible();
+    await page.goto("/en/product/nativity-set-classic");
+    expect(await page.locator(".product-accordion").textContent()).toContain("Estimated delivery by region");
+    await page.evaluate(() => localStorage.setItem("gethsemane.cart.v1", JSON.stringify([{ slug: "nativity-set-classic", qty: 1 }])));
+    await page.goto("/en/cart");
+    expect(await page.locator("main").textContent()).toMatch(headline);
+  });
+
+  test("every language states the same headline range on the shipping page", async ({ request }) => {
+    for (const l of locales) {
+      const html = await (await request.get(`/${l}/shipping`)).text();
+      expect(html, l).toMatch(/7–15/);
+    }
+  });
+});
+
 test.describe("structured data", () => {
   test("home: Organization with return policy and WebSite", async ({ page, baseURL }) => {
     await page.goto("/en");
@@ -204,7 +235,9 @@ test.describe("structured data", () => {
     expect(product.offers.price).toBe("69.00");
     expect(product.brand.name).toBe("Gethsemane");
     expect(product.material).toBe("Olive wood");
+    // The headline range from DELIVERY_TIME, in business days (not the regional maxima).
     expect(product.offers.shippingDetails.deliveryTime.transitTime).toMatchObject({ minValue: 7, maxValue: 15 });
+    expect(product.offers.shippingDetails.deliveryTime.businessDays.dayOfWeek).toHaveLength(5);
     expect(product.offers.hasMerchantReturnPolicy.merchantReturnDays).toBe(14);
     expect(JSON.stringify(product)).not.toMatch(/EUR|€/);
     const crumbs = blocks.find((d) => d["@type"] === "BreadcrumbList");

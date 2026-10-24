@@ -67,7 +67,10 @@ description in all 10 languages, and put its photo in `public/images/products/`.
 **Replace a placeholder photo**: save your photo over the placeholder file with the same name (for example
 `public/images/products/salad-bowl.webp`), or save it under a new name (`.webp`, `.jpg`, `.png` or `.avif`)
 and change `image` in the data file. Use portrait photos with a 4:5 ratio (for example 1200×1500 px); other
-ratios are cropped to fit. Next.js serves them in the right size and format automatically.
+ratios are cropped to fit. Next.js serves them in the right size and format automatically. The product page's
+main photo (its largest paint) is served from static copies instead: `scripts/size-product-images.mjs` writes
+AVIF and WebP versions at 400–1600 px wide to `public/images/products/sized/` before every `npm run build` and
+`npm run dev` (they are generated, not committed). Nothing to do by hand.
 
 **Remove a product**: delete its entry (and its photo).
 
@@ -113,6 +116,12 @@ saved language (`NEXT_LOCALE` cookie), else the best `Accept-Language` match, el
 `messages/<locale>.json`; product text is in `src/data/products.ts`. `npm run check:i18n` fails on any missing,
 extra, empty or malformed message, and if Arabic text or right-to-left handling appears in the project.
 
+**Phone navigation labels** must fit in one fifth of a 320 px screen. Two-word labels wrap onto a second line, and
+below 375 px and 340 px the text steps down slightly (the tap targets stay 64×63 px). Keep `nav.home`,
+`nav.shop`, `nav.wishlist` and `nav.orderShort` short (German uses "Merkliste"); the visible label must stay part
+of the link's accessible name. `tests/layout.spec.ts` fails if a label is cut off or overlaps at 320, 360 or
+390 px in any language.
+
 ## Store settings (`src/config/store.ts`)
 
 Every business detail shown on the site lives in **one file, `src/config/store.ts`**: WhatsApp number, legal
@@ -121,7 +130,20 @@ from (per language), processing and delivery times (overall and by region), retu
 payment mode, announcement bar, policy and accessibility dates, data-retention period and governing law.
 **Every value is marked `// CONFIRM`** and must be checked before launch. Optional fields render only when
 non-empty: an empty `CONTACT_EMAIL` hides the email everywhere, an empty `SOCIAL` entry renders no icon,
-`ANNOUNCEMENT.enabled: false` hides the bar.
+`ANNOUNCEMENT.enabled: false` hides the bar, an empty `GOVERNING_LAW` hides the governing-law sentence on the
+terms page (the sentence that the consumer-protection law of the customer's country always applies is always
+shown), and `DATA_RETENTION_YEARS = 0` makes the privacy page say that order details are kept only as long as
+needed to fulfil the order and meet legal obligations such as accounting. Public pages never show a placeholder:
+`tests/placeholders.spec.ts` scans every page in all 10 languages for `[`, `TODO`, `TBD`, `CONFIRM`, "lorem" and
+empty paragraphs, list items or table cells.
+
+**Delivery times have one source of truth.** `DELIVERY_TIME` (7–15 business days after dispatch) is the headline
+shown everywhere as "typically 7–15 business days": home trust strip, FAQ, shipping page, product page, order
+page and the Product JSON-LD (`transitTime` 7–15, Monday–Friday business days). `DELIVERY_BY_REGION` only feeds
+the "Estimated delivery by region" table on the shipping and product pages, which always carries "These are
+estimates, not guarantees. Customs and remote destinations can take longer." Change the numbers only in
+`src/config/store.ts`; `npm run check:claims` fails if any message states a delivery range other than
+`DELIVERY_TIME` or drops the placeholders or the "typically" wording.
 
 Wording that is a factual claim and must also be confirmed by the owner (in `messages/<locale>.json`):
 `home.point1Text`, `faq.a3` and `about.p1` say the wood comes from **pruned branches** (not felled trees).
@@ -157,7 +179,8 @@ The privacy, terms, returns, shipping and accessibility pages are **plain-langua
 store, not legal advice. Have them reviewed by a lawyer** in the main markets before launch. Open questions for
 that review:
 
-- **Governing law and jurisdiction**: `GOVERNING_LAW` is empty, so the terms say "[to be confirmed]".
+- **Governing law and jurisdiction**: `GOVERNING_LAW` is empty, so the terms show only the consumer-protection
+  sentence until it is set.
 - **Withdrawal button**: EU Directive 2023/2673 requires a "withdraw from contract" function for contracts
   concluded online from 19 June 2026. Orders here are concluded on WhatsApp, not on the site; confirm whether a
   withdrawal button is still needed and how it should work.
@@ -175,7 +198,8 @@ all 10 languages, for claims the store must not make: online checkout or card pa
 brands, "secure checkout", "data never stored", "insured", "24/7", "fair trade", "Christian artisans", "since
 1999", "family-owned", "passed down through generations", "blessed", "100% untreated", "air-dried for months",
 "never cut", "free shipping", star ratings or reviews. The patterns are in `scripts/forbidden-claims.mjs`; the
-link-crawl test also checks the rendered pages.
+link-crawl test also checks the rendered pages. The same command checks that delivery times match
+`DELIVERY_TIME` (see Store settings).
 
 ## Security
 
@@ -203,7 +227,7 @@ link-crawl test also checks the rendered pages.
 | `npm run lint`           | ESLint, zero warnings allowed                                                     |
 | `npm run check:i18n`     | Translations, product data file, no Arabic / RTL                                  |
 | `npm run check:contrast` | WCAG AA contrast of the design tokens                                             |
-| `npm run check:claims`   | Fails on forbidden claims (no checkout, no unverifiable promises) in all languages |
+| `npm run check:claims`   | Fails on forbidden claims or a delivery range that differs from the config, in all languages |
 | `npm run check:links`    | Crawls all 300 pages for broken links and images                                  |
 | `npm test`               | Playwright tests on the production build (desktop + mobile)                       |
 | `npm run audit`          | `npm audit --audit-level=high`                                                    |
@@ -261,5 +285,7 @@ and `/images` can be cached.
   nonce; a hash-based CSP for static pages is not possible because Next.js inlines different scripts on every
   page); the last-resort `global-error.tsx` page is English-only; product photos, descriptions, prices,
   currency rates and every `// CONFIRM` value in `src/config/store.ts` are placeholders until confirmed.
+- Lighthouse (mobile, simulated slow 4G, fresh server start before every run): product page performance 96–98,
+  accessibility, best practices and SEO 100.
 - Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
   `docs/OPERATIONS.md`.

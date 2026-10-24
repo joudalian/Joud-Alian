@@ -7,7 +7,9 @@
     "node": ">=22.18.0"
   },
   "scripts": {
+    "predev": "node scripts/size-product-images.mjs",
     "dev": "next dev",
+    "prebuild": "node scripts/size-product-images.mjs",
     "build": "next build",
     "start": "next start",
     "typecheck": "tsc --noEmit",

@@ -53,7 +53,7 @@
     "storyCta": "Nasza historia",
     "trustLabel": "Dlaczego warto u nas zamówić",
     "trust1": "Ręcznie robione w Betlejem",
-    "trust2": "Wysyłka do większości krajów",
+    "trust2": "Wysyłka do większości krajów, zwykle w {min}–{max} dni roboczych",
     "trust3": "Zwrot w ciągu {days} dni",
     "trust4": "Zamówienia potwierdzane osobiście na WhatsAppie",
     "storyImageAlt": "Przedmioty z drewna oliwnego na stole warsztatowym rzeźbiarza w Betlejem",
@@ -139,8 +139,7 @@
     "orderWhatsApp": "Zamów na WhatsAppie",
     "askAbout": "Zapytaj o ten przedmiot",
     "orderBar": "Pasek zamówienia",
-    "deliveryTitle": "Szacowany czas dostawy",
-    "deliveryIntro": "Od wysyłki ({min}–{max} dni roboczych na przygotowanie). To szacunki, a nie gwarancje.",
+    "deliveryIntro": "Dni robocze od wysyłki. Wcześniej przygotowanie zamówienia trwa {min}–{max} dni roboczych.",
     "deliveryRegion": "{region}: {min}–{max} dni roboczych",
     "shippingSummary": "Wysyłamy do większości krajów. Dostawa trwa zwykle {min}–{max} dni roboczych od wysyłki; cło i podatki importowe płaci kupujący.",
     "returnsSummary": "Zwrot w ciągu {days} dni dla nieużywanych przedmiotów, po wcześniejszym uzgodnieniu z nami na WhatsAppie.",
@@ -263,7 +262,6 @@
   "policy": {
     "lastUpdated": "Ostatnia aktualizacja: {date}",
     "onThisPage": "Na tej stronie",
-    "toBeConfirmed": "do potwierdzenia",
     "templateNote": "Ta strona opisuje, jak działamy obecnie. Jeśli coś jest niejasne, zapytaj nas przed zamówieniem."
   },
   "howToOrder": {
@@ -317,7 +315,7 @@
     "fromTitle": "Skąd wysyłamy",
     "timesTitle": "Czas przygotowania i dostawy",
     "processing": "Przygotowanie zamówienia: {min}–{max} dni roboczych.",
-    "delivery": "Dostawa od wysyłki: zwykle {min}–{max} dni roboczych. To szacunki, a nie gwarancje; niektóre trasy pocztowe mogą trwać kilka tygodni.",
+    "delivery": "Dostawa od wysyłki: zwykle {min}–{max} dni roboczych.",
     "regionsTitle": "Szacowany czas dostawy według regionu",
     "regionCol": "Region",
     "timeCol": "Dni robocze od wysyłki",
@@ -337,7 +335,8 @@
     "lostTitle": "Zaginione paczki",
     "lost": "Jeśli śledzenie nie pokazuje ruchu przez {days} dni, zgłaszamy reklamację u przewoźnika. Jeśli paczka się nie odnajdzie, wysyłamy zamówienie ponownie lub zwracamy pieniądze.",
     "damagedTitle": "Uszkodzone paczki",
-    "damaged": "Daj nam znać w ciągu {days} dni od dostawy i prześlij zdjęcia kartonu zewnętrznego i przedmiotu. Wymienimy go lub zwrócimy pieniądze; nie trzeba go odsyłać."
+    "damaged": "Daj nam znać w ciągu {days} dni od dostawy i prześlij zdjęcia kartonu zewnętrznego i przedmiotu. Wymienimy go lub zwrócimy pieniądze; nie trzeba go odsyłać.",
+    "regionsNote": "To szacunki, a nie gwarancje. Odprawa celna i odległe miejsca docelowe mogą wydłużyć dostawę."
   },
   "returns": {
     "title": "Zwroty i zwrot pieniędzy",
@@ -410,7 +409,7 @@
     "use": "Używamy Twoich danych wyłącznie, aby Ci odpowiedzieć i zrealizować zamówienie. Nie sprzedajemy ani nie udostępniamy danych osobowych w celach marketingowych.",
     "retentionTitle": "Jak długo je przechowujemy",
     "retentionYears": "Dokumentację zamówień przechowujemy przez {years, plural, one {# rok} few {# lata} many {# lat} other {# roku}}, a potem ją usuwamy.",
-    "retentionDefault": "Rozmowy i dokumentację zamówień przechowujemy tylko tak długo, jak to potrzebne do realizacji zamówienia i obowiązków archiwizacyjnych. Dokładny okres jest ustalany i zostanie tu podany.",
+    "retentionDefault": "Dane zamówienia przechowujemy tylko tak długo, jak to potrzebne do jego realizacji i wypełnienia obowiązków prawnych, takich jak księgowość.",
     "rightsTitle": "Twoje prawa",
     "rights": "Możesz poprosić o wgląd, poprawienie lub usunięcie danych, które o Tobie mamy, a także złożyć skargę do organu ochrony danych. Skontaktuj się z nami przez <link>stronę kontaktową</link>.",
     "transferTitle": "Przekazywanie danych za granicę",
@@ -435,7 +434,8 @@
     "variationTitle": "Przedmioty robione ręcznie",
     "variation": "Każdy przedmiot jest wykonany ręcznie z drewna oliwnego, dlatego rysunek, kolor i rozmiar nieco odbiegają od zdjęć. Nie jest to wada.",
     "lawTitle": "Prawo właściwe",
-    "law": "Jeśli jesteś konsumentem, zawsze obowiązują bezwzględnie obowiązujące przepisy o ochronie konsumentów kraju, w którym mieszkasz. W pozostałym zakresie regulamin podlega: {law}.",
+    "consumerLaw": "Zawsze obowiązują bezwzględnie obowiązujące przepisy o ochronie konsumentów kraju, w którym mieszkasz.",
+    "law": "W pozostałym zakresie regulamin podlega: {law}.",
     "liabilityTitle": "Odpowiedzialność",
     "liability": "Nasza odpowiedzialność za zamówienie jest ograniczona do zapłaconej kwoty. Nie ogranicza to odpowiedzialności, której nie można wyłączyć na mocy prawa.",
     "noticeTitle": "Informacje prawne",

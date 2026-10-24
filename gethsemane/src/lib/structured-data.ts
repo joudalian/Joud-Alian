@@ -94,6 +94,10 @@ export function productLd(product: Product, locale: Locale) {
         shippingDestination: { "@type": "DefinedRegion", addressCountry: "ZZ" },
         deliveryTime: {
           "@type": "ShippingDeliveryTime",
+          businessDays: {
+            "@type": "OpeningHoursSpecification",
+            dayOfWeek: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"].map((d) => `https://schema.org/${d}`),
+          },
           handlingTime: { "@type": "QuantitativeValue", minValue: PROCESSING_TIME.min, maxValue: PROCESSING_TIME.max, unitCode: "DAY" },
           transitTime: { "@type": "QuantitativeValue", minValue: DELIVERY_TIME.min, maxValue: DELIVERY_TIME.max, unitCode: "DAY" },
         },

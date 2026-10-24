@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { preload } from "react-dom";
 import { Breadcrumb } from "@/components/Breadcrumb";
 import { JsonLd } from "@/components/JsonLd";
 import { Price } from "@/components/Price";
@@ -16,6 +16,7 @@ import type { Locale } from "@/i18n/locales";
 import { getProduct, productText, productsInCategory, type Product, type ProductSlug } from "@/lib/catalog";
 import { cmToIn, gToOz } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
+import { PRODUCT_IMAGE_SIZES, productImageSrcSet } from "@/lib/product-image";
 import { productLd } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: Locale; slug: string }> };
@@ -67,6 +68,8 @@ export default async function ProductPage({ params }: Props) {
   const { name, description } = productText(product, locale);
   const related = productsInCategory(product.category).filter((p) => p.slug !== product.slug);
   const path = `/product/${product.slug}`;
+  const avifSrcSet = productImageSrcSet(product.image, "avif");
+  preload(avifSrcSet.split(" ")[0]!, { as: "image", type: "image/avif", imageSrcSet: avifSrcSet, imageSizes: PRODUCT_IMAGE_SIZES, fetchPriority: "high" });
 
   return (
     <div className="container page product-page">
@@ -81,15 +84,21 @@ export default async function ProductPage({ params }: Props) {
       />
       <div className="product-detail">
         <div className="media">
-          <Image
-            src={product.image}
-            alt={t("product.photoAlt", { name })}
-            width={800}
-            height={1000}
-            preload
-            fetchPriority="high"
-            sizes="(min-width: 1280px) 576px, (min-width: 768px) 48vw, 100vw"
-          />
+          {/* The largest paint of the page: static pre-sized files (scripts/size-product-images.mjs), preloaded
+              in <head>, so it never waits for the on-demand image optimizer. */}
+          <picture>
+            <source type="image/avif" srcSet={avifSrcSet} sizes={PRODUCT_IMAGE_SIZES} />
+            <img
+              src={productImageSrcSet(product.image, "webp").split(" ")[0]}
+              srcSet={productImageSrcSet(product.image, "webp")}
+              sizes={PRODUCT_IMAGE_SIZES}
+              alt={t("product.photoAlt", { name })}
+              width={800}
+              height={1000}
+              fetchPriority="high"
+              decoding="async"
+            />
+          </picture>
         </div>
         <div>
           <h1>{name}</h1>
@@ -115,13 +124,14 @@ export default async function ProductPage({ params }: Props) {
             <details>
               <summary>{t("nav.shipping")}</summary>
               <p>{t("product.shippingSummary", { min: DELIVERY_TIME.min, max: DELIVERY_TIME.max })}</p>
-              <h3 className="small-heading">{t("product.deliveryTitle")}</h3>
+              <h3 className="small-heading">{t("shipping.regionsTitle")}</h3>
               <p className="note">{t("product.deliveryIntro", { min: PROCESSING_TIME.min, max: PROCESSING_TIME.max })}</p>
               <ul className="plain-list delivery-lines">
                 {DELIVERY_BY_REGION.map((r) => (
                   <li key={r.region}>{t("product.deliveryRegion", { region: t(`regions.${r.region}`), min: r.min, max: r.max })}</li>
                 ))}
               </ul>
+              <p className="note">{t("shipping.regionsNote")}</p>
               <p>
                 <Link href="/shipping">{t("product.readMore", { page: t("nav.shipping") })}</Link>
               </p>

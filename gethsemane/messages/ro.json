@@ -16,7 +16,7 @@
     "cartWithCount": "{count, plural, =0 {Comanda ta, goală} one {Comanda ta, # produs} few {Comanda ta, # produse} other {Comanda ta, # de produse}}",
     "wishlistWithCount": "{count, plural, =0 {Favorite, gol} one {Favorite, # produs} few {Favorite, # produse} other {Favorite, # de produse}}",
     "breadcrumb": "Fir de navigare",
-    "orderShort": "Comandă",
+    "orderShort": "Comanda",
     "howToOrder": "Cum comanzi",
     "faq": "Întrebări frecvente",
     "shipping": "Livrare",
@@ -53,7 +53,7 @@
     "storyCta": "Povestea noastră",
     "trustLabel": "De ce să comanzi de la noi",
     "trust1": "Lucrat manual în Betleem",
-    "trust2": "Livrare în majoritatea țărilor",
+    "trust2": "Livrare în majoritatea țărilor, de obicei în {min}–{max} zile lucrătoare",
     "trust3": "Retur în {days} zile",
     "trust4": "Comenzi confirmate personal pe WhatsApp",
     "storyImageAlt": "Piese din lemn de măslin pe bancul de lucru al unui sculptor din Betleem",
@@ -139,8 +139,7 @@
     "orderWhatsApp": "Comandă pe WhatsApp",
     "askAbout": "Întreabă despre această piesă",
     "orderBar": "Bara de comandă",
-    "deliveryTitle": "Timp estimat de livrare",
-    "deliveryIntro": "De la expediere ({min}–{max} zile lucrătoare de pregătire). Estimări, nu garanții.",
+    "deliveryIntro": "Zile lucrătoare de la expediere. Înainte, pregătirea comenzii durează {min}–{max} zile lucrătoare.",
     "deliveryRegion": "{region}: {min}–{max} zile lucrătoare",
     "shippingSummary": "Livrăm în majoritatea țărilor. Livrarea durează de obicei {min}–{max} zile lucrătoare de la expediere; taxele vamale și de import sunt plătite de cumpărător.",
     "returnsSummary": "Retur în {days} zile pentru piesele nefolosite, stabilit mai întâi cu noi pe WhatsApp.",
@@ -263,7 +262,6 @@
   "policy": {
     "lastUpdated": "Ultima actualizare: {date}",
     "onThisPage": "Pe această pagină",
-    "toBeConfirmed": "de confirmat",
     "templateNote": "Această pagină explică cum lucrăm astăzi. Dacă ceva nu e clar, întreabă-ne înainte de a comanda."
   },
   "howToOrder": {
@@ -317,7 +315,7 @@
     "fromTitle": "De unde expediem",
     "timesTitle": "Timp de pregătire și de livrare",
     "processing": "Pregătirea comenzii: {min}–{max} zile lucrătoare.",
-    "delivery": "Livrarea după expediere: de obicei {min}–{max} zile lucrătoare. Sunt estimări, nu garanții; unele rute poștale pot dura câteva săptămâni.",
+    "delivery": "Livrarea după expediere: de obicei {min}–{max} zile lucrătoare.",
     "regionsTitle": "Timp estimat de livrare pe regiuni",
     "regionCol": "Regiune",
     "timeCol": "Zile lucrătoare de la expediere",
@@ -337,7 +335,8 @@
     "lostTitle": "Colete pierdute",
     "lost": "Dacă urmărirea nu arată nicio mișcare timp de {days} zile, deschidem o cercetare la curier. Dacă coletul nu este găsit, retrimitem comanda sau îți returnăm banii.",
     "damagedTitle": "Colete deteriorate",
-    "damaged": "Anunță-ne în {days} zile de la livrare și trimite fotografii ale cutiei exterioare și ale piesei. O înlocuim sau îți returnăm banii; nu trebuie s-o trimiți înapoi."
+    "damaged": "Anunță-ne în {days} zile de la livrare și trimite fotografii ale cutiei exterioare și ale piesei. O înlocuim sau îți returnăm banii; nu trebuie s-o trimiți înapoi.",
+    "regionsNote": "Sunt estimări, nu garanții. Vama și destinațiile îndepărtate pot dura mai mult."
   },
   "returns": {
     "title": "Retururi și rambursări",
@@ -410,7 +409,7 @@
     "use": "Folosim datele tale doar ca să-ți răspundem și să îți onorăm comanda. Nu vindem și nu împărtășim date personale în scopuri de marketing.",
     "retentionTitle": "Cât timp le păstrăm",
     "retentionYears": "Păstrăm evidența comenzilor timp de {years, plural, one {# an} few {# ani} other {# de ani}}, apoi o ștergem.",
-    "retentionDefault": "Păstrăm conversațiile și evidența comenzilor doar cât este necesar pentru a onora comanda și pentru obligațiile de arhivare. Durata exactă este în curs de stabilire și va fi precizată aici.",
+    "retentionDefault": "Păstrăm datele comenzii doar cât este necesar pentru a o onora și pentru obligații legale precum contabilitatea.",
     "rightsTitle": "Drepturile tale",
     "rights": "Poți cere să vezi, să corectezi sau să ștergi informațiile pe care le avem despre tine și poți depune o plângere la autoritatea de protecție a datelor. Contactează-ne prin <link>pagina de contact</link>.",
     "transferTitle": "Transferuri internaționale",
@@ -435,7 +434,8 @@
     "variationTitle": "Piese lucrate manual",
     "variation": "Fiecare piesă este lucrată manual din lemn de măslin, așa că desenul, culoarea și mărimea diferă ușor de fotografii. Nu este un defect.",
     "lawTitle": "Legea aplicabilă",
-    "law": "Dacă ești consumator, se aplică întotdeauna regulile obligatorii de protecție a consumatorilor din țara în care locuiești. În rest, aceste condiții sunt guvernate de: {law}.",
+    "consumerLaw": "Se aplică întotdeauna legislația obligatorie de protecție a consumatorilor din țara ta de reședință.",
+    "law": "În rest, aceste condiții sunt guvernate de: {law}.",
     "liabilityTitle": "Răspundere",
     "liability": "Răspunderea noastră pentru o comandă este limitată la suma plătită. Aceasta nu limitează răspunderea care nu poate fi exclusă prin lege.",
     "noticeTitle": "Informații legale",

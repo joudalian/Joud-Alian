@@ -53,7 +53,7 @@
     "storyCta": "Notre histoire",
     "trustLabel": "Pourquoi commander chez nous",
     "trust1": "Fait main à Bethléem",
-    "trust2": "Livraison dans la plupart des pays",
+    "trust2": "Livraison dans la plupart des pays, généralement en {min}–{max} jours ouvrés",
     "trust3": "Retours sous {days} jours",
     "trust4": "Commandes confirmées personnellement sur WhatsApp",
     "storyImageAlt": "Pièces en bois d'olivier sur l'établi d'un sculpteur à Bethléem",
@@ -139,10 +139,9 @@
     "orderWhatsApp": "Commander sur WhatsApp",
     "askAbout": "Poser une question sur cette pièce",
     "orderBar": "Barre de commande",
-    "deliveryTitle": "Délai de livraison estimé",
-    "deliveryIntro": "Après l'expédition ({min}–{max} jours ouvrés de préparation). Ce sont des estimations, pas des garanties.",
+    "deliveryIntro": "Jours ouvrés après l'expédition. La préparation de votre commande prend d'abord {min}–{max} jours ouvrés.",
     "deliveryRegion": "{region} : {min}–{max} jours ouvrés",
-    "shippingSummary": "Livraison dans la plupart des pays. Comptez généralement {min}–{max} jours ouvrés après l'expédition ; les droits de douane et taxes d'importation sont à la charge de l'acheteur.",
+    "shippingSummary": "Livraison dans la plupart des pays. La livraison prend généralement {min}–{max} jours ouvrés après l'expédition ; les droits de douane et taxes d'importation sont à la charge de l'acheteur.",
     "returnsSummary": "Retours sous {days} jours pour les pièces non utilisées, à convenir d'abord avec nous sur WhatsApp.",
     "careSummary": "Essuyez avec un chiffon sec et tenez à l'écart de la chaleur et de l'eau.",
     "readMore": "En savoir plus : {page}",
@@ -263,7 +262,6 @@
   "policy": {
     "lastUpdated": "Dernière mise à jour : {date}",
     "onThisPage": "Sur cette page",
-    "toBeConfirmed": "à confirmer",
     "templateNote": "Cette page explique notre fonctionnement actuel. Si quelque chose n'est pas clair, demandez-nous avant de commander."
   },
   "howToOrder": {
@@ -317,7 +315,7 @@
     "fromTitle": "D'où nous expédions",
     "timesTitle": "Délais de préparation et de livraison",
     "processing": "Préparation de votre commande : {min}–{max} jours ouvrés.",
-    "delivery": "Livraison après l'expédition : généralement {min}–{max} jours ouvrés. Ce sont des estimations, pas des garanties ; certains acheminements postaux peuvent prendre plusieurs semaines.",
+    "delivery": "Livraison après l'expédition : généralement {min}–{max} jours ouvrés.",
     "regionsTitle": "Délai de livraison estimé par région",
     "regionCol": "Région",
     "timeCol": "Jours ouvrés après l'expédition",
@@ -337,7 +335,8 @@
     "lostTitle": "Colis perdus",
     "lost": "Si le suivi ne montre aucun mouvement pendant {days} jours, nous ouvrons une enquête auprès du transporteur. Si le colis n'est pas retrouvé, nous renvoyons la commande ou vous remboursons.",
     "damagedTitle": "Colis endommagés",
-    "damaged": "Prévenez-nous dans les {days} jours suivant la livraison et envoyez des photos du carton extérieur et de la pièce. Nous la remplaçons ou vous remboursons ; vous n'avez pas à la renvoyer."
+    "damaged": "Prévenez-nous dans les {days} jours suivant la livraison et envoyez des photos du carton extérieur et de la pièce. Nous la remplaçons ou vous remboursons ; vous n'avez pas à la renvoyer.",
+    "regionsNote": "Ce sont des estimations, pas des garanties. Le dédouanement et les destinations éloignées peuvent prendre plus de temps."
   },
   "returns": {
     "title": "Retours et remboursements",
@@ -410,7 +409,7 @@
     "use": "Nous utilisons vos informations uniquement pour vous répondre et exécuter votre commande. Nous ne vendons ni ne partageons de données personnelles à des fins de marketing.",
     "retentionTitle": "Durée de conservation",
     "retentionYears": "Nous conservons les données de commande pendant {years, plural, one {# an} other {# ans}}, puis nous les supprimons.",
-    "retentionDefault": "Nous conservons les échanges et données de commande uniquement le temps nécessaire pour exécuter la commande et respecter nos obligations de conservation. La durée exacte est en cours de définition et sera indiquée ici.",
+    "retentionDefault": "Nous conservons les données de commande uniquement le temps nécessaire pour exécuter votre commande et respecter nos obligations légales, comme la comptabilité.",
     "rightsTitle": "Vos droits",
     "rights": "Vous pouvez demander à consulter, corriger ou supprimer les informations que nous détenons sur vous, et déposer une réclamation auprès de votre autorité de protection des données. Contactez-nous via la <link>page de contact</link>.",
     "transferTitle": "Transferts internationaux",
@@ -435,7 +434,8 @@
     "variationTitle": "Pièces faites main",
     "variation": "Chaque pièce est faite à la main en bois d'olivier : le grain, la couleur et la taille varient légèrement par rapport aux photos. Ce n'est pas un défaut.",
     "lawTitle": "Droit applicable",
-    "law": "Si vous êtes un consommateur, les règles impératives de protection des consommateurs du pays où vous résidez s'appliquent toujours. Pour le reste, les présentes conditions sont régies par : {law}.",
+    "consumerLaw": "Les règles impératives de protection des consommateurs de votre pays de résidence s'appliquent toujours.",
+    "law": "Pour le reste, les présentes conditions sont régies par : {law}.",
     "liabilityTitle": "Responsabilité",
     "liability": "Notre responsabilité pour une commande est limitée au montant que vous avez payé. Cela ne limite pas la responsabilité qui ne peut être exclue par la loi.",
     "noticeTitle": "Mentions légales",

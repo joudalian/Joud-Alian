@@ -14,6 +14,13 @@ decided by the owner.
 5. Once paid: pack within the processing time (1–2 business days), ship, send tracking (template E).
 6. Keep the record (section 8).
 
+Delivery times: the site states one headline, **"typically 7–15 business days" after dispatch** (`DELIVERY_TIME`),
+plus a regional table of estimates (`DELIVERY_BY_REGION`: Europe 7–12, North America 8–15, Oceania 10–18,
+Middle East 5–10, rest of world 10–25). The regional values are still to be **CONFIRMED with the carrier**.
+When they change, edit only `src/config/store.ts`; every page and the structured data follow, and
+`npm run check:claims` fails if a translation states a different headline range. In quotes, never promise a faster time than the
+site states for that region.
+
 ## 2. Order numbers
 
 Format: **`GTH-YYMM-NNNN`**
@@ -48,7 +55,7 @@ Send one message (template B) containing:
 | Shipping                 | USD, carrier and service (tracked)                                          |
 | Total                    | USD; mention that the bank or card may convert to their currency             |
 | Ships from               | Bethlehem or the partner stock location                                     |
-| Estimated delivery       | Processing 1–2 business days + delivery for their region (see the site's table) |
+| Estimated delivery       | Processing 1–2 business days + delivery: the site promises "typically 7–15 business days"; for remote regions use the site's regional table and say it may take longer |
 | Duties and taxes         | Say clearly that import duties/VAT may be charged by their country and are paid by the recipient, unless agreed otherwise |
 | Gift wrap / gift note    | If requested                                                                |
 | Validity                 | **48 hours** (prices, shipping and stock held until then)                   |

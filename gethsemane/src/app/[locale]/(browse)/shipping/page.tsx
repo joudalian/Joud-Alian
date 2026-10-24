@@ -27,6 +27,7 @@ export default async function ShippingPage({ params }: Props) {
         <p>{t("processing", { min: PROCESSING_TIME.min, max: PROCESSING_TIME.max })}</p>
         <p>{t("delivery", { min: DELIVERY_TIME.min, max: DELIVERY_TIME.max })}</p>
         <DeliveryTable caption={t("regionsTitle")} />
+        <p className="note">{t("regionsNote")}</p>
       </Section>
       <Section id="where" title={t("whereTitle")}>
         <p>{t("where")}</p>

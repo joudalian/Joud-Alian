@@ -5,7 +5,7 @@ import { CartIcon, ChatIcon, GlobeTruckIcon, HandIcon, ReturnIcon } from "@/comp
 import { JsonLd } from "@/components/JsonLd";
 import { MARK_SRC } from "@/components/Logo";
 import { ProductGrid } from "@/components/ProductCard";
-import { RETURN_DAYS } from "@/config/store";
+import { DELIVERY_TIME, RETURN_DAYS } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { categoryImage, categorySlugs, products, type Product } from "@/lib/catalog";
@@ -29,7 +29,7 @@ export default async function HomePage({ params }: Props) {
   const featured = (products as readonly Product[]).filter((p) => p.featured);
   const trust = [
     { icon: <HandIcon size={26} />, text: t("home.trust1") },
-    { icon: <GlobeTruckIcon size={26} />, text: t("home.trust2") },
+    { icon: <GlobeTruckIcon size={26} />, text: t("home.trust2", { min: DELIVERY_TIME.min, max: DELIVERY_TIME.max }) },
     { icon: <ReturnIcon size={26} />, text: t("home.trust3", { days: RETURN_DAYS }) },
     { icon: <ChatIcon size={26} />, text: t("home.trust4") },
   ];

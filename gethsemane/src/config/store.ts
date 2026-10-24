@@ -100,7 +100,7 @@ export const POLICY_UPDATED = "2026-10-24"; // CONFIRM
 /** How many years order records are kept (privacy policy). 0 = not stated yet. */
 export const DATA_RETENTION_YEARS = 0; // CONFIRM
 
-/** Governing law for the terms, shown as written in every language, e.g. "Palestinian law". Empty = "to be confirmed". */
+/** Governing law for the terms, shown as written in every language, e.g. "Palestinian law". Empty = the sentence is not shown (the consumer-protection sentence always is). */
 export const GOVERNING_LAW = ""; // CONFIRM (TODO)
 
 /** Date of the accessibility statement (YYYY-MM-DD). */

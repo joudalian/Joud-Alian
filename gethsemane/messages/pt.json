@@ -53,7 +53,7 @@
     "storyCta": "A nossa história",
     "trustLabel": "Porquê encomendar connosco",
     "trust1": "Feito à mão em Belém",
-    "trust2": "Enviamos para a maioria dos países",
+    "trust2": "Enviamos para a maioria dos países, normalmente em {min}–{max} dias úteis",
     "trust3": "Devoluções em {days} dias",
     "trust4": "Encomendas confirmadas pessoalmente no WhatsApp",
     "storyImageAlt": "Peças em madeira de oliveira na bancada de um escultor em Belém",
@@ -139,8 +139,7 @@
     "orderWhatsApp": "Encomendar no WhatsApp",
     "askAbout": "Perguntar sobre esta peça",
     "orderBar": "Barra de encomenda",
-    "deliveryTitle": "Prazo de entrega estimado",
-    "deliveryIntro": "Após o envio ({min}–{max} dias úteis de preparação). São estimativas, não garantias.",
+    "deliveryIntro": "Dias úteis após o envio. Antes disso, a preparação da encomenda demora {min}–{max} dias úteis.",
     "deliveryRegion": "{region}: {min}–{max} dias úteis",
     "shippingSummary": "Enviamos para a maioria dos países. A entrega demora normalmente {min}–{max} dias úteis após o envio; direitos aduaneiros e impostos de importação ficam a cargo do comprador.",
     "returnsSummary": "Devoluções em {days} dias para peças não usadas, combinadas primeiro connosco no WhatsApp.",
@@ -263,7 +262,6 @@
   "policy": {
     "lastUpdated": "Última atualização: {date}",
     "onThisPage": "Nesta página",
-    "toBeConfirmed": "a confirmar",
     "templateNote": "Esta página explica como trabalhamos hoje. Se algo não estiver claro, pergunte-nos antes de encomendar."
   },
   "howToOrder": {
@@ -317,7 +315,7 @@
     "fromTitle": "De onde enviamos",
     "timesTitle": "Prazos de preparação e entrega",
     "processing": "Preparação da encomenda: {min}–{max} dias úteis.",
-    "delivery": "Entrega após o envio: normalmente {min}–{max} dias úteis. São estimativas, não garantias; algumas rotas postais podem demorar várias semanas.",
+    "delivery": "Entrega após o envio: normalmente {min}–{max} dias úteis.",
     "regionsTitle": "Prazo de entrega estimado por região",
     "regionCol": "Região",
     "timeCol": "Dias úteis após o envio",
@@ -337,7 +335,8 @@
     "lostTitle": "Encomendas perdidas",
     "lost": "Se o seguimento não mostrar movimento durante {days} dias, abrimos um pedido de averiguação junto da transportadora. Se a encomenda não aparecer, voltamos a enviá-la ou reembolsamos.",
     "damagedTitle": "Encomendas danificadas",
-    "damaged": "Avise-nos até {days} dias após a entrega e envie fotografias da caixa exterior e da peça. Substituímos ou reembolsamos; não precisa de a devolver."
+    "damaged": "Avise-nos até {days} dias após a entrega e envie fotografias da caixa exterior e da peça. Substituímos ou reembolsamos; não precisa de a devolver.",
+    "regionsNote": "São estimativas, não garantias. A alfândega e os destinos remotos podem demorar mais."
   },
   "returns": {
     "title": "Devoluções e reembolsos",
@@ -410,7 +409,7 @@
     "use": "Usamos os seus dados apenas para lhe responder e cumprir a sua encomenda. Não vendemos nem partilhamos dados pessoais para fins de marketing.",
     "retentionTitle": "Durante quanto tempo a guardamos",
     "retentionYears": "Guardamos os registos de encomendas durante {years, plural, one {# ano} other {# anos}} e depois apagamo-los.",
-    "retentionDefault": "Guardamos as conversas e os registos de encomendas apenas durante o tempo necessário para cumprir a encomenda e as obrigações de arquivo. O prazo exato está a ser definido e será indicado aqui.",
+    "retentionDefault": "Guardamos os dados da encomenda apenas durante o tempo necessário para a cumprir e para obrigações legais como a contabilidade.",
     "rightsTitle": "Os seus direitos",
     "rights": "Pode pedir para ver, corrigir ou apagar a informação que temos sobre si e apresentar queixa à autoridade de proteção de dados. Contacte-nos através da <link>página de contacto</link>.",
     "transferTitle": "Transferências internacionais",
@@ -435,7 +434,8 @@
     "variationTitle": "Peças feitas à mão",
     "variation": "Cada peça é feita à mão em madeira de oliveira, por isso o veio, a cor e o tamanho variam ligeiramente em relação às fotografias. Não é um defeito.",
     "lawTitle": "Lei aplicável",
-    "law": "Se for consumidor, aplicam-se sempre as regras imperativas de proteção do consumidor do país onde vive. Quanto ao resto, estas condições regem-se por: {law}.",
+    "consumerLaw": "Aplica-se sempre a legislação imperativa de proteção do consumidor do seu país de residência.",
+    "law": "Quanto ao resto, estas condições regem-se por: {law}.",
     "liabilityTitle": "Responsabilidade",
     "liability": "A nossa responsabilidade por uma encomenda limita-se ao valor que pagou. Isto não limita a responsabilidade que não possa ser excluída por lei.",
     "noticeTitle": "Informação legal",

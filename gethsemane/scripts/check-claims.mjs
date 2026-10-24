@@ -28,8 +28,48 @@ if (store.PAYMENT_MODE !== "link" && store.PAYMENT_METHODS.length > 0) {
   problems.push("src/config/store.ts: PAYMENT_METHODS are only allowed when PAYMENT_MODE is \"link\"");
 }
 
+// One source of truth for delivery times: the headline range ("typically 7–15 business days") comes only from
+// DELIVERY_TIME in src/config/store.ts. Headline sentences must use its placeholders and the same "typically"
+// wording, and no string about delivery may state a literal range other than the configured one.
+const deliveryWording = {
+  en: { typically: "typically", delivery: /deliver/i, days: "business days" },
+  fr: { typically: "généralement", delivery: /livr/i, days: "jours ouvrés" },
+  es: { typically: "normalmente", delivery: /entreg/i, days: "días hábiles" },
+  it: { typically: "di solito", delivery: /consegn/i, days: "giorni lavorativi" },
+  de: { typically: "in der Regel", delivery: /liefer/i, days: "Werktag" },
+  el: { typically: "συνήθως", delivery: /παράδοσ/i, days: "εργάσιμ" },
+  pl: { typically: "zwykle", delivery: /dostaw/i, days: "dni robocz" },
+  ro: { typically: "de obicei", delivery: /livr/i, days: "zile lucrătoare" },
+  uk: { typically: "зазвичай", delivery: /доставк/i, days: "робоч" },
+  pt: { typically: "normalmente", delivery: /entreg/i, days: "dias úteis" },
+};
+const headlineKeys = { "home.trust2": ["{min}", "{max}"], "shipping.delivery": ["{min}", "{max}"], "product.shippingSummary": ["{min}", "{max}"], "faq.a7": ["{deliveryMin}", "{deliveryMax}"] };
+const { min: headMin, max: headMax } = store.DELIVERY_TIME;
+for (const [locale, w] of Object.entries(deliveryWording)) {
+  const messages = JSON.parse(readFileSync(join(root, "messages", `${locale}.json`), "utf8"));
+  for (const [key, placeholders] of Object.entries(headlineKeys)) {
+    const [ns, name] = key.split(".");
+    const text = messages[ns]?.[name] ?? "";
+    if (!placeholders.every((ph) => text.includes(ph))) problems.push(`messages/${locale}.json ${key}: delivery headline must use ${placeholders.join(" and ")} from DELIVERY_TIME`);
+    if (!text.toLowerCase().includes(w.typically.toLowerCase())) problems.push(`messages/${locale}.json ${key}: delivery headline must say "${w.typically}"`);
+  }
+  const range = new RegExp(`(\\d+)\\s*(?:[–—-]|to|à|a|bis|έως|do|la|до)\\s*(\\d+)\\s+(?:\\p{L}+\\s+)?${w.days}`, "iu");
+  const scan = (value, path) => {
+    if (typeof value === "string") {
+      const m = value.match(range);
+      if (m && w.delivery.test(value) && (Number(m[1]) !== headMin || Number(m[2]) !== headMax)) {
+        problems.push(`messages/${locale}.json ${path}: states delivery ${m[1]}–${m[2]}, but DELIVERY_TIME is ${headMin}–${headMax} (use the {min}/{max} placeholders)`);
+      }
+    } else if (value && typeof value === "object") {
+      for (const [k, v] of Object.entries(value)) scan(v, path ? `${path}.${k}` : k);
+    }
+  };
+  scan(messages, "");
+  scan(store.SHIP_FROM_TEXT[locale], "SHIP_FROM_TEXT");
+}
+
 if (problems.length) {
-  console.error(`Forbidden claims found (${problems.length}):\n- ${problems.join("\n- ")}`);
+  console.error(`Claims check failed (${problems.length}):\n- ${problems.join("\n- ")}`);
   process.exit(1);
 }
-console.log("Claims check passed: no forbidden claims in 10 languages, product data or store config.");
+console.log("Claims check passed: no forbidden claims in 10 languages, product data or store config; delivery headline matches DELIVERY_TIME.");

@@ -1,5 +1,5 @@
 import { expect, test, type Page } from "@playwright/test";
-import { expectNoHorizontalScroll, infoPages, pages, waitForHydration } from "./helpers";
+import { expectNoHorizontalScroll, infoPages, locales, pages, waitForHydration } from "./helpers";
 
 // Layout checks run once per width in the desktop project (the viewport is set explicitly).
 const widths = [320, 390, 768, 1024, 1280];
@@ -36,7 +36,7 @@ async function clippedText(page: Page) {
   return page.evaluate(() => {
     const out: string[] = [];
     for (const el of document.querySelectorAll<HTMLElement>("main *, header *, footer *")) {
-      if (el.closest(".sr-only") || el.closest(".bottom-nav .label")) continue;
+      if (el.closest(".sr-only")) continue;
       const style = getComputedStyle(el);
       if ((style.overflowX === "hidden" || style.overflow === "hidden") && el.scrollWidth > el.clientWidth + 1 && el.children.length === 0 && el.textContent?.trim()) {
         out.push(`${el.tagName.toLowerCase()}.${el.className} "${el.textContent.trim().slice(0, 40)}"`);
@@ -195,5 +195,44 @@ test("the floating language button never sits on top of a control while scrollin
         expect(problem, `${path} at ${width}px, scrollY ${y}`).toBeNull();
       }
     }
+  }
+});
+
+test.describe("bottom navigation labels", () => {
+  test.skip(({ isMobile }) => isMobile, "covered by explicit viewports in the desktop project");
+
+  for (const width of [320, 360, 390]) {
+    test(`no label is truncated or overlapping at ${width}px, in all languages`, async ({ page }) => {
+      await page.setViewportSize({ width, height: 700 });
+      const problems: string[] = [];
+      for (const locale of locales) {
+        await page.goto(`/${locale}/shop`);
+        await waitForHydration(page);
+        problems.push(
+          ...(await page.evaluate((where) => {
+            const out: string[] = [];
+            const items = [...document.querySelectorAll<HTMLElement>(".bottom-nav > ul > li")].map((li) => li.querySelector<HTMLElement>("a, button")!);
+            const boxes = items.map((el) => el.getBoundingClientRect());
+            items.forEach((el, i) => {
+              const label = el.querySelector<HTMLElement>(".label")!;
+              const text = label.textContent ?? "";
+              const r = label.getBoundingClientRect();
+              const box = boxes[i]!;
+              if (label.scrollWidth > label.clientWidth) out.push(`${where}: "${text}" truncated (${label.scrollWidth} > ${label.clientWidth})`);
+              if (getComputedStyle(label).textOverflow === "ellipsis") out.push(`${where}: "${text}" uses an ellipsis`);
+              if (r.left < box.left - 0.5 || r.right > box.right + 0.5 || r.bottom > box.bottom + 0.5) out.push(`${where}: "${text}" spills out of its item`);
+              if (box.width < 43.5 || box.height < 43.5) out.push(`${where}: "${text}" target ${Math.round(box.width)}×${Math.round(box.height)}`);
+              const next = boxes[i + 1];
+              if (next && box.right > next.left + 0.5) out.push(`${where}: "${text}" overlaps the next item`);
+              // Every item keeps a full accessible name (the visible label or a longer aria-label).
+              const name = el.getAttribute("aria-label") ?? el.textContent ?? "";
+              if (!name.toLowerCase().includes(text.trim().toLowerCase())) out.push(`${where}: accessible name "${name}" does not contain "${text}"`);
+            });
+            return out;
+          }, `${locale} ${width}px`)),
+        );
+      }
+      expect(problems).toEqual([]);
+    });
   }
 });

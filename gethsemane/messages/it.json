@@ -53,7 +53,7 @@
     "storyCta": "La nostra storia",
     "trustLabel": "Perché ordinare da noi",
     "trust1": "Fatto a mano a Betlemme",
-    "trust2": "Spediamo in quasi tutti i paesi",
+    "trust2": "Spediamo in quasi tutti i paesi, di solito in {min}–{max} giorni lavorativi",
     "trust3": "Resi entro {days} giorni",
     "trust4": "Ordini confermati di persona su WhatsApp",
     "storyImageAlt": "Pezzi in legno d'ulivo sul banco di lavoro di un intagliatore a Betlemme",
@@ -139,8 +139,7 @@
     "orderWhatsApp": "Ordina su WhatsApp",
     "askAbout": "Chiedi di questo pezzo",
     "orderBar": "Barra dell'ordine",
-    "deliveryTitle": "Tempi di consegna stimati",
-    "deliveryIntro": "Dalla spedizione ({min}–{max} giorni lavorativi di preparazione). Sono stime, non garanzie.",
+    "deliveryIntro": "Giorni lavorativi dalla spedizione. Prima, la preparazione dell'ordine richiede {min}–{max} giorni lavorativi.",
     "deliveryRegion": "{region}: {min}–{max} giorni lavorativi",
     "shippingSummary": "Spediamo in quasi tutti i paesi. La consegna richiede di solito {min}–{max} giorni lavorativi dalla spedizione; dazi e tasse d'importazione sono a carico dell'acquirente.",
     "returnsSummary": "Resi entro {days} giorni per i pezzi non usati, concordati prima con noi su WhatsApp.",
@@ -263,7 +262,6 @@
   "policy": {
     "lastUpdated": "Ultimo aggiornamento: {date}",
     "onThisPage": "In questa pagina",
-    "toBeConfirmed": "da confermare",
     "templateNote": "Questa pagina spiega come lavoriamo oggi. Se qualcosa non è chiaro, chiedici prima di ordinare."
   },
   "howToOrder": {
@@ -317,7 +315,7 @@
     "fromTitle": "Da dove spediamo",
     "timesTitle": "Tempi di preparazione e consegna",
     "processing": "Preparazione dell'ordine: {min}–{max} giorni lavorativi.",
-    "delivery": "Consegna dopo la spedizione: di solito {min}–{max} giorni lavorativi. Sono stime, non garanzie; alcune tratte postali possono richiedere diverse settimane.",
+    "delivery": "Consegna dopo la spedizione: di solito {min}–{max} giorni lavorativi.",
     "regionsTitle": "Tempi di consegna stimati per area",
     "regionCol": "Area",
     "timeCol": "Giorni lavorativi dalla spedizione",
@@ -337,7 +335,8 @@
     "lostTitle": "Pacchi smarriti",
     "lost": "Se il tracciamento non mostra movimenti per {days} giorni, apriamo una ricerca con il corriere. Se il pacco non viene ritrovato, rispediamo l'ordine o ti rimborsiamo.",
     "damagedTitle": "Pacchi danneggiati",
-    "damaged": "Avvisaci entro {days} giorni dalla consegna e mandaci le foto della scatola esterna e del pezzo. Lo sostituiamo o ti rimborsiamo; non devi rispedirlo."
+    "damaged": "Avvisaci entro {days} giorni dalla consegna e mandaci le foto della scatola esterna e del pezzo. Lo sostituiamo o ti rimborsiamo; non devi rispedirlo.",
+    "regionsNote": "Sono stime, non garanzie. La dogana e le destinazioni remote possono richiedere più tempo."
   },
   "returns": {
     "title": "Resi e rimborsi",
@@ -410,7 +409,7 @@
     "use": "Usiamo i tuoi dati solo per risponderti ed evadere il tuo ordine. Non vendiamo né condividiamo dati personali per scopi di marketing.",
     "retentionTitle": "Per quanto tempo le conserviamo",
     "retentionYears": "Conserviamo i dati degli ordini per {years, plural, one {# anno} other {# anni}}, poi li cancelliamo.",
-    "retentionDefault": "Conserviamo conversazioni e dati degli ordini solo per il tempo necessario a evadere l'ordine e rispettare gli obblighi di conservazione. La durata esatta è in fase di definizione e sarà indicata qui.",
+    "retentionDefault": "Conserviamo i dati dell'ordine solo per il tempo necessario a evaderlo e a rispettare obblighi di legge come la contabilità.",
     "rightsTitle": "I tuoi diritti",
     "rights": "Puoi chiedere di vedere, correggere o cancellare le informazioni che abbiamo su di te e presentare reclamo alla tua autorità per la protezione dei dati. Contattaci dalla <link>pagina dei contatti</link>.",
     "transferTitle": "Trasferimenti internazionali",
@@ -435,7 +434,8 @@
     "variationTitle": "Pezzi fatti a mano",
     "variation": "Ogni pezzo è fatto a mano in legno d'ulivo, quindi venatura, colore e misure variano leggermente rispetto alle foto. Non è un difetto.",
     "lawTitle": "Legge applicabile",
-    "law": "Se sei un consumatore, si applicano sempre le norme imperative a tutela dei consumatori del paese in cui vivi. Per il resto, queste condizioni sono regolate da: {law}.",
+    "consumerLaw": "Si applicano sempre le norme imperative a tutela dei consumatori del tuo paese di residenza.",
+    "law": "Per il resto, queste condizioni sono regolate da: {law}.",
     "liabilityTitle": "Responsabilità",
     "liability": "La nostra responsabilità per un ordine è limitata all'importo che hai pagato. Ciò non limita la responsabilità che non può essere esclusa per legge.",
     "noticeTitle": "Note legali",
