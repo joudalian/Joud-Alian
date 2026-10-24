@@ -1,0 +1,157 @@
+{
+  "meta": {
+    "title": "Gethsemane — Lemn de măslin din Betleem",
+    "description": "Cadouri din lemn de măslin lucrate manual în Betleem, Țara Sfântă: ieslee, cruci, rozarii și decorațiuni pentru casă.",
+    "tagline": "Lemn de măslin · Țara Sfântă"
+  },
+  "nav": {
+    "main": "Navigare principală",
+    "mobile": "Navigare rapidă",
+    "skip": "Salt la conținut",
+    "home": "Acasă",
+    "shop": "Magazin",
+    "about": "Povestea noastră",
+    "cart": "Coș",
+    "wishlist": "Favorite",
+    "cartWithCount": "{count, plural, =0 {Coș, gol} one {Coș, # produs} few {Coș, # produse} other {Coș, # de produse}}",
+    "wishlistWithCount": "{count, plural, =0 {Favorite, gol} one {Favorite, # produs} few {Favorite, # produse} other {Favorite, # de produse}}",
+    "breadcrumb": "Fir de navigare"
+  },
+  "language": {
+    "button": "Schimbă limba",
+    "current": "Limba curentă: {language}",
+    "list": "Limbi"
+  },
+  "currency": {
+    "label": "Monedă",
+    "note": "Prețurile sunt stabilite în USD. Celelalte monede sunt conversii aproximative; suma finală se confirmă pe WhatsApp."
+  },
+  "home": {
+    "heroTitle": "Sculptat din măslinii Țării Sfinte",
+    "heroText": "Ieslee, cruci, rozarii și obiecte pentru casă, fiecare modelat manual din lemn de măslin.",
+    "heroAlt": "Emblema Gethsemane: un arc format dintr-o ramură de măslin",
+    "heroCta": "Vezi colecția",
+    "heroSecondary": "Citește povestea noastră",
+    "categoriesTitle": "Cumpără după categorie",
+    "featuredTitle": "Piese recomandate",
+    "viewAll": "Vezi toate produsele",
+    "valuesTitle": "De ce lemn de măslin",
+    "value1Title": "Sculptat manual",
+    "value1Text": "Fiecare piesă este tăiată, sculptată și lustruită manual, așa că nu există două identice.",
+    "value2Title": "Din Țara Sfântă",
+    "value2Text": "Lemnul provine din ramurile tăiate la toaletarea măslinilor, arbori care trăiesc secole.",
+    "value3Title": "Făcut să dureze",
+    "value3Text": "Lemnul de măslin este dens și rezistent, cu un desen cald care devine tot mai frumos în timp.",
+    "storyTitle": "Un meșteșug transmis din generație în generație",
+    "storyText": "Sculptura în lemn de măslin se practică în Betleem și împrejurimi de secole. Lucrăm cu meșteri care țin vie această tradiție.",
+    "storyCta": "Povestea noastră"
+  },
+  "shop": {
+    "title": "Magazin",
+    "intro": "Răsfoiește întreaga colecție de lemn de măslin sculptat manual.",
+    "all": "Toate produsele",
+    "filterLabel": "Categorii",
+    "count": "{count, plural, =0 {Niciun produs} one {# produs} few {# produse} other {# de produse}}",
+    "empty": "Nu există încă produse în această categorie."
+  },
+  "categories": {
+    "nativity": {
+      "name": "Ieslee",
+      "description": "Ieslee și figurine ale Sfintei Familii pentru Crăciun și pentru tot anul."
+    },
+    "crosses": {
+      "name": "Cruci",
+      "description": "Cruci de perete, cruci de Ierusalim și cruciulițe de ținut în mână la rugăciune."
+    },
+    "rosaries": {
+      "name": "Rozarii",
+      "description": "Rozarii, decade și metănii cu mărgele din lemn de măslin."
+    },
+    "home": {
+      "name": "Decorațiuni",
+      "description": "Boluri, platouri și sfeșnice care aduc lemnul de măslin pe masă."
+    }
+  },
+  "product": {
+    "addToCart": "Adaugă în coș",
+    "addedToCart": "Adăugat în coș",
+    "addToWishlist": "Adaugă {name} la favorite",
+    "removeFromWishlist": "Elimină {name} din favorite",
+    "saveToWishlist": "Salvează la favorite",
+    "savedToWishlist": "Salvat la favorite",
+    "details": "Detalii",
+    "material": "Material",
+    "materialValue": "Lemn de măslin",
+    "care": "Întreținere",
+    "careText": "Ștergeți cu o cârpă uscată. Piesele de bucătărie se spală manual și se ung din când în când cu ulei.",
+    "handmadeNote": "Lucrat manual: desenul lemnului, culoarea și mărimea variază ușor de la o piesă la alta.",
+    "related": "Ți-ar putea plăcea și",
+    "view": "Vezi {name}"
+  },
+  "cart": {
+    "title": "Coșul tău",
+    "loading": "Se încarcă coșul…",
+    "empty": "Coșul tău este gol",
+    "emptyText": "Răsfoiește colecția și adaugă o piesă care îți place.",
+    "continue": "Continuă cumpărăturile",
+    "quantity": "Cantitate",
+    "quantityOf": "Cantitate pentru {name}",
+    "increase": "Mărește cantitatea pentru {name}",
+    "decrease": "Micșorează cantitatea pentru {name}",
+    "remove": "Elimină",
+    "removeItem": "Elimină {name} din coș",
+    "subtotal": "Subtotal",
+    "summary": "Sumarul comenzii",
+    "shippingNote": "Livrarea se calculează la finalizarea comenzii.",
+    "whatsappHint": "Deschide WhatsApp cu comanda ta. Acolo confirmăm disponibilitatea, livrarea și plata."
+  },
+  "wishlist": {
+    "title": "Favoritele tale",
+    "loading": "Se încarcă favoritele…",
+    "empty": "Lista ta de favorite este goală",
+    "emptyText": "Atinge inima de pe orice piesă pentru a o salva aici.",
+    "browse": "Răsfoiește colecția",
+    "moveToCart": "Mută în coș",
+    "remove": "Elimină",
+    "removeItem": "Elimină {name} din favorite"
+  },
+  "about": {
+    "title": "Povestea noastră",
+    "intro": "Numele nostru vine de la Ghetsimani, grădina de măslini de la poalele Muntelui Măslinilor din Ierusalim; cuvântul înseamnă „teasc de ulei”. Fiecare piesă pe care o oferim pornește de la o ramură de măslin din Betleem și împrejurimi.",
+    "p1": "Măslinii de aici pot trăi sute de ani. Meșterii folosesc lemn din ramurile tăiate la toaletare și îl usucă încet înainte de a-l lucra.",
+    "p2": "Familiile de sculptori din Betleem lucrează lemnul de măslin de generații. Fiecare piesă este tăiată, sculptată, șlefuită și lustruită manual, așa că desenul, culoarea și mărimea diferă puțin de la o piesă la alta.",
+    "p3": "Suntem un magazin mic și preferăm să-ți spunem clar ce cumperi decât să promitem prea mult. Dacă ai o întrebare despre o piesă, scrie-ne pe WhatsApp și îți vom răspunde sincer.",
+    "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>."
+  },
+  "footer": {
+    "about": "Cadouri din lemn de măslin lucrate manual în Betleem, Țara Sfântă.",
+    "shopTitle": "Magazin",
+    "infoTitle": "Informații",
+    "rights": "© {year} Gethsemane. Toate drepturile rezervate.",
+    "languageTitle": "Limbă",
+    "sister": "Magazinul soră al <link>holylandtimber.com</link>"
+  },
+  "notFound": {
+    "title": "Pagina nu a fost găsită",
+    "text": "Pagina pe care o cauți nu există sau a fost mutată.",
+    "home": "Înapoi la pagina principală"
+  },
+  "error": {
+    "title": "Ceva nu a funcționat",
+    "text": "A apărut o eroare neașteptată. Te rugăm să încerci din nou.",
+    "retry": "Încearcă din nou",
+    "home": "Înapoi la pagina principală"
+  },
+  "common": {
+    "loading": "Se încarcă…"
+  },
+  "whatsapp": {
+    "button": "Comandă pe WhatsApp",
+    "newTab": "se deschide într-o filă nouă",
+    "greeting": "Bună ziua, {store}! Aș dori să comand:",
+    "line": "{qty} × {name} — {price}",
+    "total": "Total: {total}",
+    "currency": "Monedă: {currency}",
+    "closing": "Vă rog să confirmați disponibilitatea, livrarea și plata. Mulțumesc!"
+  }
+}
