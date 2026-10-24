@@ -1,27 +1,50 @@
-import { ARCH_VIEWBOX, TAGLINE, WORDMARK, archLeaves, archOlives, archStem } from "@/assets/brand.mjs";
+import Image from "next/image";
 
-/** The olive-branch arch. Decorative: the accessible name comes from the visible wordmark. Colors: globals.css. */
-export function LogoMark({ width = 48, className = "logo-mark" }: { width?: number; className?: string }) {
+export const MARK_SRC = "/brand/gethsemane-mark.svg";
+export const WORDMARK = "GETHSEMANE";
+export const TAGLINE = "OLIVE WOOD · HOLY LAND";
+
+/**
+ * The compact mark (arch, olive tree, olive press and cross), served as a static SVG file so the page
+ * never inlines it (its clipPath id must stay unique) and the CSP needs no change.
+ * Decorative next to the wordmark: the link's accessible name is the visible text.
+ */
+function Mark({ height, preload = false }: { height: number; preload?: boolean }) {
+  const width = Math.round((height * 536) / 648);
   return (
-    <svg className={className} width={width} height={(width * 72) / 120} viewBox={ARCH_VIEWBOX} aria-hidden="true" focusable="false">
-      <path className="logo-stem" d={archStem} fill="none" strokeWidth={2.4} strokeLinecap="round" />
-      {archLeaves.map(([x, y, rot, rx, ry]) => (
-        <ellipse key={`${x}-${y}`} className="logo-leaf" cx={x} cy={y} rx={rx} ry={ry} transform={`rotate(${rot} ${x} ${y})`} />
-      ))}
-      {archOlives.map(([x, y, r]) => (
-        <circle key={`${x}-${y}`} className="logo-olive" cx={x} cy={y} r={r} />
-      ))}
-    </svg>
+    <Image
+      src={MARK_SRC}
+      alt=""
+      aria-hidden="true"
+      width={width}
+      height={height}
+      unoptimized
+      preload={preload}
+      fetchPriority={preload ? "high" : undefined}
+      className="logo-mark"
+    />
   );
 }
 
-/** English-only lockup in every language: arch icon, wordmark "GETHSEMANE" below, tagline. */
-export function LogoLockup() {
+/** Header lockup: mark + live-text wordmark (English in every language). */
+export function HeaderLogo() {
   return (
     <span className="logo-lockup" lang="en">
-      <LogoMark />
+      <Mark height={44} preload />
       <span className="logo-name">{WORDMARK}</span>
-      <span className="logo-tagline">{TAGLINE}</span>
+    </span>
+  );
+}
+
+/** Footer lockup: mark + wordmark + tagline. */
+export function FooterLogo() {
+  return (
+    <span className="logo-lockup logo-lockup-footer" lang="en">
+      <Mark height={64} />
+      <span className="logo-text">
+        <span className="logo-name">{WORDMARK}</span>
+        <span className="logo-tagline">{TAGLINE}</span>
+      </span>
     </span>
   );
 }

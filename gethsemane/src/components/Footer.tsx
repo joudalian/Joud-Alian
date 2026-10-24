@@ -3,7 +3,7 @@ import { SISTER_STORE_URL } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import { categorySlugs } from "@/lib/catalog";
 import { FooterLanguages } from "./FooterLanguages";
-import { LogoLockup } from "./Logo";
+import { FooterLogo } from "./Logo";
 
 export async function Footer() {
   const t = await getTranslations();
@@ -13,7 +13,7 @@ export async function Footer() {
         <div className="footer-grid">
           <div>
             <Link href="/" className="logo">
-              <LogoLockup />
+              <FooterLogo />
             </Link>
             <p>{t("footer.about")}</p>
             <p>

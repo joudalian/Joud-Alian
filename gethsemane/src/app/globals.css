@@ -3,20 +3,20 @@
   /* Brand palette: deep olive, warm cream, soft gold, dark walnut. The only place colors are defined.
      scripts/check-contrast.mjs checks every text/background pair for WCAG AA and
      scripts/generate-assets.mjs reads these values for the logo, favicon and images. */
-  --cream: #f6f0e3;
+  --cream: #f6efdf; /* logo cream */
   --surface: #fdf9f1;
   --linen: #ece2cf;
   --line: #dccdb2;
-  --ink: #3a2a1e; /* dark walnut: main text */
+  --ink: #4a3222; /* logo walnut: main text */
   --ink-muted: #5f4c3b; /* lighter walnut: secondary text */
   --walnut-300: #b98f63; /* branch stem on dark backgrounds */
   --olive-950: #1c2412;
   --olive-900: #2a3519;
-  --olive-700: #46582b;
-  --olive-600: #5b6e34;
+  --olive-700: #4f5e27; /* logo dark olive */
+  --olive-600: #6b7b34; /* logo olive */
   --olive-100: #e7eadb;
   --leaf-light: #9aab62; /* logo leaves on dark backgrounds */
-  --gold-500: #c8a45e; /* soft gold accent: decorative only, never text on cream */
+  --gold-500: #b8923a; /* logo gold accent: decorative only, never text on cream */
   --gold-300: #dfc58d; /* gold text on dark olive */
   --gold-text: #7a5a1c; /* gold text on cream */
   --on-dark: #fffaf0;
@@ -31,7 +31,7 @@
   --font-sans: var(--font-inter), system-ui, -apple-system, "Segoe UI", sans-serif;
 
   --radius: 10px;
-  --header-h: 76px;
+  --header-h: 64px;
   --bottom-nav-h: 0px;
   --fab-size: 48px;
   --gutter: 16px;
@@ -316,70 +316,55 @@ select {
   color: var(--ink);
 }
 
-/* Stacked lockup: arch icon, wordmark below, tagline. */
+/* Lockup: compact mark next to the live-text wordmark (and the tagline in the footer). */
 .logo-lockup {
   display: inline-flex;
-  flex-direction: column;
   align-items: center;
+  gap: 10px;
   line-height: 1;
 }
 
 .logo-mark {
   display: block;
   flex-shrink: 0;
-}
-
-.logo-stem {
-  stroke: var(--olive-700);
-}
-
-.logo-leaf {
-  fill: var(--olive-600);
-}
-
-.logo-olive {
-  fill: var(--gold-500);
-}
-
-.dark .logo-stem {
-  stroke: var(--walnut-300);
-}
-
-.dark .logo-leaf {
-  fill: var(--leaf-light);
-}
-
-.logo-lockup .logo-mark {
-  width: 44px;
-  height: auto;
-  margin-bottom: 1px;
+  width: auto;
+  height: 44px;
 }
 
 .logo-name {
   font-family: var(--font-serif);
-  font-size: 1.08rem;
+  font-size: 1.3rem;
   font-weight: 600;
-  letter-spacing: 0.16em;
-  margin-right: -0.16em;
+  letter-spacing: 0.14em;
   white-space: nowrap;
+}
+
+@media (max-width: 359.98px) {
+  .site-header .logo-name {
+    font-size: 1.12rem;
+    letter-spacing: 0.1em;
+  }
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .logo-tagline {
-  margin-top: 3px;
-  font-size: 0.55rem;
+  font-size: 0.62rem;
   letter-spacing: 0.2em;
-  margin-right: -0.2em;
-  color: var(--gold-text);
   font-weight: 600;
   white-space: nowrap;
 }
 
-.site-footer .logo-lockup .logo-mark {
-  width: 64px;
+.logo-lockup-footer .logo-mark {
+  height: 64px;
 }
 
-.site-footer .logo-name {
-  font-size: 1.3rem;
+.logo-lockup-footer .logo-name {
+  font-size: 1.45rem;
 }
 
 .main-nav {
@@ -668,58 +653,55 @@ main:focus {
   position: relative;
   isolation: isolate;
   overflow: hidden;
-  background: var(--olive-950);
+  background-color: var(--olive-950);
+  background-image: radial-gradient(ellipse at 75% 55%, var(--olive-900), var(--olive-950) 70%);
   color: var(--cream);
 }
 
-.hero-image {
-  position: absolute;
-  inset: 0;
-  z-index: -2;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  object-position: 78% 50%;
+.hero-grid {
+  display: grid;
+  gap: 8px;
+  align-items: center;
 }
 
-.hero::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: -1;
-  background: linear-gradient(90deg, color-mix(in srgb, var(--olive-950) 95%, transparent) 0%, color-mix(in srgb, var(--olive-950) 82%, transparent) 55%, color-mix(in srgb, var(--olive-950) 20%, transparent) 100%);
-}
-
+/* On phones the hero fills most of the first screen, so the heading is the largest paint. */
 @media (max-width: 767.98px) {
   .hero {
     display: flex;
-    align-items: flex-end;
-    min-height: min(78svh, 640px);
-  }
-
-  .hero::before {
-    background: linear-gradient(180deg, color-mix(in srgb, var(--olive-950) 60%, transparent) 0%, color-mix(in srgb, var(--olive-950) 92%, transparent) 55%);
+    align-items: center;
+    min-height: min(84svh, 700px);
   }
 }
 
-.hero-ornament {
-  display: none;
+.hero-figure {
+  display: flex;
+  justify-content: center;
+  padding-top: 32px;
 }
 
-@media (max-width: 767.98px) {
-  .hero-ornament {
-    display: block;
-    position: absolute;
-    top: 40px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: -1;
-    opacity: 0.5;
+.hero-mark {
+  width: auto;
+  height: 150px;
+}
+
+@media (min-width: 768px) {
+  .hero-grid {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 48px;
+  }
+
+  .hero-figure {
+    order: 2;
+    padding-top: 0;
+  }
+
+  .hero-mark {
+    height: min(360px, 34vw);
   }
 }
 
 .hero-content {
-  padding-block: 72px 56px;
+  padding-block: 28px 56px;
   max-width: 640px;
 }
 
@@ -1302,7 +1284,22 @@ main:focus {
   }
 }
 
-.story-grid img {
+.about-emblem {
+  width: min(80vw, 400px);
+  height: auto;
+  margin-inline: auto;
+}
+
+@media (min-width: 768px) {
+  .about-grid .about-emblem {
+    order: 2;
+    width: 100%;
+    max-width: 440px;
+    aspect-ratio: 1;
+  }
+}
+
+.story-grid img:not(.about-emblem) {
   width: 100%;
   border-radius: var(--radius);
   aspect-ratio: 4 / 3;

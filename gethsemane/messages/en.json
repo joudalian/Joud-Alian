@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Carved from the olive trees of the Holy Land",
     "heroText": "Nativity sets, crosses, rosaries and pieces for the home, each one shaped by hand from olive wood.",
-    "heroAlt": "The Gethsemane emblem: an arch formed by an olive branch",
+    "heroAlt": "Gethsemane emblem: an olive tree and olive press inside an arch, topped by a cross",
     "heroCta": "Shop the collection",
     "heroSecondary": "Read our story",
     "categoriesTitle": "Shop by category",
@@ -121,7 +121,8 @@
     "p1": "Olive trees here can live for hundreds of years. Carvers use wood from branches cut during pruning, and dry it slowly before it reaches the workbench.",
     "p2": "Bethlehem’s carving families have worked olive wood for generations. Each piece is cut, carved, sanded and polished by hand, so the grain, colour and size vary a little from one piece to the next.",
     "p3": "We are a small shop, and we would rather tell you plainly what you are buying than promise too much. If you have a question about a piece, write to us on WhatsApp and we will answer honestly.",
-    "sister": "Gethsemane is the sister store of <link>holylandtimber.com</link>."
+    "sister": "Gethsemane is the sister store of <link>holylandtimber.com</link>.",
+    "emblemAlt": "Gethsemane logo: an ancient olive tree and olive press inside an arch, topped by a cross"
   },
   "footer": {
     "about": "Handmade olive wood gifts from Bethlehem, Holy Land.",

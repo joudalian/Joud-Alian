@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Wyrzeźbione z drzew oliwnych Ziemi Świętej",
     "heroText": "Szopki, krzyże, różańce i przedmioty do domu, każdy ręcznie wykonany z drewna oliwnego.",
-    "heroAlt": "Godło Gethsemane: łuk utworzony z gałązki oliwnej",
+    "heroAlt": "Godło Gethsemane: drzewo oliwne i tłocznia oliwy w łuku zwieńczonym krzyżem",
     "heroCta": "Zobacz kolekcję",
     "heroSecondary": "Poznaj naszą historię",
     "categoriesTitle": "Kupuj według kategorii",
@@ -121,7 +121,8 @@
     "p1": "Drzewa oliwne żyją tu nawet setki lat. Rzeźbiarze używają drewna z gałęzi ściętych podczas przycinania i powoli je suszą, zanim zaczną pracę.",
     "p2": "Rodziny rzeźbiarzy z Betlejem pracują w drewnie oliwnym od pokoleń. Każdy przedmiot jest ręcznie cięty, rzeźbiony, szlifowany i polerowany, dlatego rysunek drewna, kolor i rozmiar nieco się różnią.",
     "p3": "Jesteśmy małym sklepem i wolimy jasno powiedzieć, co kupujesz, niż obiecywać za dużo. Jeśli masz pytanie o jakiś przedmiot, napisz do nas na WhatsAppie – odpowiemy szczerze.",
-    "sister": "Gethsemane to sklep siostrzany <link>holylandtimber.com</link>."
+    "sister": "Gethsemane to sklep siostrzany <link>holylandtimber.com</link>.",
+    "emblemAlt": "Logo Gethsemane: stare drzewo oliwne i tłocznia oliwy w łuku zwieńczonym krzyżem"
   },
   "footer": {
     "about": "Ręcznie robione prezenty z drewna oliwnego z Betlejem, Ziemia Święta.",

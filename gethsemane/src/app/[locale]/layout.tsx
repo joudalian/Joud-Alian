@@ -18,7 +18,7 @@ import { parseCurrency } from "@/lib/storage";
 export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
-  themeColor: "#252e16",
+  themeColor: "#2a3519",
 };
 
 export async function generateMetadata({ params }: { params: Promise<{ locale: string }> }): Promise<Metadata> {

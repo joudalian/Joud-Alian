@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Tallado en los olivos de Tierra Santa",
     "heroText": "Belenes, cruces, rosarios y piezas para el hogar, cada una modelada a mano en madera de olivo.",
-    "heroAlt": "El emblema de Gethsemane: un arco formado por una rama de olivo",
+    "heroAlt": "Emblema de Gethsemane: un olivo y una prensa de aceite dentro de un arco coronado por una cruz",
     "heroCta": "Ver la colección",
     "heroSecondary": "Leer nuestra historia",
     "categoriesTitle": "Comprar por categoría",
@@ -121,7 +121,8 @@
     "p1": "Aquí los olivos pueden vivir cientos de años. Los artesanos usan la madera de las ramas cortadas en la poda y la secan lentamente antes de trabajarla.",
     "p2": "Las familias talladoras de Belén trabajan la madera de olivo desde hace generaciones. Cada pieza se corta, se talla, se lija y se pule a mano, por lo que la veta, el color y el tamaño varían un poco de una pieza a otra.",
     "p3": "Somos una tienda pequeña y preferimos contarte con claridad lo que compras antes que prometer demasiado. Si tienes alguna pregunta sobre una pieza, escríbenos por WhatsApp y te responderemos con sinceridad.",
-    "sister": "Gethsemane es la tienda hermana de <link>holylandtimber.com</link>."
+    "sister": "Gethsemane es la tienda hermana de <link>holylandtimber.com</link>.",
+    "emblemAlt": "Logotipo de Gethsemane: un olivo antiguo y una prensa de aceite dentro de un arco coronado por una cruz"
   },
   "footer": {
     "about": "Regalos de madera de olivo hechos a mano en Belén, Tierra Santa.",

@@ -1,8 +1,7 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
-import { HeroImage } from "@/components/HeroImage";
-import { LogoMark } from "@/components/Logo";
+import { MARK_SRC } from "@/components/Logo";
 import { HandIcon, LeafIcon, ShieldIcon } from "@/components/Icons";
 import { ProductGrid } from "@/components/ProductCard";
 import { Link } from "@/i18n/navigation";
@@ -31,11 +30,10 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <section className="hero dark" aria-labelledby="hero-title">
-        <HeroImage src="/images/hero/home.webp" alt={t("home.heroAlt")} />
-        <div className="hero-ornament" aria-hidden="true">
-          <LogoMark width={300} className="logo-mark hero-mark" />
-        </div>
-        <div className="container">
+        <div className="container hero-grid">
+          <div className="hero-figure">
+            <Image src={MARK_SRC} alt={t("home.heroAlt")} width={536} height={648} unoptimized className="hero-mark" />
+          </div>
           <div className="hero-content">
             <span className="eyebrow">{t("meta.tagline")}</span>
             <h1 id="hero-title">{t("home.heroTitle")}</h1>

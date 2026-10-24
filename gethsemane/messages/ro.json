@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Sculptat din măslinii Țării Sfinte",
     "heroText": "Ieslee, cruci, rozarii și obiecte pentru casă, fiecare modelat manual din lemn de măslin.",
-    "heroAlt": "Emblema Gethsemane: un arc format dintr-o ramură de măslin",
+    "heroAlt": "Emblema Gethsemane: un măslin și un teasc de ulei într-un arc încununat de o cruce",
     "heroCta": "Vezi colecția",
     "heroSecondary": "Citește povestea noastră",
     "categoriesTitle": "Cumpără după categorie",
@@ -121,7 +121,8 @@
     "p1": "Măslinii de aici pot trăi sute de ani. Meșterii folosesc lemn din ramurile tăiate la toaletare și îl usucă încet înainte de a-l lucra.",
     "p2": "Familiile de sculptori din Betleem lucrează lemnul de măslin de generații. Fiecare piesă este tăiată, sculptată, șlefuită și lustruită manual, așa că desenul, culoarea și mărimea diferă puțin de la o piesă la alta.",
     "p3": "Suntem un magazin mic și preferăm să-ți spunem clar ce cumperi decât să promitem prea mult. Dacă ai o întrebare despre o piesă, scrie-ne pe WhatsApp și îți vom răspunde sincer.",
-    "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>."
+    "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>.",
+    "emblemAlt": "Logoul Gethsemane: un măslin străvechi și un teasc de ulei într-un arc încununat de o cruce"
   },
   "footer": {
     "about": "Cadouri din lemn de măslin lucrate manual în Betleem, Țara Sfântă.",

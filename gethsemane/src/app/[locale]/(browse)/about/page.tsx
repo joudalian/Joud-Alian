@@ -20,7 +20,15 @@ export default async function AboutPage({ params }: Props) {
   const t = await getTranslations();
   return (
     <div className="container page">
-      <div className="story-grid">
+      <div className="story-grid about-grid">
+        <Image
+          src="/brand/gethsemane-logo.png"
+          alt={t("about.emblemAlt")}
+          width={1024}
+          height={1024}
+          sizes="(min-width: 1024px) 440px, (min-width: 768px) 40vw, min(80vw, 400px)"
+          className="about-emblem"
+        />
         <div className="prose">
           <span className="eyebrow">{t("meta.tagline")}</span>
           <h1>{t("about.title")}</h1>
@@ -41,7 +49,6 @@ export default async function AboutPage({ params }: Props) {
             {t("home.heroCta")}
           </Link>
         </div>
-        <Image src="/images/about/olive-tree.webp" alt={t("about.title")} width={1200} height={900} sizes="(min-width: 768px) 50vw, 100vw" />
       </div>
     </div>
   );

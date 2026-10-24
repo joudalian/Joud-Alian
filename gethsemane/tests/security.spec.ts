@@ -35,7 +35,7 @@ test.describe("security headers", () => {
   });
 
   test("static files also get the hardening headers", async ({ request }) => {
-    const res = await request.get("/images/hero/home.webp");
+    const res = await request.get("/brand/gethsemane-mark.svg");
     expect(res.status()).toBe(200);
     expect(res.headers()["x-content-type-options"]).toBe("nosniff");
     expect(res.headers()["x-powered-by"]).toBeUndefined();

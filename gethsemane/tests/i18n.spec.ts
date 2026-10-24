@@ -23,7 +23,7 @@ for (const locale of locales) {
     await expect(page.locator('link[rel="alternate"][hreflang="x-default"]')).toHaveAttribute("href", `${base}/en/shop`);
     // The logo lockup is English in every language.
     await expect(page.locator(".site-header .logo-name")).toHaveText("GETHSEMANE");
-    await expect(page.locator(".site-header .logo-tagline")).toHaveText("OLIVE WOOD · HOLY LAND");
+    await expect(page.locator(".site-footer .logo-tagline")).toHaveText("OLIVE WOOD · HOLY LAND");
   });
 }
 

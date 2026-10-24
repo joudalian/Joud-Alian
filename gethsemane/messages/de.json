@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Geschnitzt aus den Olivenbäumen des Heiligen Landes",
     "heroText": "Krippen, Kreuze, Rosenkränze und Stücke für Ihr Zuhause, jedes einzelne von Hand aus Olivenholz gefertigt.",
-    "heroAlt": "Das Gethsemane-Emblem: ein Bogen aus einem Olivenzweig",
+    "heroAlt": "Gethsemane-Emblem: ein Olivenbaum und eine Ölpresse in einem Bogen, gekrönt von einem Kreuz",
     "heroCta": "Zur Kollektion",
     "heroSecondary": "Unsere Geschichte lesen",
     "categoriesTitle": "Nach Kategorie einkaufen",
@@ -121,7 +121,8 @@
     "p1": "Olivenbäume werden hier oft Hunderte von Jahren alt. Die Schnitzer verwenden Holz von Ästen, die beim Rückschnitt anfallen, und lassen es langsam trocknen, bevor sie es bearbeiten.",
     "p2": "Die Schnitzerfamilien Bethlehems arbeiten seit Generationen mit Olivenholz. Jedes Stück wird von Hand gesägt, geschnitzt, geschliffen und poliert – Maserung, Farbe und Größe sind daher bei jedem Stück etwas anders.",
     "p3": "Wir sind ein kleiner Laden und sagen Ihnen lieber klar, was Sie kaufen, als zu viel zu versprechen. Wenn Sie eine Frage zu einem Stück haben, schreiben Sie uns auf WhatsApp – wir antworten ehrlich.",
-    "sister": "Gethsemane ist der Schwestershop von <link>holylandtimber.com</link>."
+    "sister": "Gethsemane ist der Schwestershop von <link>holylandtimber.com</link>.",
+    "emblemAlt": "Gethsemane-Logo: ein alter Olivenbaum und eine Ölpresse in einem Bogen, gekrönt von einem Kreuz"
   },
   "footer": {
     "about": "Handgefertigte Geschenke aus Olivenholz aus Bethlehem, Heiliges Land.",

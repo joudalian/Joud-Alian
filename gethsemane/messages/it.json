@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Intagliato dagli ulivi della Terra Santa",
     "heroText": "Presepi, croci, rosari e oggetti per la casa, ognuno modellato a mano nel legno d'ulivo.",
-    "heroAlt": "L'emblema di Gethsemane: un arco formato da un ramo d'ulivo",
+    "heroAlt": "Emblema di Gethsemane: un ulivo e un frantoio dentro un arco sormontato da una croce",
     "heroCta": "Scopri la collezione",
     "heroSecondary": "Leggi la nostra storia",
     "categoriesTitle": "Acquista per categoria",
@@ -121,7 +121,8 @@
     "p1": "Qui gli ulivi possono vivere centinaia di anni. Gli artigiani usano il legno dei rami tagliati durante la potatura e lo fanno essiccare lentamente prima di lavorarlo.",
     "p2": "Le famiglie di intagliatori di Betlemme lavorano il legno d'ulivo da generazioni. Ogni pezzo è tagliato, intagliato, levigato e lucidato a mano, quindi venatura, colore e misure variano leggermente da un pezzo all'altro.",
     "p3": "Siamo un piccolo negozio e preferiamo dirti con chiarezza cosa stai acquistando piuttosto che promettere troppo. Se hai domande su un pezzo, scrivici su WhatsApp e ti risponderemo con sincerità.",
-    "sister": "Gethsemane è il negozio gemello di <link>holylandtimber.com</link>."
+    "sister": "Gethsemane è il negozio gemello di <link>holylandtimber.com</link>.",
+    "emblemAlt": "Logo di Gethsemane: un antico ulivo e un frantoio dentro un arco sormontato da una croce"
   },
   "footer": {
     "about": "Regali in legno d'ulivo fatti a mano a Betlemme, Terra Santa.",

@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Sculpté dans les oliviers de Terre sainte",
     "heroText": "Crèches, croix, chapelets et objets pour la maison, chacun façonné à la main dans le bois d'olivier.",
-    "heroAlt": "L'emblème de Gethsemane : une arche formée par une branche d'olivier",
+    "heroAlt": "Emblème de Gethsemane : un olivier et un pressoir à huile dans une arche surmontée d'une croix",
     "heroCta": "Découvrir la collection",
     "heroSecondary": "Lire notre histoire",
     "categoriesTitle": "Acheter par catégorie",
@@ -121,7 +121,8 @@
     "p1": "Ici, les oliviers peuvent vivre des centaines d'années. Les artisans utilisent le bois des branches coupées lors de la taille, et le font sécher lentement avant de le travailler.",
     "p2": "Les familles de sculpteurs de Bethléem travaillent le bois d'olivier depuis des générations. Chaque pièce est découpée, sculptée, poncée et polie à la main : le grain, la couleur et la taille varient donc un peu d'une pièce à l'autre.",
     "p3": "Nous sommes une petite boutique et nous préférons vous dire simplement ce que vous achetez plutôt que de trop promettre. Pour toute question sur une pièce, écrivez-nous sur WhatsApp : nous vous répondrons franchement.",
-    "sister": "Gethsemane est la boutique sœur de <link>holylandtimber.com</link>."
+    "sister": "Gethsemane est la boutique sœur de <link>holylandtimber.com</link>.",
+    "emblemAlt": "Logo de Gethsemane : un olivier ancien et un pressoir à huile dans une arche surmontée d'une croix"
   },
   "footer": {
     "about": "Cadeaux en bois d'olivier faits main à Bethléem, Terre sainte.",

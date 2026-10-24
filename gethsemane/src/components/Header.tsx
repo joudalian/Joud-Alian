@@ -1,6 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import { CurrencySelect } from "./CurrencySelect";
-import { LogoLockup } from "./Logo";
+import { HeaderLogo } from "./Logo";
 import { HeaderActions, MainNav } from "./Navigation";
 
 export function Header() {
@@ -8,7 +8,7 @@ export function Header() {
     <header className="site-header">
       <div className="container header-inner">
         <Link href="/" className="logo">
-          <LogoLockup />
+          <HeaderLogo />
         </Link>
         <MainNav />
         <div className="header-actions">

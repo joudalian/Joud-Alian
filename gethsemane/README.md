@@ -1,7 +1,7 @@
 # Gethsemane — Olive Wood · Holy Land
 
-**Gethsemane** takes its name from the olive garden at the foot of the Mount of Olives near Jerusalem; the
-word means “oil press”. It is an online store for handmade olive wood gifts from Bethlehem in the
+**Gethsemane** means “oil press” (Aramaic/Hebrew *gat shmanim*); it is the olive garden at the foot of the
+Mount of Olives. The store is an online store for handmade olive wood gifts from Bethlehem in the
 Holy Land (nativity sets, crosses, rosaries and home decor), and the sister store of
 [holylandtimber.com](https://holylandtimber.com).
 
@@ -9,18 +9,37 @@ Built with Next.js 16 (App Router), React 19, TypeScript (strict) and next-intl.
 
 ## Brand
 
-- **Logo**: an olive branch bent into a semicircular arch, with the wordmark **GETHSEMANE** below and the tagline
-  **OLIVE WOOD · HOLY LAND**. It is English in every language. The geometry lives in
-  `src/assets/brand.mjs` and is shared by the header/footer logo (`src/components/Logo.tsx`), the favicons
-  and the social-sharing image.
-- **Palette** (design tokens, defined once in `:root` in `src/app/globals.css`): deep olive green
-  (`--olive-*`), warm cream backgrounds (`--cream`, `--surface`, `--linen`), soft gold accent (`--gold-500`,
-  decorative only), dark walnut text (`--ink`, `--ink-muted`). Gold text on cream uses the darker
-  `--gold-text`. `npm run check:contrast` checks every text/background pair against WCAG AA; the image
-  generator reads its colors from the same tokens.
-- **Type**: EB Garamond for headings, Inter for body text (self-hosted by `next/font`).
-- Change a color in `globals.css`, run `npm run check:contrast`, then `npm run assets` to regenerate the logo
-  images with it.
+The approved brand files live in `brand/` at the repository root (outside this app):
+
+| File                     | What it is                                                     |
+| ------------------------ | -------------------------------------------------------------- |
+| `gethsemane-logo.png`    | Full emblem with wordmark and tagline, 1024×1024               |
+| `gethsemane-icon.png`    | Emblem without text, 1024×1024                                 |
+| `gethsemane-logo.svg`    | Vector source of the full emblem                               |
+
+`npm run assets` turns them into the files the site serves (all committed, so builds do not need `brand/`):
+
+- `public/brand/gethsemane-mark.svg`: the compact mark used in the header, the footer and the home hero, built
+  from the SVG by `scripts/brand-mark.mjs` (arch scene with the olive tree, olive press and cross; no outer gold
+  rings, no cream background, no text). It is served as a file through `<img>`, never inlined, so its clipPath id
+  cannot clash and the CSP is unchanged. The wordmark **GETHSEMANE** next to it is live text in the heading font;
+  the footer adds the tagline **OLIVE WOOD · HOLY LAND**. The logo is English in every language.
+- `public/brand/gethsemane-logo.png`: the full emblem, shown on the Our Story page.
+- Favicons from `gethsemane-icon.png`: `app/favicon.ico` (16/32/48) and `public/icons/favicon-16|32|48.png` use a
+  tight crop of the arch, tree and cross, because the full icon is unreadable at those sizes;
+  `apple-touch-icon.png` (180) and the manifest icons `icon-192.png` / `icon-512.png` use the full icon.
+- `public/brand/og-image.png` (1200×630, Open Graph and Twitter): the full emblem centred on cream, uncropped.
+
+The SVG's own text depends on a system font, so it is never used as-is in production; any lockup with text
+uses the PNG or live text.
+
+**Palette** (design tokens, defined once in `:root` in `src/app/globals.css`, matched to the logo): olive
+`#6B7B34` (`--olive-600`), dark olive `#4F5E27` (`--olive-700`), gold `#B8923A` (`--gold-500`, decorative only),
+cream `#F6EFDF` (`--cream`), walnut `#4A3222` (`--ink`, main text). Gold text on cream uses the darker
+`--gold-text`. `npm run check:contrast` checks every text/background pair against WCAG AA, and the image
+generator reads the same tokens.
+
+**Type**: EB Garamond for headings and the wordmark, Inter for body text (self-hosted by `next/font`).
 
 ## Editing products
 
@@ -54,7 +73,7 @@ ratios are cropped to fit. Next.js serves them in the right size and format auto
 
 Then run `npm run check:i18n`: it fails if any product is missing a language, has a duplicate id or slug, an
 unknown category, an invalid price or an image file that does not exist. `npm run assets` creates a neutral
-placeholder image (cream card with the arch and the product name) for any product whose image file is missing;
+placeholder image (cream card with the logo mark and the product name) for any product whose image file is missing;
 it never overwrites existing photos (use `npm run assets -- --force-placeholders` to reset them all).
 
 The current 12 products, their names, descriptions, photos and prices are **placeholders**.
@@ -126,7 +145,7 @@ cart and wishlist (noindex), Our Story (`/[locale]/about`), localized 404 (HTTP 
 | `npm test`               | Playwright tests on the production build (desktop + mobile)                       |
 | `npm run audit`          | `npm audit --audit-level=high`                                                    |
 | `npm run verify`         | typecheck → lint → i18n → contrast → build → audit → all tests                    |
-| `npm run assets`         | Regenerates logo images and creates missing product placeholders                  |
+| `npm run assets`         | Rebuilds brand files, favicons and images from `../brand/`; creates missing product placeholders |
 
 Requires Node.js 22.18 or newer (the check scripts read `src/data/products.ts` directly). On a fresh machine,
 install the test browser once with `npx playwright install chromium`.

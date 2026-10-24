@@ -29,7 +29,7 @@
   "home": {
     "heroTitle": "Esculpido nas oliveiras da Terra Santa",
     "heroText": "Presépios, cruzes, terços e peças para a casa, cada uma moldada à mão em madeira de oliveira.",
-    "heroAlt": "O emblema da Gethsemane: um arco formado por um ramo de oliveira",
+    "heroAlt": "Emblema da Gethsemane: uma oliveira e um lagar de azeite dentro de um arco encimado por uma cruz",
     "heroCta": "Ver a coleção",
     "heroSecondary": "Ler a nossa história",
     "categoriesTitle": "Comprar por categoria",
@@ -121,7 +121,8 @@
     "p1": "Aqui as oliveiras podem viver centenas de anos. Os artesãos usam a madeira dos ramos cortados na poda e secam-na lentamente antes de a trabalhar.",
     "p2": "As famílias de escultores de Belém trabalham a madeira de oliveira há gerações. Cada peça é cortada, esculpida, lixada e polida à mão, por isso o veio, a cor e o tamanho variam um pouco de peça para peça.",
     "p3": "Somos uma loja pequena e preferimos dizer-lhe com clareza o que está a comprar do que prometer demais. Se tiver uma pergunta sobre uma peça, escreva-nos no WhatsApp e responderemos com sinceridade.",
-    "sister": "A Gethsemane é a loja irmã da <link>holylandtimber.com</link>."
+    "sister": "A Gethsemane é a loja irmã da <link>holylandtimber.com</link>.",
+    "emblemAlt": "Logótipo da Gethsemane: uma oliveira antiga e um lagar de azeite dentro de um arco encimado por uma cruz"
   },
   "footer": {
     "about": "Presentes em madeira de oliveira feitos à mão em Belém, Terra Santa.",
