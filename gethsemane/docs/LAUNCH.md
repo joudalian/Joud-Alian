@@ -30,7 +30,7 @@ Fill or confirm **every value marked `// CONFIRM`**:
 - [ ] `LEGAL_ENTITY_NAME`, `TAX_ID`, `ADDRESS` (+ `ADDRESS_STREET`, `ADDRESS_LOCALITY`, `ADDRESS_COUNTRY`)
 - [x] `CONTACT_EMAIL` = gethsemane.t12@gmail.com (done 2026-10-25; switch to the domain mailbox from step 1 later)
 - [ ] `OPENING_HOURS` (days you really answer: Sunday–Thursday is `[7, 1, 2, 3, 4]`), `TIMEZONE`, `TIMEZONE_LABEL`
-- [x] `SOCIAL` + `SOCIAL_HANDLES`: Instagram @gethsemane_t12, TikTok @gethsemane.store, Facebook (done 2026-10-25)
+- [x] `SOCIAL` + `SOCIAL_HANDLES`: Instagram @gethsemane_t12, TikTok @gethsemane.store, Facebook @gethsemane.t12 (done 2026-10-25)
 - [ ] Put the shop link (`https://your-domain`) in the bio of each profile once the domain is live
 - [ ] `SISTER_STORE`
 - [ ] `SHIP_FROM_TEXT`, `PROCESSING_TIME`, `DELIVERY_TIME`, `DELIVERY_BY_REGION` (ask the carrier), `LOST_PARCEL_DAYS`

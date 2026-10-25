@@ -7,7 +7,7 @@ import { waitForHydration } from "./helpers";
 const EXPECTED = {
   instagram: "https://www.instagram.com/gethsemane_t12",
   tiktok: "https://www.tiktok.com/@gethsemane.store",
-  facebook: "https://www.facebook.com/share/19dYaPvHsp/",
+  facebook: "https://www.facebook.com/gethsemane.t12",
 };
 const TRACKING = /[?&](utm_[a-z]+|xtok|_r|_t|mibextid|fbclid|igsh)=/i;
 
@@ -34,7 +34,7 @@ test.describe("configuration (no browser)", () => {
 
   test("config holds the clean URLs, handles and email", () => {
     expect(SOCIAL).toEqual(EXPECTED);
-    expect(SOCIAL_HANDLES).toEqual({ instagram: "@gethsemane_t12", tiktok: "@gethsemane.store" });
+    expect(SOCIAL_HANDLES).toEqual({ instagram: "@gethsemane_t12", tiktok: "@gethsemane.store", facebook: "@gethsemane.t12" });
     expect(CONTACT_EMAIL).toBe("gethsemane.t12@gmail.com");
     for (const url of Object.values(SOCIAL)) expect(url).not.toMatch(TRACKING);
   });
@@ -42,7 +42,7 @@ test.describe("configuration (no browser)", () => {
   test("tracking parameters are stripped and empty entries render nothing", () => {
     expect(cleanUrl("https://www.tiktok.com/@gethsemane.store?_t=ZS-123&_r=1&xtok=abc")).toBe(EXPECTED.tiktok);
     expect(cleanUrl("https://www.instagram.com/gethsemane_t12?utm_source=ig&igsh=xyz")).toBe(EXPECTED.instagram);
-    expect(cleanUrl("https://www.facebook.com/share/19dYaPvHsp/?mibextid=wwXIfr")).toBe(EXPECTED.facebook);
+    expect(cleanUrl("https://www.facebook.com/gethsemane.t12?mibextid=wwXIfr&fbclid=abc")).toBe(EXPECTED.facebook);
     expect(socialLinks({ instagram: "", tiktok: " ", facebook: "" }, {})).toEqual([]);
     const one = socialLinks({ instagram: "", tiktok: EXPECTED.tiktok, facebook: "" }, { tiktok: "@gethsemane.store" });
     expect(one).toEqual([{ network: "tiktok", name: "TikTok", url: EXPECTED.tiktok, handle: "@gethsemane.store" }]);
@@ -73,7 +73,8 @@ test.describe("where the accounts and the email appear", () => {
     await expect(pills.nth(0)).toContainText("Instagram");
     await expect(pills.nth(0)).toContainText("@gethsemane_t12");
     await expect(pills.nth(1)).toContainText("@gethsemane.store");
-    await expect(pills.nth(2)).toHaveText(/^Facebook/);
+    await expect(pills.nth(2)).toContainText("Facebook");
+    await expect(pills.nth(2)).toContainText("@gethsemane.t12");
     await expect(section.locator("iframe, img, script")).toHaveCount(0);
     // It is the last section before the footer.
     expect(await section.evaluate((el) => el.nextElementSibling?.tagName ?? "none")).not.toBe("SECTION");

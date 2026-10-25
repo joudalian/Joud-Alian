@@ -69,7 +69,7 @@ anything the site does not promise.
 
 > — Gethsemane, Bethlehem
 > WhatsApp +970 56 974 1193 · gethsemane.t12@gmail.com
-> Instagram @gethsemane_t12 · TikTok @gethsemane.store · Facebook: Gethsemane
+> Instagram @gethsemane_t12 · TikTok @gethsemane.store · Facebook @gethsemane.t12
 
 **A. First reply**
 

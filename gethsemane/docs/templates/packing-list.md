@@ -22,4 +22,4 @@ oil; no soaking, no dishwasher, no radiators. More: your-domain/en/care
 Questions or a problem with your parcel? Write to us on WhatsApp: +970 56 974 1193 or gethsemane.t12@gmail.com
 (please keep the packaging and send photos if anything arrived damaged).
 
-Follow the workshop: Instagram @gethsemane_t12 · TikTok @gethsemane.store · Facebook: Gethsemane
+Follow the workshop: Instagram @gethsemane_t12 · TikTok @gethsemane.store · Facebook @gethsemane.t12

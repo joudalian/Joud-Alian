@@ -197,7 +197,7 @@ is non-empty, names the methods. No payment brands, logos or "secure checkout" w
 
 **Email and social accounts (done, confirmed by the owner 2026-10-25).** `CONTACT_EMAIL` is
 `gethsemane.t12@gmail.com`; `SOCIAL` holds the three profiles (Instagram `@gethsemane_t12`, TikTok
-`@gethsemane.store`, Facebook) and `SOCIAL_HANDLES` their handles. They appear as plain links only (no embeds,
+`@gethsemane.store`, Facebook `@gethsemane.t12`) and `SOCIAL_HANDLES` their handles. They appear as plain links only (no embeds,
 feeds or platform scripts, so the CSP is unchanged): footer icons and the email under Support, a "Follow along"
 section at the end of the home page, "Write to us" and "Find us" cards on the contact page, one line on Our story,
 the email on the privacy, terms, returns and withdrawal pages, a mailto with the prefilled order on the order page,

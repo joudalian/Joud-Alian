@@ -224,7 +224,7 @@ test.describe("structured data", () => {
     expect(org.url).toBe(baseURL);
     expect((org.hasMerchantReturnPolicy as Record<string, unknown>).merchantReturnDays).toBe(14);
     // Only our own social accounts (clean URLs); never the sister store, never "ZZ".
-    expect(org.sameAs).toEqual(["https://www.instagram.com/gethsemane_t12", "https://www.tiktok.com/@gethsemane.store", "https://www.facebook.com/share/19dYaPvHsp/"]);
+    expect(org.sameAs).toEqual(["https://www.instagram.com/gethsemane_t12", "https://www.tiktok.com/@gethsemane.store", "https://www.facebook.com/gethsemane.t12"]);
     expect(JSON.stringify(org.sameAs)).not.toContain("holylandtimber");
     expect(org.contactPoint).toEqual([expect.objectContaining({ telephone: "+970569741193", email: "gethsemane.t12@gmail.com" })]);
     expect(org.address).toEqual({ "@type": "PostalAddress", streetAddress: "129 Al Mahed Street", addressLocality: "Bethlehem", addressCountry: "PS" });

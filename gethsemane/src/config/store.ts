@@ -63,13 +63,14 @@ export const TIMEZONE_LABEL: Record<Locale, string> = {
 export const SOCIAL = {
   instagram: "https://www.instagram.com/gethsemane_t12",
   tiktok: "https://www.tiktok.com/@gethsemane.store",
-  facebook: "https://www.facebook.com/share/19dYaPvHsp/",
+  facebook: "https://www.facebook.com/gethsemane.t12",
 } as const;
 
-/** Handles shown next to the platform name (Facebook has none). Confirmed by the owner (2026-10-25). */
+/** Handles shown next to the platform name. Confirmed by the owner (2026-10-25). */
 export const SOCIAL_HANDLES: Partial<Record<keyof typeof SOCIAL, string>> = {
   instagram: "@gethsemane_t12",
   tiktok: "@gethsemane.store",
+  facebook: "@gethsemane.t12",
 };
 
 /** Sister store under the same ownership. */
