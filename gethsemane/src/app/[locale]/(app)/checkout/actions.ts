@@ -8,6 +8,8 @@ import { isLocale, type Locale } from "@/i18n/locales";
 import { readAddress } from "@/server/address";
 import { currentUser } from "@/server/auth";
 import { createOrderAndSession } from "@/server/checkout";
+import { dutiesNoteFor } from "@/lib/duties";
+import { feature } from "@/server/features";
 import { checkoutBlock } from "@/server/payments";
 import { parseCartInput, quote, type Quote } from "@/server/pricing";
 import { allow } from "@/server/rate-limit";
@@ -27,6 +29,9 @@ export type QuoteView = {
   coupon: string | null;
   couponMessage: string | null;
   countryAllowed: boolean;
+  freeShipping: boolean;
+  /** Confirmed import-duties note for the destination (FEATURES.dutiesNote), or null. */
+  dutiesNote: string | null;
 };
 
 const localeOf = (value: unknown): Locale => (isLocale(value) ? value : "en");
@@ -45,6 +50,8 @@ async function view(q: Quote, locale: Locale, couponCode: string | undefined): P
     coupon: q.coupon?.code ?? null,
     couponMessage: couponCode?.trim() ? (q.couponError ? t(`coupon.${q.couponError}`) : t("coupon.applied", { code: q.coupon?.code ?? "" })) : null,
     countryAllowed: q.countryAllowed,
+    freeShipping: q.freeShipping,
+    dutiesNote: feature("dutiesNote") ? dutiesNoteFor(q.region, locale) : null,
   };
 }
 
@@ -86,6 +93,9 @@ export async function placeOrder(_: FormState, data: FormData): Promise<FormStat
   } catch {
     lines = [];
   }
+  // Engraved pieces cannot be returned: the buyer confirms the exact text once more (FEATURES.engravingPreview).
+  const engraved = parseCartInput(lines).some((l) => l.engraving);
+  if (engraved && feature("engravingPreview") && data.get("engravingConfirmed") !== "on") return { status: "error", message: t("engravingConfirmRequired") };
   const giftNote = data.get("gift") === "on" ? String(data.get("giftNote") ?? "").trim().slice(0, 500) : null;
   const couponCode = String(data.get("coupon") ?? "").trim().slice(0, 40);
   const q = await quote(parseCartInput(lines), {

@@ -63,6 +63,19 @@ Off by default. Create them in `/admin` → Coupons: percentage or fixed USD, op
 date and usage limit. Disable a code there at any time. The discount is calculated on the server and shown on
 Stripe's payment page; the redemption is counted only when the payment is confirmed.
 
+## 4b. Enquiries, reviews and the newsletter
+
+- **Bulk enquiries** (`/admin/enquiries`, when `bulkOrders` is on): each one is also emailed to you with Reply-To set to
+  the customer. Reply with availability, a quote and the shipping cost; mark it handled in admin. For an agreed bulk
+  order, either create a coupon for the agreed discount (section 4) and let them check out, or send a Stripe payment
+  link from the Dashboard and record the order details in your notes.
+- **Reviews** (`/admin/reviews`, when `reviews` is on): the request email goes out automatically when you set an order
+  to Delivered. Approve genuine reviews, reject spam or abuse; never edit a customer's words. A product shows its
+  reviews once it has three approved ones. If a customer asks for their review to be removed, reject it.
+- **Newsletter** (`/admin/newsletter`, when `newsletter` is on): download the confirmed subscribers as CSV and send with
+  your mailing tool. Every newsletter must include an unsubscribe link (each subscriber's own link from the CSV, or
+  your tool's). Write only a few times a year, as the sign-up form promises.
+
 ## 5. Packing
 
 - Wrap each piece separately in tissue, then bubble wrap; nativity figures individually.

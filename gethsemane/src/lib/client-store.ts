@@ -113,6 +113,13 @@ export function useCart() {
   return { lines, count, add, setQty, remove };
 }
 
+/** For WishlistSync: read, replace and watch the stored wishlist outside React. */
+export const wishlistAccess = {
+  get: () => wishlistStore.getSnapshot(),
+  set: (items: ProductSlug[]) => wishlistStore.set(items.slice(0, MAX_WISHLIST)),
+  subscribe: (listener: () => void) => wishlistStore.subscribe(listener),
+};
+
 export function useWishlist() {
   const rules = useContext(CartRulesContext);
   const items = useSyncExternalStore(wishlistStore.subscribe, wishlistStore.getSnapshot, wishlistStore.getServerSnapshot);

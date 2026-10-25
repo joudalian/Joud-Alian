@@ -85,7 +85,27 @@
     "count": "{count, plural, =0 {No products} one {# product} other {# products}}",
     "empty": "There are no products in this category yet.",
     "bandTitle": "Not sure which piece to choose?",
-    "bandText": "Tell us who it is for and the occasion, and we will help you choose."
+    "bandText": "Tell us who it is for and the occasion, and we will help you choose.",
+    "searchLabel": "Search the shop",
+    "filterCategory": "Category",
+    "filterMin": "Min. price (USD)",
+    "filterMax": "Max. price (USD)",
+    "filterSize": "Size",
+    "anySize": "Any size",
+    "size": {
+      "small": "Small (up to 12 cm)",
+      "medium": "Medium (12–25 cm)",
+      "large": "Large (over 25 cm)"
+    },
+    "filterAvailability": "Availability",
+    "anyAvailability": "All pieces",
+    "availability": {
+      "in_stock": "In stock",
+      "available": "Available to order"
+    },
+    "filterApply": "Show pieces",
+    "filterReset": "Clear filters",
+    "noResults": "No pieces match your search. Try fewer words or clear the filters."
   },
   "product": {
     "addToCart": "Add to order",
@@ -161,7 +181,11 @@
     "previousPhoto": "Previous photo",
     "nextPhoto": "Next photo",
     "photoAltN": "{name}, photo {n}",
-    "buyNow": "Buy now"
+    "buyNow": "Buy now",
+    "completeTheSet": "Complete the set",
+    "engravingPreview": "Illustrative preview of the engraving “{text}”. The real engraving is done by hand and will look different.",
+    "engravingUnsupported": "Some characters cannot be engraved. Please use Latin, Greek or Cyrillic letters, numbers and simple punctuation.",
+    "reviewsComing": "Reviews come only from verified buyers, after delivery. They appear here once a piece has three of them."
   },
   "cart": {
     "title": "Your order",
@@ -197,7 +221,9 @@
     "contactPage": "Contact page",
     "toCheckout": "Proceed to checkout",
     "testModeNote": "Test mode: no real payment is taken.",
-    "nothingToOrder": "Nothing in your order can be ordered at the moment."
+    "nothingToOrder": "Nothing in your order can be ordered at the moment.",
+    "freeShippingProgress": "Add {amount} more for free standard shipping.",
+    "freeShippingReached": "Your order qualifies for free standard shipping."
   },
   "wishlist": {
     "title": "Your wishlist",
@@ -210,7 +236,9 @@
     "removeItem": "Remove {name} from wishlist",
     "added": "{name} saved to your wishlist.",
     "removed": "{name} removed from your wishlist.",
-    "storedNote": "Your wishlist is stored only in this browser. It is not sent to us and does not sync between devices."
+    "storedNote": "Your wishlist is stored only in this browser. It is not sent to us and does not sync between devices.",
+    "syncedNote": "Your wishlist is saved to your account, on all your devices.",
+    "signInNote": "Your wishlist is stored only in this browser. <link>Log in</link> to keep it on all your devices."
   },
   "about": {
     "title": "Our story",
@@ -461,7 +489,11 @@
     "database": "Database: account and order data is stored in a managed Postgres database operated for us by our database provider.",
     "carriers": "Delivery: to deliver your order we give your name, address and phone number to the shipping carrier.",
     "basisLegal": "Legal obligations, such as keeping accounting records of paid orders.",
-    "retentionOther": "Sign-in sessions end after 14 days without a visit. Contact form messages are kept in our mailbox only as long as needed to answer you."
+    "retentionOther": "Sign-in sessions end after 14 days without a visit. Contact form messages are kept in our mailbox only as long as needed to answer you.",
+    "newsletterTitle": "Newsletter",
+    "newsletter": "If you subscribe, we store your email address, language and when you confirmed. We send the newsletter only after you confirm by email (double opt-in), every email has an unsubscribe link, and unsubscribing stops it at once. The legal basis is your consent.",
+    "reviewsTitle": "Reviews",
+    "reviews": "After delivery we may email you once to ask for a review; the email has a link to stop these requests. If you write one, we publish your rating, your text, the name you choose and your photo after we have checked it. Photos are re-encoded and their location and camera data are removed. You can ask us to remove your review at any time; deleting your account removes it."
   },
   "terms": {
     "title": "Terms of sale",
@@ -520,7 +552,9 @@
     "avoid1": "Soaking in water.",
     "avoid2": "The dishwasher.",
     "avoid3": "Radiators, heaters and long hours of strong sun.",
-    "variation": "Small changes in colour over time are natural and part of the wood’s character."
+    "variation": "Small changes in colour over time are natural and part of the wood’s character.",
+    "cardTitle": "Olive wood care card",
+    "cardDownload": "Download the printable care card (PDF)"
   },
   "withdrawal": {
     "title": "Withdraw from a contract",
@@ -751,7 +785,8 @@
     "shippedIntro": "Good news: your order {number} is on its way.",
     "carrier": "Carrier",
     "trackingNumber": "Tracking number",
-    "shippedDamage": "If anything arrives damaged, please write to {email} with photos of the parcel and the piece."
+    "shippedDamage": "If anything arrives damaged, please write to {email} with photos of the parcel and the piece.",
+    "unsubscribe": "Unsubscribe"
   },
   "checkout": {
     "title": "Checkout",
@@ -828,6 +863,113 @@
     "confirmingTitle": "Confirming your payment",
     "confirmingText": "Your payment is being confirmed. This usually takes a few seconds: refresh this page in a moment. You will also receive an email.",
     "refresh": "Refresh",
-    "keepLink": "Keep the confirmation email: its link shows this order and its tracking at any time."
+    "keepLink": "Keep the confirmation email: its link shows this order and its tracking at any time.",
+    "freeShippingApplied": "Free",
+    "engravingConfirm": "I have checked the engraving text {texts}. Engraved pieces cannot be returned unless faulty.",
+    "engravingConfirmRequired": "Please confirm that the engraving text is correct."
+  },
+  "christmas": {
+    "title": "Christmas collection",
+    "intro": "Nativity sets and pieces for the Christmas season, carved by hand in Bethlehem.",
+    "orderBy": "To receive your order before Christmas, please order by {date}. Delivery times are estimates.",
+    "bandTitle": "Christmas collection",
+    "bandText": "Nativity sets to gather around, year after year.",
+    "bandCta": "See the collection"
+  },
+  "bulk": {
+    "productLink": "Ordering for a church, shop or group?",
+    "title": "Bulk orders",
+    "intro": "For churches, ministries, shops and groups who need several pieces.",
+    "how": "Tell us what you need and by when. We reply by email with availability, a quote and the shipping cost; nothing is ordered or charged until you agree.",
+    "organisation": "Organisation",
+    "organisationHint": "Church, ministry, shop or group name.",
+    "country": "Country for delivery",
+    "chooseCountry": "Choose a country",
+    "items": "Which pieces?",
+    "quantity": "Quantity",
+    "quantityHint": "Roughly is fine, e.g. “about 40 crosses”.",
+    "neededBy": "Needed by",
+    "message": "Anything else we should know",
+    "send": "Send enquiry",
+    "sent": "Thank you. We have your enquiry and will reply by email with a quote.",
+    "failed": "Your enquiry could not be sent. Please email us at {email}.",
+    "tooMany": "Too many enquiries from this connection. Please try again later or email us at {email}.",
+    "check": "Please check the form.",
+    "invalid": {
+      "organisation": "Please enter the organisation's name.",
+      "name": "Please enter your name.",
+      "email": "Please enter a valid email address.",
+      "country": "Please choose the country for delivery.",
+      "items": "Please tell us which pieces you need.",
+      "quantity": "Please give a quantity.",
+      "neededBy": "Please enter a valid date.",
+      "message": "Your message is too long."
+    }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "label": "New pieces and workshop news by email, a few times a year",
+    "subscribe": "Subscribe",
+    "consent": "We send a confirmation email first. Unsubscribe at any time. <link>Privacy</link>",
+    "confirmSubject": "Please confirm your {store} newsletter subscription",
+    "confirmIntro": "Someone (we hope you) asked to receive our newsletter at this address. Press the button to confirm.",
+    "confirmButton": "Confirm subscription",
+    "confirmIgnore": "If you did not ask for this, ignore this email: you will not be subscribed.",
+    "confirmText": "Press the button to confirm your subscription.",
+    "welcomeSubject": "Welcome to the {store} newsletter",
+    "welcomeIntro": "Thank you for subscribing. We write only a few times a year, about new pieces and life in the workshop.",
+    "welcomeCode": "As a thank-you, here is a code for {percent}% off your first order: {code}. It works once, for this email address, within {days} days.",
+    "unsubscribeText": "Press the button to stop receiving our newsletter.",
+    "unsubscribeButton": "Unsubscribe",
+    "status": {
+      "check": "Almost done: we have sent you an email. Press the button in it to confirm.",
+      "confirmed": "Thank you, your subscription is confirmed.",
+      "unsubscribed": "You have been unsubscribed. You will not receive our newsletter any more.",
+      "invalid": "Please enter a valid email address.",
+      "invalid-link": "This link is not valid any more.",
+      "busy": "Too many requests. Please try again later.",
+      "unavailable": "The newsletter is not available right now."
+    }
+  },
+  "reviews": {
+    "requestSubject": "How are your pieces from {store}? (order {number})",
+    "requestIntro": "Your order {number} has been delivered. If you would like to, tell other customers what you think of your pieces. We check every review before it appears.",
+    "requestButton": "Write a review",
+    "requestOptional": "This is entirely optional. We ask only once per order.",
+    "closed": "Reviews are not open right now.",
+    "invalidLink": "This review link is not valid.",
+    "check": "Please check the form.",
+    "already": "You have already reviewed this piece. Thank you!",
+    "tooMany": "Too many attempts. Please try again later.",
+    "thanks": "Thank you! Your review will appear once we have checked it.",
+    "optedOut": "Done. We will not ask you for reviews again.",
+    "invalid": {
+      "rating": "Please choose a rating.",
+      "body": "Please write at least 10 characters (up to 2000).",
+      "displayName": "Please enter the name to show (up to 40 characters).",
+      "photo": "The photo must be a JPEG, PNG or WebP image of up to 5 MB.",
+      "product": "Please choose the piece."
+    },
+    "title": "Write a review",
+    "intro": "For your order {number}. Thank you for taking the time.",
+    "allDone": "You have reviewed every piece of this order. Thank you!",
+    "product": "Piece",
+    "rating": "Your rating",
+    "ratingValue": "{rating} of 5",
+    "body": "Your review",
+    "displayName": "Name to show",
+    "displayNameHint": "For example your first name or initials.",
+    "photo": "A photo of the piece",
+    "optional": "optional",
+    "photoHint": "JPEG, PNG or WebP, up to 5 MB. We remove location and camera data.",
+    "moderation": "We read every review before it appears and never change its words. A piece shows its reviews once it has three.",
+    "submit": "Send review",
+    "optOutTitle": "Review requests",
+    "optOutText": "Stop all review requests to this email address?",
+    "optOutButton": "Stop review requests",
+    "sectionTitle": "Reviews from verified buyers",
+    "summary": "Average {average} of 5, from {count} reviews",
+    "verified": "verified buyer",
+    "photoAlt": "Photo from {name}"
   }
 }

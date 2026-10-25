@@ -2,6 +2,8 @@ import type { MetadataRoute } from "next";
 import { CATALOG_READY } from "@/config/store";
 import { locales } from "@/i18n/locales";
 import { categorySlugs, products } from "@/lib/catalog";
+import { christmasProducts } from "@/lib/christmas";
+import { feature } from "@/server/features";
 import { alternates } from "@/lib/site";
 
 export const dynamic = "force-dynamic";
@@ -13,7 +15,11 @@ const catalogPaths = CATALOG_READY ? [...categorySlugs.map((c) => `/shop/${c}`),
 const paths = ["", ...(CATALOG_READY ? ["/shop"] : []), "/about", ...infoPaths, ...catalogPaths];
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  return paths.flatMap((path) =>
+  const optional = [
+    ...(CATALOG_READY && feature("christmas") && christmasProducts().length ? ["/christmas"] : []),
+    ...(feature("bulkOrders") ? ["/bulk-orders"] : []),
+  ];
+  return [...paths, ...optional].flatMap((path) =>
     locales.map((locale) => {
       const { canonical, languages } = alternates(locale, path);
       return {

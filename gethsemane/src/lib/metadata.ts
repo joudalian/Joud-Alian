@@ -16,6 +16,7 @@ export async function pageMetadata({
   noindex = false,
   image = socialImage,
   ogType = "website",
+  canonical = false,
 }: {
   locale: Locale;
   path: string;
@@ -26,6 +27,8 @@ export async function pageMetadata({
   image?: { url: string; width: number; height: number; alt: string };
   /** null leaves og:type to the page (product pages render og:type "product" themselves). */
   ogType?: "website" | null;
+  /** With noindex: still point search engines to the unfiltered page (e.g. filtered shop URLs → /shop). */
+  canonical?: boolean;
 }): Promise<Metadata> {
   // A malformed locale segment (e.g. /x.y/product/...) is a 404, never an error.
   if (!isLocale(locale)) notFound();
@@ -35,7 +38,7 @@ export async function pageMetadata({
   return {
     title: { absolute: fullTitle },
     description: desc,
-    alternates: noindex ? undefined : alternates(locale, path),
+    alternates: noindex ? (canonical ? { canonical: localizedUrl(locale, path) } : undefined) : alternates(locale, path),
     robots: noindex ? { index: false, follow: true } : undefined,
     openGraph: {
       ...(ogType ? { type: ogType } : {}),

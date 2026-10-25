@@ -190,6 +190,33 @@ Tax is not collected (`TAX` in `src/config/store.ts`, marked `// CONFIRM`). The 
 `scripts/stripe-mock.mjs` answers the two API calls the site makes and sends correctly signed webhooks, and a second
 test server runs without any key to cover the "opening soon" state (`tests/checkout.spec.ts`).
 
+## Optional features (`FEATURES`)
+
+`FEATURES` in `src/config/store.ts` switches twelve optional features on or off; the `FEATURES` environment variable
+overrides it per deployment without a code change (`FEATURES=reviews,newsletter,-christmas`). Flags are read on the
+server only (`src/server/features.ts`) and passed to client components as props, so a feature that is off ships no
+code, and none of them adds server libraries to the marketing bundles (`tests/bundle.spec.ts` checks with every flag
+on). Defaults and what each needs:
+
+| # | Flag | Default | What it does / what it needs |
+| --- | --- | --- | --- |
+| 1 | `wallets` | off | Lets Stripe offer the methods enabled in Dashboard → Settings → Payment methods (Apple Pay, Google Pay) instead of cards only. Turn them on in the Dashboard too. The site never shows wallet or card logos. |
+| 2 | `freeShippingBar` | on | "Add $X for free standard shipping" in the cart, and free standard shipping at checkout, from `FREE_SHIPPING_THRESHOLD_USD`. Empty threshold (default) = nothing shown, nothing free. |
+| 3 | `dutiesNote` | on | A note under the checkout total from `DUTIES_NOTE_BY_REGION` (per region and language). Empty (default) = not shown. `check:claims` refuses "no extra fees" / "duty free" wording. |
+| 4 | `bulkOrders` | on | `/bulk-orders` enquiry form (organisation, country, pieces, quantity, needed-by date, message), honeypot + rate limit, stored in the database, emailed to `CONTACT_EMAIL`, listed in `/admin/enquiries`. Linked from the footer ("Wholesale"), the cart and product pages. No wholesale prices. |
+| 5 | `engravingPreview` | on | Live preview of the engraving on a CSS wood-grain panel, labelled "Illustrative preview", respecting `maxChars`; only Latin, Greek and Cyrillic letters, digits and simple punctuation can be engraved (checked in the browser and in server pricing). At checkout, engraved lines need a "I have checked the engraving text" tick (checked on the server too). |
+| 6 | `completeTheSet` | on | "Complete the set" on product pages from each product's `relatedSkus` (validated: existing main SKUs, not itself). Empty (default for every real product) = hidden. |
+| 7 | `reviews` | off | Verified-buyer reviews: one request email when the owner marks an order delivered (opt-out link), only that buyer can post (rating, text, name, optional photo re-encoded to WebP without metadata), moderation in `/admin/reviews`; reviews and `AggregateRating` appear only from 3 approved reviews. Never seeded. |
+| 8 | `wishlistSync` | on | Signed-in customers' wishlist is saved to their account (merged with the browser's list on sign-in); guests keep it in the browser and see a sign-in prompt. |
+| 9 | `newsletter` | off | Footer sign-up with double opt-in (a button, not the link, confirms), unsubscribe link and `List-Unsubscribe` header in every email, optional single-use welcome code (`NEWSLETTER_WELCOME_COUPON.percent`). `/admin/newsletter` exports confirmed subscribers as CSV for your mailing tool. The privacy page gains a newsletter section when on. |
+| 10 | `shopSearch` | on | Text search and filters on `/shop` (category, price in USD, size, availability), as a plain GET form rendered on the server; filtered URLs are `noindex` with `/shop` as canonical. |
+| 11 | `christmas` | on | `/christmas` collection and a home-page band from products tagged `christmas` (the three nativity pieces); "order by" message only when `CHRISTMAS_ORDER_BY_DATE` is set. Hidden when nothing is tagged. |
+| 12 | `careCard` | on | Printable A6 olive-wood care card, one PDF per language in `public/care-card/` (static files built by `npm run care-cards` from the `care` texts; rebuild after changing them), linked from the care page. |
+
+`FREE_SHIPPING_THRESHOLD_USD`, `CHRISTMAS_ORDER_BY_DATE` and `NEWSLETTER_WELCOME_PERCENT` can also be set as environment
+variables (`.env.example`). The tests run three servers from one build: defaults (port 3100), no payment keys (3101)
+and every feature on with a threshold, a date and a welcome code (3102, `tests/features.spec.ts`).
+
 ## Accounts and database
 
 Customer accounts, orders, coupons and order tracking live in a Postgres database (Drizzle ORM, schema in

@@ -28,6 +28,7 @@ export const fixtures: ProductInput[] = [
     wood: "olive",
     finish: "oiled",
     tags: ["test"],
+    relatedSkus: ["GTH-004", "GTH-002"],
     text: {
       en: {
         name: "Fixture Engraved Cross",

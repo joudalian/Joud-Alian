@@ -1,13 +1,13 @@
 import "server-only";
 import { and, eq, inArray, notInArray } from "drizzle-orm";
 import { getDb } from "./db";
-import { addresses, orderEvents, orderItems, orders, user, wishlistItems } from "./db/schema";
+import { addresses, orderEvents, orderItems, orders, reviewRequests, reviews, user, wishlistItems } from "./db/schema";
 
 /** Orders that were paid at some point: kept for accounting after an account is deleted (see DATA_RETENTION_YEARS). */
 const ACCOUNTING_STATUSES = ["paid", "processing", "shipped", "delivered", "refunded"] as const;
 
 /**
- * Deletes an account. Removed: the user, sessions, password, addresses, wishlist and any unpaid orders. Kept: paid
+ * Deletes an account. Removed: the user, sessions, password, addresses, wishlist, reviews and any unpaid orders. Kept: paid
  * orders, which tax and accounting law require us to keep. They are detached from the account and stripped of what
  * accounting does not need (phone number, gift note).
  */
@@ -18,6 +18,9 @@ export async function deleteAccountData(userId: string): Promise<void> {
   const dropped = own.filter((o) => !kept.includes(o.id)).map((o) => o.id);
   if (dropped.length) await db.delete(orders).where(inArray(orders.id, dropped));
   if (kept.length) {
+    // Published reviews carry the customer's name: they go with the account.
+    await db.delete(reviews).where(inArray(reviews.orderId, kept));
+    await db.delete(reviewRequests).where(inArray(reviewRequests.orderId, kept));
     await db
       .update(orders)
       .set({ userId: null, shipPhone: "", giftNote: null, anonymizedAt: new Date() })
@@ -42,6 +45,12 @@ export async function exportAccountData(userId: string) {
   const items = ids.length ? await db.select().from(orderItems).where(inArray(orderItems.orderId, ids)) : [];
   const events = ids.length ? await db.select().from(orderEvents).where(and(inArray(orderEvents.orderId, ids), eq(orderEvents.internal, false))) : [];
   const saved = await db.select({ product: wishlistItems.productSlug, addedAt: wishlistItems.createdAt }).from(wishlistItems).where(eq(wishlistItems.userId, userId));
+  const written = ids.length
+    ? await db
+        .select({ product: reviews.productSlug, rating: reviews.rating, text: reviews.body, name: reviews.displayName, status: reviews.status, createdAt: reviews.createdAt })
+        .from(reviews)
+        .where(inArray(reviews.orderId, ids))
+    : [];
   return {
     exportedAt: new Date().toISOString(),
     profile,
@@ -78,5 +87,6 @@ export async function exportAccountData(userId: string) {
       history: events.filter((e) => e.orderId === o.id).map(({ type, message, createdAt }) => ({ type, message, createdAt })),
     })),
     wishlist: saved,
+    reviews: written,
   };
 }

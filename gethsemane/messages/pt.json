@@ -85,7 +85,27 @@
     "count": "{count, plural, =0 {Nenhum produto} one {# produto} other {# produtos}}",
     "empty": "Ainda não há produtos nesta categoria.",
     "bandTitle": "Não sabe que peça escolher?",
-    "bandText": "Diga-nos para quem é e a ocasião, e ajudamos a escolher."
+    "bandText": "Diga-nos para quem é e a ocasião, e ajudamos a escolher.",
+    "searchLabel": "Pesquisar na loja",
+    "filterCategory": "Categoria",
+    "filterMin": "Preço mín. (USD)",
+    "filterMax": "Preço máx. (USD)",
+    "filterSize": "Tamanho",
+    "anySize": "Qualquer tamanho",
+    "size": {
+      "small": "Pequeno (até 12 cm)",
+      "medium": "Médio (12–25 cm)",
+      "large": "Grande (mais de 25 cm)"
+    },
+    "filterAvailability": "Disponibilidade",
+    "anyAvailability": "Todas as peças",
+    "availability": {
+      "in_stock": "Em stock",
+      "available": "Disponível para encomenda"
+    },
+    "filterApply": "Mostrar peças",
+    "filterReset": "Limpar filtros",
+    "noResults": "Nenhuma peça corresponde à pesquisa. Experimente menos palavras ou limpe os filtros."
   },
   "product": {
     "addToCart": "Adicionar à encomenda",
@@ -161,7 +181,11 @@
     "previousPhoto": "Fotografia anterior",
     "nextPhoto": "Fotografia seguinte",
     "photoAltN": "{name}, fotografia {n}",
-    "buyNow": "Comprar agora"
+    "buyNow": "Comprar agora",
+    "completeTheSet": "Complete o conjunto",
+    "engravingPreview": "Pré-visualização ilustrativa da gravação «{text}». A gravação real é feita à mão e terá outro aspeto.",
+    "engravingUnsupported": "Alguns caracteres não podem ser gravados. Use letras latinas, gregas ou cirílicas, números e pontuação simples.",
+    "reviewsComing": "As avaliações vêm apenas de compradores verificados, após a entrega. Aparecem aqui quando uma peça tiver três."
   },
   "cart": {
     "title": "A sua encomenda",
@@ -197,7 +221,9 @@
     "contactPage": "Página de contacto",
     "toCheckout": "Finalizar compra",
     "testModeNote": "Modo de teste: não é feito nenhum pagamento real.",
-    "nothingToOrder": "De momento nenhum artigo da encomenda pode ser encomendado."
+    "nothingToOrder": "De momento nenhum artigo da encomenda pode ser encomendado.",
+    "freeShippingProgress": "Adicione mais {amount} para envio standard gratuito.",
+    "freeShippingReached": "A sua encomenda tem envio standard gratuito."
   },
   "wishlist": {
     "title": "Os seus favoritos",
@@ -210,7 +236,9 @@
     "removeItem": "Remover {name} dos favoritos",
     "added": "{name} guardado nos favoritos.",
     "removed": "{name} removido dos favoritos.",
-    "storedNote": "Os seus favoritos ficam guardados apenas neste navegador. Não nos são enviados nem se sincronizam entre dispositivos."
+    "storedNote": "Os seus favoritos ficam guardados apenas neste navegador. Não nos são enviados nem se sincronizam entre dispositivos.",
+    "syncedNote": "A sua lista de desejos fica guardada na conta, em todos os seus dispositivos.",
+    "signInNote": "A sua lista de desejos fica guardada apenas neste navegador. <link>Inicie sessão</link> para a ter em todos os dispositivos."
   },
   "about": {
     "title": "A nossa história",
@@ -461,7 +489,11 @@
     "database": "Base de dados: os dados de contas e encomendas ficam guardados numa base de dados Postgres gerida para nós pelo nosso fornecedor de bases de dados.",
     "carriers": "Entrega: para entregar a encomenda, damos o seu nome, morada e telefone à transportadora.",
     "basisLegal": "Obrigações legais, como manter os registos contabilísticos das encomendas pagas.",
-    "retentionOther": "As sessões terminam após 14 dias sem visitas. As mensagens do formulário de contacto ficam na nossa caixa de correio apenas o tempo necessário para responder."
+    "retentionOther": "As sessões terminam após 14 dias sem visitas. As mensagens do formulário de contacto ficam na nossa caixa de correio apenas o tempo necessário para responder.",
+    "newsletterTitle": "Newsletter",
+    "newsletter": "Se subscrever, guardamos o seu e-mail, o idioma e a data de confirmação. Só enviamos a newsletter depois de confirmar por e-mail (dupla confirmação), cada e-mail tem uma ligação para cancelar e o cancelamento é imediato. A base legal é o seu consentimento.",
+    "reviewsTitle": "Avaliações",
+    "reviews": "Após a entrega podemos escrever-lhe uma vez a pedir uma avaliação; o e-mail tem uma ligação para deixar de receber estes pedidos. Se escrever uma, publicamos a classificação, o texto, o nome que escolher e a fotografia depois de a verificarmos. As fotografias são recodificadas e os dados de localização e câmara removidos. Pode pedir a remoção a qualquer momento; eliminar a conta apaga-a."
   },
   "terms": {
     "title": "Condições de venda",
@@ -520,7 +552,9 @@
     "avoid1": "Deixar de molho em água.",
     "avoid2": "A máquina de lavar loiça.",
     "avoid3": "Radiadores, aquecedores e muitas horas de sol forte.",
-    "variation": "Pequenas mudanças de cor com o tempo são naturais e fazem parte do carácter da madeira."
+    "variation": "Pequenas mudanças de cor com o tempo são naturais e fazem parte do carácter da madeira.",
+    "cardTitle": "Cartão de cuidados da madeira de oliveira",
+    "cardDownload": "Descarregar o cartão de cuidados para imprimir (PDF)"
   },
   "withdrawal": {
     "title": "Resolver um contrato",
@@ -751,7 +785,8 @@
     "shippedIntro": "Boas notícias: a sua encomenda {number} está a caminho.",
     "carrier": "Transportadora",
     "trackingNumber": "Número de seguimento",
-    "shippedDamage": "Se algo chegar danificado, escreva para {email} com fotografias da embalagem e da peça."
+    "shippedDamage": "Se algo chegar danificado, escreva para {email} com fotografias da embalagem e da peça.",
+    "unsubscribe": "Cancelar subscrição"
   },
   "checkout": {
     "title": "Checkout",
@@ -828,6 +863,113 @@
     "confirmingTitle": "A confirmar o pagamento",
     "confirmingText": "Estamos a confirmar o pagamento. Costuma demorar alguns segundos: atualize esta página daqui a pouco. Também vai receber um e-mail.",
     "refresh": "Atualizar",
-    "keepLink": "Guarde o e-mail de confirmação: a ligação mostra esta encomenda e o seguimento a qualquer momento."
+    "keepLink": "Guarde o e-mail de confirmação: a ligação mostra esta encomenda e o seguimento a qualquer momento.",
+    "freeShippingApplied": "Grátis",
+    "engravingConfirm": "Verifiquei o texto da gravação {texts}. As peças gravadas não podem ser devolvidas, salvo defeito.",
+    "engravingConfirmRequired": "Confirme que o texto da gravação está correto."
+  },
+  "christmas": {
+    "title": "Coleção de Natal",
+    "intro": "Presépios e peças para o Natal, esculpidos à mão em Belém.",
+    "orderBy": "Para receber a encomenda antes do Natal, encomende até {date}. Os prazos de entrega são estimativas.",
+    "bandTitle": "Coleção de Natal",
+    "bandText": "Presépios para reunir a família, ano após ano.",
+    "bandCta": "Ver a coleção"
+  },
+  "bulk": {
+    "productLink": "Encomenda para uma paróquia, loja ou grupo?",
+    "title": "Encomendas por grosso",
+    "intro": "Para paróquias, comunidades, lojas e grupos que precisam de várias peças.",
+    "how": "Diga-nos o que precisa e para quando. Respondemos por e-mail com a disponibilidade, um orçamento e o custo de envio; nada é encomendado nem cobrado sem o seu acordo.",
+    "organisation": "Organização",
+    "organisationHint": "Nome da paróquia, comunidade, loja ou grupo.",
+    "country": "País de entrega",
+    "chooseCountry": "Escolha um país",
+    "items": "Que peças?",
+    "quantity": "Quantidade",
+    "quantityHint": "Basta uma estimativa, p. ex. «cerca de 40 cruzes».",
+    "neededBy": "Necessário até",
+    "message": "Mais alguma coisa que devamos saber",
+    "send": "Enviar pedido",
+    "sent": "Obrigado. Recebemos o pedido e responderemos por e-mail com um orçamento.",
+    "failed": "Não foi possível enviar o pedido. Escreva para {email}.",
+    "tooMany": "Demasiados pedidos a partir desta ligação. Tente mais tarde ou escreva para {email}.",
+    "check": "Verifique o formulário.",
+    "invalid": {
+      "organisation": "Indique o nome da organização.",
+      "name": "Indique o seu nome.",
+      "email": "Indique um e-mail válido.",
+      "country": "Escolha o país de entrega.",
+      "items": "Diga-nos que peças precisa.",
+      "quantity": "Indique uma quantidade.",
+      "neededBy": "Indique uma data válida.",
+      "message": "A mensagem é demasiado longa."
+    }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "label": "Peças novas e notícias da oficina por e-mail, algumas vezes por ano",
+    "subscribe": "Subscrever",
+    "consent": "Primeiro enviamos um e-mail de confirmação. Pode cancelar a qualquer momento. <link>Privacidade</link>",
+    "confirmSubject": "Confirme a subscrição da newsletter da {store}",
+    "confirmIntro": "Foi pedido o envio da nossa newsletter para este endereço. Carregue no botão para confirmar.",
+    "confirmButton": "Confirmar subscrição",
+    "confirmIgnore": "Se não fez este pedido, ignore este e-mail: não ficará inscrito.",
+    "confirmText": "Carregue no botão para confirmar a subscrição.",
+    "welcomeSubject": "Bem-vindo à newsletter da {store}",
+    "welcomeIntro": "Obrigado pela subscrição. Escrevemos apenas algumas vezes por ano, sobre peças novas e a vida da oficina.",
+    "welcomeCode": "Como agradecimento, aqui está um código de {percent}% de desconto na primeira encomenda: {code}. É válido uma vez, para este e-mail, durante {days} dias.",
+    "unsubscribeText": "Carregue no botão para deixar de receber a newsletter.",
+    "unsubscribeButton": "Cancelar subscrição",
+    "status": {
+      "check": "Quase pronto: enviámos-lhe um e-mail. Carregue no botão nele para confirmar.",
+      "confirmed": "Obrigado, a subscrição está confirmada.",
+      "unsubscribed": "A subscrição foi cancelada. Não receberá mais a newsletter.",
+      "invalid": "Indique um e-mail válido.",
+      "invalid-link": "Esta ligação já não é válida.",
+      "busy": "Demasiados pedidos. Tente mais tarde.",
+      "unavailable": "A newsletter não está disponível de momento."
+    }
+  },
+  "reviews": {
+    "requestSubject": "O que achou das peças da {store}? (encomenda {number})",
+    "requestIntro": "A sua encomenda {number} foi entregue. Se quiser, diga a outros clientes o que acha das peças. Verificamos cada avaliação antes de a publicar.",
+    "requestButton": "Escrever uma avaliação",
+    "requestOptional": "É totalmente opcional. Só perguntamos uma vez por encomenda.",
+    "closed": "As avaliações não estão abertas de momento.",
+    "invalidLink": "Esta ligação de avaliação não é válida.",
+    "check": "Verifique o formulário.",
+    "already": "Já avaliou esta peça. Obrigado!",
+    "tooMany": "Demasiadas tentativas. Tente mais tarde.",
+    "thanks": "Obrigado! A avaliação aparecerá depois de a verificarmos.",
+    "optedOut": "Feito. Não voltaremos a pedir avaliações.",
+    "invalid": {
+      "rating": "Escolha uma classificação.",
+      "body": "Escreva pelo menos 10 caracteres (até 2000).",
+      "displayName": "Indique o nome a mostrar (até 40 caracteres).",
+      "photo": "A fotografia deve ser JPEG, PNG ou WebP até 5 MB.",
+      "product": "Escolha a peça."
+    },
+    "title": "Escrever uma avaliação",
+    "intro": "Para a sua encomenda {number}. Obrigado pelo seu tempo.",
+    "allDone": "Já avaliou todas as peças desta encomenda. Obrigado!",
+    "product": "Peça",
+    "rating": "A sua classificação",
+    "ratingValue": "{rating} em 5",
+    "body": "A sua avaliação",
+    "displayName": "Nome a mostrar",
+    "displayNameHint": "Por exemplo o nome próprio ou as iniciais.",
+    "photo": "Uma fotografia da peça",
+    "optional": "opcional",
+    "photoHint": "JPEG, PNG ou WebP, até 5 MB. Removemos os dados de localização e câmara.",
+    "moderation": "Lemos cada avaliação antes de a publicar e nunca alteramos as palavras. Uma peça mostra as avaliações quando tiver três.",
+    "submit": "Enviar avaliação",
+    "optOutTitle": "Pedidos de avaliação",
+    "optOutText": "Deixar de receber pedidos de avaliação neste e-mail?",
+    "optOutButton": "Deixar de receber pedidos",
+    "sectionTitle": "Avaliações de compradores verificados",
+    "summary": "Média de {average} em 5, de {count} avaliações",
+    "verified": "compra verificada",
+    "photoAlt": "Fotografia de {name}"
   }
 }

@@ -29,7 +29,8 @@ wording. Every claim must be true for the piece (see the honesty rules in README
 | Availability | no | `in_stock`, `made_to_order` (default) or `sold_out`. | `availability` |
 | Lead time | no | Days to make it before dispatch (made to order). | `lead_time_days` |
 | Home page | no | yes to feature it on the home page. | `featured` |
-| Tags | no | Lowercase words for later search/grouping (not shown). | `tags` (`angel|christmas`) |
+| Tags | no | Lowercase words found by the shop search; `christmas` puts the piece in the Christmas collection. | `tags` (`angel|christmas`) |
+| Complete the set | no | Main SKUs of other pieces suggested on this piece's page ("Complete the set"). | `related_skus` (`GTH-002|GTH-004`) |
 | Languages to review | no | Languages whose text still needs a native check. | `needs_review` (`fr|de`) |
 | Ready to sell | no | yes once every language is written and checked. | `launch_ready` |
 

@@ -3,6 +3,7 @@
 //
 //   node scripts/test-server.mjs                 port 3100, Stripe TEST mode against the local stand-in
 //   node scripts/test-server.mjs --no-payments   no Stripe key at all ("Payments are opening soon")
+//   node scripts/test-server.mjs --env FEATURES=reviews,newsletter --env …   extra environment for the site
 // The port comes from PORT (default 3100). Every value below is a test-only placeholder, never a real key.
 import { spawn } from "node:child_process";
 import { rmSync } from "node:fs";
@@ -11,6 +12,9 @@ import { fileURLToPath } from "node:url";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const port = process.env.PORT ?? "3100";
 const payments = !process.argv.includes("--no-payments");
+const extraEnv = Object.fromEntries(
+  process.argv.flatMap((arg, i) => (process.argv[i - 1] === "--env" ? [arg.split(/=(.*)/s).slice(0, 2)] : [])),
+);
 const mockPort = String(12000 + Number(port) - 3000);
 rmSync(`${root}.data/test-db-${port}`, { recursive: true, force: true });
 rmSync(`${root}.data/test-outbox-${port}.jsonl`, { force: true });
@@ -32,6 +36,7 @@ const env = {
   EMAIL_OUTBOX_FILE: `${root}.data/test-outbox-${port}.jsonl`,
   BETTER_AUTH_SECRET: "test-secret-for-the-local-test-server-only-0123456789",
   ADMIN_EMAILS: "owner@example.test",
+  ...extraEnv,
 };
 if (payments) {
   Object.assign(env, {

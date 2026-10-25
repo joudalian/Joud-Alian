@@ -80,6 +80,30 @@ Fill or confirm **every value marked `// CONFIRM`**:
 - [ ] `MANUFACTURER_*`, `EU_RESPONSIBLE_PERSON` (only after legal advice)
 - [ ] `ANNOUNCEMENT`, `POLICY_UPDATED`, `ACCESSIBILITY_REVIEWED`
 
+## 5b. Optional features (`FEATURES` in `src/config/store.ts`)
+
+Decide each one; the defaults are listed in README → Optional features.
+
+- [ ] **Wallets** (off): to offer Apple Pay / Google Pay, enable them in Stripe Dashboard → Settings → Payment methods
+      (Apple Pay also needs your domain verified there), then set `wallets: true`.
+- [ ] **Free shipping** (bar on, no threshold): set `FREE_SHIPPING_THRESHOLD_USD` only if you really want free standard
+      shipping from that items total; the checkout then charges no standard shipping.
+- [ ] **Duties note** (on, no text): add a sentence per region to `DUTIES_NOTE_BY_REGION` only once it is confirmed (ask
+      the carrier); never promise that nothing more is due.
+- [ ] **Bulk orders** (on): enquiries arrive by email and in `/admin/enquiries`; reply with a quote by email.
+- [ ] **Engraving preview** (on): check that the preview's wording ("illustrative") and the supported scripts (Latin,
+      Greek, Cyrillic) match what the workshop can engrave.
+- [ ] **Complete the set** (on, empty): add `relatedSkus` to products you want to suggest together (docs/CATALOG.md).
+- [ ] **Reviews** (off): decide; if on, check the privacy text "Reviews", moderate every review in `/admin/reviews`.
+- [ ] **Wishlist in the account** (on): nothing to confirm.
+- [ ] **Newsletter** (off): decide; if on, choose the welcome code (`NEWSLETTER_WELCOME_COUPON.percent`, 0 = none) and
+      the tool you will send with (export from `/admin/newsletter`); check the privacy text "Newsletter".
+- [ ] **Shop search** (on): nothing to confirm.
+- [ ] **Christmas** (on): set `CHRISTMAS_ORDER_BY_DATE` each season (last order date for Christmas delivery, from the
+      carrier's estimates), clear it after Christmas, and tag the right pieces `christmas`.
+- [ ] **Care card** (on): read the PDF in each language (`public/care-card/`); run `npm run care-cards` after any change
+      to the care texts.
+
 ## 6. Verify every claim
 
 Read every page in English and confirm that each statement is true for how you work. In particular:

@@ -38,5 +38,14 @@ export default defineConfig({
       timeout: 60_000,
       env: { SITE_URL: `http://localhost:${PORT + 1}`, NEXT_PUBLIC_CATALOG_FIXTURES: "1", PORT: String(PORT + 1) },
     },
+    {
+      // The same build with every optional feature on (tests/features-on.spec.ts); the other servers use the defaults.
+      command:
+        "node scripts/test-server.mjs --env FEATURES=wallets,freeShippingBar,dutiesNote,bulkOrders,engravingPreview,completeTheSet,reviews,wishlistSync,newsletter,shopSearch,christmas,careCard --env FREE_SHIPPING_THRESHOLD_USD=150 --env CHRISTMAS_ORDER_BY_DATE=2026-12-10 --env NEWSLETTER_WELCOME_PERCENT=10",
+      url: `http://localhost:${PORT + 2}/en`,
+      reuseExistingServer: !process.env.CI,
+      timeout: 60_000,
+      env: { SITE_URL: `http://localhost:${PORT + 2}`, NEXT_PUBLIC_CATALOG_FIXTURES: "1", PORT: String(PORT + 2) },
+    },
   ],
 });

@@ -7,6 +7,7 @@ import { JsonLd } from "@/components/JsonLd";
 import { ProductGrid } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductPurchase } from "@/components/ProductPurchase";
+import { ProductReviews } from "@/components/ProductReviews";
 import {
   CATALOG_READY,
   DELIVERY_BY_REGION,
@@ -20,11 +21,13 @@ import {
 } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import { isLocale, type Locale } from "@/i18n/locales";
-import { categoryText, getProduct, imageAlt, mainCategory, mainImage, productText, productsInCategory, type Product } from "@/lib/catalog";
+import { categoryText, getProduct, imageAlt, mainCategory, mainImage, productText, productsInCategory, relatedProducts, type Product } from "@/lib/catalog";
 import { RATES_AS_OF } from "@/lib/currency";
 import { cmToIn, formatDate, gToOz } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
 import { purchaseProduct } from "@/lib/order-lookup";
+import { features } from "@/server/features";
+import { productReviews } from "@/server/reviews";
 import { checkoutBlock } from "@/server/payments";
 import { OG_SIZE, PRODUCT_IMAGE_SIZES, productImageSrcSet, productOgImage } from "@/lib/product-image";
 import { productLd } from "@/lib/structured-data";
@@ -88,7 +91,11 @@ export default async function ProductPage({ params }: Props) {
   const { name, summary, description } = text;
   const lang = text.lang === locale ? undefined : text.lang;
   const category = mainCategory(product);
-  const related = productsInCategory(category.slug).filter((p) => p.slug !== product.slug);
+  const flags = features();
+  const set = flags.completeTheSet ? relatedProducts(product) : [];
+  const reviewData = flags.reviews ? await productReviews(product.slug) : null;
+  // The same-category list leaves out what "Complete the set" already shows.
+  const related = productsInCategory(category.slug).filter((p) => p.slug !== product.slug && !set.includes(p));
   const path = `/product/${product.slug}`;
   const first = mainImage(product);
   const avifSrcSet = productImageSrcSet(first.file, "avif");
@@ -126,10 +133,15 @@ export default async function ProductPage({ params }: Props) {
               {summary}
             </p>
           )}
-          <ProductPurchase product={purchaseProduct(product, locale)} checkoutOpen={!checkoutBlock()}>
+          <ProductPurchase product={purchaseProduct(product, locale)} checkoutOpen={!checkoutBlock()} engravingPreview={flags.engravingPreview}>
             <Link href={`/contact?product=${product.slug}`} className="text-link">
               {t("product.askAbout")}
             </Link>
+            {flags.bulkOrders && (
+              <Link href={`/bulk-orders?product=${product.slug}`} className="text-link" data-testid="bulk-link">
+                {t("bulk.productLink")}
+              </Link>
+            )}
           </ProductPurchase>
           <p lang={lang}>{description}</p>
           <Specs product={product} />
@@ -181,17 +193,27 @@ export default async function ProductPage({ params }: Props) {
           )}
         </div>
       </div>
-      <section className="reviews-note" aria-labelledby="reviews-title">
-        <h2 id="reviews-title">{t("product.reviewsTitle")}</h2>
-        <p>{t("product.reviewsText")}</p>
-      </section>
+      {reviewData ? (
+        <ProductReviews data={reviewData} locale={locale} />
+      ) : (
+        <section className="reviews-note" aria-labelledby="reviews-title">
+          <h2 id="reviews-title">{t("product.reviewsTitle")}</h2>
+          <p>{flags.reviews ? t("product.reviewsComing") : t("product.reviewsText")}</p>
+        </section>
+      )}
+      {set.length > 0 && (
+        <section className="section" aria-labelledby="set-title" data-testid="complete-the-set">
+          <h2 id="set-title">{t("product.completeTheSet")}</h2>
+          <ProductGrid products={set} />
+        </section>
+      )}
       {related.length > 0 && (
         <section className="section" aria-labelledby="related-title">
           <h2 id="related-title">{t("product.related")}</h2>
           <ProductGrid products={related} />
         </section>
       )}
-      <JsonLd data={productLd(product, locale)} />
+      <JsonLd data={productLd(product, locale, reviewData)} />
     </div>
   );
 }

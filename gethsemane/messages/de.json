@@ -85,7 +85,27 @@
     "count": "{count, plural, =0 {Keine Produkte} one {# Produkt} other {# Produkte}}",
     "empty": "In dieser Kategorie gibt es noch keine Produkte.",
     "bandTitle": "Sie sind unsicher, welches Stück passt?",
-    "bandText": "Sagen Sie uns, für wen es ist und zu welchem Anlass, und wir helfen Ihnen bei der Wahl."
+    "bandText": "Sagen Sie uns, für wen es ist und zu welchem Anlass, und wir helfen Ihnen bei der Wahl.",
+    "searchLabel": "Im Shop suchen",
+    "filterCategory": "Kategorie",
+    "filterMin": "Mindestpreis (USD)",
+    "filterMax": "Höchstpreis (USD)",
+    "filterSize": "Größe",
+    "anySize": "Jede Größe",
+    "size": {
+      "small": "Klein (bis 12 cm)",
+      "medium": "Mittel (12–25 cm)",
+      "large": "Groß (über 25 cm)"
+    },
+    "filterAvailability": "Verfügbarkeit",
+    "anyAvailability": "Alle Stücke",
+    "availability": {
+      "in_stock": "Auf Lager",
+      "available": "Bestellbar"
+    },
+    "filterApply": "Stücke anzeigen",
+    "filterReset": "Filter zurücksetzen",
+    "noResults": "Keine Stücke gefunden. Versuchen Sie weniger Wörter oder setzen Sie die Filter zurück."
   },
   "product": {
     "addToCart": "Zur Bestellung",
@@ -161,7 +181,11 @@
     "previousPhoto": "Vorheriges Foto",
     "nextPhoto": "Nächstes Foto",
     "photoAltN": "{name}, Foto {n}",
-    "buyNow": "Jetzt kaufen"
+    "buyNow": "Jetzt kaufen",
+    "completeTheSet": "Passend dazu",
+    "engravingPreview": "Illustrative Vorschau der Gravur „{text}“. Die echte Gravur entsteht von Hand und sieht anders aus.",
+    "engravingUnsupported": "Einige Zeichen können nicht graviert werden. Bitte verwenden Sie lateinische, griechische oder kyrillische Buchstaben, Ziffern und einfache Satzzeichen.",
+    "reviewsComing": "Bewertungen stammen nur von verifizierten Käufern, nach der Lieferung. Sie erscheinen hier, sobald ein Stück drei hat."
   },
   "cart": {
     "title": "Ihre Bestellung",
@@ -197,7 +221,9 @@
     "contactPage": "Kontaktseite",
     "toCheckout": "Zur Kasse",
     "testModeNote": "Testmodus: Es wird keine echte Zahlung ausgeführt.",
-    "nothingToOrder": "Derzeit kann nichts aus Ihrer Bestellung bestellt werden."
+    "nothingToOrder": "Derzeit kann nichts aus Ihrer Bestellung bestellt werden.",
+    "freeShippingProgress": "Noch {amount} bis zum kostenlosen Standardversand.",
+    "freeShippingReached": "Ihre Bestellung erhält kostenlosen Standardversand."
   },
   "wishlist": {
     "title": "Ihre Merkliste",
@@ -210,7 +236,9 @@
     "removeItem": "{name} von der Merkliste entfernen",
     "added": "{name} auf die Merkliste gesetzt.",
     "removed": "{name} von der Merkliste entfernt.",
-    "storedNote": "Ihre Merkliste wird nur in diesem Browser gespeichert. Sie wird nicht an uns übermittelt und nicht zwischen Geräten abgeglichen."
+    "storedNote": "Ihre Merkliste wird nur in diesem Browser gespeichert. Sie wird nicht an uns übermittelt und nicht zwischen Geräten abgeglichen.",
+    "syncedNote": "Ihre Merkliste ist in Ihrem Konto gespeichert, auf all Ihren Geräten.",
+    "signInNote": "Ihre Merkliste wird nur in diesem Browser gespeichert. <link>Melden Sie sich an</link>, um sie auf all Ihren Geräten zu haben."
   },
   "about": {
     "title": "Unsere Geschichte",
@@ -461,7 +489,11 @@
     "database": "Datenbank: Konto- und Bestelldaten werden in einer verwalteten Postgres-Datenbank gespeichert, die unser Datenbankanbieter für uns betreibt.",
     "carriers": "Lieferung: Zur Zustellung geben wir Ihren Namen, Ihre Adresse und Telefonnummer an den Versanddienst weiter.",
     "basisLegal": "Gesetzliche Pflichten, etwa die Aufbewahrung von Buchhaltungsunterlagen zu bezahlten Bestellungen.",
-    "retentionOther": "Anmeldesitzungen enden nach 14 Tagen ohne Besuch. Nachrichten über das Kontaktformular bleiben nur so lange in unserem Postfach, wie es für die Antwort nötig ist."
+    "retentionOther": "Anmeldesitzungen enden nach 14 Tagen ohne Besuch. Nachrichten über das Kontaktformular bleiben nur so lange in unserem Postfach, wie es für die Antwort nötig ist.",
+    "newsletterTitle": "Newsletter",
+    "newsletter": "Wenn Sie den Newsletter abonnieren, speichern wir Ihre E-Mail-Adresse, Sprache und den Zeitpunkt der Bestätigung. Wir senden ihn erst nach Ihrer Bestätigung per E-Mail (Double-Opt-in); jede E-Mail enthält einen Abmeldelink, und die Abmeldung wirkt sofort. Rechtsgrundlage ist Ihre Einwilligung.",
+    "reviewsTitle": "Bewertungen",
+    "reviews": "Nach der Lieferung bitten wir Sie eventuell einmal per E-Mail um eine Bewertung; die E-Mail enthält einen Link, um solche Anfragen abzubestellen. Wenn Sie eine schreiben, veröffentlichen wir nach Prüfung Ihre Bewertung, Ihren Text, den gewählten Namen und Ihr Foto. Fotos werden neu kodiert, Standort- und Kameradaten entfernt. Sie können die Entfernung jederzeit verlangen; mit Ihrem Konto wird sie gelöscht."
   },
   "terms": {
     "title": "Verkaufsbedingungen",
@@ -520,7 +552,9 @@
     "avoid1": "Einweichen in Wasser.",
     "avoid2": "Die Spülmaschine.",
     "avoid3": "Heizkörper, Heizgeräte und viele Stunden starke Sonne.",
-    "variation": "Kleine Farbveränderungen mit der Zeit sind natürlich und gehören zum Charakter des Holzes."
+    "variation": "Kleine Farbveränderungen mit der Zeit sind natürlich und gehören zum Charakter des Holzes.",
+    "cardTitle": "Pflegekarte für Olivenholz",
+    "cardDownload": "Pflegekarte zum Ausdrucken herunterladen (PDF)"
   },
   "withdrawal": {
     "title": "Vertrag widerrufen",
@@ -751,7 +785,8 @@
     "shippedIntro": "Gute Nachricht: Ihre Bestellung {number} ist unterwegs.",
     "carrier": "Versanddienst",
     "trackingNumber": "Sendungsnummer",
-    "shippedDamage": "Falls etwas beschädigt ankommt, schreiben Sie bitte an {email} mit Fotos von Paket und Stück."
+    "shippedDamage": "Falls etwas beschädigt ankommt, schreiben Sie bitte an {email} mit Fotos von Paket und Stück.",
+    "unsubscribe": "Abmelden"
   },
   "checkout": {
     "title": "Kasse",
@@ -828,6 +863,113 @@
     "confirmingTitle": "Ihre Zahlung wird bestätigt",
     "confirmingText": "Ihre Zahlung wird bestätigt. Das dauert meist nur Sekunden: Laden Sie diese Seite gleich neu. Sie erhalten außerdem eine E-Mail.",
     "refresh": "Neu laden",
-    "keepLink": "Bewahren Sie die Bestätigungs-E-Mail auf: Ihr Link zeigt diese Bestellung und die Sendungsverfolgung jederzeit."
+    "keepLink": "Bewahren Sie die Bestätigungs-E-Mail auf: Ihr Link zeigt diese Bestellung und die Sendungsverfolgung jederzeit.",
+    "freeShippingApplied": "Kostenlos",
+    "engravingConfirm": "Ich habe den Gravurtext {texts} geprüft. Gravierte Stücke sind vom Umtausch ausgeschlossen, außer bei Mängeln.",
+    "engravingConfirmRequired": "Bitte bestätigen Sie, dass der Gravurtext stimmt."
+  },
+  "christmas": {
+    "title": "Weihnachtskollektion",
+    "intro": "Krippen und Stücke für die Weihnachtszeit, in Bethlehem von Hand geschnitzt.",
+    "orderBy": "Damit Ihre Bestellung vor Weihnachten ankommt, bestellen Sie bitte bis zum {date}. Lieferzeiten sind Schätzungen.",
+    "bandTitle": "Weihnachtskollektion",
+    "bandText": "Krippen, um die man sich Jahr für Jahr versammelt.",
+    "bandCta": "Zur Kollektion"
+  },
+  "bulk": {
+    "productLink": "Bestellen Sie für eine Gemeinde, einen Laden oder eine Gruppe?",
+    "title": "Großbestellungen",
+    "intro": "Für Gemeinden, Werke, Läden und Gruppen, die mehrere Stücke brauchen.",
+    "how": "Sagen Sie uns, was Sie bis wann brauchen. Wir antworten per E-Mail mit Verfügbarkeit, Angebot und Versandkosten; bestellt oder berechnet wird erst nach Ihrer Zustimmung.",
+    "organisation": "Organisation",
+    "organisationHint": "Name der Gemeinde, des Werks, Ladens oder der Gruppe.",
+    "country": "Lieferland",
+    "chooseCountry": "Land wählen",
+    "items": "Welche Stücke?",
+    "quantity": "Menge",
+    "quantityHint": "Ungefähr genügt, z. B. „etwa 40 Kreuze“.",
+    "neededBy": "Benötigt bis",
+    "message": "Was wir sonst wissen sollten",
+    "send": "Anfrage senden",
+    "sent": "Vielen Dank. Ihre Anfrage ist bei uns; wir antworten per E-Mail mit einem Angebot.",
+    "failed": "Ihre Anfrage konnte nicht gesendet werden. Bitte schreiben Sie an {email}.",
+    "tooMany": "Zu viele Anfragen von dieser Verbindung. Bitte später erneut versuchen oder an {email} schreiben.",
+    "check": "Bitte prüfen Sie das Formular.",
+    "invalid": {
+      "organisation": "Bitte geben Sie den Namen der Organisation ein.",
+      "name": "Bitte geben Sie Ihren Namen ein.",
+      "email": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "country": "Bitte wählen Sie das Lieferland.",
+      "items": "Bitte nennen Sie die gewünschten Stücke.",
+      "quantity": "Bitte geben Sie eine Menge an.",
+      "neededBy": "Bitte geben Sie ein gültiges Datum ein.",
+      "message": "Ihre Nachricht ist zu lang."
+    }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "label": "Neue Stücke und Werkstattnachrichten per E-Mail, einige Male im Jahr",
+    "subscribe": "Abonnieren",
+    "consent": "Wir senden zuerst eine Bestätigungs-E-Mail. Abmeldung jederzeit möglich. <link>Datenschutz</link>",
+    "confirmSubject": "Bitte bestätigen Sie Ihr {store}-Newsletter-Abonnement",
+    "confirmIntro": "Jemand (hoffentlich Sie) möchte unseren Newsletter an diese Adresse erhalten. Bitte bestätigen Sie mit dem Button.",
+    "confirmButton": "Abonnement bestätigen",
+    "confirmIgnore": "Wenn Sie das nicht angefordert haben, ignorieren Sie diese E-Mail: Sie werden nicht angemeldet.",
+    "confirmText": "Bestätigen Sie Ihr Abonnement mit dem Button.",
+    "welcomeSubject": "Willkommen beim {store}-Newsletter",
+    "welcomeIntro": "Danke für Ihr Abonnement. Wir schreiben nur einige Male im Jahr, über neue Stücke und das Leben in der Werkstatt.",
+    "welcomeCode": "Als Dankeschön ein Code über {percent} % auf Ihre erste Bestellung: {code}. Er gilt einmal, für diese E-Mail-Adresse, {days} Tage lang.",
+    "unsubscribeText": "Mit dem Button beenden Sie den Newsletter-Empfang.",
+    "unsubscribeButton": "Abmelden",
+    "status": {
+      "check": "Fast geschafft: Wir haben Ihnen eine E-Mail geschickt. Bestätigen Sie dort mit dem Button.",
+      "confirmed": "Danke, Ihr Abonnement ist bestätigt.",
+      "unsubscribed": "Sie sind abgemeldet und erhalten unseren Newsletter nicht mehr.",
+      "invalid": "Bitte geben Sie eine gültige E-Mail-Adresse ein.",
+      "invalid-link": "Dieser Link ist nicht mehr gültig.",
+      "busy": "Zu viele Anfragen. Bitte später erneut versuchen.",
+      "unavailable": "Der Newsletter ist derzeit nicht verfügbar."
+    }
+  },
+  "reviews": {
+    "requestSubject": "Wie gefallen Ihnen Ihre Stücke von {store}? (Bestellung {number})",
+    "requestIntro": "Ihre Bestellung {number} wurde zugestellt. Wenn Sie mögen, erzählen Sie anderen Kunden, wie Ihnen Ihre Stücke gefallen. Wir prüfen jede Bewertung vor der Veröffentlichung.",
+    "requestButton": "Bewertung schreiben",
+    "requestOptional": "Das ist völlig freiwillig. Wir fragen nur einmal pro Bestellung.",
+    "closed": "Bewertungen sind derzeit nicht möglich.",
+    "invalidLink": "Dieser Bewertungslink ist ungültig.",
+    "check": "Bitte prüfen Sie das Formular.",
+    "already": "Sie haben dieses Stück bereits bewertet. Danke!",
+    "tooMany": "Zu viele Versuche. Bitte später erneut versuchen.",
+    "thanks": "Danke! Ihre Bewertung erscheint, sobald wir sie geprüft haben.",
+    "optedOut": "Erledigt. Wir fragen Sie nicht mehr nach Bewertungen.",
+    "invalid": {
+      "rating": "Bitte wählen Sie eine Bewertung.",
+      "body": "Bitte schreiben Sie mindestens 10 Zeichen (höchstens 2000).",
+      "displayName": "Bitte geben Sie den anzuzeigenden Namen ein (höchstens 40 Zeichen).",
+      "photo": "Das Foto muss ein JPEG-, PNG- oder WebP-Bild bis 5 MB sein.",
+      "product": "Bitte wählen Sie das Stück."
+    },
+    "title": "Bewertung schreiben",
+    "intro": "Zu Ihrer Bestellung {number}. Danke, dass Sie sich die Zeit nehmen.",
+    "allDone": "Sie haben alle Stücke dieser Bestellung bewertet. Danke!",
+    "product": "Stück",
+    "rating": "Ihre Bewertung",
+    "ratingValue": "{rating} von 5",
+    "body": "Ihre Bewertung (Text)",
+    "displayName": "Angezeigter Name",
+    "displayNameHint": "Zum Beispiel Ihr Vorname oder Ihre Initialen.",
+    "photo": "Ein Foto des Stücks",
+    "optional": "optional",
+    "photoHint": "JPEG, PNG oder WebP, bis 5 MB. Standort- und Kameradaten entfernen wir.",
+    "moderation": "Wir lesen jede Bewertung vor der Veröffentlichung und ändern nie ihren Wortlaut. Ein Stück zeigt Bewertungen, sobald es drei hat.",
+    "submit": "Bewertung senden",
+    "optOutTitle": "Bewertungsanfragen",
+    "optOutText": "Keine Bewertungsanfragen mehr an diese E-Mail-Adresse senden?",
+    "optOutButton": "Keine Anfragen mehr",
+    "sectionTitle": "Bewertungen verifizierter Käufer",
+    "summary": "Durchschnitt {average} von 5, aus {count} Bewertungen",
+    "verified": "verifizierter Kauf",
+    "photoAlt": "Foto von {name}"
   }
 }

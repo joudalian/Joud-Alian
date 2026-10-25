@@ -11,6 +11,7 @@ import { pageMetadata } from "@/lib/metadata";
 import { currentUser } from "@/server/auth";
 import { getDb } from "@/server/db";
 import { addresses } from "@/server/db/schema";
+import { feature } from "@/server/features";
 import { checkoutBlock, livePayments, paymentMode } from "@/server/payments";
 import { shippableCountries } from "@/server/pricing";
 
@@ -79,6 +80,7 @@ export default async function CheckoutPage({ params, searchParams }: Props) {
           user={user ? { email: user.email, name: user.name } : null}
           testMode={paymentMode() === "test"}
           stripeNote={livePayments()}
+          confirmEngraving={feature("engravingPreview")}
         />
       </NextIntlClientProvider>
     </div>

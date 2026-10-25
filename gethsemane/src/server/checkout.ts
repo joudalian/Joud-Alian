@@ -1,4 +1,5 @@
 import "server-only";
+import { feature } from "./features";
 import { randomBytes } from "node:crypto";
 import { eq } from "drizzle-orm";
 import type Stripe from "stripe";
@@ -98,7 +99,9 @@ export async function createOrderAndSession(input: NewOrder): Promise<{ url: str
     {
       mode: "payment",
       // Card payments only (a filter on the methods enabled in the Stripe dashboard).
-      allowed_payment_method_types: ["card"],
+      // Cards only, unless FEATURES.wallets: then Stripe offers the methods enabled in the Dashboard (Apple Pay,
+      // Google Pay and cards; turn the wallets on there too). The site itself never shows wallet or card logos.
+      ...(feature("wallets") ? {} : { allowed_payment_method_types: ["card"] }),
       line_items: quote.lines.map((l) => ({
         quantity: l.quantity,
         price_data: {

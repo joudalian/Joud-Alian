@@ -1,9 +1,10 @@
 import "server-only";
 import { and, desc, eq, ilike, or, sql, type SQL } from "drizzle-orm";
 import { getDb } from "./db";
-import { coupons, ORDER_STATUSES, orders, type OrderStatus } from "./db/schema";
+import { bulkEnquiries, coupons, ORDER_STATUSES, orders, type OrderStatus } from "./db/schema";
 import { addOrderEvent, orderByNumber } from "./orders";
 import { sendShippedEmail } from "./email/order-emails";
+import { sendReviewRequest } from "./reviews";
 
 export type OrderFilter = { status?: string; q?: string; test?: "only" | "hide" };
 
@@ -60,6 +61,8 @@ export async function setOrderStatus(number: string, status: OrderStatus, actor:
     })
     .where(eq(orders.id, order.id));
   await addOrderEvent(db, order.id, status, { actor });
+  // FEATURES.reviews: one request to the buyer once the order is delivered (never fails the status change).
+  if (status === "delivered") await sendReviewRequest(order.id).catch(() => false);
   return "ok" as const;
 }
 
@@ -113,4 +116,14 @@ export async function createCoupon(input: CouponInput) {
 export async function setCouponActive(id: string, active: boolean) {
   const db = await getDb();
   await db.update(coupons).set({ active }).where(eq(coupons.id, id));
+}
+
+export async function adminEnquiries() {
+  const db = await getDb();
+  return db.select().from(bulkEnquiries).orderBy(desc(bulkEnquiries.createdAt)).limit(200);
+}
+
+export async function setEnquiryHandled(id: string, handled: boolean) {
+  const db = await getDb();
+  await db.update(bulkEnquiries).set({ handled }).where(eq(bulkEnquiries.id, id));
 }

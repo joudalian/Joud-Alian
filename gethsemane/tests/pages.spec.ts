@@ -28,7 +28,7 @@ test.describe("help and policy pages", () => {
       }
     }
     // Every alternate in the sitemap carries the x-default.
-    expect((sitemap.match(/hreflang="x-default"/g) ?? []).length).toBe(10 * 12);
+    expect((sitemap.match(/hreflang="x-default"/g) ?? []).length).toBe(10 * 13);
   });
 
   test("pages render without console errors and fit 320px", async ({ page }) => {

@@ -98,3 +98,10 @@ export function mainImage(product: Product): ProductImage {
 export function imageAlt(image: ProductImage, locale: Locale): string | undefined {
   return image.alt[locale] ?? image.alt.en;
 }
+
+/** "Complete the set": the products listed in relatedSkus, in that order, skipping sold-out ones. */
+export function relatedProducts(product: Product): Product[] {
+  return product.relatedSkus
+    .map((sku) => products.find((p) => p.sku === sku))
+    .filter((p): p is Product => Boolean(p) && p!.availability !== "sold_out");
+}

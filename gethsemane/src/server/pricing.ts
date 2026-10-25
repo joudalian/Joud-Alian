@@ -1,4 +1,7 @@
 import "server-only";
+import { engravingSupported } from "@/lib/engraving";
+import { feature } from "./features";
+import { freeShippingThresholdUsd } from "./settings";
 import { and, eq, sql } from "drizzle-orm";
 import { SHIP_TO_COUNTRIES, SHIPPING_RATES } from "@/config/store";
 import type { Locale } from "@/i18n/locales";
@@ -47,6 +50,10 @@ export type Quote = {
   coupon: { code: string; id: string } | null;
   couponError: null | "unknown" | "expired" | "minimum" | "used_up" | "email";
   countryAllowed: boolean;
+  /** Standard shipping is free (FREE_SHIPPING_THRESHOLD_USD reached). */
+  freeShipping: boolean;
+  /** The free-shipping threshold in effect, or null when there is none. */
+  freeShippingThresholdCents: number | null;
 };
 
 const cents = (usd: number) => Math.round(usd * 100);
@@ -104,7 +111,7 @@ function priceLines(input: CartInput[], locale: Locale) {
       continue;
     }
     const engraving = item.engraving ?? null;
-    if (engraving && (!product.engraving?.enabled || Array.from(engraving).length > product.engraving.maxChars)) {
+    if (engraving && (!product.engraving?.enabled || Array.from(engraving).length > product.engraving.maxChars || !engravingSupported(engraving))) {
       problems.push({ slug: item.slug, reason: "engraving" });
       continue;
     }
@@ -170,7 +177,11 @@ export async function quote(
       discountCents = found.discount;
     }
   }
-  const shippingCents = method?.cents ?? 0;
+  // Free standard shipping from FREE_SHIPPING_THRESHOLD_USD (items after discount), when the feature is on.
+  const threshold = feature("freeShippingBar") ? freeShippingThresholdUsd() : null;
+  const freeShipping = threshold !== null && lines.length > 0 && subtotalCents - discountCents >= cents(threshold);
+  if (freeShipping) for (const o of shippingOptions) if (o.id === "standard") o.cents = 0;
+  const shippingCents = method ? (shippingOptions.find((o) => o.id === method.id)?.cents ?? method.cents) : 0;
   return {
     lines,
     problems,
@@ -184,5 +195,7 @@ export async function quote(
     coupon,
     couponError,
     countryAllowed,
+    freeShipping,
+    freeShippingThresholdCents: threshold === null ? null : cents(threshold),
   };
 }

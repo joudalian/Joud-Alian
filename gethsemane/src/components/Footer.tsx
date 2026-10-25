@@ -5,7 +5,9 @@ import type { Locale } from "@/i18n/locales";
 import { RATES_AS_OF } from "@/lib/currency";
 import { formatDate } from "@/lib/format";
 import { categories, categoryText } from "@/lib/catalog";
+import { feature } from "@/server/features";
 import { FooterLanguages } from "./FooterLanguages";
+import { NewsletterForm } from "./NewsletterForm";
 import { MailIcon } from "./Icons";
 import { FooterLogo } from "./Logo";
 import { SocialLinks } from "./SocialLinks";
@@ -22,7 +24,7 @@ export async function Footer() {
     { href: "/contact", label: t("nav.contact") },
     { href: "/care", label: t("nav.care") },
     { href: "/about", label: t("nav.about") },
-    { href: "/contact?topic=wholesale", label: t("nav.wholesale") },
+    { href: feature("bulkOrders") ? "/bulk-orders" : "/contact?topic=wholesale", label: t("nav.wholesale") },
   ];
   const legal = [
     { href: "/privacy", label: t("nav.privacy") },
@@ -103,6 +105,12 @@ export async function Footer() {
           </nav>
           <FooterLanguages title={t("footer.languageTitle")} />
         </div>
+        {feature("newsletter") && (
+          <section className="footer-newsletter" aria-labelledby="footer-newsletter-title">
+            <h2 id="footer-newsletter-title">{t("newsletter.title")}</h2>
+            <NewsletterForm />
+          </section>
+        )}
         <div className="footer-bottom">
           <p>{t("footer.rights", { year: new Date().getFullYear() })}</p>
           <p>{t("currency.note", { date: formatDate(RATES_AS_OF, locale) })}</p>

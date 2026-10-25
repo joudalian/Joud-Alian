@@ -18,7 +18,7 @@ test("no broken links or images on any page", async ({ request, baseURL, isMobil
   }
   // Sitemap paths + shop, every category and every product (noindex until CATALOG_READY) + cart and wishlist.
   // (The same whether or not CATALOG_READY moves the catalog into the sitemap.)
-  expect(pageUrls.size).toBe(locales.length * (12 + 1 + categories.length + products.length + 2));
+  expect(pageUrls.size).toBe(locales.length * (13 + 1 + categories.length + products.length + 2));
 
   const checked = new Map<string, number>();
   const problems: string[] = [];

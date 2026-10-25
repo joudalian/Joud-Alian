@@ -3,8 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Link } from "@/i18n/navigation";
 import { UserIcon } from "./Icons";
 
-/** Session cookie names (Better Auth, prefix "gethsemane"; "__Secure-" on HTTPS in production). */
-const SESSION_COOKIES = ["__Secure-gethsemane.session_token", "gethsemane.session_token"];
+import { hasSessionCookie } from "@/lib/session-cookie";
 
 /**
  * "Log in" or "Account" in the header. Only checks whether a session cookie is present (no database lookup on
@@ -12,8 +11,7 @@ const SESSION_COOKIES = ["__Secure-gethsemane.session_token", "gethsemane.sessio
  */
 export async function AccountLink() {
   const t = await getTranslations("nav");
-  const jar = await cookies();
-  const signedIn = SESSION_COOKIES.some((name) => jar.has(name));
+  const signedIn = hasSessionCookie(await cookies());
   const label = signedIn ? t("account") : t("login");
   return (
     <Link href={signedIn ? "/account" : "/login"} className="icon-btn account-link" aria-label={label} title={label} data-testid="account-link">

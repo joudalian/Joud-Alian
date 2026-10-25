@@ -11,9 +11,13 @@ import { DELIVERY_TIME, RETURN_DAYS } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { categories, categoryText, products } from "@/lib/catalog";
+import { christmasProducts } from "@/lib/christmas";
+import { formatDate } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
 import { socialLinks } from "@/lib/social";
 import { website } from "@/lib/structured-data";
+import { feature } from "@/server/features";
+import { christmasOrderByDate } from "@/server/settings";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -43,6 +47,8 @@ export default async function HomePage({ params }: Props) {
       links: categories.filter((c) => c.gifts.includes(id)).map((c) => ({ href: `/shop/${c.slug}`, label: categoryText(c, locale).name })),
     }))
     .filter((gift) => gift.links.length > 0);
+  const christmas = feature("christmas") && christmasProducts().length > 0;
+  const orderBy = christmas ? christmasOrderByDate() : "";
 
   return (
     <>
@@ -107,6 +113,17 @@ export default async function HomePage({ params }: Props) {
         </div>
         <ProductGrid products={featured} />
       </section>
+
+      {christmas && (
+        <section className="section container christmas-band" aria-labelledby="christmas-title" data-testid="christmas-band">
+          <h2 id="christmas-title">{t("christmas.bandTitle")}</h2>
+          <p>{t("christmas.bandText")}</p>
+          {orderBy && <p className="note">{t("christmas.orderBy", { date: formatDate(orderBy, locale) })}</p>}
+          <Link href="/christmas" className="btn btn-primary">
+            {t("christmas.bandCta")}
+          </Link>
+        </section>
+      )}
 
       <section className="section container" aria-labelledby="gifts-title">
         <h2 id="gifts-title">{t("home.giftsTitle")}</h2>

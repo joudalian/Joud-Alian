@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { InfoPage, Section } from "@/components/InfoPage";
 import type { Locale } from "@/i18n/locales";
 import { pageMetadata } from "@/lib/metadata";
+import { feature } from "@/server/features";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -31,6 +32,14 @@ export default async function CarePage({ params }: Props) {
         </ul>
         <p>{t("variation")}</p>
       </Section>
+      {feature("careCard") && (
+        <p className="info-actions">
+          {/* Static PDFs in public/care-card/, built by `npm run care-cards`. */}
+          <a href={`/care-card/gethsemane-care-${locale}.pdf`} className="btn btn-secondary" download data-testid="care-card">
+            {t("cardDownload")}
+          </a>
+        </p>
+      )}
     </InfoPage>
   );
 }

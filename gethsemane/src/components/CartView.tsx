@@ -67,10 +67,16 @@ export function CartView({
   lookup,
   firstCategory,
   checkout,
+  freeShippingThresholdUsd = null,
+  wholesaleHref = "/contact?topic=wholesale",
 }: {
   lookup: OrderLookup;
   firstCategory: { slug: string; name: string };
   checkout: CheckoutState;
+  /** FEATURES.freeShippingBar with FREE_SHIPPING_THRESHOLD_USD set; null hides the bar. */
+  freeShippingThresholdUsd?: number | null;
+  /** Where "Need more?" leads: /bulk-orders when FEATURES.bulkOrders is on. */
+  wholesaleHref?: string;
 }) {
   const t = useTranslations("cart");
   const locale = useLocale() as Locale;
@@ -122,7 +128,7 @@ export function CartView({
   };
 
   const wholesale = (
-    <Link href="/contact?topic=wholesale" className="text-link">
+    <Link href={wholesaleHref} className="text-link">
       {t("needMore")}
     </Link>
   );
@@ -270,6 +276,18 @@ export function CartView({
           <span>{t("shippingLabel")}</span>
           <span>{t("shippingAtCheckout")}</span>
         </div>
+        {freeShippingThresholdUsd !== null && checkout !== "closed" && (
+          <div className="ship-progress" data-testid="free-shipping-bar">
+            <p role="status">
+              {totalUsd >= freeShippingThresholdUsd
+                ? t("freeShippingReached")
+                : t("freeShippingProgress", { amount: formatPrice(freeShippingThresholdUsd - totalUsd, "USD", locale) })}
+            </p>
+            <div className="ship-progress-track" aria-hidden="true">
+              <div className="ship-progress-fill" style={{ width: `${Math.min(100, Math.round((totalUsd / freeShippingThresholdUsd) * 100))}%` }} />
+            </div>
+          </div>
+        )}
         <p className="note">{t("chargedInUsd")}</p>
         {checkout === "closed" ? (
           <div className="notice-inline" role="status" data-testid="payments-soon">

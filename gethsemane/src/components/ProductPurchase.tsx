@@ -9,6 +9,7 @@ import { PriceTag } from "./Price";
 import { AddToCartButton, BuyNowButton, WishlistButton } from "./ProductActions";
 import { ProductOrderBar } from "./ProductOrderBar";
 import { formatPrice } from "@/lib/currency";
+import { engravingSupported } from "@/lib/engraving";
 import { useCurrency } from "./CurrencyProvider";
 
 /**
@@ -25,7 +26,18 @@ export type PurchaseProduct = OrderProduct & {
   variantSpecs: Readonly<Record<string, { sizeCm?: readonly [number, number, number]; weightG?: number }>>;
 };
 
-export function ProductPurchase({ product, checkoutOpen, children }: { product: PurchaseProduct; checkoutOpen: boolean; children?: ReactNode }) {
+export function ProductPurchase({
+  product,
+  checkoutOpen,
+  engravingPreview = false,
+  children,
+}: {
+  product: PurchaseProduct;
+  checkoutOpen: boolean;
+  /** FEATURES.engravingPreview: show the typed text on an illustrative wood panel. */
+  engravingPreview?: boolean;
+  children?: ReactNode;
+}) {
   const t = useTranslations("product");
   const locale = useLocale() as Locale;
   const { currency } = useCurrency();
@@ -33,12 +45,14 @@ export function ProductPurchase({ product, checkoutOpen, children }: { product: 
   const [variantId, setVariantId] = useState(product.variants[0]?.id);
   const [engrave, setEngrave] = useState(false);
   const [engraving, setEngraving] = useState("");
-  const ids = { variants: useId(), engrave: useId(), text: useId(), hint: useId(), missing: useId(), lead: useId() };
+  const ids = { variants: useId(), engrave: useId(), text: useId(), hint: useId(), missing: useId(), lead: useId(), preview: useId() };
 
   const variant = orderVariant(product, variantId);
   const offer = product.engraving;
   const text = engrave && offer ? engraving.trim() : "";
-  const engravingMissing = Boolean(engrave && offer && !text);
+  const unsupported = Boolean(text) && !engravingSupported(text);
+  // Nothing can be ordered while engraving is ticked without text, or with characters we cannot engrave.
+  const engravingMissing = Boolean(engrave && offer && (!text || unsupported));
   const soldOut = product.availability === "sold_out";
   const unit = unitPrice(product, variantId, Boolean(text));
   const fullName = variant ? `${name}, ${variant.label}` : name;
@@ -114,12 +128,20 @@ export function ProductPurchase({ product, checkoutOpen, children }: { product: 
               </p>
             </div>
           )}
+          {engrave && engravingPreview && text && !unsupported && (
+            <figure className="engraving-preview" data-testid="engraving-preview" aria-labelledby={ids.preview}>
+              <div className="engraving-panel" aria-hidden="true">
+                <span style={{ fontSize: `${Math.max(1.1, 2.6 - chars * 0.06).toFixed(2)}rem` }}>{text}</span>
+              </div>
+              <figcaption id={ids.preview}>{t("engravingPreview", { text })}</figcaption>
+            </figure>
+          )}
         </div>
       )}
 
       {engravingMissing && (
         <p className="note warning-note" id={ids.missing} role="status">
-          {t("engravingMissing")}
+          {unsupported ? t("engravingUnsupported") : t("engravingMissing")}
         </p>
       )}
 

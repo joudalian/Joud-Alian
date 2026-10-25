@@ -6,6 +6,7 @@ import { ADDRESS, CONTACT_EMAIL, DATA_RETENTION_YEARS, LEGAL_ENTITY_NAME, POLICY
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { pageMetadata } from "@/lib/metadata";
+import { feature } from "@/server/features";
 import { livePayments } from "@/server/payments";
 
 type Props = { params: Promise<{ locale: Locale }> };
@@ -53,6 +54,16 @@ export default async function PrivacyPage({ params }: Props) {
       <Section id="messages" title={t("messagesTitle")}>
         <p>{t("messages")}</p>
       </Section>
+      {feature("newsletter") && (
+        <Section id="newsletter" title={t("newsletterTitle")}>
+          <p>{t("newsletter")}</p>
+        </Section>
+      )}
+      {feature("reviews") && (
+        <Section id="reviews" title={t("reviewsTitle")}>
+          <p>{t("reviews")}</p>
+        </Section>
+      )}
       <Section id="processors" title={t("processorsTitle")}>
         <ul>
           {/* Stripe is named only once live payments are on (check:claims enforces it). */}

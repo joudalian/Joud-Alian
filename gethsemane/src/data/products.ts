@@ -16,7 +16,10 @@
  *   variants      optional [{ id, label: { en: "…", … }, sizeCm?, weightG?, priceUsd?, sku? }]
  *   engraving     optional { enabled: true, maxChars: 30, extraUsd: 10 }
  *   featured      optional: true shows the product on the home page
- *   tags          optional list of lowercase words (not shown; for search and grouping later)
+ *   relatedSkus   optional ["GTH-002", …]: "Complete the set" on this product's page (other products' main SKUs;
+ *                 sold-out ones are skipped). Empty = the section is hidden.
+ *   tags          optional list of lowercase words: found by the shop search; "christmas" puts the piece in the
+ *                 Christmas collection (/christmas, FEATURES.christmas)
  *   Optional details (shown on the product page only when present):
  *     sizeCm [width, height, depth] in cm · weightG in grams · wood "olive" · finish "natural" | "oiled" | "waxed"
  *     packaging "giftBox" | "box" | "pouch" · giftNote true if a gift note can be added
@@ -34,6 +37,7 @@ export const products: ProductInput[] = [
     id: 1,
     slug: "nativity-set-classic",
     categories: ["nativity"],
+    tags: ["christmas"],
     priceUsd: 89,
     images: [{ file: "nativity-set-classic/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
@@ -85,6 +89,7 @@ export const products: ProductInput[] = [
     id: 2,
     slug: "nativity-stable-grand",
     categories: ["nativity"],
+    tags: ["christmas"],
     priceUsd: 189,
     images: [{ file: "nativity-stable-grand/01.webp", width: 1000, height: 1000 }],
     wood: "olive",
@@ -135,6 +140,7 @@ export const products: ProductInput[] = [
     id: 3,
     slug: "holy-family-figurine",
     categories: ["nativity"],
+    tags: ["christmas"],
     priceUsd: 54,
     images: [{ file: "holy-family-figurine/01.webp", width: 1000, height: 1000 }],
     wood: "olive",

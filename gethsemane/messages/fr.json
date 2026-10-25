@@ -85,7 +85,27 @@
     "count": "{count, plural, =0 {Aucun produit} one {# produit} other {# produits}}",
     "empty": "Il n'y a pas encore de produits dans cette catégorie.",
     "bandTitle": "Vous hésitez entre plusieurs pièces ?",
-    "bandText": "Dites-nous à qui il est destiné et pour quelle occasion, et nous vous aiderons à choisir."
+    "bandText": "Dites-nous à qui il est destiné et pour quelle occasion, et nous vous aiderons à choisir.",
+    "searchLabel": "Rechercher dans la boutique",
+    "filterCategory": "Catégorie",
+    "filterMin": "Prix min. (USD)",
+    "filterMax": "Prix max. (USD)",
+    "filterSize": "Taille",
+    "anySize": "Toutes tailles",
+    "size": {
+      "small": "Petite (jusqu'à 12 cm)",
+      "medium": "Moyenne (12–25 cm)",
+      "large": "Grande (plus de 25 cm)"
+    },
+    "filterAvailability": "Disponibilité",
+    "anyAvailability": "Toutes les pièces",
+    "availability": {
+      "in_stock": "En stock",
+      "available": "Disponible à la commande"
+    },
+    "filterApply": "Afficher",
+    "filterReset": "Effacer les filtres",
+    "noResults": "Aucune pièce ne correspond à votre recherche. Essayez moins de mots ou effacez les filtres."
   },
   "product": {
     "addToCart": "Ajouter à la commande",
@@ -161,7 +181,11 @@
     "previousPhoto": "Photo précédente",
     "nextPhoto": "Photo suivante",
     "photoAltN": "{name}, photo {n}",
-    "buyNow": "Acheter maintenant"
+    "buyNow": "Acheter maintenant",
+    "completeTheSet": "Complétez l'ensemble",
+    "engravingPreview": "Aperçu illustratif de la gravure « {text} ». La gravure réelle est faite à la main et sera différente.",
+    "engravingUnsupported": "Certains caractères ne peuvent pas être gravés. Utilisez des lettres latines, grecques ou cyrilliques, des chiffres et une ponctuation simple.",
+    "reviewsComing": "Les avis viennent uniquement d'acheteurs vérifiés, après la livraison. Ils s'affichent ici dès qu'une pièce en compte trois."
   },
   "cart": {
     "title": "Votre commande",
@@ -197,7 +221,9 @@
     "contactPage": "Page de contact",
     "toCheckout": "Passer la commande",
     "testModeNote": "Mode test : aucun paiement réel n'est effectué.",
-    "nothingToOrder": "Aucun article de votre commande ne peut être commandé pour le moment."
+    "nothingToOrder": "Aucun article de votre commande ne peut être commandé pour le moment.",
+    "freeShippingProgress": "Encore {amount} pour bénéficier de la livraison standard gratuite.",
+    "freeShippingReached": "Votre commande bénéficie de la livraison standard gratuite."
   },
   "wishlist": {
     "title": "Vos favoris",
@@ -210,7 +236,9 @@
     "removeItem": "Retirer {name} des favoris",
     "added": "{name} ajouté à vos favoris.",
     "removed": "{name} retiré de vos favoris.",
-    "storedNote": "Vos favoris sont enregistrés uniquement dans ce navigateur. Ils ne nous sont pas envoyés et ne se synchronisent pas entre vos appareils."
+    "storedNote": "Vos favoris sont enregistrés uniquement dans ce navigateur. Ils ne nous sont pas envoyés et ne se synchronisent pas entre vos appareils.",
+    "syncedNote": "Votre liste d'envies est enregistrée dans votre compte, sur tous vos appareils.",
+    "signInNote": "Votre liste d'envies est enregistrée uniquement dans ce navigateur. <link>Connectez-vous</link> pour la retrouver sur tous vos appareils."
   },
   "about": {
     "title": "Notre histoire",
@@ -461,7 +489,11 @@
     "database": "Base de données : les données de compte et de commande sont stockées dans une base Postgres gérée par notre fournisseur de base de données pour notre compte.",
     "carriers": "Livraison : pour livrer votre commande, nous transmettons votre nom, votre adresse et votre numéro de téléphone au transporteur.",
     "basisLegal": "Obligations légales, comme la conservation des pièces comptables des commandes payées.",
-    "retentionOther": "Les sessions de connexion prennent fin après 14 jours sans visite. Les messages du formulaire de contact restent dans notre messagerie seulement le temps nécessaire pour vous répondre."
+    "retentionOther": "Les sessions de connexion prennent fin après 14 jours sans visite. Les messages du formulaire de contact restent dans notre messagerie seulement le temps nécessaire pour vous répondre.",
+    "newsletterTitle": "Lettre d'information",
+    "newsletter": "Si vous vous abonnez, nous enregistrons votre adresse e-mail, votre langue et la date de confirmation. Nous n'envoyons la lettre qu'après votre confirmation par e-mail (double opt-in), chaque e-mail contient un lien de désabonnement et le désabonnement est immédiat. La base légale est votre consentement.",
+    "reviewsTitle": "Avis",
+    "reviews": "Après la livraison, nous pouvons vous écrire une fois pour vous demander un avis ; l'e-mail contient un lien pour ne plus recevoir ces demandes. Si vous en rédigez un, nous publions votre note, votre texte, le nom choisi et votre photo après vérification. Les photos sont réencodées et leurs données de lieu et d'appareil supprimées. Vous pouvez demander la suppression de votre avis à tout moment ; la suppression de votre compte l'efface."
   },
   "terms": {
     "title": "Conditions de vente",
@@ -520,7 +552,9 @@
     "avoid1": "Le trempage dans l'eau.",
     "avoid2": "Le lave-vaisselle.",
     "avoid3": "Les radiateurs, les chauffages et de longues heures en plein soleil.",
-    "variation": "De légers changements de couleur avec le temps sont naturels et font partie du caractère du bois."
+    "variation": "De légers changements de couleur avec le temps sont naturels et font partie du caractère du bois.",
+    "cardTitle": "Carte d'entretien du bois d'olivier",
+    "cardDownload": "Télécharger la carte d'entretien à imprimer (PDF)"
   },
   "withdrawal": {
     "title": "Se rétracter d'un contrat",
@@ -751,7 +785,8 @@
     "shippedIntro": "Bonne nouvelle : votre commande {number} est en route.",
     "carrier": "Transporteur",
     "trackingNumber": "Numéro de suivi",
-    "shippedDamage": "Si un article arrive endommagé, écrivez à {email} avec des photos du colis et de l'article."
+    "shippedDamage": "Si un article arrive endommagé, écrivez à {email} avec des photos du colis et de l'article.",
+    "unsubscribe": "Se désabonner"
   },
   "checkout": {
     "title": "Commande",
@@ -828,6 +863,113 @@
     "confirmingTitle": "Confirmation de votre paiement",
     "confirmingText": "Votre paiement est en cours de confirmation. Cela prend généralement quelques secondes : actualisez cette page dans un instant. Vous recevrez aussi un e-mail.",
     "refresh": "Actualiser",
-    "keepLink": "Conservez l'e-mail de confirmation : son lien affiche cette commande et son suivi à tout moment."
+    "keepLink": "Conservez l'e-mail de confirmation : son lien affiche cette commande et son suivi à tout moment.",
+    "freeShippingApplied": "Gratuite",
+    "engravingConfirm": "J'ai vérifié le texte de la gravure {texts}. Les pièces gravées ne peuvent pas être retournées, sauf défaut.",
+    "engravingConfirmRequired": "Veuillez confirmer que le texte de la gravure est correct."
+  },
+  "christmas": {
+    "title": "Collection de Noël",
+    "intro": "Crèches et pièces pour le temps de Noël, sculptées à la main à Bethléem.",
+    "orderBy": "Pour recevoir votre commande avant Noël, commandez avant le {date}. Les délais de livraison sont des estimations.",
+    "bandTitle": "Collection de Noël",
+    "bandText": "Des crèches autour desquelles se réunir, année après année.",
+    "bandCta": "Voir la collection"
+  },
+  "bulk": {
+    "productLink": "Vous commandez pour une paroisse, une boutique ou un groupe ?",
+    "title": "Commandes en quantité",
+    "intro": "Pour les paroisses, communautés, boutiques et groupes qui ont besoin de plusieurs pièces.",
+    "how": "Dites-nous ce dont vous avez besoin et pour quand. Nous répondons par e-mail avec la disponibilité, un devis et les frais de livraison ; rien n'est commandé ni débité sans votre accord.",
+    "organisation": "Organisation",
+    "organisationHint": "Nom de la paroisse, communauté, boutique ou groupe.",
+    "country": "Pays de livraison",
+    "chooseCountry": "Choisissez un pays",
+    "items": "Quelles pièces ?",
+    "quantity": "Quantité",
+    "quantityHint": "Une estimation suffit, p. ex. « environ 40 croix ».",
+    "neededBy": "Pour le",
+    "message": "Autre chose à nous dire",
+    "send": "Envoyer la demande",
+    "sent": "Merci. Nous avons bien reçu votre demande et vous répondrons par e-mail avec un devis.",
+    "failed": "Votre demande n'a pas pu être envoyée. Écrivez-nous à {email}.",
+    "tooMany": "Trop de demandes depuis cette connexion. Réessayez plus tard ou écrivez-nous à {email}.",
+    "check": "Veuillez vérifier le formulaire.",
+    "invalid": {
+      "organisation": "Veuillez indiquer le nom de l'organisation.",
+      "name": "Veuillez indiquer votre nom.",
+      "email": "Veuillez saisir une adresse e-mail valide.",
+      "country": "Veuillez choisir le pays de livraison.",
+      "items": "Indiquez-nous les pièces souhaitées.",
+      "quantity": "Veuillez indiquer une quantité.",
+      "neededBy": "Veuillez saisir une date valide.",
+      "message": "Votre message est trop long."
+    }
+  },
+  "newsletter": {
+    "title": "Lettre d'information",
+    "label": "Nouvelles pièces et nouvelles de l'atelier par e-mail, quelques fois par an",
+    "subscribe": "S'abonner",
+    "consent": "Nous envoyons d'abord un e-mail de confirmation. Désabonnement possible à tout moment. <link>Confidentialité</link>",
+    "confirmSubject": "Confirmez votre abonnement à la lettre de {store}",
+    "confirmIntro": "Quelqu'un (vous, nous l'espérons) a demandé à recevoir notre lettre à cette adresse. Appuyez sur le bouton pour confirmer.",
+    "confirmButton": "Confirmer l'abonnement",
+    "confirmIgnore": "Si vous n'êtes pas à l'origine de cette demande, ignorez cet e-mail : vous ne serez pas abonné.",
+    "confirmText": "Appuyez sur le bouton pour confirmer votre abonnement.",
+    "welcomeSubject": "Bienvenue dans la lettre de {store}",
+    "welcomeIntro": "Merci de votre abonnement. Nous écrivons seulement quelques fois par an, au sujet des nouvelles pièces et de la vie de l'atelier.",
+    "welcomeCode": "Pour vous remercier, voici un code de {percent} % de réduction sur votre première commande : {code}. Il est valable une fois, pour cette adresse e-mail, pendant {days} jours.",
+    "unsubscribeText": "Appuyez sur le bouton pour ne plus recevoir notre lettre.",
+    "unsubscribeButton": "Se désabonner",
+    "status": {
+      "check": "Presque terminé : nous vous avons envoyé un e-mail. Appuyez sur le bouton qu'il contient pour confirmer.",
+      "confirmed": "Merci, votre abonnement est confirmé.",
+      "unsubscribed": "Vous êtes désabonné. Vous ne recevrez plus notre lettre.",
+      "invalid": "Veuillez saisir une adresse e-mail valide.",
+      "invalid-link": "Ce lien n'est plus valide.",
+      "busy": "Trop de demandes. Réessayez plus tard.",
+      "unavailable": "La lettre d'information n'est pas disponible pour le moment."
+    }
+  },
+  "reviews": {
+    "requestSubject": "Que pensez-vous de vos pièces {store} ? (commande {number})",
+    "requestIntro": "Votre commande {number} a été livrée. Si vous le souhaitez, dites aux autres clients ce que vous pensez de vos pièces. Nous vérifions chaque avis avant publication.",
+    "requestButton": "Écrire un avis",
+    "requestOptional": "C'est entièrement facultatif. Nous ne demandons qu'une fois par commande.",
+    "closed": "Les avis ne sont pas ouverts pour le moment.",
+    "invalidLink": "Ce lien d'avis n'est pas valide.",
+    "check": "Veuillez vérifier le formulaire.",
+    "already": "Vous avez déjà donné votre avis sur cette pièce. Merci !",
+    "tooMany": "Trop de tentatives. Réessayez plus tard.",
+    "thanks": "Merci ! Votre avis apparaîtra après vérification.",
+    "optedOut": "C'est fait. Nous ne vous demanderons plus d'avis.",
+    "invalid": {
+      "rating": "Veuillez choisir une note.",
+      "body": "Veuillez écrire au moins 10 caractères (2000 au plus).",
+      "displayName": "Veuillez indiquer le nom à afficher (40 caractères au plus).",
+      "photo": "La photo doit être une image JPEG, PNG ou WebP de 5 Mo au plus.",
+      "product": "Veuillez choisir la pièce."
+    },
+    "title": "Écrire un avis",
+    "intro": "Pour votre commande {number}. Merci de prendre le temps.",
+    "allDone": "Vous avez donné votre avis sur toutes les pièces de cette commande. Merci !",
+    "product": "Pièce",
+    "rating": "Votre note",
+    "ratingValue": "{rating} sur 5",
+    "body": "Votre avis",
+    "displayName": "Nom affiché",
+    "displayNameHint": "Par exemple votre prénom ou vos initiales.",
+    "photo": "Une photo de la pièce",
+    "optional": "facultatif",
+    "photoHint": "JPEG, PNG ou WebP, 5 Mo au plus. Nous supprimons les données de lieu et d'appareil.",
+    "moderation": "Nous lisons chaque avis avant publication et n'en changeons jamais les mots. Une pièce affiche ses avis dès qu'elle en a trois.",
+    "submit": "Envoyer l'avis",
+    "optOutTitle": "Demandes d'avis",
+    "optOutText": "Ne plus recevoir de demandes d'avis à cette adresse ?",
+    "optOutButton": "Ne plus recevoir de demandes",
+    "sectionTitle": "Avis d'acheteurs vérifiés",
+    "summary": "Moyenne de {average} sur 5, d'après {count} avis",
+    "verified": "acheteur vérifié",
+    "photoAlt": "Photo de {name}"
   }
 }

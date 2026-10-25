@@ -66,6 +66,8 @@ export const productSchema = z.strictObject({
   packaging: z.optional(z.enum(["giftBox", "box", "pouch"])),
   giftNote: z.optional(z.boolean()),
   tags: z.optional(z.array(z.string().check(z.regex(SLUG)))),
+  /** "Complete the set": SKUs of other products (main SKUs, e.g. "GTH-002") shown on this product's page. */
+  relatedSkus: z.optional(z.array(z.string().check(z.regex(/^[A-Z0-9-]{3,32}$/))).check(z.maxLength(8))),
   /** Ready to sell: every language checked. `npm run check:i18n` is strict for these products. */
   launchReady: z.optional(z.boolean()),
   /** Languages whose text exists but still needs a native check (e.g. machine translated). */
@@ -121,6 +123,7 @@ export type Product = {
   packaging?: "giftBox" | "box" | "pouch";
   giftNote?: boolean;
   tags: string[];
+  relatedSkus: string[];
   launchReady: boolean;
   /** Languages that fall back to English or are marked for review (computed + from the data). */
   needsReview: string[];
@@ -229,11 +232,24 @@ export function parseCatalog(
       packaging: p.packaging,
       giftNote: p.giftNote,
       tags: p.tags ?? [],
+      relatedSkus: p.relatedSkus ?? [],
       launchReady: p.launchReady ?? false,
       needsReview: [...new Set([...missingLocales(p.text), ...(p.needsReview ?? [])])],
       text: p.text as Product["text"],
       fixture,
     });
+  }
+  // Related products must exist (by main SKU), differ from the product itself and appear once; a fixture may
+  // point at real products, a real product never at a fixture.
+  for (const p of products) {
+    const at = `product "${p.slug}"`;
+    if (new Set(p.relatedSkus).size !== p.relatedSkus.length) problems.push(`${at}.relatedSkus: duplicate SKU`);
+    for (const sku of p.relatedSkus) {
+      const target = products.find((x) => x.sku === sku);
+      if (!target) problems.push(`${at}.relatedSkus: unknown SKU ${sku} (use the main SKU, e.g. GTH-002)`);
+      else if (target === p) problems.push(`${at}.relatedSkus: a product cannot list itself`);
+      else if (target.fixture && !p.fixture) problems.push(`${at}.relatedSkus: ${sku} is a test fixture`);
+    }
   }
   return { categories, products, problems };
 }

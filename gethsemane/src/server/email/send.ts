@@ -10,6 +10,8 @@ export type OutgoingEmail = {
   replyTo?: string;
   /** For logs and tests only, e.g. "verify-email". */
   kind: string;
+  /** Extra headers, e.g. List-Unsubscribe for mailing-list emails. */
+  headers?: Record<string, string>;
 };
 
 /**
@@ -48,6 +50,7 @@ export async function sendEmail(email: OutgoingEmail): Promise<boolean> {
         html: email.html,
         text: email.text,
         ...(email.replyTo ? { reply_to: email.replyTo } : {}),
+        ...(email.headers ? { headers: email.headers } : {}),
       }),
       signal: AbortSignal.timeout(10_000),
     });

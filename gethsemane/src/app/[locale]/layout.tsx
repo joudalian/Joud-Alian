@@ -10,6 +10,9 @@ import { LiveRegion } from "@/components/LiveRegion";
 import { BottomNav } from "@/components/Navigation";
 import { CurrencyProvider } from "@/components/CurrencyProvider";
 import { Footer } from "@/components/Footer";
+import { WishlistSync } from "@/components/WishlistSync";
+import { hasSessionCookie } from "@/lib/session-cookie";
+import { feature } from "@/server/features";
 import { Header } from "@/components/Header";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { isLocale } from "@/i18n/locales";
@@ -53,6 +56,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 
   const [messages, t, cookieStore] = await Promise.all([getMessages(), getTranslations("nav"), cookies()]);
   const currencyCookie = cookieStore.get(CURRENCY_COOKIE)?.value;
+  const syncWishlist = feature("wishlistSync") && hasSessionCookie(cookieStore);
 
   return (
     <html lang={locale} className={`${garamond.variable} ${inter.variable}`}>
@@ -76,6 +80,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
             <BottomNav />
             <LanguageSwitcher />
             <LiveRegion />
+            {syncWishlist && <WishlistSync />}
             <JsonLd data={organization(locale)} />
             </CartRulesProvider>
           </CurrencyProvider>

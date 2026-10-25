@@ -144,8 +144,9 @@ test("sitemap.xml and robots.txt", async ({ request, baseURL }) => {
   expect(sitemap.status()).toBe(200);
   const xml = await sitemap.text();
   const urls = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]);
-  // Home, about and 10 help/policy pages; shop, category and product pages join once CATALOG_READY is true.
-  expect(urls.length).toBe(10 * 12);
+  // Home, about, 10 help/policy pages and /bulk-orders (FEATURES.bulkOrders); shop, category, product and
+  // Christmas pages join once CATALOG_READY is true.
+  expect(urls.length).toBe(10 * 13);
   expect(urls.some((u) => /\/(shop|product)(\/|$)/.test(u ?? ""))).toBe(false);
   for (const l of locales) expect(urls).toContain(`${baseURL}/${l}`);
   expect(xml).toContain('hreflang="x-default"');

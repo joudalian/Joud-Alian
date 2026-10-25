@@ -7,7 +7,7 @@ test.skip(({ isMobile }) => isMobile, "run once");
 
 const PAGES = ["/en", "/en/shop", "/en/contact", `/en/product/${fixture.slug}`, "/en/cart", "/en/wishlist"];
 /** Server-only libraries: the auth library, the database clients, password hashing and the Stripe SDK. */
-const SERVER_MARKERS = ["better-auth", "drizzle-orm", "@electric-sql/pglite", "argon2", "api.stripe.com", "stripe-node"];
+const SERVER_MARKERS = ["better-auth", "drizzle-orm", "@electric-sql/pglite", "argon2", "api.stripe.com", "stripe-node", "pdf-lib", "PDFDocument", "libvips"];
 
 /** The JavaScript (or CSS) files the page loads from this site. */
 async function scriptsOf(page: Page, path: string, type: "script" | "stylesheet" = "script") {
@@ -50,6 +50,15 @@ test("marketing and catalog pages load no auth, database or payment code, and no
   // The account pages run their forms as server actions: the auth library stays on the server there too.
   for (const path of ["/en/login", "/en/signup", "/en/track-order"]) {
     const scripts = await scriptsOf(page, path);
+    for (const marker of SERVER_MARKERS) expect(scripts.filter((js) => js.includes(marker)).length, `${path}: "${marker}"`).toBe(0);
+  }
+});
+
+test("with every optional feature on, marketing pages still load no server code", async ({ page }) => {
+  // Port 3102 runs the same build with FEATURES all on (playwright.config.ts).
+  const ON = "http://localhost:3102";
+  for (const path of ["/en", "/en/shop?q=cross", `/en/product/${fixture.slug}`, "/en/cart", "/en/wishlist", "/en/christmas", "/en/bulk-orders", "/en/care"]) {
+    const scripts = await scriptsOf(page, `${ON}${path}`);
     for (const marker of SERVER_MARKERS) expect(scripts.filter((js) => js.includes(marker)).length, `${path}: "${marker}"`).toBe(0);
   }
 });

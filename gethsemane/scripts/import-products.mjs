@@ -119,6 +119,7 @@ for (const [n, row] of rows.entries()) {
     ...(col(row, "packaging") ? { packaging: col(row, "packaging") } : {}),
     ...(yes(col(row, "gift_note")) ? { giftNote: true } : {}),
     ...(col(row, "tags") ? { tags: list(col(row, "tags")) } : {}),
+    ...(col(row, "related_skus") ? { relatedSkus: list(col(row, "related_skus")).map((s) => s.toUpperCase()) } : {}),
     ...(col(row, "needs_review") ? { needsReview: list(col(row, "needs_review")) } : {}),
     ...(yes(col(row, "launch_ready")) ? { launchReady: true } : {}),
     text,

@@ -3,9 +3,10 @@
 import { revalidatePath } from "next/cache";
 import { z } from "zod";
 import type { FormState } from "@/components/forms/ActionForm";
-import { addInternalNote, createCoupon, setCouponActive, setOrderStatus, shipOrder } from "@/server/admin";
+import { addInternalNote, createCoupon, setCouponActive, setEnquiryHandled, setOrderStatus, shipOrder } from "@/server/admin";
 import { ORDER_STATUSES } from "@/server/db/schema";
 import { requireAdmin } from "@/server/guards";
+import { setReviewStatus } from "@/server/reviews";
 
 // The admin area is for the owner only and is written in English. Every action checks ADMIN_EMAILS again:
 // a server action is a public endpoint, whatever page its form is on.
@@ -116,4 +117,23 @@ export async function toggleCoupon(data: FormData): Promise<void> {
   if (!id.success) return;
   await setCouponActive(id.data, str(data, "active") === "true");
   revalidatePath("/[locale]/admin/coupons", "page");
+}
+
+export async function toggleEnquiry(data: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  if (!admin) return;
+  const id = z.string().uuid().safeParse(str(data, "id"));
+  if (!id.success) return;
+  await setEnquiryHandled(id.data, str(data, "handled") === "true");
+  revalidatePath("/[locale]/admin/enquiries", "page");
+}
+
+export async function moderateReview(data: FormData): Promise<void> {
+  const admin = await requireAdmin();
+  if (!admin) return;
+  const id = z.string().uuid().safeParse(str(data, "id"));
+  const status = z.enum(["approved", "rejected"]).safeParse(str(data, "status"));
+  if (!id.success || !status.success) return;
+  await setReviewStatus(id.data, status.data);
+  revalidatePath("/[locale]/admin/reviews", "page");
 }

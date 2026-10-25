@@ -25,12 +25,15 @@ export function CheckoutForm({
   user,
   testMode,
   stripeNote,
+  confirmEngraving = false,
 }: {
   countries: { code: string; name: string }[];
   saved: SavedAddress[];
   user: { email: string; name: string } | null;
   testMode: boolean;
   stripeNote: boolean;
+  /** FEATURES.engravingPreview: engraved lines need an explicit "the text is correct" tick. */
+  confirmEngraving?: boolean;
 }) {
   const t = useTranslations("checkout");
   const ta = useTranslations("address");
@@ -224,7 +227,7 @@ export function CheckoutForm({
                 <label key={o.id} className="choice">
                   <input type="radio" name="shippingMethod" value={o.id} checked={method === o.id} onChange={() => setMethod(o.id)} />
                   <span>{o.label}</span>
-                  <span className="choice-price">{money(o.cents)}</span>
+                  <span className="choice-price">{o.cents === 0 && quote.freeShipping ? t("freeShippingApplied") : money(o.cents)}</span>
                 </label>
               ))}
             </div>
@@ -295,7 +298,7 @@ export function CheckoutForm({
             )}
             <div>
               <dt>{t("shipping")}</dt>
-              <dd>{quote.shippingMethod ? money(quote.shippingCents) : t("shippingTbd")}</dd>
+              <dd>{!quote.shippingMethod ? t("shippingTbd") : quote.shippingCents === 0 && quote.freeShipping ? t("freeShippingApplied") : money(quote.shippingCents)}</dd>
             </div>
             <div className="review-total">
               <dt>{t("totalUsd")}</dt>
@@ -310,6 +313,24 @@ export function CheckoutForm({
           </dl>
         )}
         <p className="note">{t("chargedInUsd")}</p>
+        {quote?.dutiesNote && (
+          <p className="note" data-testid="duties-note">
+            {quote.dutiesNote}
+          </p>
+        )}
+        {confirmEngraving && quote?.lines.some((l) => l.engraving) && (
+          <div className="field field-check" data-testid="engraving-confirm">
+            <input id={field("engravingConfirmed")} type="checkbox" name="engravingConfirmed" required />
+            <label htmlFor={field("engravingConfirmed")}>
+              {t("engravingConfirm", {
+                texts: quote.lines
+                  .filter((l) => l.engraving)
+                  .map((l) => `“${l.engraving}”`)
+                  .join(", "),
+              })}
+            </label>
+          </div>
+        )}
         <div className="field field-check">
           <input id={field("terms")} type="checkbox" name="terms" required />
           <label htmlFor={field("terms")}>

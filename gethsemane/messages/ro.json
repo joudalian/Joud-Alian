@@ -85,7 +85,27 @@
     "count": "{count, plural, =0 {Niciun produs} one {# produs} few {# produse} other {# de produse}}",
     "empty": "Nu există încă produse în această categorie.",
     "bandTitle": "Nu știi ce piesă să alegi?",
-    "bandText": "Spune-ne pentru cine este și cu ce ocazie, iar noi te ajutăm să alegi."
+    "bandText": "Spune-ne pentru cine este și cu ce ocazie, iar noi te ajutăm să alegi.",
+    "searchLabel": "Caută în magazin",
+    "filterCategory": "Categorie",
+    "filterMin": "Preț min. (USD)",
+    "filterMax": "Preț max. (USD)",
+    "filterSize": "Mărime",
+    "anySize": "Orice mărime",
+    "size": {
+      "small": "Mică (până la 12 cm)",
+      "medium": "Medie (12–25 cm)",
+      "large": "Mare (peste 25 cm)"
+    },
+    "filterAvailability": "Disponibilitate",
+    "anyAvailability": "Toate piesele",
+    "availability": {
+      "in_stock": "În stoc",
+      "available": "Disponibil la comandă"
+    },
+    "filterApply": "Arată piesele",
+    "filterReset": "Șterge filtrele",
+    "noResults": "Nicio piesă nu corespunde căutării. Încearcă mai puține cuvinte sau șterge filtrele."
   },
   "product": {
     "addToCart": "Adaugă la comandă",
@@ -161,7 +181,11 @@
     "previousPhoto": "Fotografia anterioară",
     "nextPhoto": "Fotografia următoare",
     "photoAltN": "{name}, fotografia {n}",
-    "buyNow": "Cumpără acum"
+    "buyNow": "Cumpără acum",
+    "completeTheSet": "Completează setul",
+    "engravingPreview": "Previzualizare ilustrativă a gravurii „{text}”. Gravura reală se face manual și va arăta diferit.",
+    "engravingUnsupported": "Unele caractere nu pot fi gravate. Folosește litere latine, grecești sau chirilice, cifre și punctuație simplă.",
+    "reviewsComing": "Recenziile vin doar de la cumpărători verificați, după livrare. Apar aici când o piesă are trei."
   },
   "cart": {
     "title": "Comanda ta",
@@ -197,7 +221,9 @@
     "contactPage": "Pagina de contact",
     "toCheckout": "Continuă spre finalizare",
     "testModeNote": "Mod de test: nu se face nicio plată reală.",
-    "nothingToOrder": "Momentan nu se poate comanda niciun produs din comandă."
+    "nothingToOrder": "Momentan nu se poate comanda niciun produs din comandă.",
+    "freeShippingProgress": "Mai adaugă {amount} pentru livrare standard gratuită.",
+    "freeShippingReached": "Comanda ta beneficiază de livrare standard gratuită."
   },
   "wishlist": {
     "title": "Favoritele tale",
@@ -210,7 +236,9 @@
     "removeItem": "Elimină {name} din favorite",
     "added": "{name} a fost salvat la favorite.",
     "removed": "{name} a fost eliminat din favorite.",
-    "storedNote": "Favoritele sunt salvate doar în acest browser. Nu ne sunt trimise și nu se sincronizează între dispozitive."
+    "storedNote": "Favoritele sunt salvate doar în acest browser. Nu ne sunt trimise și nu se sincronizează între dispozitive.",
+    "syncedNote": "Lista ta de dorințe este salvată în cont, pe toate dispozitivele.",
+    "signInNote": "Lista ta de dorințe este păstrată doar în acest browser. <link>Autentifică-te</link> ca s-o ai pe toate dispozitivele."
   },
   "about": {
     "title": "Povestea noastră",
@@ -461,7 +489,11 @@
     "database": "Bază de date: datele conturilor și comenzilor sunt păstrate într-o bază de date Postgres administrată pentru noi de furnizorul nostru de baze de date.",
     "carriers": "Livrare: pentru a livra comanda, transmitem numele, adresa și numărul de telefon curierului.",
     "basisLegal": "Obligații legale, cum ar fi păstrarea evidențelor contabile ale comenzilor plătite.",
-    "retentionOther": "Sesiunile de autentificare expiră după 14 zile fără vizită. Mesajele din formularul de contact rămân în căsuța noastră doar cât este nevoie pentru a-ți răspunde."
+    "retentionOther": "Sesiunile de autentificare expiră după 14 zile fără vizită. Mesajele din formularul de contact rămân în căsuța noastră doar cât este nevoie pentru a-ți răspunde.",
+    "newsletterTitle": "Newsletter",
+    "newsletter": "Dacă te abonezi, păstrăm adresa de e-mail, limba și data confirmării. Trimitem newsletterul doar după ce confirmi pe e-mail (dublă confirmare), fiecare e-mail are un link de dezabonare, iar dezabonarea are efect imediat. Temeiul legal este consimțământul tău.",
+    "reviewsTitle": "Recenzii",
+    "reviews": "După livrare îți putem scrie o dată pentru a cere o recenzie; e-mailul are un link ca să nu mai primești astfel de cereri. Dacă scrii una, publicăm, după verificare, nota, textul, numele ales și fotografia. Fotografiile sunt recodificate, iar datele de locație și de cameră sunt eliminate. Poți cere oricând ștergerea recenziei; ștergerea contului o elimină."
   },
   "terms": {
     "title": "Condiții de vânzare",
@@ -520,7 +552,9 @@
     "avoid1": "Înmuierea în apă.",
     "avoid2": "Mașina de spălat vase.",
     "avoid3": "Caloriferele, aerotermele și multe ore în soare puternic.",
-    "variation": "Micile schimbări de culoare în timp sunt naturale și fac parte din caracterul lemnului."
+    "variation": "Micile schimbări de culoare în timp sunt naturale și fac parte din caracterul lemnului.",
+    "cardTitle": "Fișă de îngrijire pentru lemnul de măslin",
+    "cardDownload": "Descarcă fișa de îngrijire pentru tipărit (PDF)"
   },
   "withdrawal": {
     "title": "Retragerea din contract",
@@ -751,7 +785,8 @@
     "shippedIntro": "Vești bune: comanda ta {number} este pe drum.",
     "carrier": "Curier",
     "trackingNumber": "Număr de urmărire",
-    "shippedDamage": "Dacă ceva ajunge deteriorat, scrie la {email} cu fotografii ale coletului și ale produsului."
+    "shippedDamage": "Dacă ceva ajunge deteriorat, scrie la {email} cu fotografii ale coletului și ale produsului.",
+    "unsubscribe": "Dezabonare"
   },
   "checkout": {
     "title": "Finalizare comandă",
@@ -828,6 +863,113 @@
     "confirmingTitle": "Confirmăm plata",
     "confirmingText": "Confirmăm plata. De obicei durează câteva secunde: reîncarcă pagina peste puțin timp. Vei primi și un e-mail.",
     "refresh": "Reîncarcă",
-    "keepLink": "Păstrează e-mailul de confirmare: linkul din el arată oricând comanda și urmărirea ei."
+    "keepLink": "Păstrează e-mailul de confirmare: linkul din el arată oricând comanda și urmărirea ei.",
+    "freeShippingApplied": "Gratuită",
+    "engravingConfirm": "Am verificat textul gravurii {texts}. Piesele gravate nu pot fi returnate, decât dacă au defecte.",
+    "engravingConfirmRequired": "Confirmă că textul gravurii este corect."
+  },
+  "christmas": {
+    "title": "Colecția de Crăciun",
+    "intro": "Ieslele Nașterii și piese pentru Crăciun, sculptate manual în Betleem.",
+    "orderBy": "Ca să primești comanda înainte de Crăciun, comandă până la {date}. Termenele de livrare sunt estimative.",
+    "bandTitle": "Colecția de Crăciun",
+    "bandText": "Ieslele Nașterii în jurul cărora să vă adunați, an de an.",
+    "bandCta": "Vezi colecția"
+  },
+  "bulk": {
+    "productLink": "Comanzi pentru o parohie, un magazin sau un grup?",
+    "title": "Comenzi en-gros",
+    "intro": "Pentru parohii, comunități, magazine și grupuri care au nevoie de mai multe piese.",
+    "how": "Spune-ne ce îți trebuie și până când. Răspundem pe e-mail cu disponibilitatea, o ofertă și costul livrării; nimic nu se comandă și nu se încasează fără acordul tău.",
+    "organisation": "Organizație",
+    "organisationHint": "Numele parohiei, comunității, magazinului sau grupului.",
+    "country": "Țara de livrare",
+    "chooseCountry": "Alege o țară",
+    "items": "Ce piese?",
+    "quantity": "Cantitate",
+    "quantityHint": "E suficientă o estimare, de ex. „cam 40 de cruci”.",
+    "neededBy": "Necesar până la",
+    "message": "Altceva ce ar trebui să știm",
+    "send": "Trimite cererea",
+    "sent": "Mulțumim. Am primit cererea și îți răspundem pe e-mail cu o ofertă.",
+    "failed": "Cererea nu a putut fi trimisă. Scrie-ne la {email}.",
+    "tooMany": "Prea multe cereri de la această conexiune. Încearcă mai târziu sau scrie-ne la {email}.",
+    "check": "Verifică formularul.",
+    "invalid": {
+      "organisation": "Introdu numele organizației.",
+      "name": "Introdu numele tău.",
+      "email": "Introdu o adresă de e-mail validă.",
+      "country": "Alege țara de livrare.",
+      "items": "Spune-ne ce piese îți trebuie.",
+      "quantity": "Indică o cantitate.",
+      "neededBy": "Introdu o dată validă.",
+      "message": "Mesajul este prea lung."
+    }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "label": "Piese noi și vești din atelier pe e-mail, de câteva ori pe an",
+    "subscribe": "Abonează-te",
+    "consent": "Mai întâi trimitem un e-mail de confirmare. Te poți dezabona oricând. <link>Confidențialitate</link>",
+    "confirmSubject": "Confirmă abonarea la newsletterul {store}",
+    "confirmIntro": "Cineva (sperăm că tu) a cerut newsletterul nostru la această adresă. Apasă butonul pentru confirmare.",
+    "confirmButton": "Confirmă abonarea",
+    "confirmIgnore": "Dacă nu ai cerut asta, ignoră e-mailul: nu vei fi abonat.",
+    "confirmText": "Apasă butonul pentru a confirma abonarea.",
+    "welcomeSubject": "Bun venit la newsletterul {store}",
+    "welcomeIntro": "Mulțumim pentru abonare. Scriem doar de câteva ori pe an, despre piese noi și viața atelierului.",
+    "welcomeCode": "Ca mulțumire, iată un cod de {percent}% reducere la prima comandă: {code}. Funcționează o dată, pentru această adresă de e-mail, timp de {days} zile.",
+    "unsubscribeText": "Apasă butonul ca să nu mai primești newsletterul.",
+    "unsubscribeButton": "Dezabonare",
+    "status": {
+      "check": "Aproape gata: ți-am trimis un e-mail. Apasă butonul din el pentru confirmare.",
+      "confirmed": "Mulțumim, abonarea este confirmată.",
+      "unsubscribed": "Ai fost dezabonat. Nu vei mai primi newsletterul.",
+      "invalid": "Introdu o adresă de e-mail validă.",
+      "invalid-link": "Acest link nu mai este valabil.",
+      "busy": "Prea multe cereri. Încearcă mai târziu.",
+      "unavailable": "Newsletterul nu este disponibil acum."
+    }
+  },
+  "reviews": {
+    "requestSubject": "Cum ți se par piesele de la {store}? (comanda {number})",
+    "requestIntro": "Comanda {number} a fost livrată. Dacă vrei, spune-le altor clienți ce părere ai despre piese. Verificăm fiecare recenzie înainte de publicare.",
+    "requestButton": "Scrie o recenzie",
+    "requestOptional": "Este complet opțional. Întrebăm o singură dată pentru fiecare comandă.",
+    "closed": "Recenziile nu sunt deschise acum.",
+    "invalidLink": "Acest link de recenzie nu este valabil.",
+    "check": "Verifică formularul.",
+    "already": "Ai evaluat deja această piesă. Mulțumim!",
+    "tooMany": "Prea multe încercări. Încearcă mai târziu.",
+    "thanks": "Mulțumim! Recenzia va apărea după ce o verificăm.",
+    "optedOut": "Gata. Nu îți vom mai cere recenzii.",
+    "invalid": {
+      "rating": "Alege o notă.",
+      "body": "Scrie cel puțin 10 caractere (maximum 2000).",
+      "displayName": "Introdu numele afișat (maximum 40 de caractere).",
+      "photo": "Fotografia trebuie să fie JPEG, PNG sau WebP de până la 5 MB.",
+      "product": "Alege piesa."
+    },
+    "title": "Scrie o recenzie",
+    "intro": "Pentru comanda {number}. Mulțumim că îți faci timp.",
+    "allDone": "Ai evaluat toate piesele acestei comenzi. Mulțumim!",
+    "product": "Piesă",
+    "rating": "Nota ta",
+    "ratingValue": "{rating} din 5",
+    "body": "Recenzia ta",
+    "displayName": "Numele afișat",
+    "displayNameHint": "De exemplu prenumele sau inițialele.",
+    "photo": "O fotografie a piesei",
+    "optional": "opțional",
+    "photoHint": "JPEG, PNG sau WebP, până la 5 MB. Eliminăm datele de locație și de cameră.",
+    "moderation": "Citim fiecare recenzie înainte de publicare și nu îi schimbăm niciodată cuvintele. O piesă își arată recenziile când are trei.",
+    "submit": "Trimite recenzia",
+    "optOutTitle": "Cereri de recenzie",
+    "optOutText": "Nu mai trimiteți cereri de recenzie la această adresă?",
+    "optOutButton": "Nu mai trimiteți cereri",
+    "sectionTitle": "Recenzii de la cumpărători verificați",
+    "summary": "Medie {average} din 5, din {count} recenzii",
+    "verified": "cumpărător verificat",
+    "photoAlt": "Fotografie de la {name}"
   }
 }

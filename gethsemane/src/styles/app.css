@@ -451,3 +451,37 @@
 .break {
   overflow-wrap: anywhere;
 }
+
+.admin-card {
+  margin-block-end: 16px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+}
+
+.admin-tab {
+  margin-inline-end: 16px;
+}
+
+.admin-tab[aria-current="page"] {
+  font-weight: 700;
+}
+
+.admin-photo {
+  width: 160px;
+  height: 160px;
+  object-fit: cover;
+  border-radius: 8px;
+}
+
+.admin-review-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.rating-choice {
+  border: 0;
+  padding: 0;
+  margin: 0;
+}

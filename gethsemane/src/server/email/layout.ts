@@ -19,9 +19,11 @@ export function emailLocale(value: unknown): Locale {
  * The branded email frame (olive header, cream body, footer with the store address and contact email), as HTML with
  * inline styles and as plain text. Every string passed in is escaped.
  */
-export async function renderEmail(locale: Locale, title: string, blocks: EmailBlock[]): Promise<{ html: string; text: string }> {
+export async function renderEmail(locale: Locale, title: string, blocks: EmailBlock[], unsubscribeUrl?: string): Promise<{ html: string; text: string }> {
   const t = await getTranslations({ locale, namespace: "email" });
   const footer = t("footer", { store: STORE_NAME, address: ADDRESS, email: CONTACT_EMAIL });
+  // Mailing-list emails (newsletter, review requests) always carry a way out.
+  const unsubscribe = unsubscribeUrl ? `<br><a href="${esc(unsubscribeUrl)}" style="color:#5f4c3b">${esc(t("unsubscribe"))}</a>` : "";
   const html = blocks
     .map((b) => {
       if (b.kind === "p") return `<p style="margin:0 0 16px;line-height:1.55">${esc(b.text)}</p>`;
@@ -41,7 +43,7 @@ export async function renderEmail(locale: Locale, title: string, blocks: EmailBl
 <h1 style="font-family:Georgia,serif;font-size:22px;margin:0 0 16px;color:#2a3519">${esc(title)}</h1>
 ${html}
 </div>
-<p style="font-size:12px;color:#5f4c3b;line-height:1.5;margin:16px 4px">${esc(footer)}</p>
+<p style="font-size:12px;color:#5f4c3b;line-height:1.5;margin:16px 4px">${esc(footer)}${unsubscribe}</p>
 </div></body></html>`;
   const text = [
     title,
@@ -51,6 +53,7 @@ ${html}
     ),
     "—",
     footer,
+    ...(unsubscribeUrl ? [`${t("unsubscribe")}: ${unsubscribeUrl}`] : []),
   ].join("\n");
   return { html: document, text };
 }

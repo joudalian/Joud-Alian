@@ -9,7 +9,9 @@ import { categories, categoryText } from "@/lib/catalog";
 import { paymentText } from "@/lib/faq";
 import { pageMetadata } from "@/lib/metadata";
 import { orderLookup } from "@/lib/order-lookup";
+import { feature } from "@/server/features";
 import { checkoutBlock, paymentMode } from "@/server/payments";
+import { freeShippingThresholdUsd } from "@/server/settings";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -36,6 +38,8 @@ export default async function CartPage({ params }: Props) {
         lookup={orderLookup(locale)}
         firstCategory={{ slug: categories[0]!.slug, name: categoryText(categories[0]!, locale).name }}
         checkout={checkoutBlock() ? "closed" : paymentMode() === "test" ? "test" : "open"}
+        freeShippingThresholdUsd={feature("freeShippingBar") ? freeShippingThresholdUsd() : null}
+        wholesaleHref={feature("bulkOrders") ? "/bulk-orders" : "/contact?topic=wholesale"}
       />
       <div className="order-info">
         <section aria-labelledby="steps-title">

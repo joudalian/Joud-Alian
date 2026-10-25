@@ -112,7 +112,7 @@ test.describe("order flow", () => {
     await qty.press("Enter");
     await expect(qty).toHaveValue("20");
     // At the quantity limit, wholesale is offered.
-    await expect(page.getByRole("link", { name: "Need more? Ask about wholesale" })).toHaveAttribute("href", "/en/contact?topic=wholesale");
+    await expect(page.getByRole("link", { name: "Need more? Ask about wholesale" })).toHaveAttribute("href", "/en/bulk-orders");
   });
 
   test("the cart works when localStorage throws", async ({ page }) => {

@@ -165,6 +165,60 @@ export const SHIPPING_RATES: Record<
 export const TAX = { collect: false, note: "Not collected; import VAT/duties may be charged on delivery." } as const; // CONFIRM
 
 /**
+ * OPTIONAL FEATURES. Each flag turns one feature on or off; the comments say what else it needs. Defaults: on for
+ * features that show nothing until their data exists (or need no data), off for reviews, the newsletter and wallets
+ * (they need the owner's decision and setup first). A deployment can override flags without a code change through
+ * the FEATURES environment variable, e.g. `FEATURES=reviews,newsletter,-christmas` (see .env.example).
+ * Flags are read on the server only (src/server/features.ts), so client code never ships unused features.
+ */
+export const FEATURES = {
+  /** 1. Apple Pay / Google Pay on Stripe's page. Also turn them on in Stripe Dashboard → Settings → Payment methods. */
+  wallets: false, // CONFIRM
+  /** 2. "Add $X for free standard shipping" bar; shown only while FREE_SHIPPING_THRESHOLD_USD is set. */
+  freeShippingBar: true,
+  /** 3. Import-duties note at checkout; shown only for regions with text in DUTIES_NOTE_BY_REGION. */
+  dutiesNote: true,
+  /** 4. /bulk-orders enquiry form for churches, shops and groups (stored in the database, listed in /admin). */
+  bulkOrders: true,
+  /** 5. Engraving preview on the product page and the "engraving text is correct" checkbox at checkout. */
+  engravingPreview: true,
+  /** 6. "Complete the set" on product pages, from each product's relatedSkus (hidden when empty). */
+  completeTheSet: true,
+  /** 7. Verified-buyer reviews: request email after delivery, moderation in /admin; shown from 3 approved reviews. */
+  reviews: false, // CONFIRM
+  /** 8. Wishlist saved to the customer's account when signed in (guests keep it in the browser). */
+  wishlistSync: true,
+  /** 9. Newsletter sign-up with double opt-in (and the optional welcome code below). */
+  newsletter: false, // CONFIRM
+  /** 10. Search and filters on /shop (text, category, price, size, availability). */
+  shopSearch: true,
+  /** 11. /christmas collection and a home-page band, from products tagged "christmas". */
+  christmas: true,
+  /** 12. Printable olive-wood care card (PDF in 10 languages) linked from the care page. */
+  careCard: true,
+} as const;
+export type FeatureName = keyof typeof FEATURES;
+
+/** Items total (USD, after discounts) from which standard shipping is free. null = no free shipping, no bar. */
+export const FREE_SHIPPING_THRESHOLD_USD: number | null = null; // CONFIRM
+
+/**
+ * Import duties note shown at checkout under the shipping price, per shipping region and language (English is the
+ * fallback). Leave a region out until the wording is confirmed; never promise "no extra fees" (check:claims).
+ * Example: { europe: { en: "Parcels to the EU may be charged import VAT and a handling fee on delivery." } }
+ */
+export const DUTIES_NOTE_BY_REGION: Partial<Record<keyof typeof SHIPPING_RATES, Partial<Record<Locale, string>>>> = {}; // CONFIRM
+
+/** Last day to order for delivery before Christmas (YYYY-MM-DD), shown on /christmas and the home band. "" = none. */
+export const CHRISTMAS_ORDER_BY_DATE = ""; // CONFIRM
+
+/**
+ * Optional thank-you code for confirmed newsletter subscribers: a single-use code for their email address, valid on
+ * the first order. percent = 0 sends no code.
+ */
+export const NEWSLETTER_WELCOME_COUPON = { percent: 0, validDays: 60 } as const; // CONFIRM
+
+/**
  * LAUNCH GATE. While false, shop, category and product pages are noindex, product and category pages are left
  * out of the sitemap and no Product offers are published in structured data (placeholder products must never
  * reach search engines). Set to true as the very last launch step, then run `npm run check:launch`.

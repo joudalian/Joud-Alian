@@ -85,7 +85,27 @@
     "count": "{count, plural, =0 {Nessun prodotto} one {# prodotto} other {# prodotti}}",
     "empty": "Non ci sono ancora prodotti in questa categoria.",
     "bandTitle": "Non sai quale pezzo scegliere?",
-    "bandText": "Dicci per chi è e per quale occasione, e ti aiuteremo a scegliere."
+    "bandText": "Dicci per chi è e per quale occasione, e ti aiuteremo a scegliere.",
+    "searchLabel": "Cerca nel negozio",
+    "filterCategory": "Categoria",
+    "filterMin": "Prezzo min. (USD)",
+    "filterMax": "Prezzo max. (USD)",
+    "filterSize": "Dimensione",
+    "anySize": "Qualsiasi dimensione",
+    "size": {
+      "small": "Piccola (fino a 12 cm)",
+      "medium": "Media (12–25 cm)",
+      "large": "Grande (oltre 25 cm)"
+    },
+    "filterAvailability": "Disponibilità",
+    "anyAvailability": "Tutti i pezzi",
+    "availability": {
+      "in_stock": "Disponibile",
+      "available": "Ordinabile"
+    },
+    "filterApply": "Mostra i pezzi",
+    "filterReset": "Azzera filtri",
+    "noResults": "Nessun pezzo corrisponde alla ricerca. Prova con meno parole o azzera i filtri."
   },
   "product": {
     "addToCart": "Aggiungi all'ordine",
@@ -161,7 +181,11 @@
     "previousPhoto": "Foto precedente",
     "nextPhoto": "Foto successiva",
     "photoAltN": "{name}, foto {n}",
-    "buyNow": "Acquista ora"
+    "buyNow": "Acquista ora",
+    "completeTheSet": "Completa il set",
+    "engravingPreview": "Anteprima illustrativa dell'incisione «{text}». L'incisione reale è fatta a mano e avrà un aspetto diverso.",
+    "engravingUnsupported": "Alcuni caratteri non si possono incidere. Usa lettere latine, greche o cirilliche, numeri e punteggiatura semplice.",
+    "reviewsComing": "Le recensioni arrivano solo da acquirenti verificati, dopo la consegna. Compaiono qui quando un pezzo ne ha tre."
   },
   "cart": {
     "title": "Il tuo ordine",
@@ -197,7 +221,9 @@
     "contactPage": "Pagina contatti",
     "toCheckout": "Procedi all'acquisto",
     "testModeNote": "Modalità test: nessun pagamento reale viene addebitato.",
-    "nothingToOrder": "Al momento nessun articolo del tuo ordine può essere ordinato."
+    "nothingToOrder": "Al momento nessun articolo del tuo ordine può essere ordinato.",
+    "freeShippingProgress": "Aggiungi ancora {amount} per la spedizione standard gratuita.",
+    "freeShippingReached": "Il tuo ordine ha diritto alla spedizione standard gratuita."
   },
   "wishlist": {
     "title": "I tuoi preferiti",
@@ -210,7 +236,9 @@
     "removeItem": "Rimuovi {name} dai preferiti",
     "added": "{name} salvato nei preferiti.",
     "removed": "{name} rimosso dai preferiti.",
-    "storedNote": "I tuoi preferiti sono salvati solo in questo browser. Non ci vengono inviati e non si sincronizzano tra dispositivi."
+    "storedNote": "I tuoi preferiti sono salvati solo in questo browser. Non ci vengono inviati e non si sincronizzano tra dispositivi.",
+    "syncedNote": "La tua lista dei desideri è salvata nel tuo account, su tutti i dispositivi.",
+    "signInNote": "La tua lista dei desideri è salvata solo in questo browser. <link>Accedi</link> per averla su tutti i dispositivi."
   },
   "about": {
     "title": "La nostra storia",
@@ -461,7 +489,11 @@
     "database": "Database: i dati di account e ordini sono conservati in un database Postgres gestito per nostro conto dal nostro fornitore di database.",
     "carriers": "Consegna: per consegnare l'ordine forniamo nome, indirizzo e numero di telefono al corriere.",
     "basisLegal": "Obblighi di legge, come conservare le registrazioni contabili degli ordini pagati.",
-    "retentionOther": "Le sessioni di accesso terminano dopo 14 giorni senza visite. I messaggi del modulo di contatto restano nella nostra casella solo per il tempo necessario a risponderti."
+    "retentionOther": "Le sessioni di accesso terminano dopo 14 giorni senza visite. I messaggi del modulo di contatto restano nella nostra casella solo per il tempo necessario a risponderti.",
+    "newsletterTitle": "Newsletter",
+    "newsletter": "Se ti iscrivi, conserviamo il tuo indirizzo email, la lingua e la data di conferma. Inviamo la newsletter solo dopo la conferma via email (doppio opt-in), ogni email ha un link per annullare l'iscrizione e l'annullamento è immediato. La base giuridica è il tuo consenso.",
+    "reviewsTitle": "Recensioni",
+    "reviews": "Dopo la consegna potremmo scriverti una volta per chiederti una recensione; l'email contiene un link per non ricevere più queste richieste. Se ne scrivi una, pubblichiamo valutazione, testo, il nome che scegli e la foto dopo averla controllata. Le foto vengono ricodificate e i dati di posizione e fotocamera rimossi. Puoi chiederci di rimuovere la recensione in qualsiasi momento; eliminando l'account viene cancellata."
   },
   "terms": {
     "title": "Condizioni di vendita",
@@ -520,7 +552,9 @@
     "avoid1": "L'immersione in acqua.",
     "avoid2": "La lavastoviglie.",
     "avoid3": "Termosifoni, stufe e molte ore di sole forte.",
-    "variation": "Piccoli cambiamenti di colore nel tempo sono naturali e fanno parte del carattere del legno."
+    "variation": "Piccoli cambiamenti di colore nel tempo sono naturali e fanno parte del carattere del legno.",
+    "cardTitle": "Scheda per la cura del legno d'ulivo",
+    "cardDownload": "Scarica la scheda di cura da stampare (PDF)"
   },
   "withdrawal": {
     "title": "Recedere da un contratto",
@@ -751,7 +785,8 @@
     "shippedIntro": "Buone notizie: il tuo ordine {number} è in viaggio.",
     "carrier": "Corriere",
     "trackingNumber": "Numero di tracciamento",
-    "shippedDamage": "Se qualcosa arriva danneggiato, scrivi a {email} con foto del pacco e dell'articolo."
+    "shippedDamage": "Se qualcosa arriva danneggiato, scrivi a {email} con foto del pacco e dell'articolo.",
+    "unsubscribe": "Annulla iscrizione"
   },
   "checkout": {
     "title": "Cassa",
@@ -828,6 +863,113 @@
     "confirmingTitle": "Conferma del pagamento in corso",
     "confirmingText": "Stiamo confermando il pagamento. Di solito servono pochi secondi: aggiorna la pagina tra poco. Riceverai anche un'email.",
     "refresh": "Aggiorna",
-    "keepLink": "Conserva l'email di conferma: il suo link mostra questo ordine e il tracciamento in ogni momento."
+    "keepLink": "Conserva l'email di conferma: il suo link mostra questo ordine e il tracciamento in ogni momento.",
+    "freeShippingApplied": "Gratuita",
+    "engravingConfirm": "Ho controllato il testo dell'incisione {texts}. I pezzi incisi non si possono restituire, salvo difetti.",
+    "engravingConfirmRequired": "Conferma che il testo dell'incisione è corretto."
+  },
+  "christmas": {
+    "title": "Collezione di Natale",
+    "intro": "Presepi e pezzi per il tempo di Natale, intagliati a mano a Betlemme.",
+    "orderBy": "Per ricevere l'ordine prima di Natale, ordina entro il {date}. I tempi di consegna sono stime.",
+    "bandTitle": "Collezione di Natale",
+    "bandText": "Presepi intorno a cui ritrovarsi, anno dopo anno.",
+    "bandCta": "Vedi la collezione"
+  },
+  "bulk": {
+    "productLink": "Ordini per una parrocchia, un negozio o un gruppo?",
+    "title": "Ordini in quantità",
+    "intro": "Per parrocchie, comunità, negozi e gruppi che hanno bisogno di più pezzi.",
+    "how": "Dicci cosa ti serve ed entro quando. Rispondiamo via email con disponibilità, preventivo e costo di spedizione; nulla viene ordinato o addebitato finché non accetti.",
+    "organisation": "Organizzazione",
+    "organisationHint": "Nome della parrocchia, comunità, negozio o gruppo.",
+    "country": "Paese di consegna",
+    "chooseCountry": "Scegli un paese",
+    "items": "Quali pezzi?",
+    "quantity": "Quantità",
+    "quantityHint": "Basta una stima, ad es. «circa 40 croci».",
+    "neededBy": "Entro il",
+    "message": "Altro che dovremmo sapere",
+    "send": "Invia richiesta",
+    "sent": "Grazie. Abbiamo ricevuto la richiesta e ti risponderemo via email con un preventivo.",
+    "failed": "Non è stato possibile inviare la richiesta. Scrivici a {email}.",
+    "tooMany": "Troppe richieste da questa connessione. Riprova più tardi o scrivici a {email}.",
+    "check": "Controlla il modulo.",
+    "invalid": {
+      "organisation": "Inserisci il nome dell'organizzazione.",
+      "name": "Inserisci il tuo nome.",
+      "email": "Inserisci un indirizzo email valido.",
+      "country": "Scegli il paese di consegna.",
+      "items": "Indicaci quali pezzi ti servono.",
+      "quantity": "Indica una quantità.",
+      "neededBy": "Inserisci una data valida.",
+      "message": "Il messaggio è troppo lungo."
+    }
+  },
+  "newsletter": {
+    "title": "Newsletter",
+    "label": "Nuovi pezzi e notizie dal laboratorio via email, qualche volta all'anno",
+    "subscribe": "Iscriviti",
+    "consent": "Prima inviamo un'email di conferma. Puoi annullare l'iscrizione in qualsiasi momento. <link>Privacy</link>",
+    "confirmSubject": "Conferma l'iscrizione alla newsletter di {store}",
+    "confirmIntro": "Qualcuno (speriamo tu) ha chiesto di ricevere la nostra newsletter a questo indirizzo. Premi il pulsante per confermare.",
+    "confirmButton": "Conferma iscrizione",
+    "confirmIgnore": "Se non l'hai chiesto tu, ignora questa email: non verrai iscritto.",
+    "confirmText": "Premi il pulsante per confermare l'iscrizione.",
+    "welcomeSubject": "Benvenuto nella newsletter di {store}",
+    "welcomeIntro": "Grazie per l'iscrizione. Scriviamo solo qualche volta all'anno, sui nuovi pezzi e sulla vita del laboratorio.",
+    "welcomeCode": "Per ringraziarti, ecco un codice del {percent}% di sconto sul primo ordine: {code}. Vale una volta, per questo indirizzo email, entro {days} giorni.",
+    "unsubscribeText": "Premi il pulsante per non ricevere più la newsletter.",
+    "unsubscribeButton": "Annulla iscrizione",
+    "status": {
+      "check": "Quasi fatto: ti abbiamo inviato un'email. Premi il pulsante al suo interno per confermare.",
+      "confirmed": "Grazie, l'iscrizione è confermata.",
+      "unsubscribed": "Iscrizione annullata. Non riceverai più la newsletter.",
+      "invalid": "Inserisci un indirizzo email valido.",
+      "invalid-link": "Questo link non è più valido.",
+      "busy": "Troppe richieste. Riprova più tardi.",
+      "unavailable": "La newsletter non è disponibile al momento."
+    }
+  },
+  "reviews": {
+    "requestSubject": "Come sono i tuoi pezzi di {store}? (ordine {number})",
+    "requestIntro": "Il tuo ordine {number} è stato consegnato. Se vuoi, racconta ad altri clienti cosa pensi dei tuoi pezzi. Controlliamo ogni recensione prima di pubblicarla.",
+    "requestButton": "Scrivi una recensione",
+    "requestOptional": "È del tutto facoltativo. Lo chiediamo una sola volta per ordine.",
+    "closed": "Le recensioni non sono aperte al momento.",
+    "invalidLink": "Questo link per la recensione non è valido.",
+    "check": "Controlla il modulo.",
+    "already": "Hai già recensito questo pezzo. Grazie!",
+    "tooMany": "Troppi tentativi. Riprova più tardi.",
+    "thanks": "Grazie! La recensione comparirà dopo il nostro controllo.",
+    "optedOut": "Fatto. Non ti chiederemo più recensioni.",
+    "invalid": {
+      "rating": "Scegli una valutazione.",
+      "body": "Scrivi almeno 10 caratteri (fino a 2000).",
+      "displayName": "Inserisci il nome da mostrare (fino a 40 caratteri).",
+      "photo": "La foto deve essere JPEG, PNG o WebP fino a 5 MB.",
+      "product": "Scegli il pezzo."
+    },
+    "title": "Scrivi una recensione",
+    "intro": "Per il tuo ordine {number}. Grazie per il tempo che ci dedichi.",
+    "allDone": "Hai recensito tutti i pezzi di questo ordine. Grazie!",
+    "product": "Pezzo",
+    "rating": "La tua valutazione",
+    "ratingValue": "{rating} su 5",
+    "body": "La tua recensione",
+    "displayName": "Nome da mostrare",
+    "displayNameHint": "Ad esempio il nome o le iniziali.",
+    "photo": "Una foto del pezzo",
+    "optional": "facoltativo",
+    "photoHint": "JPEG, PNG o WebP, fino a 5 MB. Rimuoviamo i dati di posizione e fotocamera.",
+    "moderation": "Leggiamo ogni recensione prima di pubblicarla e non ne cambiamo mai le parole. Un pezzo mostra le recensioni quando ne ha tre.",
+    "submit": "Invia recensione",
+    "optOutTitle": "Richieste di recensione",
+    "optOutText": "Non ricevere più richieste di recensione a questo indirizzo?",
+    "optOutButton": "Non ricevere più richieste",
+    "sectionTitle": "Recensioni di acquirenti verificati",
+    "summary": "Media {average} su 5, da {count} recensioni",
+    "verified": "acquisto verificato",
+    "photoAlt": "Foto di {name}"
   }
 }

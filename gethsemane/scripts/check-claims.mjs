@@ -15,13 +15,21 @@ const problems = [];
  * (livePayments() in src/server/payments.ts). They may say "Stripe" and nothing else from the list: card brands,
  * wallets and "secure checkout" badges stay forbidden everywhere.
  */
+const NO_EXTRA_FEES =
+  /no (extra|additional|hidden) (fees|charges|costs)|duty[-\s]?free|no (customs|duties|import tax)|duties (are )?included|sans frais (supplémentaires|de douane)|sin (costes|cargos|gastos) adicionales|senza costi aggiuntivi|keine (zusätzlichen|weiteren) (kosten|gebühren)|zollfrei|χωρίς (επιπλέον|πρόσθετες) χρεώσεις|bez (dodatkowych|ukrytych) opłat|fără (taxe|costuri) suplimentare|без (додаткових|прихованих) (плат|витрат|зборів)|sem (custos|taxas) adicionais/i;
 const PAYMENT_ENABLED_ONLY = new Set(["checkout.stripeNote", "privacy.paymentsStripe"]);
+/**
+ * Messages that may say "free shipping": the site renders them only while FEATURES.freeShippingBar is on and
+ * FREE_SHIPPING_THRESHOLD_USD is set, and the checkout then really charges no standard shipping (src/server/pricing.ts).
+ */
+const FREE_SHIPPING_ONLY = new Set(["cart.freeShippingProgress", "cart.freeShippingReached", "checkout.freeShippingApplied"]);
 const stripeOnly = (text) => !/\b(paypal|apple\s?pay|google\s?pay|visa|mastercard|american express|amex|klarna)\b/i.test(text);
 
 function walk(value, path, source) {
   if (typeof value === "string") {
     for (const label of findClaims(value)) {
       if (label === "payment providers and card brands" && source.startsWith("messages/") && PAYMENT_ENABLED_ONLY.has(path) && stripeOnly(value)) continue;
+      if (label === "free shipping" && source.startsWith("messages/") && FREE_SHIPPING_ONLY.has(path)) continue;
       problems.push(`${source} ${path}: "${label}" in "${value.slice(0, 80)}"`);
     }
   } else if (value && typeof value === "object") {
@@ -37,7 +45,13 @@ walk(products, "", "src/data/products.ts");
 const { categories } = await import("../src/data/categories.ts");
 walk(categories, "", "src/data/categories.ts");
 const store = await import("../src/config/store.ts");
-walk({ SHIP_FROM_TEXT: store.SHIP_FROM_TEXT, ANNOUNCEMENT: store.ANNOUNCEMENT, SOCIAL: store.SOCIAL }, "", "src/config/store.ts");
+walk({ SHIP_FROM_TEXT: store.SHIP_FROM_TEXT, ANNOUNCEMENT: store.ANNOUNCEMENT, SOCIAL: store.SOCIAL, DUTIES_NOTE_BY_REGION: store.DUTIES_NOTE_BY_REGION }, "", "src/config/store.ts");
+// The duties note must never promise that nothing more is due on delivery.
+for (const [region, texts] of Object.entries(store.DUTIES_NOTE_BY_REGION)) {
+  for (const [locale, text] of Object.entries(texts ?? {})) {
+    if (NO_EXTRA_FEES.test(text)) problems.push(`src/config/store.ts DUTIES_NOTE_BY_REGION.${region}.${locale}: never promise "no extra fees" / "duty free" ("${text.slice(0, 60)}")`);
+  }
+}
 // Our social links must be plain profile URLs: no share-tracking parameters.
 for (const [network, url] of Object.entries(store.SOCIAL)) {
   if (url && /[?&#](utm_[a-z]+|xtok|_r|_t|mibextid|fbclid|igsh|igshid|si)=/i.test(url)) {

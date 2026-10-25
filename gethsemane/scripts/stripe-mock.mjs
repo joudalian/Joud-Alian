@@ -75,6 +75,7 @@ createServer(async (req, res) => {
       cancel_url: p.cancel_url,
       livemode: false,
       line_items: p.line_items,
+      allowed_payment_method_types: p.allowed_payment_method_types ?? null,
     };
     session.url = `http://localhost:${port}/pay/${session.id}`;
     sessions.set(session.id, session);
