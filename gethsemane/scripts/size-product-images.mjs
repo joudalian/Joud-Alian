@@ -10,14 +10,21 @@
 // 2000 px on its long side, with all metadata removed. Every photo listed in the product data must exist and match
 // its declared aspect ratio, otherwise the script fails (and so does the build).
 //
-// Options (for tests): --src <dir> (repeatable) --out <dir> --no-data
-import { existsSync, mkdirSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
+// Atmosphere images (illustrative, never product photos) go through the same steps, see src/lib/content-image-sizes.ts:
+//
+//   content-images/<name>.jpg                                 originals (committed, never served or rewritten)
+//   public/images/content/sized/<name>-<w>.avif|.webp         generated (git-ignored), w = 640…2000
+//   src/data/content-images.json                              generated: size and a tiny blur placeholder per image
+//
+// Options (for tests): --src <dir> (repeatable) --out <dir> --no-data (content images are skipped with --src)
+import { existsSync, mkdirSync, readFileSync, readdirSync, rmSync, statSync, writeFileSync } from "node:fs";
 import { dirname, join, relative } from "node:path";
 import { fileURLToPath } from "node:url";
 import sharp from "sharp";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const { PRODUCT_IMAGE_WIDTHS, OG_SIZE, MAX_ORIGINAL_SIZE } = await import("../src/lib/product-image-sizes.ts");
+const { CONTENT_IMAGE_WIDTHS, CONTENT_IMAGES, CONTENT_AVIF_QUALITY } = await import("../src/lib/content-image-sizes.ts");
 const args = process.argv.slice(2);
 const opt = (name) => args.flatMap((a, i) => (a === name ? [args[i + 1]] : []));
 const fixtures = process.env.NEXT_PUBLIC_CATALOG_FIXTURES === "1";
@@ -112,6 +119,58 @@ for (const { dir, file } of files) {
       written++;
     }
   }
+}
+
+// Atmosphere images: cropped if configured, capped at MAX_ORIGINAL_SIZE, metadata dropped (sharp writes none).
+// The originals stay as committed; only the sized copies and the manifest are written.
+if (!opt("--src").length) {
+  const contentOut = join(root, "public/images/content/sized");
+  const manifestFile = join(root, "src/data/content-images.json");
+  const manifest = {};
+  const contentExpected = new Set();
+  mkdirSync(contentOut, { recursive: true });
+  for (const [name, config] of Object.entries(CONTENT_IMAGES)) {
+    const file = join(root, "content-images", `${name}.jpg`);
+    if (!existsSync(file)) {
+      problems.push(`content image content-images/${name}.jpg does not exist`);
+      continue;
+    }
+    const meta = await sharp(file).metadata();
+    const crop = config.crop ?? { left: 0, top: 0, width: 1, height: 1 };
+    const area = {
+      left: Math.round(crop.left * meta.width),
+      top: Math.round(crop.top * meta.height),
+      width: Math.round(crop.width * meta.width),
+      height: Math.round(crop.height * meta.height),
+    };
+    const scale = Math.min(1, MAX_ORIGINAL_SIZE / Math.max(area.width, area.height));
+    const base = await sharp(file)
+      .rotate()
+      .extract(area)
+      .resize({ width: Math.round(area.width * scale), withoutEnlargement: true })
+      .toBuffer({ resolveWithObject: true });
+    const srcTime = Math.max(statSync(file).mtimeMs, statSync(join(root, "src/lib/content-image-sizes.ts")).mtimeMs);
+    for (const width of CONTENT_IMAGE_WIDTHS) {
+      for (const format of ["avif", "webp"]) {
+        const out = join(contentOut, `${name}-${width}.${format}`);
+        contentExpected.add(out);
+        if (fresh(out, srcTime)) continue;
+        const image = sharp(base.data).resize({ width, withoutEnlargement: true });
+        const quality = (width <= 960 ? config.phoneAvifQuality : undefined) ?? config.avifQuality;
+        const avif = quality ? { quality, effort: 6 } : { quality: CONTENT_AVIF_QUALITY, effort: 4 };
+        await (format === "avif" ? image.avif(avif) : image.webp({ quality: 72 })).toFile(out);
+        written++;
+      }
+    }
+    const tiny = await sharp(base.data).resize({ width: 16 }).webp({ quality: 40 }).toBuffer();
+    manifest[name] = { width: base.info.width, height: base.info.height, placeholder: `data:image/webp;base64,${tiny.toString("base64")}` };
+  }
+  for (const file of list(contentOut)) {
+    if (!contentExpected.has(file)) rmSync(file);
+  }
+  const json = `${JSON.stringify(manifest, null, 2)}\n`;
+  if (!existsSync(manifestFile) || readFileSync(manifestFile, "utf8") !== json) writeFileSync(manifestFile, json);
+  console.log(`Content images: ${Object.keys(manifest).length} originals, sized copies in ${relative(root, contentOut)}.`);
 }
 
 // Remove sized copies of photos that no longer exist.

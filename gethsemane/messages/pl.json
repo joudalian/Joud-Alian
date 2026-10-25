@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Drewno oliwne, rzeźbione ręcznie w Betlejem.",
     "heroText": "Szopki, krzyże i różańce – do trzymania w dłoni, do podarowania i do zachowania.",
-    "heroAlt": "Godło Gethsemane: drzewo oliwne i tłocznia oliwy w łuku zwieńczonym krzyżem",
     "heroCta": "Zobacz kolekcję",
     "heroSecondary": "Poznaj naszą historię",
     "categoriesTitle": "Kupuj według kategorii",
@@ -82,7 +81,9 @@
     "all": "Wszystkie produkty",
     "filterLabel": "Kategorie",
     "count": "{count, plural, =0 {Brak produktów} one {# produkt} few {# produkty} many {# produktów} other {# produktu}}",
-    "empty": "W tej kategorii nie ma jeszcze produktów."
+    "empty": "W tej kategorii nie ma jeszcze produktów.",
+    "bandTitle": "Nie wiesz, który przedmiot wybrać?",
+    "bandText": "Napisz nam, dla kogo jest i z jakiej okazji, a pomożemy Ci wybrać na WhatsAppie."
   },
   "product": {
     "addToCart": "Dodaj do zamówienia",
@@ -230,8 +231,8 @@
     "p3": "Jesteśmy małym sklepem i wolimy jasno powiedzieć, co kupujesz, niż obiecywać za dużo. Jeśli masz pytanie o jakiś przedmiot, napisz do nas na WhatsAppie – odpowiemy szczerze.",
     "sister": "Gethsemane to sklep siostrzany <link>holylandtimber.com</link>.",
     "emblemAlt": "Logo Gethsemane: stare drzewo oliwne i tłocznia oliwy w łuku zwieńczonym krzyżem",
-    "nameTitle": "Dlaczego „Gethsemane”",
-    "name": "Getsemani pochodzi od aramejskiego gat shmanim, „tłocznia oliwy”: ogród oliwny u stóp Góry Oliwnej, miejsce tłoczenia, ciszy i modlitwy. Wybraliśmy tę nazwę, bo drewno oliwne wyrasta z tej samej gleby wiary i tradycji. Każdy przedmiot jest ręcznie rzeźbiony i wykańczany w Betlejem. Nie możemy obiecać, że każdy będzie doskonały; możemy obiecać, że jest prawdziwy i że ktoś poświęcił mu wiele uwagi.",
+    "nameTitle": "Dlaczego „Gethsemane”?",
+    "name": "Nazwa Getsemani pochodzi od hebrajskich i aramejskich słów, zwykle tłumaczonych jako „tłocznia oliwy”. Oznacza ogród oliwny u stóp Góry Oliwnej w Jerozolimie, w którym według Ewangelii Jezus modlił się w noc przed ukrzyżowaniem. Nasze przedmioty są rzeźbione z drewna oliwnego, a nazwa zachowuje ten związek z drzewem oliwnym.",
     "follow": "Obserwuj warsztat na {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane na {network}",
     "followTitle": "Obserwuj nas",
     "followText": "Zobacz nowe przedmioty i pracę, która za nimi stoi."
+  },
+  "imagery": {
+    "illustrative": "Ilustracja poglądowa",
+    "heroAlt": "Drzewa oliwne na tarasowych wzgórzach o zachodzie słońca, w oddali wioska na wzgórzu",
+    "craftAlt": "Klocki drewna oliwnego, wióry, dłuta i drewniany pobijak na stole warsztatowym",
+    "crossAlt": "Drewniany krzyż i gałązka oliwna z zielonymi oliwkami na kamiennym występie, w tle wzgórza",
+    "pressAlt": "Kamienna prasa do oliwek obok glinianego dzbana i miski z oliwkami, w tle drzewa oliwne i panorama miasta o zachodzie słońca"
   }
 }

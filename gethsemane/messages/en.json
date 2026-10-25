@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Olive wood, carved by hand in Bethlehem.",
     "heroText": "Nativity sets, crosses and rosaries, made to be held, gifted and kept.",
-    "heroAlt": "Gethsemane emblem: an olive tree and olive press inside an arch, topped by a cross",
     "heroCta": "Shop the collection",
     "heroSecondary": "Read our story",
     "categoriesTitle": "Shop by category",
@@ -82,7 +81,9 @@
     "all": "All products",
     "filterLabel": "Categories",
     "count": "{count, plural, =0 {No products} one {# product} other {# products}}",
-    "empty": "There are no products in this category yet."
+    "empty": "There are no products in this category yet.",
+    "bandTitle": "Not sure which piece to choose?",
+    "bandText": "Tell us who it is for and the occasion, and we will help you choose on WhatsApp."
   },
   "product": {
     "addToCart": "Add to order",
@@ -230,8 +231,8 @@
     "p3": "We are a small shop, and we would rather tell you plainly what you are buying than promise too much. If you have a question about a piece, write to us on WhatsApp and we will answer honestly.",
     "sister": "Gethsemane is the sister store of <link>holylandtimber.com</link>.",
     "emblemAlt": "Gethsemane logo: an ancient olive tree and olive press inside an arch, topped by a cross",
-    "nameTitle": "Why “Gethsemane”",
-    "name": "Gethsemane comes from the Aramaic gat shmanim, “oil press”: an olive garden at the foot of the Mount of Olives, a place of pressing, quiet and prayer. We took the name because olive wood begins in the same soil of faith and tradition. Each piece is carved and finished by hand in Bethlehem. We cannot promise every piece is perfect; we can promise it is real, and that someone paid close attention to it.",
+    "nameTitle": "Why Gethsemane?",
+    "name": "The name Gethsemane comes from Hebrew and Aramaic words commonly translated as “oil press”. It refers to the olive garden at the foot of the Mount of Olives in Jerusalem, where, according to the Gospels, Jesus prayed on the night before his crucifixion. Our pieces are carved from olive wood, and the name keeps that link to the olive tree.",
     "follow": "Follow the workshop on {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane on {network}",
     "followTitle": "Follow along",
     "followText": "See new pieces and the work behind them."
+  },
+  "imagery": {
+    "illustrative": "Illustrative image",
+    "heroAlt": "Olive trees on terraced hills at sunset, with a hilltop village in the distance",
+    "craftAlt": "Blocks of olive wood, wood shavings, chisels and a wooden mallet on a workbench",
+    "crossAlt": "A wooden cross and an olive branch with green olives on a stone ledge, with hills in the background",
+    "pressAlt": "A stone olive press beside a clay jar and a bowl of olives, with olive trees and a city skyline at sunset behind"
   }
 }

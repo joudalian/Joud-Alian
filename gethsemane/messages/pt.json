@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Madeira de oliveira, esculpida à mão em Belém.",
     "heroText": "Presépios, cruzes e terços, feitos para segurar, oferecer e guardar.",
-    "heroAlt": "Emblema da Gethsemane: uma oliveira e um lagar de azeite dentro de um arco encimado por uma cruz",
     "heroCta": "Ver a coleção",
     "heroSecondary": "Ler a nossa história",
     "categoriesTitle": "Comprar por categoria",
@@ -82,7 +81,9 @@
     "all": "Todos os produtos",
     "filterLabel": "Categorias",
     "count": "{count, plural, =0 {Nenhum produto} one {# produto} other {# produtos}}",
-    "empty": "Ainda não há produtos nesta categoria."
+    "empty": "Ainda não há produtos nesta categoria.",
+    "bandTitle": "Não sabe que peça escolher?",
+    "bandText": "Diga-nos para quem é e qual a ocasião, e ajudamos a escolher no WhatsApp."
   },
   "product": {
     "addToCart": "Adicionar à encomenda",
@@ -230,8 +231,8 @@
     "p3": "Somos uma loja pequena e preferimos dizer-lhe com clareza o que está a comprar do que prometer demais. Se tiver uma pergunta sobre uma peça, escreva-nos no WhatsApp e responderemos com sinceridade.",
     "sister": "A Gethsemane é a loja irmã da <link>holylandtimber.com</link>.",
     "emblemAlt": "Logótipo da Gethsemane: uma oliveira antiga e um lagar de azeite dentro de um arco encimado por uma cruz",
-    "nameTitle": "Porquê «Gethsemane»",
-    "name": "Getsémani vem do aramaico gat shmanim, «lagar de azeite»: um jardim de oliveiras no sopé do Monte das Oliveiras, lugar de prensa, de silêncio e de oração. Escolhemos o nome porque a madeira de oliveira nasce da mesma terra de fé e tradição. Cada peça é esculpida e acabada à mão em Belém. Não podemos prometer que cada peça é perfeita; podemos prometer que é verdadeira e que alguém lhe deu toda a atenção.",
+    "nameTitle": "Porquê «Gethsemane»?",
+    "name": "O nome Getsémani vem de palavras hebraicas e aramaicas habitualmente traduzidas como «lagar de azeite». Designa o jardim de oliveiras no sopé do Monte das Oliveiras, em Jerusalém, onde, segundo os Evangelhos, Jesus rezou na noite anterior à sua crucificação. As nossas peças são esculpidas em madeira de oliveira, e o nome mantém essa ligação à oliveira.",
     "follow": "Siga a oficina no {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane no {network}",
     "followTitle": "Siga-nos",
     "followText": "Veja as novas peças e o trabalho por trás delas."
+  },
+  "imagery": {
+    "illustrative": "Imagem ilustrativa",
+    "heroAlt": "Oliveiras em colinas em socalcos ao pôr do sol, com uma aldeia no alto de uma colina ao longe",
+    "craftAlt": "Blocos de madeira de oliveira, aparas, formões e um maço de madeira sobre uma bancada",
+    "crossAlt": "Uma cruz de madeira e um ramo de oliveira com azeitonas verdes sobre uma saliência de pedra, com colinas ao fundo",
+    "pressAlt": "Uma prensa de azeite em pedra junto a um jarro de barro e uma taça de azeitonas, com oliveiras e o perfil de uma cidade ao pôr do sol ao fundo"
   }
 }

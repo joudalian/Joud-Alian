@@ -576,10 +576,14 @@ select {
   box-shadow: 0 6px 18px color-mix(in srgb, var(--olive-950) 30%, transparent);
 }
 
-/* Tucked away while it would sit on top of a button or form control (see LanguageSwitcher). */
+/*
+ * Tucked away while it would sit on top of a button or form control (see LanguageSwitcher). It disappears at once,
+ * so it never covers a control even briefly, and fades back in when the way is clear.
+ */
 .lang-fab[data-tucked="true"]:not(:focus-within) {
   opacity: 0;
   visibility: hidden;
+  transition: none;
 }
 
 .lang-fab {
@@ -685,60 +689,92 @@ main:focus {
 }
 
 /* ---------- Hero ---------- */
+/*
+ * The background is an illustrative photo (ContentImage, class .hero-bg) under a dark olive gradient that keeps the
+ * text at WCAG AA contrast (tests/imagery.spec.ts measures it). The text sits on the open sky on the left of the
+ * picture, so its placement and the gradient are physical (left), not logical: they follow the picture, not the
+ * reading direction.
+ */
 .hero {
   position: relative;
   isolation: isolate;
   overflow: hidden;
   background-color: var(--olive-950);
-  background-image: radial-gradient(ellipse at 75% 55%, var(--olive-900), var(--olive-950) 70%);
   color: var(--cream);
+}
+
+.hero picture,
+.image-band picture {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+}
+
+.hero-bg,
+.band-bg {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.hero-bg {
+  object-position: 56% 50%;
+}
+
+.hero::before,
+.image-band::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+}
+
+/* Phones: the picture shows at the top, the text sits lower on the darkest part of the gradient. */
+.hero::before {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--olive-950) 15%, transparent),
+    color-mix(in srgb, var(--olive-950) 40%, transparent) 30%,
+    color-mix(in srgb, var(--olive-950) 88%, transparent) 52%,
+    color-mix(in srgb, var(--olive-950) 94%, transparent)
+  );
 }
 
 .hero-grid {
   display: grid;
-  gap: 8px;
   align-items: center;
 }
 
-/* On phones the hero fills most of the first screen, so the heading is the largest paint. */
+/* On phones the hero fills most of the first screen. */
 @media (max-width: 767.98px) {
   .hero {
     display: flex;
-    align-items: center;
+    align-items: flex-end;
     min-height: min(84svh, 700px);
   }
 }
 
-.hero-figure {
-  display: flex;
-  justify-content: center;
-  padding-top: 32px;
-}
-
-.hero-mark {
-  width: auto;
-  height: 150px;
-}
-
 @media (min-width: 768px) {
-  .hero-grid {
-    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
-    gap: 48px;
+  .hero-bg {
+    object-position: 70% 50%;
   }
 
-  .hero-figure {
-    order: 2;
-    padding-top: 0;
-  }
-
-  .hero-mark {
-    height: min(360px, 34vw);
+  .hero::before {
+    background: linear-gradient(
+      to right,
+      color-mix(in srgb, var(--olive-950) 93%, transparent),
+      color-mix(in srgb, var(--olive-950) 86%, transparent) 40%,
+      color-mix(in srgb, var(--olive-950) 45%, transparent) 68%,
+      color-mix(in srgb, var(--olive-950) 15%, transparent)
+    );
   }
 }
 
 .hero-content {
-  padding-block: 28px 56px;
+  padding-block: 40px;
   max-width: 640px;
+  margin-right: auto;
 }
 
 @media (min-width: 768px) {
@@ -1461,6 +1497,116 @@ main:focus {
   }
 }
 
+/* ---------- Illustrative images (AI-generated atmosphere pictures, never product photos) ---------- */
+.illustrative-figure {
+  margin: 0;
+}
+
+.illustrative-figure img {
+  display: block;
+  width: 100%;
+  height: auto;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: var(--radius);
+}
+
+.craft-figure img {
+  object-position: 70% 50%;
+}
+
+.prose .illustrative-figure {
+  margin-block: 24px;
+}
+
+.illustrative-note {
+  margin-top: 6px;
+  font-size: 0.75rem;
+  color: var(--ink-muted);
+}
+
+.story .illustrative-note {
+  color: var(--on-dark-muted);
+}
+
+/* "Why Gethsemane?" on the About page. */
+.why-name {
+  display: grid;
+  gap: 24px;
+  align-items: center;
+  margin-top: 48px;
+  padding-top: 40px;
+  border-top: 1px solid var(--line);
+}
+
+.why-name .illustrative-figure img {
+  object-position: 35% 50%;
+}
+
+@media (min-width: 768px) {
+  .why-name {
+    grid-template-columns: 1fr 1fr;
+    gap: 48px;
+  }
+}
+
+/* Full-width band over an illustrative picture whose open space is on the right (placement follows the picture). */
+.image-band {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  margin-top: 40px;
+  background-color: var(--olive-950);
+  color: var(--on-dark-muted);
+}
+
+.band-bg {
+  object-position: 22% 30%;
+}
+
+.image-band::before {
+  background: linear-gradient(
+    to bottom,
+    color-mix(in srgb, var(--olive-950) 20%, transparent),
+    color-mix(in srgb, var(--olive-950) 88%, transparent) 50%,
+    color-mix(in srgb, var(--olive-950) 94%, transparent)
+  );
+}
+
+.band-inner {
+  display: flex;
+  align-items: flex-end;
+  min-height: 520px;
+  padding-block: 260px 36px;
+}
+
+.band-content {
+  max-width: 440px;
+  margin-left: auto;
+}
+
+.image-band h2 {
+  color: var(--on-dark);
+}
+
+@media (min-width: 768px) {
+  .image-band::before {
+    background: linear-gradient(
+      to left,
+      color-mix(in srgb, var(--olive-950) 92%, transparent),
+      color-mix(in srgb, var(--olive-950) 85%, transparent) 40%,
+      color-mix(in srgb, var(--olive-950) 30%, transparent) 70%,
+      color-mix(in srgb, var(--olive-950) 5%, transparent)
+    );
+  }
+
+  .band-inner {
+    align-items: center;
+    min-height: 420px;
+    padding-block: 64px;
+  }
+}
+
 /* ---------- Story / values ---------- */
 .story {
   background: var(--olive-900);
@@ -1488,6 +1634,10 @@ main:focus {
   }
 }
 
+.about-grid {
+  align-items: start;
+}
+
 .about-emblem {
   width: min(80vw, 400px);
   height: auto;
@@ -1495,7 +1645,11 @@ main:focus {
 }
 
 @media (min-width: 768px) {
-  .about-grid .about-emblem {
+  .about-grid .about-grid {
+  align-items: start;
+}
+
+.about-emblem {
     order: 2;
     width: 100%;
     max-width: 440px;
@@ -1503,7 +1657,7 @@ main:focus {
   }
 }
 
-.story-grid img:not(.about-emblem):not(.story-emblem) {
+.story-grid > img:not(.about-emblem) {
   width: 100%;
   border-radius: var(--radius);
   aspect-ratio: 4 / 3;
@@ -1823,13 +1977,6 @@ main:focus {
 .center {
   text-align: center;
   margin-top: 24px;
-}
-
-.story-emblem {
-  width: min(70vw, 360px);
-  height: auto;
-  margin-inline: auto;
-  border-radius: 50%;
 }
 
 /* ---------- Help and policy pages ---------- */

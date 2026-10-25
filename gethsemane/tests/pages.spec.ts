@@ -267,9 +267,9 @@ test.describe("layout and navigation", () => {
     if (!isMobile) expect(mark.height).toBeLessThanOrEqual(56);
     const word = (await page.locator(".site-header .logo-name").boundingBox())!;
     expect(word.height).toBeLessThan(36);
-    // The header mark is not given high fetch priority (the hero emblem is the real LCP image).
+    // The header mark is not given high fetch priority (the hero picture is the real LCP image).
     await expect(page.locator(".site-header img.logo-mark")).not.toHaveAttribute("fetchpriority", "high");
-    await expect(page.locator(".hero-mark")).toHaveAttribute("fetchpriority", "high");
+    await expect(page.locator(".hero-bg")).toHaveAttribute("fetchpriority", "high");
   });
 
   test("footer: our social accounts and the sister store's Instagram", async ({ page }) => {

@@ -22,8 +22,10 @@ const nextConfig: NextConfig = {
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   experimental: {
-    // Inline the (small) stylesheet into the HTML so it does not block rendering.
-    inlineCss: true,
+    // Not inlined: Next.js would put the stylesheet into every page three times (a <style> tag plus two copies in
+    // the RSC payload), about 20 KB of gzip per page. Over HTTP/2 (production) the separate, cached stylesheet loads
+    // on the same connection and the smaller HTML paints sooner (measured with Lighthouse mobile).
+    inlineCss: false,
   },
   images: {
     // All images are local files in /public. No remote hosts are allowed.

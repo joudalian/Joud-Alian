@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { ContentImage } from "@/components/ContentImage";
+import { IllustrativeFigure, STORY_IMAGE_SIZES } from "@/components/IllustrativeFigure";
 import { CartIcon, ChatIcon, GlobeTruckIcon, HandIcon, ReturnIcon } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
 import { SocialLinks } from "@/components/SocialLinks";
-import { MARK_SRC } from "@/components/Logo";
 import { ProductGrid } from "@/components/ProductCard";
 import { DELIVERY_TIME, RETURN_DAYS } from "@/config/store";
 import { Link } from "@/i18n/navigation";
@@ -46,11 +47,9 @@ export default async function HomePage({ params }: Props) {
   return (
     <>
       <section className="hero dark" aria-labelledby="hero-title">
+        {/* Illustrative, AI-generated background (src/lib/content-image-sizes.ts): the largest paint, loaded first. */}
+        <ContentImage name="hero-olive-grove" alt={t("imagery.heroAlt")} sizes="100vw" priority className="hero-bg" />
         <div className="container hero-grid">
-          <div className="hero-figure">
-            {/* The emblem is the largest above-the-fold image on wide screens: load it first. */}
-            <Image src={MARK_SRC} alt={t("home.heroAlt")} width={536} height={648} unoptimized preload fetchPriority="high" className="hero-mark" />
-          </div>
           <div className="hero-content">
             <span className="eyebrow">{t("meta.tagline")}</span>
             <h1 id="hero-title">{t("home.heroTitle")}</h1>
@@ -134,7 +133,7 @@ export default async function HomePage({ params }: Props) {
           {HAS_WORKSHOP_PHOTO ? (
             <Image src="/images/story/workshop.webp" alt={t("home.storyImageAlt")} width={1200} height={900} sizes="(min-width: 768px) 50vw, 100vw" />
           ) : (
-            <Image src="/brand/gethsemane-logo.png" alt={t("about.emblemAlt")} width={1024} height={1024} sizes="(min-width: 768px) 360px, 70vw" className="story-emblem" />
+            <IllustrativeFigure name="craft-workshop" alt={t("imagery.craftAlt")} sizes={STORY_IMAGE_SIZES} className="craft-figure" />
           )}
           <div>
             <span className="eyebrow">{t("meta.tagline")}</span>

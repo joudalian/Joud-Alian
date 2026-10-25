@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Lemn de măslin, sculptat manual în Betleem.",
     "heroText": "Iesle, cruci și rozarii, făcute pentru a fi ținute în mână, dăruite și păstrate.",
-    "heroAlt": "Emblema Gethsemane: un măslin și un teasc de ulei într-un arc încununat de o cruce",
     "heroCta": "Vezi colecția",
     "heroSecondary": "Citește povestea noastră",
     "categoriesTitle": "Cumpără după categorie",
@@ -82,7 +81,9 @@
     "all": "Toate produsele",
     "filterLabel": "Categorii",
     "count": "{count, plural, =0 {Niciun produs} one {# produs} few {# produse} other {# de produse}}",
-    "empty": "Nu există încă produse în această categorie."
+    "empty": "Nu există încă produse în această categorie.",
+    "bandTitle": "Nu știi ce piesă să alegi?",
+    "bandText": "Spune-ne pentru cine este și cu ce ocazie, iar noi te ajutăm să alegi pe WhatsApp."
   },
   "product": {
     "addToCart": "Adaugă la comandă",
@@ -230,8 +231,8 @@
     "p3": "Suntem un magazin mic și preferăm să-ți spunem clar ce cumperi decât să promitem prea mult. Dacă ai o întrebare despre o piesă, scrie-ne pe WhatsApp și îți vom răspunde sincer.",
     "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>.",
     "emblemAlt": "Logoul Gethsemane: un măslin străvechi și un teasc de ulei într-un arc încununat de o cruce",
-    "nameTitle": "De ce „Gethsemane”",
-    "name": "Ghetsimani vine din aramaicul gat shmanim, „teasc de ulei”: o grădină de măslini la poalele Muntelui Măslinilor, loc al teascului, al liniștii și al rugăciunii. Am ales numele pentru că lemnul de măslin crește din același pământ al credinței și al tradiției. Fiecare piesă este sculptată și finisată manual în Betleem. Nu putem promite că fiecare piesă este perfectă; putem promite că este autentică și că cineva i-a acordat toată atenția.",
+    "nameTitle": "De ce „Gethsemane”?",
+    "name": "Numele Ghetsimani vine din cuvinte ebraice și aramaice traduse de obicei prin „teasc de ulei”. Se referă la grădina de măslini de la poalele Muntelui Măslinilor din Ierusalim, unde, potrivit Evangheliilor, Iisus s-a rugat în noaptea dinaintea răstignirii. Piesele noastre sunt sculptate din lemn de măslin, iar numele păstrează această legătură cu măslinul.",
     "follow": "Urmărește atelierul pe {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane pe {network}",
     "followTitle": "Urmărește-ne",
     "followText": "Vezi piesele noi și munca din spatele lor."
+  },
+  "imagery": {
+    "illustrative": "Imagine ilustrativă",
+    "heroAlt": "Măslini pe dealuri în terase la apus, cu un sat pe un deal în depărtare",
+    "craftAlt": "Blocuri de lemn de măslin, talaș, dălți și un ciocan de lemn pe un banc de lucru",
+    "crossAlt": "O cruce de lemn și o ramură de măslin cu măsline verzi pe o margine de piatră, cu dealuri în fundal",
+    "pressAlt": "O presă de ulei din piatră lângă un ulcior de lut și un bol cu măsline, cu măslini și silueta unui oraș la apus în fundal"
   }
 }

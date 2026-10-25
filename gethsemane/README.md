@@ -19,7 +19,7 @@ The approved brand files live in `brand/` at the repository root (outside this a
 
 `npm run assets` turns them into the files the site serves (all committed, so builds do not need `brand/`):
 
-- `public/brand/gethsemane-mark.svg`: the compact mark used in the header, the footer and the home hero, built
+- `public/brand/gethsemane-mark.svg`: the compact mark used in the header and the footer, built
   from the SVG by `scripts/brand-mark.mjs` (arch scene with the olive tree, olive press and cross; no outer gold
   rings, no cream background, no text). It is served as a file through `<img>`, never inlined, so its clipPath id
   cannot clash and the CSP is unchanged. The wordmark **GETHSEMANE** next to it is live text in the heading font;
@@ -40,6 +40,35 @@ cream `#F6EFDF` (`--cream`), walnut `#4A3222` (`--ink`, main text). Gold text on
 generator reads the same tokens.
 
 **Type**: EB Garamond for headings and the wordmark, Inter for body text (self-hosted by `next/font`).
+
+## Atmosphere images
+
+Four **illustrative, AI-generated** pictures set the mood. They are not photos of our workshop, trees or products,
+so they never appear on product pages, in Product JSON-LD or in Open Graph product data, their alt texts describe
+only what is shown, and the two that sit next to text about the craft carry a small "Illustrative image" caption.
+
+| Original (`content-images/`, committed, never served) | Where it appears | Caption |
+| --- | --- | --- |
+| `hero-olive-grove.jpg` | Home hero background (the only priority image: preloaded, `fetchpriority="high"`) | no |
+| `craft-workshop.jpg` | Home "A craft rooted in Bethlehem" and Our Story (cropped so the window is out of frame) | yes |
+| `cross-olive-branch.jpg` | Full-width band at the end of the Shop page | no |
+| `name-olive-press.jpg` | "Why Gethsemane?" on Our Story | yes |
+
+`npm run build` (and `npm run dev`) runs `scripts/size-product-images.mjs`, the same pipeline as product photos:
+each original is cropped as set in `src/lib/content-image-sizes.ts`, capped at 2000 px, written without metadata
+as AVIF and WebP at 640, 960, 1280, 1600 and 2000 px to `public/images/content/sized/` (git-ignored), and a 16 px
+blur placeholder plus the final size go to `src/data/content-images.json` (generated, committed). The originals in
+`content-images/` are not under `public/`, so they are never served. AVIF quality is 50; the hero uses 40, and 22 for
+its 640 and 960 px copies (phones, where the picture sits behind the darkest part of the gradient), so the home
+page's largest paint stays light. The largest AVIF is about 220 KB.
+
+**To replace one**: save the new picture over `content-images/<name>.jpg` (same name, landscape, at least
+2000 px wide, JPEG), adjust its `crop` in `src/lib/content-image-sizes.ts` if needed, run `npm run build`, check the
+page at phone and desktop width and commit the original and `src/data/content-images.json`. Text over the hero and
+the Shop band sits on a dark olive gradient (`.hero::before`, `.image-band::before` in `globals.css`);
+`tests/imagery.spec.ts` measures WCAG AA contrast against the brightest pixel behind every line, so a much brighter
+picture fails the tests until the gradient is adjusted. Alt texts and the caption are in `imagery.*` in every
+`messages/*.json`; update them when the picture changes.
 
 ## Editing products and categories
 
@@ -240,9 +269,9 @@ Product with `url`, SKU and, once `CATALOG_READY`, an `Offer` in USD whose avail
 return policy's `applicableCountry` are published only for the ISO codes in `SHIP_TO_COUNTRIES` (empty = left out;
 no "ZZ" placeholder). None of it contains ratings or reviews.
 
-**Story photo**: the home page shows the Our Story emblem until a real workshop photo exists. Save it as
-`public/images/story/workshop.webp`, 1200×900 px (4:3), and rebuild: the build detects the file and the home
-page uses it (alt text: `home.storyImageAlt`).
+**Story photo**: the home page shows the illustrative craft picture (see Atmosphere images) until a real workshop
+photo exists. Save it as `public/images/story/workshop.webp`, 1200×900 px (4:3), and rebuild: the build detects the
+file and the home page uses it instead (alt text: `home.storyImageAlt`, no "Illustrative image" caption).
 
 ## Legal pages are templates
 
@@ -386,7 +415,9 @@ immutable; `/images` and `/brand` are sent with a one-day cache.
   nonce; a hash-based CSP for static pages is not possible because Next.js inlines different scripts on every
   page); the last-resort `global-error.tsx` page is English-only; product photos, descriptions, prices,
   currency rates and every `// CONFIRM` value in `src/config/store.ts` are placeholders until confirmed.
-- Lighthouse (mobile, simulated slow 4G, cold runs): home, contact and product page performance 95–98,
-  accessibility and best practices 100, SEO 100 (product pages are noindex until `CATALOG_READY`).
+- Lighthouse (mobile, simulated slow 4G, cold runs, served over HTTP/2 as in production): home 94–99, Our Story,
+  Shop, contact and product pages 95–99; accessibility and best practices 100, SEO 100 (product pages and the
+  shop are noindex until `CATALOG_READY`). Against a plain `next start` on localhost (HTTP/1.1) the scores vary
+  more (about 90–97) because the simulation sometimes places the largest image on a new connection.
 - Owner launch checklist: `docs/LAUNCH.md`. Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
   `docs/OPERATIONS.md`.

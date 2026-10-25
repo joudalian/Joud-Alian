@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Du bois d'olivier, sculpté à la main à Bethléem.",
     "heroText": "Crèches, croix et chapelets, faits pour être tenus, offerts et gardés.",
-    "heroAlt": "Emblème de Gethsemane : un olivier et un pressoir à huile dans une arche surmontée d'une croix",
     "heroCta": "Découvrir la collection",
     "heroSecondary": "Lire notre histoire",
     "categoriesTitle": "Acheter par catégorie",
@@ -82,7 +81,9 @@
     "all": "Tous les produits",
     "filterLabel": "Catégories",
     "count": "{count, plural, =0 {Aucun produit} one {# produit} other {# produits}}",
-    "empty": "Il n'y a pas encore de produits dans cette catégorie."
+    "empty": "Il n'y a pas encore de produits dans cette catégorie.",
+    "bandTitle": "Vous hésitez entre plusieurs pièces ?",
+    "bandText": "Dites-nous à qui elle est destinée et pour quelle occasion : nous vous aidons à choisir sur WhatsApp."
   },
   "product": {
     "addToCart": "Ajouter à la commande",
@@ -230,8 +231,8 @@
     "p3": "Nous sommes une petite boutique et nous préférons vous dire simplement ce que vous achetez plutôt que de trop promettre. Pour toute question sur une pièce, écrivez-nous sur WhatsApp : nous vous répondrons franchement.",
     "sister": "Gethsemane est la boutique sœur de <link>holylandtimber.com</link>.",
     "emblemAlt": "Logo de Gethsemane : un olivier ancien et un pressoir à huile dans une arche surmontée d'une croix",
-    "nameTitle": "Pourquoi « Gethsemane »",
-    "name": "Gethsémani vient de l'araméen gat shmanim, « pressoir à huile » : un jardin d'oliviers au pied du mont des Oliviers, un lieu de pressoir, de silence et de prière. Nous avons choisi ce nom parce que le bois d'olivier naît de la même terre de foi et de tradition. Chaque pièce est sculptée et finie à la main à Bethléem. Nous ne pouvons pas promettre que chaque pièce est parfaite ; nous pouvons promettre qu'elle est authentique, et que quelqu'un y a prêté une grande attention.",
+    "nameTitle": "Pourquoi « Gethsemane » ?",
+    "name": "Le nom Gethsémani vient de mots hébreux et araméens que l'on traduit généralement par « pressoir à huile ». Il désigne le jardin d'oliviers situé au pied du mont des Oliviers, à Jérusalem, où, selon les Évangiles, Jésus pria la nuit précédant sa crucifixion. Nos pièces sont sculptées dans le bois d'olivier, et ce nom garde ce lien avec l'olivier.",
     "follow": "Suivez l'atelier sur {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane sur {network}",
     "followTitle": "Suivez-nous",
     "followText": "Découvrez les nouvelles pièces et le travail qui se cache derrière."
+  },
+  "imagery": {
+    "illustrative": "Image d'illustration",
+    "heroAlt": "Oliviers sur des collines en terrasses au coucher du soleil, avec un village perché au loin",
+    "craftAlt": "Blocs de bois d'olivier, copeaux, ciseaux à bois et maillet en bois sur un établi",
+    "crossAlt": "Une croix en bois et un rameau d'olivier avec des olives vertes sur un rebord en pierre, des collines en arrière-plan",
+    "pressAlt": "Un pressoir à olives en pierre près d'une cruche en terre et d'un bol d'olives, avec des oliviers et une ville au coucher du soleil à l'arrière-plan"
   }
 }

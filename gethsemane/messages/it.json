@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Legno d'ulivo, intagliato a mano a Betlemme.",
     "heroText": "Presepi, croci e rosari, fatti per essere tenuti in mano, regalati e conservati.",
-    "heroAlt": "Emblema di Gethsemane: un ulivo e un frantoio dentro un arco sormontato da una croce",
     "heroCta": "Scopri la collezione",
     "heroSecondary": "Leggi la nostra storia",
     "categoriesTitle": "Acquista per categoria",
@@ -82,7 +81,9 @@
     "all": "Tutti i prodotti",
     "filterLabel": "Categorie",
     "count": "{count, plural, =0 {Nessun prodotto} one {# prodotto} other {# prodotti}}",
-    "empty": "Non ci sono ancora prodotti in questa categoria."
+    "empty": "Non ci sono ancora prodotti in questa categoria.",
+    "bandTitle": "Non sai quale pezzo scegliere?",
+    "bandText": "Dicci per chi è e per quale occasione: ti aiutiamo a scegliere su WhatsApp."
   },
   "product": {
     "addToCart": "Aggiungi all'ordine",
@@ -230,8 +231,8 @@
     "p3": "Siamo un piccolo negozio e preferiamo dirti con chiarezza cosa stai acquistando piuttosto che promettere troppo. Se hai domande su un pezzo, scrivici su WhatsApp e ti risponderemo con sincerità.",
     "sister": "Gethsemane è il negozio gemello di <link>holylandtimber.com</link>.",
     "emblemAlt": "Logo di Gethsemane: un antico ulivo e un frantoio dentro un arco sormontato da una croce",
-    "nameTitle": "Perché «Gethsemane»",
-    "name": "Getsemani viene dall'aramaico gat shmanim, «frantoio»: un orto di ulivi ai piedi del Monte degli Ulivi, luogo di torchio, di silenzio e di preghiera. Abbiamo scelto questo nome perché il legno d'ulivo nasce dalla stessa terra di fede e di tradizione. Ogni pezzo è intagliato e rifinito a mano a Betlemme. Non possiamo promettere che ogni pezzo sia perfetto; possiamo promettere che è autentico e che qualcuno ci ha messo molta attenzione.",
+    "nameTitle": "Perché «Gethsemane»?",
+    "name": "Il nome Getsemani deriva da parole ebraiche e aramaiche comunemente tradotte come «frantoio». Indica il giardino di ulivi ai piedi del Monte degli Ulivi, a Gerusalemme, dove, secondo i Vangeli, Gesù pregò la notte prima della sua crocifissione. I nostri pezzi sono intagliati nel legno d'ulivo, e il nome mantiene questo legame con l'albero d'ulivo.",
     "follow": "Segui il laboratorio su {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane su {network}",
     "followTitle": "Seguici",
     "followText": "Scopri i nuovi pezzi e il lavoro che c'è dietro."
+  },
+  "imagery": {
+    "illustrative": "Immagine illustrativa",
+    "heroAlt": "Ulivi su colline terrazzate al tramonto, con un paese in cima a una collina in lontananza",
+    "craftAlt": "Blocchi di legno d'ulivo, trucioli, scalpelli e un mazzuolo di legno su un banco da lavoro",
+    "crossAlt": "Una croce di legno e un ramo d'ulivo con olive verdi su una sporgenza di pietra, con colline sullo sfondo",
+    "pressAlt": "Un frantoio di pietra accanto a una brocca di terracotta e a una ciotola di olive, con ulivi e il profilo di una città al tramonto sullo sfondo"
   }
 }

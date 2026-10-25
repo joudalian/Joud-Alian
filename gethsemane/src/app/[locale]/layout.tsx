@@ -56,6 +56,10 @@ export default async function LocaleLayout({ children, params }: { children: Rea
 
   return (
     <html lang={locale} className={`${garamond.variable} ${inter.variable}`}>
+      <head>
+        {/* With credentials, so it shares the page's connection (see app/manifest.webmanifest/route.ts). */}
+        <link rel="manifest" href="/manifest.webmanifest" crossOrigin="use-credentials" />
+      </head>
       <body>
         <NextIntlClientProvider locale={locale} messages={clientMessages(messages)}>
           <CurrencyProvider initialCurrency={parseCurrency(currencyCookie)} hasCookie={currencyCookie !== undefined}>

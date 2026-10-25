@@ -59,7 +59,8 @@ Read every page in English and confirm that each statement is true for how you w
 
 - [ ] Real names, descriptions (all 10 languages) and prices in `src/data/products.ts`; no "Placeholder" text.
 - [ ] Real photos in `catalog/photos/<slug>/` (square 1600×1600 recommended) replacing every generated placeholder (see docs/CATALOG.md).
-- [ ] Optional: `public/images/story/workshop.webp` (1200×900) for the home page.
+- [ ] Optional: `public/images/story/workshop.webp` (1200×900), a real workshop photo for the home page (until then
+      it shows an illustrative picture, labelled as such; see README, Atmosphere images).
 
 ## 7. Legal review
 

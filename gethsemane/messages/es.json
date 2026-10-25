@@ -43,7 +43,6 @@
   "home": {
     "heroTitle": "Madera de olivo, tallada a mano en Belén.",
     "heroText": "Belenes, cruces y rosarios, hechos para tenerlos en la mano, regalarlos y conservarlos.",
-    "heroAlt": "Emblema de Gethsemane: un olivo y una prensa de aceite dentro de un arco coronado por una cruz",
     "heroCta": "Ver la colección",
     "heroSecondary": "Leer nuestra historia",
     "categoriesTitle": "Comprar por categoría",
@@ -82,7 +81,9 @@
     "all": "Todos los productos",
     "filterLabel": "Categorías",
     "count": "{count, plural, =0 {Ningún producto} one {# producto} other {# productos}}",
-    "empty": "Todavía no hay productos en esta categoría."
+    "empty": "Todavía no hay productos en esta categoría.",
+    "bandTitle": "¿No sabes qué pieza elegir?",
+    "bandText": "Cuéntanos para quién es y la ocasión, y te ayudamos a elegir por WhatsApp."
   },
   "product": {
     "addToCart": "Añadir al pedido",
@@ -230,8 +231,8 @@
     "p3": "Somos una tienda pequeña y preferimos contarte con claridad lo que compras antes que prometer demasiado. Si tienes alguna pregunta sobre una pieza, escríbenos por WhatsApp y te responderemos con sinceridad.",
     "sister": "Gethsemane es la tienda hermana de <link>holylandtimber.com</link>.",
     "emblemAlt": "Logotipo de Gethsemane: un olivo antiguo y una prensa de aceite dentro de un arco coronado por una cruz",
-    "nameTitle": "Por qué «Gethsemane»",
-    "name": "Getsemaní viene del arameo gat shmanim, «prensa de aceite»: un huerto de olivos al pie del monte de los Olivos, lugar de prensa, de silencio y de oración. Elegimos el nombre porque la madera de olivo nace de la misma tierra de fe y tradición. Cada pieza se talla y se termina a mano en Belén. No podemos prometer que cada pieza sea perfecta; sí podemos prometer que es auténtica y que alguien le dedicó toda su atención.",
+    "nameTitle": "¿Por qué «Gethsemane»?",
+    "name": "El nombre Getsemaní procede de palabras hebreas y arameas que suelen traducirse como «prensa de aceite». Se refiere al huerto de olivos situado al pie del monte de los Olivos, en Jerusalén, donde, según los Evangelios, Jesús oró la noche antes de su crucifixión. Nuestras piezas están talladas en madera de olivo, y el nombre mantiene ese vínculo con el olivo.",
     "follow": "Sigue el taller en {networks}."
   },
   "footer": {
@@ -545,5 +546,12 @@
     "on": "Gethsemane en {network}",
     "followTitle": "Síguenos",
     "followText": "Descubre las nuevas piezas y el trabajo que hay detrás."
+  },
+  "imagery": {
+    "illustrative": "Imagen ilustrativa",
+    "heroAlt": "Olivos en colinas en terrazas al atardecer, con un pueblo en lo alto de una colina a lo lejos",
+    "craftAlt": "Bloques de madera de olivo, virutas, formones y un mazo de madera sobre un banco de trabajo",
+    "crossAlt": "Una cruz de madera y una rama de olivo con aceitunas verdes sobre un saliente de piedra, con colinas al fondo",
+    "pressAlt": "Una prensa de aceite de piedra junto a una jarra de barro y un cuenco de aceitunas, con olivos y el perfil de una ciudad al atardecer al fondo"
   }
 }

@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { IllustrativeFigure, STORY_IMAGE_SIZES } from "@/components/IllustrativeFigure";
 import { SocialSentence } from "@/components/SocialSentence";
 import { SISTER_STORE } from "@/config/store";
 import { Link } from "@/i18n/navigation";
@@ -40,8 +41,7 @@ export default async function AboutPage({ params }: Props) {
           {/* CONFIRM: the wood comes from branches trimmed when the trees are pruned. */}
           <p>{t("about.p1")}</p>
           <p>{t("about.p2")}</p>
-          <h2>{t("about.nameTitle")}</h2>
-          <p>{t("about.name")}</p>
+          <IllustrativeFigure name="craft-workshop" alt={t("imagery.craftAlt")} sizes={STORY_IMAGE_SIZES} className="craft-figure" />
           <p>{t("about.p3")}</p>
           <p>
             {t.rich("about.sister", {
@@ -58,6 +58,13 @@ export default async function AboutPage({ params }: Props) {
           <SocialSentence messageKey="about.follow" className="follow-line" />
         </div>
       </div>
+      <section className="why-name" aria-labelledby="why-name-title" data-testid="why-gethsemane">
+        <IllustrativeFigure name="name-olive-press" alt={t("imagery.pressAlt")} sizes={STORY_IMAGE_SIZES} />
+        <div className="prose">
+          <h2 id="why-name-title">{t("about.nameTitle")}</h2>
+          <p>{t("about.name")}</p>
+        </div>
+      </section>
     </div>
   );
 }

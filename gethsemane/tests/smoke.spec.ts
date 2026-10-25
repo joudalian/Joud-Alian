@@ -20,7 +20,7 @@ for (const [name, path] of Object.entries(pages)) {
       expect(await img.getAttribute("alt"), await img.getAttribute("src") ?? "").not.toBeNull();
     }
     if (name === "product") await expect(page.locator(".product-detail .media img")).toHaveAttribute("alt", /olive wood/i);
-    if (name === "home") await expect(page.locator(".hero-mark")).toHaveAttribute("alt", /emblem/i);
+    if (name === "home") await expect(page.locator(".hero-bg")).toHaveAttribute("alt", /olive trees/i);
     await page.evaluate(async () => {
       for (const img of Array.from(document.images)) img.loading = "eager";
       await Promise.all(Array.from(document.images).map((img) => (img.complete ? null : new Promise((r) => img.addEventListener("load", r, { once: true })))));
