@@ -23,6 +23,9 @@ reports/
 public/images/products/sized/
 public/images/content/sized/
 
+# local database (PGlite), test outbox
+.data/
+
 # misc
 .DS_Store
 *.pem

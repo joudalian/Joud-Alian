@@ -19,6 +19,8 @@ const nextConfig: NextConfig = {
     BUILD_TIME: new Date().toISOString(),
   },
   poweredByHeader: false,
+  // Native (argon2) and WebAssembly (PGlite) packages are loaded by Node at runtime, not bundled.
+  serverExternalPackages: ["@node-rs/argon2", "@electric-sql/pglite", "postgres"],
   reactStrictMode: true,
   productionBrowserSourceMaps: false,
   experimental: {

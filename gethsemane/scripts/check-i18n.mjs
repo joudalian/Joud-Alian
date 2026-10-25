@@ -113,7 +113,7 @@ for (const c of catalog.categories) {
 // No Arabic and no right-to-left logic anywhere in the project sources.
 const arabicRanges = [[0x0600, 0x06ff], [0x0750, 0x077f], [0x08a0, 0x08ff], [0xfb50, 0xfdff], [0xfe70, 0xfefe]];
 const arabic = new RegExp(`[${arabicRanges.map(([a, b]) => `${String.fromCodePoint(a)}-${String.fromCodePoint(b)}`).join("")}]`);
-const rtl = /\brtl\b|dir=|Amiri/i;
+const rtl = /\brtl\b|\bdir=|Amiri/i;
 const skipDirs = new Set(["node_modules", ".next", ".git", "test-results", "playwright-report", "reports", "public"]);
 const textExt = /\.(tsx?|mjs|js|json|css|md|txt|xml|svg|example)$/;
 const self = relative(root, fileURLToPath(import.meta.url));

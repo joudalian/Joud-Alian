@@ -171,6 +171,36 @@ export const WHATSAPP_NUMBER = "970569741193"; // country code + number, digits 
 
 The message wording is in the `whatsapp` section of each `messages/<locale>.json`.
 
+## Accounts and database
+
+Customer accounts, orders, coupons and order tracking live in a Postgres database (Drizzle ORM, schema in
+`src/server/db/schema.ts`, SQL migrations committed in `drizzle/`).
+
+- **Local development and tests need no database server**: without `DATABASE_URL` the site uses
+  [PGlite](https://pglite.dev) (Postgres compiled to WebAssembly) stored in `.data/pglite` (git-ignored) and applies
+  the migrations on start. The Playwright tests start from an empty PGlite database every run
+  (`scripts/test-server.mjs`) and read the emails the site "sends" from `.data/test-outbox.jsonl`.
+- **Production**: set `DATABASE_URL` (Neon from the Vercel Marketplace works; use the pooled connection string).
+  `npm run build` applies pending migrations first (`npm run db:migrate`), so a deployment never runs ahead of
+  its schema. Without `DATABASE_URL` (or without `BETTER_AUTH_SECRET`) a production build still works: the account,
+  tracking and checkout pages show "coming soon" with the contact email instead of a form.
+- **Changing the schema**: edit `src/server/db/schema.ts`, run `npm run db:generate`, commit the new file in
+  `drizzle/`. Never edit a migration that has been applied.
+
+Accounts use [Better Auth](https://www.better-auth.com) (`src/server/auth.ts`): email + password with email
+verification and password reset, passwords hashed with argon2id, httpOnly `SameSite=Lax` cookies (`Secure` in
+production), telemetry off. The forms are server actions (CSRF-protected by Next.js' origin check), rate limited
+per IP and per email address in the database (`src/server/rate-limit.ts`), and never reveal whether an address has an
+account. Pages: `/login`, `/signup`, `/forgot-password`, `/reset-password`, `/verify-email`, `/account` (orders,
+addresses, account details, data export as JSON, account deletion) and `/track-order` (order number + email, for
+guests). All are `noindex`. Deleting an account removes the profile, addresses, wishlist and unpaid orders; paid
+orders are kept, detached and without phone number or gift note, for `DATA_RETENTION_YEARS` (accounting law).
+`/admin` is limited to the verified addresses in `ADMIN_EMAILS`.
+
+None of this reaches the marketing and catalog pages: the auth library, database clients and (later) the Stripe SDK
+run only on the server, and the account styles (`src/styles/app.css`) load only on the account pages
+(`tests/bundle.spec.ts`). Environment variables: see `.env.example`.
+
 ## Currencies
 
 USD (base), EUR, GBP, CAD and AUD. **The conversion rates are fixed values in `src/lib/currency.ts`, not live

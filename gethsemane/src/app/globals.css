@@ -359,7 +359,7 @@ select {
 @media (max-width: 359.98px) {
   .site-header .logo-name {
     font-size: 1.12rem;
-    letter-spacing: 0.1em;
+    letter-spacing: 0.06em;
   }
 }
 
@@ -464,6 +464,25 @@ select {
   position: absolute;
   right: 12px;
   pointer-events: none;
+}
+
+/* Room for the account link next to the currency selector on the narrowest phones. */
+@media (max-width: 359.98px) {
+  .header-inner {
+    gap: 6px;
+  }
+
+  .header-actions {
+    gap: 2px;
+  }
+
+  .currency-select select {
+    padding: 0 10px;
+  }
+
+  .currency-select svg {
+    display: none;
+  }
 }
 
 /* ---------- Bottom navigation (mobile) ---------- */

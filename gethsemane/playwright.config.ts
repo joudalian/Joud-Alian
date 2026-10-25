@@ -22,10 +22,10 @@ export default defineConfig({
   ],
   webServer: {
     // Tests run against the production build (npm test builds first if needed).
-    command: `npx next start -p ${PORT}`,
+    command: "node scripts/test-server.mjs",
     url: `${baseURL}/en`,
     reuseExistingServer: !process.env.CI,
     timeout: 60_000,
-    env: { SITE_URL: baseURL, NEXT_PUBLIC_CATALOG_FIXTURES: "1" },
+    env: { SITE_URL: baseURL, NEXT_PUBLIC_CATALOG_FIXTURES: "1", PORT: String(PORT) },
   },
 });

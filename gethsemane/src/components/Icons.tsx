@@ -177,3 +177,12 @@ export function CloseIcon(props: IconProps) {
     </svg>
   );
 }
+
+export function UserIcon(props: IconProps) {
+  return (
+    <svg {...base(props)}>
+      <circle cx="12" cy="8" r="4" />
+      <path d="M4 20.5c1.2-4 4.3-6 8-6s6.8 2 8 6" />
+    </svg>
+  );
+}

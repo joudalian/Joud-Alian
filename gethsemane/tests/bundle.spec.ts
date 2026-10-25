@@ -5,13 +5,15 @@ import { fixture, simple } from "./catalog";
 // already validated data a page needs (src/lib/order-lookup.ts). These checks keep it that way.
 test.skip(({ isMobile }) => isMobile, "run once");
 
-const PAGES = ["/en", "/en/contact", `/en/product/${fixture.slug}`, "/en/cart", "/en/wishlist"];
+const PAGES = ["/en", "/en/shop", "/en/contact", `/en/product/${fixture.slug}`, "/en/cart", "/en/wishlist"];
+/** Server-only libraries: the auth library, the database clients, password hashing and the Stripe SDK. */
+const SERVER_MARKERS = ["better-auth", "drizzle-orm", "@electric-sql/pglite", "argon2", "api.stripe.com", "stripe-node"];
 
-/** The JavaScript files the page loads from this site. */
-async function scriptsOf(page: Page, path: string) {
+/** The JavaScript (or CSS) files the page loads from this site. */
+async function scriptsOf(page: Page, path: string, type: "script" | "stylesheet" = "script") {
   const bodies: Promise<string>[] = [];
   page.on("response", (response) => {
-    if (response.request().resourceType() === "script" && response.url().startsWith("http://localhost")) bodies.push(response.text());
+    if (response.request().resourceType() === type && response.url().startsWith("http://localhost")) bodies.push(response.text());
   });
   await page.goto(path, { waitUntil: "networkidle" });
   return Promise.all(bodies);
@@ -32,6 +34,23 @@ test("no catalog data, catalog schema or zod in the browser bundles", async ({ p
     for (const marker of markers) {
       expect(scripts.filter((js) => js.includes(marker)).length, `${path}: "${marker}" in a script`).toBe(0);
     }
+  }
+});
+
+test("marketing and catalog pages load no auth, database or payment code, and no account styles", async ({ page }) => {
+  for (const path of PAGES) {
+    const scripts = await scriptsOf(page, path);
+    for (const marker of SERVER_MARKERS) {
+      expect(scripts.filter((js) => js.includes(marker)).length, `${path}: "${marker}" in a script`).toBe(0);
+    }
+    const styles = await scriptsOf(page, path, "stylesheet");
+    expect(styles.length, path).toBeGreaterThan(0);
+    expect(styles.filter((css) => css.includes(".account-layout")).length, `${path}: account styles`).toBe(0);
+  }
+  // The account pages run their forms as server actions: the auth library stays on the server there too.
+  for (const path of ["/en/login", "/en/signup", "/en/track-order"]) {
+    const scripts = await scriptsOf(page, path);
+    for (const marker of SERVER_MARKERS) expect(scripts.filter((js) => js.includes(marker)).length, `${path}: "${marker}"`).toBe(0);
   }
 });
 

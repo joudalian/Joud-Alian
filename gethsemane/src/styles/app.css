@@ -1,0 +1,355 @@
+/*
+ * Styles of the account, tracking, checkout, order and admin pages only. Loaded by those route groups' layouts, so
+ * the marketing and catalog pages never download them. Uses the design tokens from app/globals.css. Logical
+ * properties throughout (inline-start/end), so the layout mirrors cleanly if a right-to-left language is added.
+ */
+
+.auth-page .auth-card {
+  max-width: 480px;
+  margin-inline: auto;
+}
+
+.stack-form {
+  display: grid;
+  gap: 16px;
+  margin-block: 16px 24px;
+}
+
+.stack-form .btn {
+  justify-self: start;
+}
+
+.field :is(input[type="email"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], select) {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--ink-muted);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.field select {
+  appearance: auto;
+}
+
+.field-row {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 560px) {
+  .field-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}
+
+.address-fields {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.optional {
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+
+.form-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border-inline-start: 4px solid;
+}
+
+.form-error {
+  border-color: var(--danger);
+  background: #fbeeea;
+  color: var(--danger);
+}
+
+.form-success {
+  border-color: var(--olive-700);
+  background: var(--olive-100);
+  color: var(--olive-900);
+}
+
+.hp {
+  position: absolute;
+  inset-inline-start: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.auth-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.auth-links a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.notice-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.notice-card h2 {
+  font-size: 1.3rem;
+  margin-top: 0;
+}
+
+/* ---------- Account ---------- */
+.account-layout {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 900px) {
+  .account-layout {
+    grid-template-columns: 220px minmax(0, 1fr);
+    gap: 40px;
+  }
+}
+
+.account-nav ul {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+@media (min-width: 900px) {
+  .account-nav ul {
+    flex-direction: column;
+  }
+}
+
+.account-nav a,
+.account-nav .link-btn {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  color: var(--olive-700);
+}
+
+.account-nav a[aria-current="page"] {
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.account-nav .link-btn {
+  color: var(--ink-muted);
+}
+
+.account-tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 200px), 1fr));
+  gap: 12px;
+  margin: 16px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.account-tiles li {
+  display: grid;
+  gap: 4px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.account-section {
+  padding-block: 8px 24px;
+  border-bottom: 1px solid var(--line);
+}
+
+.account-section:last-child {
+  border-bottom: 0;
+}
+
+.danger-zone h2 {
+  color: var(--danger);
+}
+
+.address-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(100%, 260px), 1fr));
+  gap: 16px;
+  margin: 16px 0 32px;
+  padding: 0;
+  list-style: none;
+}
+
+.address-card {
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.address-card address {
+  font-style: normal;
+}
+
+.address-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px 16px;
+}
+
+.address-actions .link-btn:not(.danger-link) {
+  color: var(--olive-700);
+}
+
+/* ---------- Orders ---------- */
+.order-meta {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr));
+  gap: 12px;
+  margin: 0 0 24px;
+  padding: 16px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.order-meta dt {
+  font-size: 0.85rem;
+  color: var(--ink-muted);
+}
+
+.order-meta dd {
+  margin: 0;
+  font-weight: 700;
+}
+
+.status {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--linen);
+  font-size: 0.9rem;
+}
+
+.status-paid,
+.status-processing,
+.status-shipped,
+.status-delivered {
+  background: var(--olive-100);
+  color: var(--olive-900);
+}
+
+.status-cancelled,
+.status-refunded {
+  background: #fbeeea;
+  color: var(--danger);
+}
+
+.order-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-block: 8px 24px;
+}
+
+.order-table :is(th, td) {
+  padding: 10px 8px;
+  border-bottom: 1px solid var(--line);
+  text-align: start;
+  vertical-align: top;
+}
+
+.order-table :is(th, td):last-child {
+  text-align: end;
+  white-space: nowrap;
+}
+
+.order-table tfoot th {
+  font-weight: 400;
+  text-align: end;
+}
+
+.order-table .order-total :is(th, td) {
+  font-weight: 700;
+  border-bottom: 0;
+}
+
+.item-name {
+  display: block;
+  font-weight: 600;
+}
+
+.item-detail {
+  display: block;
+  font-size: 0.9rem;
+  color: var(--ink-muted);
+}
+
+.order-columns {
+  display: grid;
+  gap: 24px;
+}
+
+@media (min-width: 768px) {
+  .order-columns {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.order-columns address {
+  font-style: normal;
+}
+
+.order-history {
+  margin: 0;
+  padding-inline-start: 20px;
+}
+
+.order-tracking {
+  padding: 16px;
+  margin-bottom: 24px;
+  border-inline-start: 4px solid var(--olive-700);
+  background: var(--olive-100);
+}
+
+.order-tracking h2 {
+  margin-top: 0;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 559.98px) {
+  .orders-list thead {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    clip-path: inset(50%);
+  }
+
+  .orders-list tr {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    padding-block: 8px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .orders-list td {
+    border: 0;
+    padding: 4px 0;
+  }
+}
