@@ -5,7 +5,11 @@ import createNextIntlPlugin from "next-intl/plugin";
 import { staticSecurityHeaders } from "./src/lib/security-headers";
 import { siteUrlMissing } from "./src/lib/site-url";
 
-const withNextIntl = createNextIntlPlugin("./src/i18n/request.ts");
+const withNextIntl = createNextIntlPlugin({
+  requestConfig: "./src/i18n/request.ts",
+  // Messages are compiled at build time, so the browser gets no ICU message parser (about 50 KB of JavaScript).
+  experimental: { messages: { path: "./messages", format: "json", locales: "infer", precompile: true } },
+});
 
 const nextConfig: NextConfig = {
   env: {

@@ -49,17 +49,17 @@ export function HeaderActions() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const { count } = useCart();
-  const { items } = useWishlist();
+  const { count: saved } = useWishlist();
   return (
     <>
       <Link
         href="/wishlist"
         className="icon-btn header-desktop-only"
-        aria-label={t("wishlistWithCount", { count: items.length })}
+        aria-label={t("wishlistWithCount", { count: saved })}
         aria-current={isActive(pathname, "/wishlist") ? "page" : undefined}
       >
         <HeartIcon />
-        <Count value={items.length} />
+        <Count value={saved} />
       </Link>
       <Link
         href="/cart"
@@ -79,7 +79,7 @@ export function BottomNav() {
   const t = useTranslations("nav");
   const pathname = usePathname();
   const { count } = useCart();
-  const { items } = useWishlist();
+  const { count: saved } = useWishlist();
   const links = [
     { href: "/", label: t("home"), icon: <HomeIcon />, aria: undefined },
     { href: "/shop", label: t("shop"), icon: <ShopIcon />, aria: undefined },
@@ -87,8 +87,8 @@ export function BottomNav() {
       href: "/wishlist",
       label: t("wishlist"),
       icon: <HeartIcon />,
-      aria: t("wishlistWithCount", { count: items.length }),
-      count: items.length,
+      aria: t("wishlistWithCount", { count: saved }),
+      count: saved,
     },
     { href: "/cart", label: t("orderShort"), icon: <CartIcon />, aria: t("cartWithCount", { count }), count },
   ];

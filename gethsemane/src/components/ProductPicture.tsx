@@ -1,5 +1,8 @@
-import type { ProductImage } from "@/lib/catalog";
+import type { ProductImage } from "@/data/catalog-schema";
 import { productImageSrc, productImageSrcSet } from "@/lib/product-image";
+
+/** The part of a catalog photo a picture needs (alt texts are passed separately, in one language). */
+export type PictureImage = Pick<ProductImage, "file" | "width" | "height">;
 
 /**
  * A product photo from the pre-sized AVIF/WebP copies (never the original). Works in server and client
@@ -13,7 +16,7 @@ export function ProductPicture({
   eager = false,
   className,
 }: {
-  image: ProductImage;
+  image: PictureImage;
   alt: string;
   sizes: string;
   priority?: boolean;

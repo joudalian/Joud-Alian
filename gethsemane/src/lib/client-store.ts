@@ -1,8 +1,7 @@
 "use client";
 
-import { useCallback, useSyncExternalStore } from "react";
-import type { ProductSlug } from "./catalog";
-import { lineProduct } from "./order-message";
+import { createContext, createElement, useCallback, useContext, useSyncExternalStore, type ReactNode } from "react";
+import { lineFits, type CartRules } from "./order-message";
 import {
   MAX_CART_LINES,
   MAX_QTY,
@@ -21,6 +20,14 @@ import {
 } from "./storage";
 
 type Listener = () => void;
+type ProductSlug = string;
+
+const CartRulesContext = createContext<CartRules>({});
+
+/** Gives the header counts the rules for which stored lines still count (set once in the locale layout). */
+export function CartRulesProvider({ rules, children }: { rules: CartRules; children: ReactNode }) {
+  return createElement(CartRulesContext.Provider, { value: rules }, children);
+}
 
 /** A localStorage-backed list that is validated on every read and synced across tabs. */
 function createListStore<T>(key: string, parse: (raw: string | null) => T[], legacyKey?: string) {
@@ -76,6 +83,7 @@ const cartStore = createListStore<CartLine>(STORAGE_KEYS.cart, parseCart, STORAG
 const wishlistStore = createListStore<ProductSlug>(STORAGE_KEYS.wishlist, parseWishlist);
 
 export function useCart() {
+  const rules = useContext(CartRulesContext);
   const lines = useSyncExternalStore(cartStore.subscribe, cartStore.getSnapshot, cartStore.getServerSnapshot);
 
   /** Adds a piece; the same piece, variant and engraving text adds to the existing line. */
@@ -104,24 +112,28 @@ export function useCart() {
   }, []);
 
   // Pieces that can still be ordered (lines for removed products are not counted).
-  const count = lines.reduce((sum, l) => sum + (lineProduct(l) ? l.qty : 0), 0);
+  const count = lines.reduce((sum, l) => sum + (lineFits(l, rules[l.slug]) ? l.qty : 0), 0);
   return { lines, count, add, setQty, remove };
 }
 
 export function useWishlist() {
+  const rules = useContext(CartRulesContext);
   const items = useSyncExternalStore(wishlistStore.subscribe, wishlistStore.getSnapshot, wishlistStore.getServerSnapshot);
 
   const toggle = useCallback((slug: ProductSlug) => {
-    const current = wishlistStore.getSnapshot();
+    // Writing drops slugs of pieces no longer in the shop.
+    const current = wishlistStore.getSnapshot().filter((s) => Object.hasOwn(rules, s));
     if (current.includes(slug)) wishlistStore.set(current.filter((s) => s !== slug));
     else if (current.length < MAX_WISHLIST) wishlistStore.set([...current, slug]);
-  }, []);
+  }, [rules]);
 
   const remove = useCallback((slug: ProductSlug) => {
     wishlistStore.set(wishlistStore.getSnapshot().filter((s) => s !== slug));
   }, []);
 
-  return { items, toggle, remove, has: (slug: ProductSlug) => items.includes(slug) };
+  // Pieces still in the shop (slugs of removed products stay stored but are not counted).
+  const count = items.filter((slug) => Object.hasOwn(rules, slug)).length;
+  return { items, count, toggle, remove, has: (slug: ProductSlug) => items.includes(slug) };
 }
 
 const noopSubscribe = () => () => {};

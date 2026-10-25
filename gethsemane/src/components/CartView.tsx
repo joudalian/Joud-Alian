@@ -5,16 +5,6 @@ import { useId, useRef, useState, type KeyboardEvent } from "react";
 import { CONTACT_EMAIL } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import {
-  categories,
-  categoryText,
-  getProduct,
-  getVariant,
-  mainImage,
-  productText,
-  unitPriceUsd,
-  variantLabel,
-} from "@/lib/catalog";
 import { useCart, useHydrated, useOrderDetails } from "@/lib/client-store";
 import { formatPrice } from "@/lib/currency";
 import {
@@ -22,6 +12,9 @@ import {
   fitOrderMessage,
   linePriceUsd,
   lineProduct,
+  orderVariant,
+  unitPrice,
+  type OrderLookup,
 } from "@/lib/order-message";
 import {
   MAX_CART_LINES,
@@ -76,7 +69,11 @@ function QtyInput({
   );
 }
 
-export function CartView() {
+/**
+ * `lookup` holds every product in the page language (compact, from the server); `firstCategory` is suggested
+ * when the order is empty.
+ */
+export function CartView({ lookup, firstCategory }: { lookup: OrderLookup; firstCategory: { slug: string; name: string } }) {
   const t = useTranslations("cart");
   const tw = useTranslations("whatsapp");
   const locale = useLocale() as Locale;
@@ -115,8 +112,8 @@ export function CartView() {
         <h2>{t("empty")}</h2>
         <p>
           {t.rich("emptyText", {
-            category: categoryText(categories[0]!, locale).name,
-            link: (chunks) => <Link href={`/shop/${categories[0]!.slug}`}>{chunks}</Link>,
+            category: firstCategory.name,
+            link: (chunks) => <Link href={`/shop/${firstCategory.slug}`}>{chunks}</Link>,
           })}
         </p>
         <Link href="/shop" className="btn btn-primary">
@@ -127,7 +124,7 @@ export function CartView() {
   }
 
   const totalUsd = lines.reduce((sum, l) => {
-    const product = lineProduct(l);
+    const product = lineProduct(l, lookup);
     return sum + (product ? linePriceUsd(product, l) : 0);
   }, 0);
   const orderDetails = {
@@ -138,10 +135,11 @@ export function CartView() {
     giftNote: details.giftNote ? details.giftNoteText : undefined,
   };
   // The preview and the copy button carry the full message; the WhatsApp link may shorten very long notes.
-  const message = buildOrderMessage(tw, lines, currency, locale, orderDetails);
+  const message = buildOrderMessage(tw, lines, lookup, currency, locale, orderDetails);
   const { message: linkMessage, shortened } = fitOrderMessage(
     tw,
     lines,
+    lookup,
     currency,
     locale,
     orderDetails,
@@ -184,13 +182,11 @@ export function CartView() {
         <ul className="line-list">
           {lines.map((line, index) => {
             const key = lineKey(line);
-            const product = lineProduct(line);
+            const product = lineProduct(line, lookup);
             if (!product) {
               // A piece (or size) that was removed from the shop since it was added: say so and offer removal.
-              const known = getProduct(line.slug);
-              const name = known
-                ? productText(known, locale).name
-                : line.slug.replace(/-/g, " ");
+              const known = Object.hasOwn(lookup, line.slug) ? lookup[line.slug] : undefined;
+              const name = known ? known.name : line.slug.replace(/-/g, " ");
               return (
                 <li
                   key={key}
@@ -216,17 +212,14 @@ export function CartView() {
                 </li>
               );
             }
-            const text = productText(product, locale);
-            const variant = getVariant(product, line.variantId);
-            const name = variant
-              ? `${text.name}, ${variantLabel(variant, locale)}`
-              : text.name;
+            const variant = orderVariant(product, line.variantId);
+            const name = variant ? `${product.name}, ${variant.label}` : product.name;
             const qtyId = `qty-${line.slug}${line.variantId ? `-${line.variantId}` : ""}${line.engraving ? `-e${index}` : ""}`;
             return (
               <li key={key} className="line">
                 {/* The product name next to the photo already names it. */}
                 <ProductPicture
-                  image={mainImage(product)}
+                  image={product.image}
                   alt=""
                   sizes="88px"
                   className="line-thumb"
@@ -235,14 +228,14 @@ export function CartView() {
                   <h2>
                     <Link
                       href={`/product/${line.slug}`}
-                      lang={text.lang === locale ? undefined : text.lang}
+                      lang={product.lang === locale ? undefined : product.lang}
                     >
-                      {text.name}
+                      {product.name}
                     </Link>
                   </h2>
                   {variant && (
                     <p className="line-detail">
-                      {variantLabel(variant, locale)}
+                      {variant.label}
                     </p>
                   )}
                   {line.engraving && (
@@ -254,11 +247,7 @@ export function CartView() {
                     <p className="note">{t("soldOutLine")}</p>
                   )}
                   <Price
-                    usd={unitPriceUsd(
-                      product,
-                      line.variantId,
-                      Boolean(line.engraving),
-                    )}
+                    usd={unitPrice(product, line.variantId, Boolean(line.engraving))}
                   />
                   <div className="line-controls">
                     <div className="stepper">

@@ -13,8 +13,10 @@ import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { LanguageSwitcher } from "@/components/LanguageSwitcher";
 import { isLocale } from "@/i18n/locales";
+import { CartRulesProvider } from "@/lib/client-store";
 import { CURRENCY_COOKIE } from "@/lib/currency";
 import { garamond, inter } from "@/lib/fonts";
+import { cartRules } from "@/lib/order-lookup";
 import { siteName, siteUrl } from "@/lib/site";
 import { parseCurrency } from "@/lib/storage";
 import { organization } from "@/lib/structured-data";
@@ -57,6 +59,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
       <body>
         <NextIntlClientProvider locale={locale} messages={clientMessages(messages)}>
           <CurrencyProvider initialCurrency={parseCurrency(currencyCookie)} hasCookie={currencyCookie !== undefined}>
+            <CartRulesProvider rules={cartRules()}>
             <a href="#main" className="skip-link">
               {t("skip")}
             </a>
@@ -70,6 +73,7 @@ export default async function LocaleLayout({ children, params }: { children: Rea
             <LanguageSwitcher />
             <LiveRegion />
             <JsonLd data={organization(locale)} />
+            </CartRulesProvider>
           </CurrencyProvider>
         </NextIntlClientProvider>
       </body>

@@ -3,8 +3,8 @@
 import { useLocale, useTranslations } from "next-intl";
 import { useId, useState, type ReactNode } from "react";
 import type { Locale } from "@/i18n/locales";
-import { getProduct, getVariant, unitPriceUsd, variantLabel } from "@/lib/catalog";
 import { cmToIn, gToOz } from "@/lib/format";
+import { orderVariant, unitPrice, type OrderProduct } from "@/lib/order-message";
 import { PriceTag } from "./Price";
 import { AddToCartButton, WishlistButton } from "./ProductActions";
 import { ProductOrderBar } from "./ProductOrderBar";
@@ -17,27 +17,39 @@ import { useCurrency } from "./CurrencyProvider";
  * engraving, "Add to order", "Order only this piece" and the sticky order bar on phones. `children` (the
  * server-rendered "Ask about this piece" link and hints) goes below the order button.
  */
-export function ProductPurchase({ slug, name, children }: { slug: string; name: string; children?: ReactNode }) {
+/** The product as the server passes it: the order data plus what this block shows (sizes, weight, lead time). */
+export type PurchaseProduct = OrderProduct & {
+  leadTimeDays?: number;
+  sizeCm?: readonly [number, number, number];
+  weightG?: number;
+  /** Size and weight per variant id, when the variant has its own. */
+  variantSpecs: Readonly<Record<string, { sizeCm?: readonly [number, number, number]; weightG?: number }>>;
+};
+
+export function ProductPurchase({ product, children }: { product: PurchaseProduct; children?: ReactNode }) {
   const t = useTranslations("product");
   const locale = useLocale() as Locale;
   const { currency } = useCurrency();
-  const product = getProduct(slug)!;
+  const { slug, name } = product;
+  const lookup = { [slug]: product };
   const [variantId, setVariantId] = useState(product.variants[0]?.id);
   const [engrave, setEngrave] = useState(false);
   const [engraving, setEngraving] = useState("");
   const ids = { variants: useId(), engrave: useId(), text: useId(), hint: useId(), missing: useId(), lead: useId() };
 
-  const variant = getVariant(product, variantId);
-  const offer = product.engraving?.enabled ? product.engraving : undefined;
+  const variant = orderVariant(product, variantId);
+  const offer = product.engraving;
   const text = engrave && offer ? engraving.trim() : "";
   const engravingMissing = Boolean(engrave && offer && !text);
   const soldOut = product.availability === "sold_out";
-  const unit = unitPriceUsd(product, variantId, Boolean(text));
+  const unit = unitPrice(product, variantId, Boolean(text));
   const lines = [{ slug, qty: 1, ...(variantId ? { variantId } : {}), ...(text ? { engraving: text } : {}) }];
-  const fullName = variant ? `${name}, ${variantLabel(variant, locale)}` : name;
-  const size = variant?.sizeCm ?? product.sizeCm;
-  const weight = variant?.weightG ?? product.weightG;
-  const compareAt = variant?.priceUsd === undefined ? product.compareAtUsd : undefined;
+  const fullName = variant ? `${name}, ${variant.label}` : name;
+  const specs = variantId ? product.variantSpecs[variantId] : undefined;
+  const size = specs?.sizeCm ?? product.sizeCm;
+  const weight = specs?.weightG ?? product.weightG;
+  // A variant with its own price has no previous price to strike through.
+  const compareAt = !variant || variant.priceUsd === product.priceUsd ? product.compareAtUsd : undefined;
   const chars = Array.from(engraving).length;
 
   return (
@@ -64,8 +76,8 @@ export function ProductPurchase({ slug, name, children }: { slug: string; name: 
             <label key={v.id} className="chip">
               <input type="radio" name={`variant-${slug}`} value={v.id} checked={variantId === v.id} onChange={() => setVariantId(v.id)} />
               <span>
-                {variantLabel(v, locale)}
-                {v.priceUsd !== undefined && v.priceUsd !== product.priceUsd && <> · {formatPrice(v.priceUsd, currency, locale)}</>}
+                {v.label}
+                {v.priceUsd !== product.priceUsd && <> · {formatPrice(v.priceUsd, currency, locale)}</>}
               </span>
             </label>
           ))}
@@ -130,10 +142,10 @@ export function ProductPurchase({ slug, name, children }: { slug: string; name: 
         <WishlistButton slug={slug} name={name} />
       </div>
       <div className="order-row" id="order-row">
-        {!soldOut && !engravingMissing && <WhatsAppOrderButton lines={lines} label={t("orderOnlyThis")} className="btn btn-whatsapp btn-block" />}
+        {!soldOut && !engravingMissing && <WhatsAppOrderButton lines={lines} lookup={lookup} label={t("orderOnlyThis")} className="btn btn-whatsapp btn-block" />}
         {children}
       </div>
-      {!soldOut && !engravingMissing && <ProductOrderBar lines={lines} name={fullName} priceUsd={unit} />}
+      {!soldOut && !engravingMissing && <ProductOrderBar lines={lines} lookup={lookup} name={fullName} priceUsd={unit} />}
     </>
   );
 }

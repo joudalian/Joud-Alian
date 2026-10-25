@@ -3,6 +3,7 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { WishlistView } from "@/components/WishlistView";
 import type { Locale } from "@/i18n/locales";
 import { pageMetadata } from "@/lib/metadata";
+import { orderLookup } from "@/lib/order-lookup";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -20,7 +21,7 @@ export default async function WishlistPage({ params }: Props) {
     <div className="container page">
       <h1>{t("title")}</h1>
       <p className="note">{t("storedNote")}</p>
-      <WishlistView />
+      <WishlistView lookup={orderLookup(locale)} />
     </div>
   );
 }

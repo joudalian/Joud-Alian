@@ -1,11 +1,9 @@
-// zod/mini: the same validation as the classic API, but tree-shakable (about 30 KB less JavaScript on every page).
-import { z } from "zod/mini";
-import { isProductSlug, type ProductSlug } from "./catalog";
+// Runs in the browser on every page (header counts), so the checks are written out by hand: no zod and no
+// catalog here. Everything read from localStorage is untrusted and checked field by field.
 import { defaultCurrency, isCurrency, type Currency } from "./currency";
 import { isLocale, type Locale } from "@/i18n/locales";
 
-// Zod probes `new Function()` to enable a JIT; the CSP forbids eval, so run it without.
-z.config({ jitless: true });
+type ProductSlug = string;
 
 export const STORAGE_KEYS = {
   cart: "gethsemane.cart.v2",
@@ -31,23 +29,24 @@ export type CartLine = { slug: ProductSlug; qty: number; variantId?: string; eng
 export const MAX_ENGRAVING = 200;
 
 const SLUG = /^[a-z0-9]+(-[a-z0-9]+)*$/;
-const cartSchema = z
-  .array(
-    z.object({
-      slug: z.string().check(z.maxLength(80), z.regex(SLUG)),
-      qty: z.int().check(z.minimum(1), z.maximum(MAX_QTY)),
-      variantId: z.optional(z.string().check(z.maxLength(40), z.regex(SLUG))),
-      engraving: z.optional(z.string().check(z.maxLength(MAX_ENGRAVING))),
-    }),
-  )
-  .check(z.maxLength(MAX_CART_LINES * 4));
+const isRecord = (v: unknown): v is Record<string, unknown> => typeof v === "object" && v !== null && !Array.isArray(v);
+const isText = (v: unknown, max: number): v is string => typeof v === "string" && v.length <= max;
+const isSlug = (v: unknown, max: number): v is string => isText(v, max) && SLUG.test(v);
+
+/** One stored line, or undefined when any field is invalid (unknown fields are dropped). */
+function storedLine(v: unknown): CartLine | undefined {
+  if (!isRecord(v) || !isSlug(v.slug, 80)) return undefined;
+  const { qty, variantId, engraving } = v;
+  if (typeof qty !== "number" || !Number.isInteger(qty) || qty < 1 || qty > MAX_QTY) return undefined;
+  if (variantId !== undefined && !isSlug(variantId, 40)) return undefined;
+  if (engraving !== undefined && !isText(engraving, MAX_ENGRAVING)) return undefined;
+  return { slug: v.slug, qty, ...(variantId !== undefined ? { variantId } : {}), ...(engraving !== undefined ? { engraving } : {}) };
+}
 
 /** Identity of a cart line: product, variant and engraving text. */
 export function lineKey(line: Pick<CartLine, "slug" | "variantId" | "engraving">): string {
   return `${line.slug}|${line.variantId ?? ""}|${line.engraving ?? ""}`;
 }
-
-const wishlistSchema = z.array(z.string().check(z.maxLength(64))).check(z.maxLength(MAX_WISHLIST * 4));
 
 function safeJson(raw: string | null | undefined): unknown {
   if (typeof raw !== "string" || raw.length === 0 || raw.length > MAX_RAW_LENGTH) return undefined;
@@ -60,10 +59,13 @@ function safeJson(raw: string | null | undefined): unknown {
 
 /** Reads the v2 cart (or a v1 cart: same shape without variant and engraving). Unknown slugs are kept. */
 export function parseCart(raw: string | null | undefined): CartLine[] {
-  const result = cartSchema.safeParse(safeJson(raw));
-  if (!result.success) return [];
+  const data = safeJson(raw);
+  if (!Array.isArray(data) || data.length > MAX_CART_LINES * 4) return [];
+  const lines = data.map(storedLine);
+  // One invalid line rejects the whole stored cart.
+  if (lines.some((line) => line === undefined)) return [];
   const merged = new Map<string, CartLine>();
-  for (const line of result.data) {
+  for (const line of lines as CartLine[]) {
     const engraving = line.engraving?.replace(/\s+/g, " ").trim() || undefined;
     const clean: CartLine = { slug: line.slug, qty: line.qty, ...(line.variantId ? { variantId: line.variantId } : {}), ...(engraving ? { engraving } : {}) };
     const key = lineKey(clean);
@@ -73,10 +75,11 @@ export function parseCart(raw: string | null | undefined): CartLine[] {
   return [...merged.values()].slice(0, MAX_CART_LINES);
 }
 
+/** Slugs of pieces no longer in the shop are kept here and left out where the list is shown or counted. */
 export function parseWishlist(raw: string | null | undefined): ProductSlug[] {
-  const result = wishlistSchema.safeParse(safeJson(raw));
-  if (!result.success) return [];
-  return [...new Set(result.data.filter(isProductSlug))].slice(0, MAX_WISHLIST);
+  const data = safeJson(raw);
+  if (!Array.isArray(data) || data.length > MAX_WISHLIST * 4 || !data.every((s) => isText(s, 64))) return [];
+  return [...new Set(data.filter((s) => SLUG.test(s)))].slice(0, MAX_WISHLIST);
 }
 
 export const ORDER_DETAIL_LIMITS = { name: 100, country: 100, notes: 1000, giftNoteText: 500 } as const;
@@ -84,21 +87,19 @@ export const ORDER_DETAIL_LIMITS = { name: 100, country: 100, notes: 1000, giftN
 export type OrderDetailsState = { name: string; country: string; notes: string; giftNote: boolean; giftNoteText: string };
 export const emptyOrderDetails: OrderDetailsState = { name: "", country: "", notes: "", giftNote: false, giftNoteText: "" };
 
-const limitedText = (max: number) => z.catch(z.string().check(z.maxLength(max)), "");
-const orderDetailsSchema = z.object({
-  name: limitedText(ORDER_DETAIL_LIMITS.name),
-  country: limitedText(ORDER_DETAIL_LIMITS.country),
-  notes: limitedText(ORDER_DETAIL_LIMITS.notes),
-  giftNote: z.catch(z.boolean(), false),
-  giftNoteText: limitedText(ORDER_DETAIL_LIMITS.giftNoteText),
-});
-
 /** Optional order details typed on the order page; kept in the browser only. Invalid fields reset to "". */
 export function parseOrderDetails(raw: string | null | undefined): OrderDetailsState {
   const value = safeJson(raw);
-  if (!value || typeof value !== "object" || Array.isArray(value)) return emptyOrderDetails;
-  const result = orderDetailsSchema.safeParse(value);
-  return result.success ? result.data : emptyOrderDetails;
+  if (!isRecord(value)) return emptyOrderDetails;
+  // Each invalid field falls back to its empty value on its own.
+  const text = (key: keyof typeof ORDER_DETAIL_LIMITS) => (isText(value[key], ORDER_DETAIL_LIMITS[key]) ? (value[key] as string) : "");
+  return {
+    name: text("name"),
+    country: text("country"),
+    notes: text("notes"),
+    giftNote: typeof value.giftNote === "boolean" ? value.giftNote : false,
+    giftNoteText: text("giftNoteText"),
+  };
 }
 
 export function parseCurrency(raw: string | null | undefined): Currency {

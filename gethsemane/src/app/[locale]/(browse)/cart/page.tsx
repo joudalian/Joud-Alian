@@ -5,8 +5,10 @@ import { OrderSteps } from "@/components/OrderSteps";
 import { DELIVERY_TIME, PROCESSING_TIME, RETURN_DAYS, SHIP_FROM_TEXT, STORE_NAME } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
+import { categories, categoryText } from "@/lib/catalog";
 import { paymentText } from "@/lib/faq";
 import { pageMetadata } from "@/lib/metadata";
+import { orderLookup } from "@/lib/order-lookup";
 import { whatsappUrl } from "@/lib/whatsapp";
 
 type Props = { params: Promise<{ locale: Locale }> };
@@ -33,7 +35,7 @@ export default async function CartPage({ params }: Props) {
           </a>
         </p>
       </noscript>
-      <CartView />
+      <CartView lookup={orderLookup(locale)} firstCategory={{ slug: categories[0]!.slug, name: categoryText(categories[0]!, locale).name }} />
       <div className="order-info">
         <section aria-labelledby="steps-title">
           <h2 id="steps-title">{t("cart.stepsTitle")}</h2>

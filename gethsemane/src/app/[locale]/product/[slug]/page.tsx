@@ -26,6 +26,7 @@ import { categoryText, getProduct, imageAlt, mainCategory, mainImage, productTex
 import { RATES_AS_OF } from "@/lib/currency";
 import { cmToIn, formatDate, gToOz } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
+import { purchaseProduct } from "@/lib/order-lookup";
 import { OG_SIZE, PRODUCT_IMAGE_SIZES, productImageSrcSet, productOgImage } from "@/lib/product-image";
 import { productLd } from "@/lib/structured-data";
 
@@ -93,8 +94,9 @@ export default async function ProductPage({ params }: Props) {
   const first = mainImage(product);
   const avifSrcSet = productImageSrcSet(first.file, "avif");
   preload(avifSrcSet.split(" ")[0]!, { as: "image", type: "image/avif", imageSrcSet: avifSrcSet, imageSizes: PRODUCT_IMAGE_SIZES, fetchPriority: "high" });
+  // Only what the gallery draws goes to the browser (not the alt texts of every language).
   const gallery = product.images.map((image, i) => ({
-    image,
+    image: { file: image.file, width: image.width, height: image.height },
     alt: imageAlt(image, locale) ?? (i === 0 ? t("product.photoAlt", { name }) : t("product.photoAltN", { name, n: i + 1 })),
   }));
 
@@ -125,7 +127,7 @@ export default async function ProductPage({ params }: Props) {
               {summary}
             </p>
           )}
-          <ProductPurchase slug={product.slug} name={name}>
+          <ProductPurchase product={purchaseProduct(product, locale)}>
             <p className="note">{t("cart.whatsappHint")}</p>
             <WhatsAppLink message={t("whatsapp.ask", { store: STORE_NAME, name })} className="text-link">
               {t("product.askAbout")}

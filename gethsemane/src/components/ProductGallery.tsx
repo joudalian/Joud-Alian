@@ -2,16 +2,15 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState, type KeyboardEvent } from "react";
-import type { ProductImage } from "@/lib/catalog";
 import { PRODUCT_IMAGE_SIZES } from "@/lib/product-image";
-import { ProductPicture } from "./ProductPicture";
+import { ProductPicture, type PictureImage } from "./ProductPicture";
 
 /**
  * Product photos: a horizontal, scroll-snapping strip (swipe on phones), with previous/next buttons and
  * thumbnails. When the strip has focus, the arrow keys, Home and End move between photos. The first photo is
  * the page's largest paint and loads first; the others load lazily.
  */
-export function ProductGallery({ images, name }: { images: { image: ProductImage; alt: string }[]; name: string }) {
+export function ProductGallery({ images, name }: { images: { image: PictureImage; alt: string }[]; name: string }) {
   const t = useTranslations("product");
   const trackRef = useRef<HTMLDivElement>(null);
   const [current, setCurrent] = useState(0);

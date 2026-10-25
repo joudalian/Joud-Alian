@@ -3,20 +3,23 @@
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import { fromPriceUsd, getProduct, hasPriceRange, mainImage, productText } from "@/lib/catalog";
 import { useCart, useHydrated, useWishlist } from "@/lib/client-store";
+import { fromPrice, type OrderLookup } from "@/lib/order-message";
 import { HeartIcon } from "./Icons";
 import { announce } from "./LiveRegion";
 import { PriceTag } from "./Price";
 import { ProductPicture } from "./ProductPicture";
 
-export function WishlistView() {
+/** `lookup` holds every product in the page language (compact, from the server). */
+export function WishlistView({ lookup }: { lookup: OrderLookup }) {
   const t = useTranslations("wishlist");
   const tCart = useTranslations("cart");
   const tProduct = useTranslations("product");
   const locale = useLocale() as Locale;
   const hydrated = useHydrated();
-  const { items, remove } = useWishlist();
+  const { items: stored, remove } = useWishlist();
+  // Pieces no longer in the shop are left out.
+  const items = stored.filter((slug) => Object.hasOwn(lookup, slug));
   const { add } = useCart();
 
   if (!hydrated) {
@@ -44,23 +47,21 @@ export function WishlistView() {
   return (
     <ul className="line-list">
       {items.map((slug) => {
-        const product = getProduct(slug);
-        if (!product) return null;
-        const text = productText(product, locale);
-        const name = text.name;
+        const product = lookup[slug]!;
+        const name = product.name;
         // Pieces with sizes or engraving are chosen on the product page; sold-out pieces cannot be ordered.
         const needsChoice = product.variants.length > 0;
-        const from = fromPriceUsd(product);
+        const from = fromPrice(product);
         return (
           <li key={slug} className="line">
-            <ProductPicture image={mainImage(product)} alt="" sizes="88px" className="line-thumb" />
+            <ProductPicture image={product.image} alt="" sizes="88px" className="line-thumb" />
             <div>
               <h2>
-                <Link href={`/product/${slug}`} lang={text.lang === locale ? undefined : text.lang}>
+                <Link href={`/product/${slug}`} lang={product.lang === locale ? undefined : product.lang}>
                   {name}
                 </Link>
               </h2>
-              <PriceTag usd={from} compareAtUsd={hasPriceRange(product) ? undefined : product.compareAtUsd} from={hasPriceRange(product)} />
+              <PriceTag usd={from.usd} compareAtUsd={from.range ? undefined : product.compareAtUsd} from={from.range} />
               <div className="line-controls">
                 {needsChoice ? (
                   <Link href={`/product/${slug}`} className="btn btn-primary">

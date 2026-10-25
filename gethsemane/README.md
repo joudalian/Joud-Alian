@@ -48,6 +48,11 @@ The catalog is **data only**: adding products or categories never needs a code c
 does not exist…) fails `npm run check:i18n` and the build with a readable message. What to collect for each product
 from the sister store: **`docs/CATALOG.md`**.
 
+The catalog, its schema and zod stay on the server. Client components receive only what they show, in the page
+language, as props: the order and wishlist pages get a compact lookup (name, SKU, price, variant labels,
+availability, main photo) from `src/lib/order-lookup.ts`, the header counts only the variant and engraving rules.
+`tests/bundle.spec.ts` fails if catalog text, the schema or zod reaches a browser bundle.
+
 | What | Where |
 | ---- | ----- |
 | Products | `src/data/products.ts` |
@@ -292,8 +297,8 @@ link-crawl test also checks the rendered pages. The same command checks that del
   no production source maps.
 - No third-party scripts, trackers, CDNs or iframes; fonts are self-hosted; all images are local. The only
   external links are WhatsApp, the sister store and its Instagram (plus our own social accounts once set), with `rel="noopener noreferrer"`.
-- Everything read from localStorage or cookies is size-limited, parsed safely, validated with zod and capped
-  (`src/lib/storage.ts`).
+- Everything read from localStorage or cookies is size-limited, parsed safely, checked field by field and capped
+  (`src/lib/storage.ts`; written out by hand so the browser needs no validation library).
 - No secrets in the repository; `.env.example` lists the only variable, `SITE_URL`.
 
 ## Scripts
@@ -381,7 +386,7 @@ immutable; `/images` and `/brand` are sent with a one-day cache.
   nonce; a hash-based CSP for static pages is not possible because Next.js inlines different scripts on every
   page); the last-resort `global-error.tsx` page is English-only; product photos, descriptions, prices,
   currency rates and every `// CONFIRM` value in `src/config/store.ts` are placeholders until confirmed.
-- Lighthouse (mobile, simulated slow 4G, fresh server start before every run): product page performance 96–98,
-  accessibility, best practices and SEO 100.
+- Lighthouse (mobile, simulated slow 4G, cold runs): home, contact and product page performance 95–98,
+  accessibility and best practices 100, SEO 100 (product pages are noindex until `CATALOG_READY`).
 - Owner launch checklist: `docs/LAUNCH.md`. Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
   `docs/OPERATIONS.md`.
