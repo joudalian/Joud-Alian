@@ -3,6 +3,7 @@ import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CartIcon, ChatIcon, GlobeTruckIcon, HandIcon, ReturnIcon } from "@/components/Icons";
 import { JsonLd } from "@/components/JsonLd";
+import { SocialLinks } from "@/components/SocialLinks";
 import { MARK_SRC } from "@/components/Logo";
 import { ProductGrid } from "@/components/ProductCard";
 import { DELIVERY_TIME, RETURN_DAYS } from "@/config/store";
@@ -10,6 +11,7 @@ import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { categories, categoryText, products } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
+import { socialLinks } from "@/lib/social";
 import { website } from "@/lib/structured-data";
 
 type Props = { params: Promise<{ locale: Locale }> };
@@ -163,6 +165,14 @@ export default async function HomePage({ params }: Props) {
           </Link>
         </p>
       </section>
+
+      {socialLinks().length > 0 && (
+        <section className="section container follow-along" aria-labelledby="follow-title" data-testid="follow-along">
+          <h2 id="follow-title">{t("social.followTitle")}</h2>
+          <p>{t("social.followText")}</p>
+          <SocialLinks variant="pills" />
+        </section>
+      )}
       <JsonLd data={website(locale)} />
     </>
   );

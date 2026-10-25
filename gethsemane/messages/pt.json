@@ -206,7 +206,8 @@
     "unavailable": "Esta peça já não está disponível. Retire-a da encomenda ou pergunte-nos por uma semelhante.",
     "engravingLine": "Gravação: «{text}»",
     "soldOutLine": "Esgotada: diremos se pode ser feita de novo.",
-    "nothingToSend": "Ainda não há nada para enviar: retire as peças que já não estão disponíveis."
+    "nothingToSend": "Ainda não há nada para enviar: retire as peças que já não estão disponíveis.",
+    "emailSubject": "Pedido de encomenda"
   },
   "wishlist": {
     "title": "Os seus favoritos",
@@ -230,7 +231,8 @@
     "sister": "A Gethsemane é a loja irmã da <link>holylandtimber.com</link>.",
     "emblemAlt": "Logótipo da Gethsemane: uma oliveira antiga e um lagar de azeite dentro de um arco encimado por uma cruz",
     "nameTitle": "Porquê «Gethsemane»",
-    "name": "Getsémani vem do aramaico gat shmanim, «lagar de azeite»: um jardim de oliveiras no sopé do Monte das Oliveiras, lugar de prensa, de silêncio e de oração. Escolhemos o nome porque a madeira de oliveira nasce da mesma terra de fé e tradição. Cada peça é esculpida e acabada à mão em Belém. Não podemos prometer que cada peça é perfeita; podemos prometer que é verdadeira e que alguém lhe deu toda a atenção."
+    "name": "Getsémani vem do aramaico gat shmanim, «lagar de azeite»: um jardim de oliveiras no sopé do Monte das Oliveiras, lugar de prensa, de silêncio e de oração. Escolhemos o nome porque a madeira de oliveira nasce da mesma terra de fé e tradição. Cada peça é esculpida e acabada à mão em Belém. Não podemos prometer que cada peça é perfeita; podemos prometer que é verdadeira e que alguém lhe deu toda a atenção.",
+    "follow": "Siga a oficina no {networks}."
   },
   "footer": {
     "about": "Presentes em madeira de oliveira feitos à mão em Belém, Terra Santa.",
@@ -240,8 +242,7 @@
     "sister": "Loja irmã da <link>holylandtimber.com</link>",
     "supportTitle": "Apoio",
     "legalTitle": "Informação legal",
-    "followSister": "Siga a nossa loja irmã no Instagram",
-    "social": "{network} (abre num novo separador)"
+    "followSister": "Siga a nossa loja irmã no Instagram"
   },
   "notFound": {
     "title": "Este caminho perdeu-se.",
@@ -419,14 +420,18 @@
     "msgCustom": "Olá {store}, tenho interesse numa peça personalizada ou gravada. Eis o que tenho em mente: ",
     "msgWholesale": "Olá {store}, escrevo por causa de uma encomenda por grosso para a nossa igreja, comunidade ou loja. Peças e quantidades: ",
     "msgOther": "Olá {store}, ",
-    "emailTitle": "Email",
     "addressTitle": "Morada da oficina",
     "addressNote": "Por favor, não envie devoluções para esta morada; combine-as primeiro connosco.",
     "hoursTitle": "Horário",
     "hours": "{days}, {open}–{close} ({timezone})",
     "hoursNote": "Respondemos o mais depressa possível dentro deste horário.",
     "sisterTitle": "A nossa loja irmã",
-    "sister": "A Gethsemane é a loja irmã da <link>holylandtimber.com</link>, com os mesmos proprietários."
+    "sister": "A Gethsemane é a loja irmã da <link>holylandtimber.com</link>, com os mesmos proprietários.",
+    "writeTitle": "Escreva-nos",
+    "writeText": "Prefere e-mail? Escreva-nos e responderemos assim que possível.",
+    "emailSubject": "Pergunta sobre a Gethsemane",
+    "findTitle": "Encontre-nos",
+    "findText": "As novas peças e o trabalho por trás delas, nas nossas contas."
   },
   "privacy": {
     "title": "Política de privacidade",
@@ -535,5 +540,10 @@
     "formSectionTitle": "Modelo de formulário de livre resolução",
     "moreTitle": "Reembolsos e devoluções",
     "more": "Como funcionam os reembolsos e como devolver as peças está explicado na nossa <link>página de devoluções</link>."
+  },
+  "social": {
+    "on": "Gethsemane no {network}",
+    "followTitle": "Siga-nos",
+    "followText": "Veja as novas peças e o trabalho por trás delas."
   }
 }

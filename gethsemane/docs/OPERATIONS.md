@@ -65,6 +65,12 @@ Send one message (template B) containing:
 Adapt the language to the customer (they wrote in it). Keep the tone calm, warm and honest. Do not promise
 anything the site does not promise.
 
+**Sign-off** (end of quotes, confirmations and emails; keep handles and the address exactly as written):
+
+> — Gethsemane, Bethlehem
+> WhatsApp +970 56 974 1193 · gethsemane.t12@gmail.com
+> Instagram @gethsemane_t12 · TikTok @gethsemane.store · Facebook: Gethsemane
+
 **A. First reply**
 
 > Peace be with you, and thank you for writing to Gethsemane. We have received your order request and are

@@ -171,7 +171,7 @@ validity, ship-to countries (structured data only), the launch gate `CATALOG_REA
 block. Opening hours are shown with `TIMEZONE_LABEL` ("Bethlehem time" in each language), never the IANA ID;
 check `OPENING_HOURS.days`, since the Palestinian work week is often Sunday–Thursday.
 **Every value is marked `// CONFIRM`** and must be checked before launch. Optional fields render only when
-non-empty: an empty `CONTACT_EMAIL` hides the email everywhere, an empty `SOCIAL` entry renders no icon,
+non-empty: an empty `CONTACT_EMAIL` hides the email everywhere, an empty `SOCIAL` entry renders no link,
 `ANNOUNCEMENT.enabled: false` hides the bar, an empty `GOVERNING_LAW` hides the governing-law sentence on the
 terms page (the sentence that the consumer-protection law of the customer's country always applies is always
 shown), and `DATA_RETENTION_YEARS = 0` makes the privacy page say that order details are kept only as long as
@@ -193,6 +193,18 @@ Wording that is a factual claim and must also be confirmed by the owner (in `mes
 **Payment**: with `PAYMENT_MODE = "instructions"` the site says only that payment instructions are sent on
 WhatsApp after the order is confirmed. With `"link"` it says a payment link is sent and, if `PAYMENT_METHODS`
 is non-empty, names the methods. No payment brands, logos or "secure checkout" wording appear on the site.
+
+
+**Email and social accounts (done, confirmed by the owner 2026-10-25).** `CONTACT_EMAIL` is
+`gethsemane.t12@gmail.com`; `SOCIAL` holds the three profiles (Instagram `@gethsemane_t12`, TikTok
+`@gethsemane.store`, Facebook) and `SOCIAL_HANDLES` their handles. They appear as plain links only (no embeds,
+feeds or platform scripts, so the CSP is unchanged): footer icons and the email under Support, a "Follow along"
+section at the end of the home page, "Write to us" and "Find us" cards on the contact page, one line on Our story,
+the email on the privacy, terms, returns and withdrawal pages, a mailto with the prefilled order on the order page,
+`sameAs` and `contactPoint` in the Organization JSON-LD, and `security.txt`. `src/lib/social.ts` strips share
+tracking parameters (`utm_*`, `xtok`, `_r`, `_t`, `mibextid`…) and `npm run check:claims` fails if one is pasted
+into the config. A Gmail address is fine for launch; once the custom domain exists, a domain mailbox with SPF, DKIM
+and DMARC is recommended (`docs/LAUNCH.md`). Put the shop link in the bio of each profile.
 
 ## Pages
 

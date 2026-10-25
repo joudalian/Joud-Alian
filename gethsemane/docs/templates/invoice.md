@@ -4,7 +4,7 @@
 | --- | --- |
 | Invoice / order no. | GTH-YYMM-NNNN |
 | Date | |
-| Seller | [LEGAL_ENTITY_NAME], [ADDRESS], WhatsApp +970569741193, [CONTACT_EMAIL], [TAX_ID] |
+| Seller | [LEGAL_ENTITY_NAME], [ADDRESS], WhatsApp +970569741193, gethsemane.t12@gmail.com, [TAX_ID] |
 | Customer | [name], [delivery address], [phone for the courier] |
 
 | Qty | Description | SKU | Unit price (USD) | Total (USD) |

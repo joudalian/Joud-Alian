@@ -19,5 +19,7 @@ Gift order: ☐ yes (no prices in this parcel) · Gift note included: ☐
 **Caring for olive wood**: wipe with a dry cloth; now and then a few drops of food-safe mineral oil or a wood-bowl
 oil; no soaking, no dishwasher, no radiators. More: your-domain/en/care
 
-Questions or a problem with your parcel? Write to us on WhatsApp: +970 56 974 1193 (please keep the packaging and
-send photos if anything arrived damaged).
+Questions or a problem with your parcel? Write to us on WhatsApp: +970 56 974 1193 or gethsemane.t12@gmail.com
+(please keep the packaging and send photos if anything arrived damaged).
+
+Follow the workshop: Instagram @gethsemane_t12 · TikTok @gethsemane.store · Facebook: Gethsemane

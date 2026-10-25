@@ -27,8 +27,11 @@ export const ADDRESS_LOCALITY = "Bethlehem"; // CONFIRM
 /** ISO 3166-1 alpha-2 country code. */
 export const ADDRESS_COUNTRY = "PS"; // CONFIRM
 
-/** Public contact email (the owner is creating a new mailbox). Empty = not shown anywhere. */
-export const CONTACT_EMAIL = ""; // CONFIRM
+/**
+ * Public contact email. Confirmed by the owner (2026-10-25). A Gmail address is fine for launch; once the custom
+ * domain exists, a domain mailbox with SPF, DKIM and DMARC is recommended (docs/LAUNCH.md). Empty = not shown.
+ */
+export const CONTACT_EMAIL = "gethsemane.t12@gmail.com";
 
 /**
  * Opening hours: ISO weekdays (1 = Monday … 7 = Sunday) and local times, in TIMEZONE.
@@ -52,12 +55,22 @@ export const TIMEZONE_LABEL: Record<Locale, string> = {
   pt: "hora de Belém",
 };
 
-/** Our own social accounts (new). Empty = no icon rendered. Use full https:// URLs. */
+/**
+ * Our own social accounts, in display order. Confirmed by the owner (2026-10-25). Plain profile URLs only: never
+ * paste share links with tracking parameters (utm_*, xtok, _r, _t, mibextid…); src/lib/social.ts strips them anyway.
+ * An empty value hides that network everywhere.
+ */
 export const SOCIAL = {
-  instagram: "", // CONFIRM
-  facebook: "", // CONFIRM
-  tiktok: "", // CONFIRM
+  instagram: "https://www.instagram.com/gethsemane_t12",
+  tiktok: "https://www.tiktok.com/@gethsemane.store",
+  facebook: "https://www.facebook.com/share/19dYaPvHsp/",
 } as const;
+
+/** Handles shown next to the platform name (Facebook has none). Confirmed by the owner (2026-10-25). */
+export const SOCIAL_HANDLES: Partial<Record<keyof typeof SOCIAL, string>> = {
+  instagram: "@gethsemane_t12",
+  tiktok: "@gethsemane.store",
+};
 
 /** Sister store under the same ownership. */
 export const SISTER_STORE = {

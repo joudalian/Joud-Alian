@@ -8,14 +8,14 @@ import {
   PROCESSING_TIME,
   RETURN_DAYS,
   SHIP_TO_COUNTRIES,
-  SOCIAL,
   STORE_NAME,
   WHATSAPP_NUMBER,
 } from "@/config/store";
-import type { Locale } from "@/i18n/locales";
+import { locales, type Locale } from "@/i18n/locales";
 import type { Product } from "./catalog";
 import { productSku, productText } from "./catalog";
 import { productImageSrc } from "./product-image";
+import { socialLinks } from "./social";
 import { localizedUrl, siteUrl } from "./site";
 
 const orgId = () => `${siteUrl}/#organization`;
@@ -44,11 +44,17 @@ export function returnPolicy(locale: Locale) {
 
 export function organization(locale: Locale) {
   // Only our own accounts; the sister store is a separate business, not another profile of this one.
-  const sameAs = Object.values(SOCIAL).filter(Boolean);
-  const contactPoint: Record<string, unknown>[] = [
-    { "@type": "ContactPoint", contactType: "customer service", telephone: `+${WHATSAPP_NUMBER}`, url: localizedUrl(locale, "/contact") },
+  const sameAs = socialLinks().map((l) => l.url);
+  const contactPoint = [
+    {
+      "@type": "ContactPoint",
+      contactType: "customer service",
+      telephone: `+${WHATSAPP_NUMBER}`,
+      ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
+      url: localizedUrl(locale, "/contact"),
+      availableLanguage: [...locales],
+    },
   ];
-  if (CONTACT_EMAIL) contactPoint.push({ "@type": "ContactPoint", contactType: "customer service", email: CONTACT_EMAIL });
   const address = ADDRESS_STREET
     ? { "@type": "PostalAddress", streetAddress: ADDRESS_STREET, addressLocality: ADDRESS_LOCALITY, addressCountry: ADDRESS_COUNTRY }
     : undefined;

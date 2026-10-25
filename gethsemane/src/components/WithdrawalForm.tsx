@@ -1,4 +1,5 @@
 import { getTranslations } from "next-intl/server";
+import { EmailText } from "./EmailText";
 import { ADDRESS, CONTACT_EMAIL, LEGAL_ENTITY_NAME, STORE_NAME, WHATSAPP_NUMBER } from "@/config/store";
 
 /** The statutory model withdrawal form (EU Consumer Rights Directive, Annex I(B)), addressed to us. */
@@ -10,7 +11,9 @@ export async function WithdrawalForm() {
       <h3 id="form-title">{t("formTitle")}</h3>
       <p>{t("formIntro")}</p>
       <ul>
-        <li>{t("formTo", { to: recipient })}</li>
+        <li>
+          <EmailText text={t("formTo", { to: recipient })} />
+        </li>
         {[1, 2, 3, 4, 5, 6].map((n) => (
           <li key={n}>{t(`form${n}`)}</li>
         ))}

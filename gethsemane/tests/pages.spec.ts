@@ -90,14 +90,14 @@ test.describe("help and policy pages", () => {
     await expect(notice).toContainText("Sister store of holylandtimber.com (same ownership).");
     await expect(notice).toContainText("129 Al Mahed Street");
     await expect(notice).not.toContainText("Business name");
-    await expect(notice).not.toContainText("Email:");
+    await expect(notice.locator('a[href="mailto:gethsemane.t12@gmail.com"]')).toHaveText("gethsemane.t12@gmail.com");
     expect(await page.content()).not.toContain("ec.europa.eu/consumers/odr");
     // GOVERNING_LAW is empty: only the consumer-protection sentence is shown, no placeholder.
     await expect(page.getByText("The mandatory consumer-protection law of your country of residence always applies.")).toBeVisible();
     await expect(page.locator("main")).not.toContainText("governed by");
   });
 
-  test("contact: topic chips change the WhatsApp message; no form; email hidden while not set", async ({ page }) => {
+  test("contact: topic chips change the WhatsApp message; no form; email and social cards", async ({ page }) => {
     await page.goto("/pl/contact?topic=wholesale");
     await waitForHydration(page);
     const link = page.getByTestId("contact-whatsapp");
@@ -105,7 +105,9 @@ test.describe("help and policy pages", () => {
     await page.getByRole("radio", { name: "Pomoc", exact: true }).check();
     expect(waText(await link.getAttribute("href"))).toContain("Potrzebuję pomocy z zamówieniem");
     await expect(page.locator("main form")).toHaveCount(0);
-    await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0);
+    // "Write to us": mailto with the localized subject. "Find us": our three accounts.
+    await expect(page.getByTestId("contact-email")).toHaveAttribute("href", "mailto:gethsemane.t12@gmail.com?subject=Pytanie%20o%20Gethsemane");
+    await expect(page.getByTestId("contact-social-card").locator("a")).toHaveCount(3);
     await expect(page.locator("main address")).toHaveText("129 Al Mahed Street, Bethlehem, Palestinian Territory");
     await expect(page.getByText(/poniedziałek–piątek, 09:00–17:00/i)).toBeVisible();
   });
@@ -221,8 +223,10 @@ test.describe("structured data", () => {
     expect(org.name).toBe("Gethsemane");
     expect(org.url).toBe(baseURL);
     expect((org.hasMerchantReturnPolicy as Record<string, unknown>).merchantReturnDays).toBe(14);
-    // Only our own (empty) social accounts; never the sister store, never "ZZ".
-    expect(org.sameAs).toBeUndefined();
+    // Only our own social accounts (clean URLs); never the sister store, never "ZZ".
+    expect(org.sameAs).toEqual(["https://www.instagram.com/gethsemane_t12", "https://www.tiktok.com/@gethsemane.store", "https://www.facebook.com/share/19dYaPvHsp/"]);
+    expect(JSON.stringify(org.sameAs)).not.toContain("holylandtimber");
+    expect(org.contactPoint).toEqual([expect.objectContaining({ telephone: "+970569741193", email: "gethsemane.t12@gmail.com" })]);
     expect(org.address).toEqual({ "@type": "PostalAddress", streetAddress: "129 Al Mahed Street", addressLocality: "Bethlehem", addressCountry: "PS" });
     expect(JSON.stringify(data)).not.toContain('"ZZ"');
     // SHIP_TO_COUNTRIES is empty: no applicableCountry.
@@ -268,10 +272,9 @@ test.describe("layout and navigation", () => {
     await expect(page.locator(".hero-mark")).toHaveAttribute("fetchpriority", "high");
   });
 
-  test("empty SOCIAL renders no social icons; sister store link is present", async ({ page }) => {
+  test("footer: our social accounts and the sister store's Instagram", async ({ page }) => {
     await page.goto("/en");
-    await expect(page.getByTestId("social-links")).toHaveCount(0);
-    await expect(page.locator('footer a[href*="facebook.com"], footer a[href*="tiktok.com"]')).toHaveCount(0);
+    await expect(page.getByTestId("social-links").locator("a")).toHaveCount(3);
     const sisterIg = page.locator('footer a[href="https://www.instagram.com/holylandtimber"]');
     await expect(sisterIg).toHaveAttribute("rel", "noopener noreferrer");
   });

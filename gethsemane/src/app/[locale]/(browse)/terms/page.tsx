@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { EmailText } from "@/components/EmailText";
 import { InfoPage, Section } from "@/components/InfoPage";
 import { ADDRESS, CONTACT_EMAIL, GOVERNING_LAW, LEGAL_ENTITY_NAME, POLICY_UPDATED, QUOTE_VALID_HOURS, TAX_ID, WHATSAPP_NUMBER } from "@/config/store";
 import { Link } from "@/i18n/navigation";
@@ -59,7 +60,11 @@ export default async function TermsPage({ params }: Props) {
         <ul className="plain-list">
           {LEGAL_ENTITY_NAME && <li>{t("entity", { name: LEGAL_ENTITY_NAME })}</li>}
           {ADDRESS && <li>{t("address", { address: ADDRESS })}</li>}
-          {CONTACT_EMAIL && <li>{t("email", { email: CONTACT_EMAIL })}</li>}
+          {CONTACT_EMAIL && (
+            <li>
+              <EmailText text={t("email", { email: CONTACT_EMAIL })} />
+            </li>
+          )}
           <li>{t("whatsapp", { phone: `+${WHATSAPP_NUMBER}` })}</li>
           <li>{t("sister")}</li>
           {/* TODO: add the tax / company registration ID (TAX_ID in src/config/store.ts) once registered. */}

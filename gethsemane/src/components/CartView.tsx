@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { useId, useRef, useState, type KeyboardEvent } from "react";
-import { CONTACT_EMAIL, STORE_NAME } from "@/config/store";
+import { CONTACT_EMAIL } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import {
@@ -447,7 +447,7 @@ export function CartView() {
               <p className="note">
                 <a
                   className="text-link"
-                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeMessage(`${STORE_NAME} order request`)}&body=${encodeMessage(message)}`}
+                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeMessage(t("emailSubject"))}&body=${encodeMessage(message)}`}
                   data-testid="email-order"
                 >
                   {t("sendEmail", { email: CONTACT_EMAIL })}

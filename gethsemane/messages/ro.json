@@ -206,7 +206,8 @@
     "unavailable": "Această piesă nu mai este disponibilă. Scoate-o din comandă sau întreabă-ne de una asemănătoare.",
     "engravingLine": "Gravură: „{text}”",
     "soldOutLine": "Epuizată: îți vom spune dacă poate fi realizată din nou.",
-    "nothingToSend": "Nu se poate trimite încă nimic: scoate piesele care nu mai sunt disponibile."
+    "nothingToSend": "Nu se poate trimite încă nimic: scoate piesele care nu mai sunt disponibile.",
+    "emailSubject": "Cerere de comandă"
   },
   "wishlist": {
     "title": "Favoritele tale",
@@ -230,7 +231,8 @@
     "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>.",
     "emblemAlt": "Logoul Gethsemane: un măslin străvechi și un teasc de ulei într-un arc încununat de o cruce",
     "nameTitle": "De ce „Gethsemane”",
-    "name": "Ghetsimani vine din aramaicul gat shmanim, „teasc de ulei”: o grădină de măslini la poalele Muntelui Măslinilor, loc al teascului, al liniștii și al rugăciunii. Am ales numele pentru că lemnul de măslin crește din același pământ al credinței și al tradiției. Fiecare piesă este sculptată și finisată manual în Betleem. Nu putem promite că fiecare piesă este perfectă; putem promite că este autentică și că cineva i-a acordat toată atenția."
+    "name": "Ghetsimani vine din aramaicul gat shmanim, „teasc de ulei”: o grădină de măslini la poalele Muntelui Măslinilor, loc al teascului, al liniștii și al rugăciunii. Am ales numele pentru că lemnul de măslin crește din același pământ al credinței și al tradiției. Fiecare piesă este sculptată și finisată manual în Betleem. Nu putem promite că fiecare piesă este perfectă; putem promite că este autentică și că cineva i-a acordat toată atenția.",
+    "follow": "Urmărește atelierul pe {networks}."
   },
   "footer": {
     "about": "Cadouri din lemn de măslin lucrate manual în Betleem, Țara Sfântă.",
@@ -240,8 +242,7 @@
     "sister": "Magazinul soră al <link>holylandtimber.com</link>",
     "supportTitle": "Ajutor",
     "legalTitle": "Informații legale",
-    "followSister": "Urmărește magazinul nostru soră pe Instagram",
-    "social": "{network} (se deschide într-o filă nouă)"
+    "followSister": "Urmărește magazinul nostru soră pe Instagram"
   },
   "notFound": {
     "title": "Această cărare s-a rătăcit.",
@@ -419,14 +420,18 @@
     "msgCustom": "Bună ziua, {store}! Mă interesează o piesă personalizată sau gravată. Iată ce am în minte: ",
     "msgWholesale": "Bună ziua, {store}! Vă scriu pentru o comandă angro pentru biserica, comunitatea sau magazinul nostru. Piese și cantități: ",
     "msgOther": "Bună ziua, {store}! ",
-    "emailTitle": "E-mail",
     "addressTitle": "Adresa atelierului",
     "addressNote": "Te rugăm să nu trimiți retururi la această adresă; stabilește-le mai întâi cu noi.",
     "hoursTitle": "Program",
     "hours": "{days}, {open}–{close} ({timezone})",
     "hoursNote": "Răspundem cât de repede putem în acest interval.",
     "sisterTitle": "Magazinul nostru soră",
-    "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>, cu aceiași proprietari."
+    "sister": "Gethsemane este magazinul soră al <link>holylandtimber.com</link>, cu aceiași proprietari.",
+    "writeTitle": "Scrie-ne",
+    "writeText": "Preferi e-mailul? Scrie-ne și îți răspundem cât mai curând.",
+    "emailSubject": "Întrebare despre Gethsemane",
+    "findTitle": "Găsește-ne",
+    "findText": "Piesele noi și munca din spatele lor, pe conturile noastre."
   },
   "privacy": {
     "title": "Politica de confidențialitate",
@@ -535,5 +540,10 @@
     "formSectionTitle": "Model de formular de retragere",
     "moreTitle": "Rambursări și retururi",
     "more": "Cum funcționează rambursarea și cum trimiți piesele înapoi explicăm pe <link>pagina de retururi</link>."
+  },
+  "social": {
+    "on": "Gethsemane pe {network}",
+    "followTitle": "Urmărește-ne",
+    "followText": "Vezi piesele noi și munca din spatele lor."
   }
 }

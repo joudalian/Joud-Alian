@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { Breadcrumb } from "@/components/Breadcrumb";
+import { SocialSentence } from "@/components/SocialSentence";
 import { SISTER_STORE } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
@@ -54,6 +55,7 @@ export default async function AboutPage({ params }: Props) {
           <Link href="/shop" className="btn btn-primary">
             {t("home.heroCta")}
           </Link>
+          <SocialSentence messageKey="about.follow" className="follow-line" />
         </div>
       </div>
     </div>

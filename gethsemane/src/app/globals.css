@@ -2306,20 +2306,113 @@ address {
 }
 
 /* ---------- Footer additions ---------- */
-.social-list {
+/* ---------- Our social accounts (plain links: no embeds or feeds) ---------- */
+.social-links {
   display: flex;
+  flex-wrap: wrap;
   gap: 8px;
   margin: 0 0 8px;
   padding: 0;
   list-style: none;
 }
 
-.site-footer .social-list .icon-btn {
+.site-footer .social-icons .icon-btn {
   color: var(--on-dark);
+  border: 1px solid color-mix(in srgb, var(--on-dark) 35%, transparent);
 }
 
-.site-footer .social-list .icon-btn:hover {
+.site-footer .social-icons .icon-btn:hover {
   background: color-mix(in srgb, var(--white) 10%, transparent);
+}
+
+.social-pills {
+  gap: 12px;
+}
+
+.social-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 48px;
+  padding: 8px 18px;
+  border: 1.5px solid var(--olive-700);
+  border-radius: 999px;
+  background: var(--surface);
+  color: var(--olive-700);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.social-pill:hover {
+  background: var(--olive-700);
+  color: var(--cream);
+}
+
+.social-pill:hover .social-handle {
+  color: var(--cream);
+}
+
+.social-handle {
+  color: var(--ink-muted);
+  font-weight: 400;
+  overflow-wrap: anywhere;
+}
+
+.follow-along {
+  text-align: center;
+}
+
+.follow-along .social-links {
+  justify-content: center;
+  margin-top: 20px;
+}
+
+.footer-email {
+  gap: 8px;
+}
+
+/* ---------- Contact cards ---------- */
+.contact-cards {
+  display: grid;
+  gap: 16px;
+  margin-block: 8px 32px;
+}
+
+@media (min-width: 768px) {
+  .contact-cards {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.contact-card {
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+}
+
+.contact-card h2 {
+  margin-top: 0;
+  font-size: 1.3rem;
+}
+
+.contact-card .social-pills {
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.contact-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 44px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+
+.follow-line {
+  margin-top: 32px;
+  color: var(--ink-muted);
 }
 
 .footer-links-inline {

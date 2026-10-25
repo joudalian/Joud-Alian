@@ -3,7 +3,7 @@ import { findClaims } from "../scripts/forbidden-claims.mjs";
 import { categories, products } from "./catalog";
 import { locales, publicPageUrls } from "./helpers";
 
-const allowedExternal = ["https://wa.me", "https://holylandtimber.com", "https://www.instagram.com"];
+const allowedExternal = ["https://wa.me", "https://holylandtimber.com", "https://www.instagram.com", "https://www.tiktok.com", "https://www.facebook.com"];
 
 // Crawls every page listed in the sitemap (all languages) plus cart, wishlist and 404,
 // and checks that every link, image (including srcset candidates), stylesheet, script and icon resolves.

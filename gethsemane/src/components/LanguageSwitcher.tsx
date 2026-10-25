@@ -37,7 +37,7 @@ export function LanguageSwitcher() {
       const fab = buttonRef.current?.getBoundingClientRect();
       if (!fab) return;
       const pad = 6;
-      const controls = document.querySelectorAll<HTMLElement>("main button, main a.btn, main select, main input, main .chips a");
+      const controls = document.querySelectorAll<HTMLElement>("main button, main a.btn, main select, main input, main .chips a, .social-links a, .footer-email");
       let covered = false;
       for (const el of controls) {
         const r = el.getBoundingClientRect();

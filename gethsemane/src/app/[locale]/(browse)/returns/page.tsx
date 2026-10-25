@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { InfoPage, Section } from "@/components/InfoPage";
+import { EmailText } from "@/components/EmailText";
 import { WithdrawalForm } from "@/components/WithdrawalForm";
 import { CONTACT_EMAIL, POLICY_UPDATED, RETURN_DAYS } from "@/config/store";
 import { Link } from "@/i18n/navigation";
@@ -47,7 +48,9 @@ export default async function ReturnsPage({ params }: Props) {
       <Section id="withdrawal" title={t("withdrawalTitle")}>
         <p>{t.rich("withdrawal", { email, link: (chunks) => <Link href="/withdrawal">{chunks}</Link> })}</p>
         <WithdrawalForm />
-        <p>{t("formSend", { email: CONTACT_EMAIL || "none" })}</p>
+        <p>
+          <EmailText text={t("formSend", { email: CONTACT_EMAIL || "none" })} />
+        </p>
       </Section>
       <Section id="guarantee" title={t("guaranteeTitle")}>
         <p>{t("guarantee")}</p>

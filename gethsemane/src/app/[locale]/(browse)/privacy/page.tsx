@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
+import { EmailText } from "@/components/EmailText";
 import { InfoPage, Section } from "@/components/InfoPage";
 import { ADDRESS, CONTACT_EMAIL, DATA_RETENTION_YEARS, LEGAL_ENTITY_NAME, POLICY_UPDATED, STORE_NAME, WHATSAPP_NUMBER } from "@/config/store";
 import { Link } from "@/i18n/navigation";
@@ -28,7 +29,11 @@ export default async function PrivacyPage({ params }: Props) {
         <ul className="plain-list">
           <li>{LEGAL_ENTITY_NAME ? tTerms("entity", { name: LEGAL_ENTITY_NAME }) : STORE_NAME}</li>
           {ADDRESS && <li>{tTerms("address", { address: ADDRESS })}</li>}
-          {CONTACT_EMAIL && <li>{tTerms("email", { email: CONTACT_EMAIL })}</li>}
+          {CONTACT_EMAIL && (
+            <li>
+              <EmailText text={tTerms("email", { email: CONTACT_EMAIL })} />
+            </li>
+          )}
           <li>{tTerms("whatsapp", { phone: `+${WHATSAPP_NUMBER}` })}</li>
         </ul>
       </Section>

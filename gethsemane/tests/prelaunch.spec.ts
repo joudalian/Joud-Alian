@@ -159,12 +159,20 @@ test.describe("contact, legal and footer", () => {
     expect(waText(await page.getByTestId("contact-whatsapp").getAttribute("href"))).toMatch(/^Subject: Wholesale enquiry\nHallo Gethsemane/);
   });
 
-  test("without CONTACT_EMAIL no email wording appears", async ({ page }) => {
-    for (const path of ["/privacy", "/returns", "/withdrawal", "/terms"]) {
+  test("with CONTACT_EMAIL set, the email wording and mailto links appear", async ({ page }) => {
+    for (const [path, wording] of [
+      ["/privacy", /or an email/],
+      ["/returns", /by email/],
+      ["/withdrawal", /Withdraw by email/],
+      ["/terms", /Email: gethsemane\.t12@gmail\.com/],
+    ] as const) {
       await page.goto(`/en${path}`);
-      await expect(page.locator("main"), path).not.toContainText(/or an email|by email|E-?mail:/i);
-      await expect(page.locator('main a[href^="mailto:"]')).toHaveCount(0);
+      await expect(page.locator("main"), path).toContainText(wording);
+      expect(await page.locator('main a[href^="mailto:gethsemane.t12@gmail.com"]').count(), path).toBeGreaterThan(0);
     }
+    // The model withdrawal form is addressed to the email too.
+    await page.goto("/en/withdrawal");
+    await expect(page.locator(".withdrawal-form li").first()).toContainText("gethsemane.t12@gmail.com");
   });
 
   test("footer lists Returns once (Support) and the withdrawal page under Legal", async ({ page }) => {
@@ -181,7 +189,7 @@ test.describe("contact, legal and footer", () => {
     const text = waText(await page.getByTestId("withdraw-whatsapp").getAttribute("href"));
     expect(text).toMatch(/^Subject: Withdrawal from contract\n/);
     for (const field of ["Name:", "Order number:", "Pieces:", "Date received:"]) expect(text).toContain(field);
-    await expect(page.getByTestId("withdraw-email")).toHaveCount(0);
+    await expect(page.getByTestId("withdraw-email")).toHaveAttribute("href", /^mailto:gethsemane\.t12@gmail\.com\?subject=/);
     await expect(page.getByRole("heading", { name: "Model withdrawal form", level: 3 })).toBeVisible();
   });
 

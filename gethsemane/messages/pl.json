@@ -206,7 +206,8 @@
     "unavailable": "Ten przedmiot nie jest już dostępny. Usuń go z zamówienia albo zapytaj nas o podobny.",
     "engravingLine": "Grawer: „{text}”",
     "soldOutLine": "Wyprzedany: damy znać, czy można go wykonać ponownie.",
-    "nothingToSend": "Nie można jeszcze nic wysłać: usuń przedmioty, które nie są już dostępne."
+    "nothingToSend": "Nie można jeszcze nic wysłać: usuń przedmioty, które nie są już dostępne.",
+    "emailSubject": "Prośba o zamówienie"
   },
   "wishlist": {
     "title": "Twoje ulubione",
@@ -230,7 +231,8 @@
     "sister": "Gethsemane to sklep siostrzany <link>holylandtimber.com</link>.",
     "emblemAlt": "Logo Gethsemane: stare drzewo oliwne i tłocznia oliwy w łuku zwieńczonym krzyżem",
     "nameTitle": "Dlaczego „Gethsemane”",
-    "name": "Getsemani pochodzi od aramejskiego gat shmanim, „tłocznia oliwy”: ogród oliwny u stóp Góry Oliwnej, miejsce tłoczenia, ciszy i modlitwy. Wybraliśmy tę nazwę, bo drewno oliwne wyrasta z tej samej gleby wiary i tradycji. Każdy przedmiot jest ręcznie rzeźbiony i wykańczany w Betlejem. Nie możemy obiecać, że każdy będzie doskonały; możemy obiecać, że jest prawdziwy i że ktoś poświęcił mu wiele uwagi."
+    "name": "Getsemani pochodzi od aramejskiego gat shmanim, „tłocznia oliwy”: ogród oliwny u stóp Góry Oliwnej, miejsce tłoczenia, ciszy i modlitwy. Wybraliśmy tę nazwę, bo drewno oliwne wyrasta z tej samej gleby wiary i tradycji. Każdy przedmiot jest ręcznie rzeźbiony i wykańczany w Betlejem. Nie możemy obiecać, że każdy będzie doskonały; możemy obiecać, że jest prawdziwy i że ktoś poświęcił mu wiele uwagi.",
+    "follow": "Obserwuj warsztat na {networks}."
   },
   "footer": {
     "about": "Ręcznie robione prezenty z drewna oliwnego z Betlejem, Ziemia Święta.",
@@ -240,8 +242,7 @@
     "sister": "Sklep siostrzany <link>holylandtimber.com</link>",
     "supportTitle": "Pomoc",
     "legalTitle": "Informacje prawne",
-    "followSister": "Obserwuj nasz sklep siostrzany na Instagramie",
-    "social": "{network} (otwiera się w nowej karcie)"
+    "followSister": "Obserwuj nasz sklep siostrzany na Instagramie"
   },
   "notFound": {
     "title": "Ta ścieżka zabłądziła.",
@@ -419,14 +420,18 @@
     "msgCustom": "Dzień dobry, {store}. Interesuje mnie przedmiot spersonalizowany lub grawerowany. Mam na myśli: ",
     "msgWholesale": "Dzień dobry, {store}. Piszę w sprawie zamówienia hurtowego dla naszego kościoła, wspólnoty lub sklepu. Przedmioty i ilości: ",
     "msgOther": "Dzień dobry, {store}. ",
-    "emailTitle": "E-mail",
     "addressTitle": "Adres pracowni",
     "addressNote": "Prosimy nie wysyłać zwrotów na ten adres; najpierw uzgodnij je z nami.",
     "hoursTitle": "Godziny",
     "hours": "{days}, {open}–{close} ({timezone})",
     "hoursNote": "W tych godzinach odpowiadamy najszybciej, jak możemy.",
     "sisterTitle": "Nasz sklep siostrzany",
-    "sister": "Gethsemane to sklep siostrzany <link>holylandtimber.com</link>, mający tych samych właścicieli."
+    "sister": "Gethsemane to sklep siostrzany <link>holylandtimber.com</link>, mający tych samych właścicieli.",
+    "writeTitle": "Napisz do nas",
+    "writeText": "Wolisz e-mail? Napisz do nas, odpowiemy najszybciej, jak to możliwe.",
+    "emailSubject": "Pytanie o Gethsemane",
+    "findTitle": "Znajdź nas",
+    "findText": "Nowe przedmioty i praca, która za nimi stoi, na naszych kontach."
   },
   "privacy": {
     "title": "Polityka prywatności",
@@ -535,5 +540,10 @@
     "formSectionTitle": "Wzór formularza odstąpienia od umowy",
     "moreTitle": "Zwrot pieniędzy i odesłanie",
     "more": "Jak działa zwrot pieniędzy i jak odesłać przedmioty, wyjaśniamy na <link>stronie zwrotów</link>."
+  },
+  "social": {
+    "on": "Gethsemane na {network}",
+    "followTitle": "Obserwuj nas",
+    "followText": "Zobacz nowe przedmioty i pracę, która za nimi stoi."
   }
 }

@@ -7,7 +7,9 @@ not published on the site.
 
 1. Buy the domain (for example `gethsemane-…`), with auto-renew on. Check the name is free to use as a trademark
    in your main markets (see step 6).
-2. Create the shop mailbox on that domain (for example `orders@your-domain`).
+2. **Done for launch:** the site uses `gethsemane.t12@gmail.com`. A Gmail address is fine to start; once the custom
+   domain exists, create a domain mailbox (for example `orders@your-domain`), set it up as below and change
+   `CONTACT_EMAIL` in `src/config/store.ts`.
 3. In the domain's DNS, set up email authentication so your replies do not land in spam:
    - **SPF**: one TXT record listing your mail provider.
    - **DKIM**: the record(s) your mail provider gives you.
@@ -26,9 +28,11 @@ Fill or confirm **every value marked `// CONFIRM`**:
 
 - [ ] `WHATSAPP_NUMBER` (test it: send yourself the order message from the site)
 - [ ] `LEGAL_ENTITY_NAME`, `TAX_ID`, `ADDRESS` (+ `ADDRESS_STREET`, `ADDRESS_LOCALITY`, `ADDRESS_COUNTRY`)
-- [ ] `CONTACT_EMAIL` (the mailbox from step 1; enables email links and the withdrawal email button)
+- [x] `CONTACT_EMAIL` = gethsemane.t12@gmail.com (done 2026-10-25; switch to the domain mailbox from step 1 later)
 - [ ] `OPENING_HOURS` (days you really answer: Sunday–Thursday is `[7, 1, 2, 3, 4]`), `TIMEZONE`, `TIMEZONE_LABEL`
-- [ ] `SOCIAL` (only accounts that exist), `SISTER_STORE`
+- [x] `SOCIAL` + `SOCIAL_HANDLES`: Instagram @gethsemane_t12, TikTok @gethsemane.store, Facebook (done 2026-10-25)
+- [ ] Put the shop link (`https://your-domain`) in the bio of each profile once the domain is live
+- [ ] `SISTER_STORE`
 - [ ] `SHIP_FROM_TEXT`, `PROCESSING_TIME`, `DELIVERY_TIME`, `DELIVERY_BY_REGION` (ask the carrier), `LOST_PARCEL_DAYS`
 - [ ] `SHIP_TO_COUNTRIES` (ISO codes of the countries you really ship to)
 - [ ] `RETURN_DAYS` (14 or more), `DAMAGE_REPORT_DAYS`, `QUOTE_VALID_HOURS`

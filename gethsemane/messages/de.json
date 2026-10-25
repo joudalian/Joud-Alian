@@ -206,7 +206,8 @@
     "unavailable": "Dieses Stück ist nicht mehr erhältlich. Entfernen Sie es aus Ihrer Bestellung oder fragen Sie uns nach einem ähnlichen.",
     "engravingLine": "Gravur: „{text}“",
     "soldOutLine": "Ausverkauft: Wir sagen Ihnen, ob es wieder gefertigt werden kann.",
-    "nothingToSend": "Noch kann nichts gesendet werden: Entfernen Sie die Stücke, die nicht mehr erhältlich sind."
+    "nothingToSend": "Noch kann nichts gesendet werden: Entfernen Sie die Stücke, die nicht mehr erhältlich sind.",
+    "emailSubject": "Bestellanfrage"
   },
   "wishlist": {
     "title": "Ihre Merkliste",
@@ -230,7 +231,8 @@
     "sister": "Gethsemane ist der Schwestershop von <link>holylandtimber.com</link>.",
     "emblemAlt": "Gethsemane-Logo: ein alter Olivenbaum und eine Ölpresse in einem Bogen, gekrönt von einem Kreuz",
     "nameTitle": "Warum „Gethsemane“",
-    "name": "Gethsemane kommt vom aramäischen gat shmanim, „Ölpresse“: ein Ölgarten am Fuß des Ölbergs, ein Ort des Pressens, der Stille und des Gebets. Wir haben den Namen gewählt, weil Olivenholz aus demselben Boden von Glauben und Tradition wächst. Jedes Stück wird in Bethlehem von Hand geschnitzt und veredelt. Wir können nicht versprechen, dass jedes Stück perfekt ist; wir können versprechen, dass es echt ist und dass jemand ihm große Aufmerksamkeit geschenkt hat."
+    "name": "Gethsemane kommt vom aramäischen gat shmanim, „Ölpresse“: ein Ölgarten am Fuß des Ölbergs, ein Ort des Pressens, der Stille und des Gebets. Wir haben den Namen gewählt, weil Olivenholz aus demselben Boden von Glauben und Tradition wächst. Jedes Stück wird in Bethlehem von Hand geschnitzt und veredelt. Wir können nicht versprechen, dass jedes Stück perfekt ist; wir können versprechen, dass es echt ist und dass jemand ihm große Aufmerksamkeit geschenkt hat.",
+    "follow": "Folgen Sie der Werkstatt auf {networks}."
   },
   "footer": {
     "about": "Handgefertigte Geschenke aus Olivenholz aus Bethlehem, Heiliges Land.",
@@ -240,8 +242,7 @@
     "sister": "Schwestershop von <link>holylandtimber.com</link>",
     "supportTitle": "Hilfe",
     "legalTitle": "Rechtliches",
-    "followSister": "Folgen Sie unserem Schwestershop auf Instagram",
-    "social": "{network} (öffnet in neuem Tab)"
+    "followSister": "Folgen Sie unserem Schwestershop auf Instagram"
   },
   "notFound": {
     "title": "Dieser Weg hat sich verlaufen.",
@@ -419,14 +420,18 @@
     "msgCustom": "Hallo {store}, ich interessiere mich für eine Sonderanfertigung oder Gravur. Ich stelle mir Folgendes vor: ",
     "msgWholesale": "Hallo {store}, ich schreibe wegen einer Großbestellung für unsere Kirche, Gemeinde oder unser Geschäft. Stücke und Mengen: ",
     "msgOther": "Hallo {store}, ",
-    "emailTitle": "E-Mail",
     "addressTitle": "Adresse der Werkstatt",
     "addressNote": "Bitte senden Sie Rücksendungen nicht an diese Adresse; sprechen Sie sie zuerst mit uns ab.",
     "hoursTitle": "Erreichbarkeit",
     "hours": "{days}, {open}–{close} ({timezone})",
     "hoursNote": "Wir antworten in dieser Zeit so schnell wie möglich.",
     "sisterTitle": "Unser Schwestershop",
-    "sister": "Gethsemane ist der Schwestershop von <link>holylandtimber.com</link> mit denselben Inhabern."
+    "sister": "Gethsemane ist der Schwestershop von <link>holylandtimber.com</link> mit denselben Inhabern.",
+    "writeTitle": "Schreiben Sie uns",
+    "writeText": "Lieber per E-Mail? Schreiben Sie uns, wir antworten so bald wie möglich.",
+    "emailSubject": "Frage zu Gethsemane",
+    "findTitle": "Hier finden Sie uns",
+    "findText": "Neue Stücke und die Arbeit dahinter, auf unseren eigenen Kanälen."
   },
   "privacy": {
     "title": "Datenschutzerklärung",
@@ -535,5 +540,10 @@
     "formSectionTitle": "Muster-Widerrufsformular",
     "moreTitle": "Erstattung und Rücksendung",
     "more": "Wie die Erstattung funktioniert und wie Sie die Stücke zurücksenden, erklären wir auf unserer <link>Rückgabeseite</link>."
+  },
+  "social": {
+    "on": "Gethsemane auf {network}",
+    "followTitle": "Folgen Sie uns",
+    "followText": "Sehen Sie neue Stücke und die Arbeit, die in ihnen steckt."
   }
 }

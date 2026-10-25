@@ -206,7 +206,8 @@
     "unavailable": "Cette pièce n'est plus disponible. Retirez-la de votre commande ou demandez-nous une pièce similaire.",
     "engravingLine": "Gravure : « {text} »",
     "soldOutLine": "Épuisée : nous vous dirons si elle peut être refaite.",
-    "nothingToSend": "Rien ne peut encore être envoyé : retirez les pièces qui ne sont plus disponibles."
+    "nothingToSend": "Rien ne peut encore être envoyé : retirez les pièces qui ne sont plus disponibles.",
+    "emailSubject": "Demande de commande"
   },
   "wishlist": {
     "title": "Vos favoris",
@@ -230,7 +231,8 @@
     "sister": "Gethsemane est la boutique sœur de <link>holylandtimber.com</link>.",
     "emblemAlt": "Logo de Gethsemane : un olivier ancien et un pressoir à huile dans une arche surmontée d'une croix",
     "nameTitle": "Pourquoi « Gethsemane »",
-    "name": "Gethsémani vient de l'araméen gat shmanim, « pressoir à huile » : un jardin d'oliviers au pied du mont des Oliviers, un lieu de pressoir, de silence et de prière. Nous avons choisi ce nom parce que le bois d'olivier naît de la même terre de foi et de tradition. Chaque pièce est sculptée et finie à la main à Bethléem. Nous ne pouvons pas promettre que chaque pièce est parfaite ; nous pouvons promettre qu'elle est authentique, et que quelqu'un y a prêté une grande attention."
+    "name": "Gethsémani vient de l'araméen gat shmanim, « pressoir à huile » : un jardin d'oliviers au pied du mont des Oliviers, un lieu de pressoir, de silence et de prière. Nous avons choisi ce nom parce que le bois d'olivier naît de la même terre de foi et de tradition. Chaque pièce est sculptée et finie à la main à Bethléem. Nous ne pouvons pas promettre que chaque pièce est parfaite ; nous pouvons promettre qu'elle est authentique, et que quelqu'un y a prêté une grande attention.",
+    "follow": "Suivez l'atelier sur {networks}."
   },
   "footer": {
     "about": "Cadeaux en bois d'olivier faits main à Bethléem, Terre sainte.",
@@ -240,8 +242,7 @@
     "sister": "Boutique sœur de <link>holylandtimber.com</link>",
     "supportTitle": "Aide",
     "legalTitle": "Informations légales",
-    "followSister": "Suivez notre boutique sœur sur Instagram",
-    "social": "{network} (s'ouvre dans un nouvel onglet)"
+    "followSister": "Suivez notre boutique sœur sur Instagram"
   },
   "notFound": {
     "title": "Ce chemin s'est égaré.",
@@ -419,14 +420,18 @@
     "msgCustom": "Bonjour {store}, je suis intéressé(e) par une pièce personnalisée ou gravée. Voici ce que j'imagine : ",
     "msgWholesale": "Bonjour {store}, je vous écris pour une commande en gros pour notre église, communauté ou boutique. Pièces et quantités : ",
     "msgOther": "Bonjour {store}, ",
-    "emailTitle": "E-mail",
     "addressTitle": "Adresse de l'atelier",
     "addressNote": "Merci de ne pas envoyer de retours à cette adresse ; convenez-en d'abord avec nous.",
     "hoursTitle": "Horaires",
     "hours": "{days}, {open}–{close} ({timezone})",
     "hoursNote": "Nous répondons dès que possible pendant ces horaires.",
     "sisterTitle": "Notre boutique sœur",
-    "sister": "Gethsemane est la boutique sœur de <link>holylandtimber.com</link>, avec les mêmes propriétaires."
+    "sister": "Gethsemane est la boutique sœur de <link>holylandtimber.com</link>, avec les mêmes propriétaires.",
+    "writeTitle": "Écrivez-nous",
+    "writeText": "Vous préférez l'e-mail ? Écrivez-nous, nous vous répondrons dès que possible.",
+    "emailSubject": "Question à propos de Gethsemane",
+    "findTitle": "Retrouvez-nous",
+    "findText": "Les nouvelles pièces et le travail qui se cache derrière, sur nos comptes."
   },
   "privacy": {
     "title": "Politique de confidentialité",
@@ -535,5 +540,10 @@
     "formSectionTitle": "Modèle de formulaire de rétractation",
     "moreTitle": "Remboursements et retours",
     "more": "Le fonctionnement des remboursements et le renvoi des pièces sont expliqués sur notre <link>page des retours</link>."
+  },
+  "social": {
+    "on": "Gethsemane sur {network}",
+    "followTitle": "Suivez-nous",
+    "followText": "Découvrez les nouvelles pièces et le travail qui se cache derrière."
   }
 }

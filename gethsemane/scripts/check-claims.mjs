@@ -26,6 +26,12 @@ const { categories } = await import("../src/data/categories.ts");
 walk(categories, "", "src/data/categories.ts");
 const store = await import("../src/config/store.ts");
 walk({ SHIP_FROM_TEXT: store.SHIP_FROM_TEXT, ANNOUNCEMENT: store.ANNOUNCEMENT, SOCIAL: store.SOCIAL }, "", "src/config/store.ts");
+// Our social links must be plain profile URLs: no share-tracking parameters.
+for (const [network, url] of Object.entries(store.SOCIAL)) {
+  if (url && /[?&#](utm_[a-z]+|xtok|_r|_t|mibextid|fbclid|igsh|igshid|si)=/i.test(url)) {
+    problems.push(`src/config/store.ts SOCIAL.${network}: remove the tracking parameters from ${url}`);
+  }
+}
 if (store.PAYMENT_MODE !== "link" && store.PAYMENT_METHODS.length > 0) {
   problems.push("src/config/store.ts: PAYMENT_METHODS are only allowed when PAYMENT_MODE is \"link\"");
 }

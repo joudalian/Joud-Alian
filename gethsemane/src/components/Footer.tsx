@@ -1,5 +1,5 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { SISTER_STORE, SOCIAL, STORE_NAME } from "@/config/store";
+import { CONTACT_EMAIL, SISTER_STORE, STORE_NAME } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { RATES_AS_OF } from "@/lib/currency";
@@ -7,16 +7,14 @@ import { formatDate } from "@/lib/format";
 import { categories, categoryText } from "@/lib/catalog";
 import { whatsappUrl } from "@/lib/whatsapp";
 import { FooterLanguages } from "./FooterLanguages";
-import { ChatIcon, FacebookIcon, InstagramIcon, TikTokIcon } from "./Icons";
+import { ChatIcon, MailIcon } from "./Icons";
 import { FooterLogo } from "./Logo";
+import { SocialLinks } from "./SocialLinks";
 
-const socialIcons = { instagram: InstagramIcon, facebook: FacebookIcon, tiktok: TikTokIcon } as const;
-const socialNames = { instagram: "Instagram", facebook: "Facebook", tiktok: "TikTok" } as const;
 
 export async function Footer() {
   const t = await getTranslations();
   const locale = (await getLocale()) as Locale;
-  const social = (Object.keys(SOCIAL) as (keyof typeof SOCIAL)[]).filter((k) => SOCIAL[k]);
   const support = [
     { href: "/how-to-order", label: t("nav.howToOrder") },
     { href: "/faq", label: t("nav.faq") },
@@ -51,26 +49,7 @@ export async function Footer() {
                 ),
               })}
             </p>
-            {social.length > 0 && (
-              <ul className="social-list" data-testid="social-links">
-                {social.map((key) => {
-                  const Icon = socialIcons[key];
-                  return (
-                    <li key={key}>
-                      <a
-                        href={SOCIAL[key]}
-                        className="icon-btn"
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        aria-label={t("footer.social", { network: socialNames[key] })}
-                      >
-                        <Icon />
-                      </a>
-                    </li>
-                  );
-                })}
-              </ul>
-            )}
+            <SocialLinks variant="icons" testId="social-links" />
             <p className="footer-links-inline">
               <a href={whatsappUrl(t("whatsapp.general", { store: STORE_NAME }))} target="_blank" rel="noopener noreferrer">
                 <ChatIcon size={18} />
@@ -104,6 +83,18 @@ export async function Footer() {
                   <Link href={item.href}>{item.label}</Link>
                 </li>
               ))}
+              {CONTACT_EMAIL && (
+                <li>
+                  <a href={`mailto:${CONTACT_EMAIL}`} className="footer-email" data-testid="footer-email">
+                    <MailIcon size={16} />
+                    {/* A long address may wrap at the "@", never in the middle of a word. */}
+                    <span>
+                      {CONTACT_EMAIL.split("@")[0]}
+                      <wbr />@{CONTACT_EMAIL.split("@")[1]}
+                    </span>
+                  </a>
+                </li>
+              )}
             </ul>
           </nav>
           <nav aria-labelledby="footer-legal">

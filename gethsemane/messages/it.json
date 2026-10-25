@@ -206,7 +206,8 @@
     "unavailable": "Questo pezzo non è più disponibile. Toglilo dall'ordine o chiedici di uno simile.",
     "engravingLine": "Incisione: «{text}»",
     "soldOutLine": "Esaurito: ti diremo se può essere realizzato di nuovo.",
-    "nothingToSend": "Non c'è ancora nulla da inviare: togli i pezzi non più disponibili."
+    "nothingToSend": "Non c'è ancora nulla da inviare: togli i pezzi non più disponibili.",
+    "emailSubject": "Richiesta d'ordine"
   },
   "wishlist": {
     "title": "I tuoi preferiti",
@@ -230,7 +231,8 @@
     "sister": "Gethsemane è il negozio gemello di <link>holylandtimber.com</link>.",
     "emblemAlt": "Logo di Gethsemane: un antico ulivo e un frantoio dentro un arco sormontato da una croce",
     "nameTitle": "Perché «Gethsemane»",
-    "name": "Getsemani viene dall'aramaico gat shmanim, «frantoio»: un orto di ulivi ai piedi del Monte degli Ulivi, luogo di torchio, di silenzio e di preghiera. Abbiamo scelto questo nome perché il legno d'ulivo nasce dalla stessa terra di fede e di tradizione. Ogni pezzo è intagliato e rifinito a mano a Betlemme. Non possiamo promettere che ogni pezzo sia perfetto; possiamo promettere che è autentico e che qualcuno ci ha messo molta attenzione."
+    "name": "Getsemani viene dall'aramaico gat shmanim, «frantoio»: un orto di ulivi ai piedi del Monte degli Ulivi, luogo di torchio, di silenzio e di preghiera. Abbiamo scelto questo nome perché il legno d'ulivo nasce dalla stessa terra di fede e di tradizione. Ogni pezzo è intagliato e rifinito a mano a Betlemme. Non possiamo promettere che ogni pezzo sia perfetto; possiamo promettere che è autentico e che qualcuno ci ha messo molta attenzione.",
+    "follow": "Segui il laboratorio su {networks}."
   },
   "footer": {
     "about": "Regali in legno d'ulivo fatti a mano a Betlemme, Terra Santa.",
@@ -240,8 +242,7 @@
     "sister": "Negozio gemello di <link>holylandtimber.com</link>",
     "supportTitle": "Assistenza",
     "legalTitle": "Note legali",
-    "followSister": "Segui il nostro negozio gemello su Instagram",
-    "social": "{network} (si apre in una nuova scheda)"
+    "followSister": "Segui il nostro negozio gemello su Instagram"
   },
   "notFound": {
     "title": "Questo sentiero si è perso.",
@@ -419,14 +420,18 @@
     "msgCustom": "Buongiorno {store}, mi interessa un pezzo personalizzato o inciso. Ecco cosa ho in mente: ",
     "msgWholesale": "Buongiorno {store}, vi scrivo per un ordine all'ingrosso per la nostra chiesa, comunità o negozio. Pezzi e quantità: ",
     "msgOther": "Buongiorno {store}, ",
-    "emailTitle": "E-mail",
     "addressTitle": "Indirizzo del laboratorio",
     "addressNote": "Non spedire resi a questo indirizzo; concordali prima con noi.",
     "hoursTitle": "Orari",
     "hours": "{days}, {open}–{close} ({timezone})",
     "hoursNote": "Rispondiamo appena possibile in questi orari.",
     "sisterTitle": "Il nostro negozio gemello",
-    "sister": "Gethsemane è il negozio gemello di <link>holylandtimber.com</link>, con la stessa proprietà."
+    "sister": "Gethsemane è il negozio gemello di <link>holylandtimber.com</link>, con la stessa proprietà.",
+    "writeTitle": "Scrivici",
+    "writeText": "Preferisci l'email? Scrivici e ti risponderemo il prima possibile.",
+    "emailSubject": "Domanda su Gethsemane",
+    "findTitle": "Trovaci",
+    "findText": "I nuovi pezzi e il lavoro che c'è dietro, sui nostri profili."
   },
   "privacy": {
     "title": "Informativa sulla privacy",
@@ -535,5 +540,10 @@
     "formSectionTitle": "Modulo tipo di recesso",
     "moreTitle": "Rimborsi e resi",
     "more": "Come funzionano i rimborsi e come rispedire i pezzi è spiegato nella nostra <link>pagina dei resi</link>."
+  },
+  "social": {
+    "on": "Gethsemane su {network}",
+    "followTitle": "Seguici",
+    "followText": "Scopri i nuovi pezzi e il lavoro che c'è dietro."
   }
 }
