@@ -1,0 +1,81 @@
+/*
+ * Form styles shared by the account/checkout/admin pages (via the (app) layout) and the few public forms
+ * (contact, bulk orders), which import this file themselves. Uses the design tokens from app/globals.css.
+ */
+
+.stack-form {
+  display: grid;
+  gap: 16px;
+  margin-block: 16px 24px;
+}
+
+.stack-form .btn {
+  justify-self: start;
+}
+
+.field :is(input[type="email"], input[type="password"], input[type="tel"], input[type="number"], input[type="date"], select) {
+  width: 100%;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--ink-muted);
+  border-radius: 8px;
+  background: #fff;
+  color: var(--ink);
+  font: inherit;
+}
+
+.field select {
+  appearance: auto;
+}
+
+.field-row {
+  display: grid;
+  gap: 16px;
+}
+
+@media (min-width: 560px) {
+  .field-row {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+  }
+}
+
+.address-fields {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  min-inline-size: 0;
+}
+
+.optional {
+  color: var(--ink-muted);
+  font-weight: 400;
+}
+
+.form-message {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 8px;
+  border-inline-start: 4px solid;
+}
+
+.form-error {
+  border-color: var(--danger);
+  background: #fbeeea;
+  color: var(--danger);
+}
+
+.form-success {
+  border-color: var(--olive-700);
+  background: var(--olive-100);
+  color: var(--olive-900);
+}
+
+.hp {
+  position: absolute;
+  inset-inline-start: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}

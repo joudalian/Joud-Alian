@@ -1,0 +1,2 @@
+order_number,date_request,reason,pieces_sku_qty,amount_refunded_usd,outbound_shipping_refunded,method,date_refunded,return_received,notes
+GTH-2611-0001,2026-11-20,statutory withdrawal,GTH-007 x1,49.00,yes,same as paid (bank transfer),2026-11-25,2026-11-24,example row: delete it

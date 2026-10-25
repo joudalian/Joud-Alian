@@ -1,0 +1,46 @@
+# Runs the Gethsemane store's full check (typecheck, lint, translations, claims, contrast, build, audit and the
+# Playwright tests) on every push and pull request that touches the store.
+name: verify
+
+on:
+  push:
+    paths: ["gethsemane/**", ".github/workflows/verify.yml"]
+  pull_request:
+    paths: ["gethsemane/**", ".github/workflows/verify.yml"]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    defaults:
+      run:
+        working-directory: gethsemane
+    env:
+      CI: "true"
+      # The tests run against a local production server; a real deployment sets its own SITE_URL.
+      SITE_URL: http://localhost:3100
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: gethsemane/package-lock.json
+      - run: npm ci
+      - run: npx playwright install --with-deps chromium
+      - run: npm run verify
+      - if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            gethsemane/playwright-report
+            gethsemane/test-results
+          retention-days: 7

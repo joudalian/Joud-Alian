@@ -1,0 +1,22 @@
+{
+  "hero-olive-grove": {
+    "width": 2000,
+    "height": 1125,
+    "placeholder": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAADQAQCdASoQAAkAA4BaJbACdAC9uRWaoAD+6xStSQOnrWgqKOXPFO/Ha/Rqr1+6FaA4Ne7W+HEznjv5U8KMhc3InLCEZw+C4QAAAA=="
+  },
+  "craft-workshop": {
+    "width": 1997,
+    "height": 1440,
+    "placeholder": "data:image/webp;base64,UklGRmgAAABXRUJQVlA4IFwAAADwAQCdASoQAAwAA4BaJZACdADvsr4nPKAA9rgCemPekt7XTsRacQX0z03FZ+jCvI68L4dxRo9sEg3mWniMNaWjsw+gSmUN784HpCFoUK7zPbRhNJOhsoE+3AAAAA=="
+  },
+  "cross-olive-branch": {
+    "width": 2000,
+    "height": 1125,
+    "placeholder": "data:image/webp;base64,UklGRlQAAABXRUJQVlA4IEgAAADwAQCdASoQAAkAA4BaJZACdAD0TBTQ5PAAzIb/i0P+qUjiWf0+Puj/OgFmtBDCoVAJ/ITWlAw1FifOzy71ZdE38T48b6O8AAA="
+  },
+  "name-olive-press": {
+    "width": 2000,
+    "height": 1125,
+    "placeholder": "data:image/webp;base64,UklGRlYAAABXRUJQVlA4IEoAAAAQAgCdASoQAAkAA4BaJaACdAEVjMr/Bq5YAP7w6ZrRXZCHSOCqIldU8Mvsm50w+mmvkz6P2fpmAwTiK0fUzGFh5PN2xlVLS+gAAA=="
+  }
+}
