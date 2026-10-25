@@ -1,22 +1,19 @@
 "use client";
 
 import { createContext, createElement, useCallback, useContext, useSyncExternalStore, type ReactNode } from "react";
-import { lineFits, type CartRules } from "./order-message";
+import { lineFits, type CartRules } from "./cart-lookup";
 import {
   MAX_CART_LINES,
   MAX_QTY,
   MAX_WISHLIST,
   STORAGE_KEYS,
-  emptyOrderDetails,
   lineKey,
   parseCart,
-  parseOrderDetails,
   parseWishlist,
   readStorage,
   removeStorage,
   writeStorage,
   type CartLine,
-  type OrderDetailsState,
 } from "./storage";
 
 type Listener = () => void;
@@ -147,41 +144,7 @@ export function useHydrated(): boolean {
   );
 }
 
-/** Optional details for the WhatsApp message, stored in this browser only. */
-const detailsListeners = new Set<Listener>();
-let detailsRaw: string | null | undefined;
-let detailsValue: OrderDetailsState = emptyOrderDetails;
-let detailsMemory: string | null = null;
-
-function getDetails(): OrderDetailsState {
-  const raw = readStorage(STORAGE_KEYS.orderDetails) ?? detailsMemory;
-  if (raw !== detailsRaw) {
-    detailsRaw = raw;
-    detailsValue = parseOrderDetails(raw);
-  }
-  return detailsValue;
-}
-
-export function useOrderDetails() {
-  const details = useSyncExternalStore(
-    (l) => {
-      detailsListeners.add(l);
-      return () => detailsListeners.delete(l);
-    },
-    getDetails,
-    () => emptyOrderDetails,
-  );
-  const update = useCallback((patch: Partial<OrderDetailsState>) => {
-    const next = parseOrderDetails(JSON.stringify({ ...getDetails(), ...patch }));
-    detailsMemory = JSON.stringify(next);
-    writeStorage(STORAGE_KEYS.orderDetails, detailsMemory);
-    detailsListeners.forEach((l) => l());
-  }, []);
-  /** Forgets everything typed on the order page (name, country, notes, gift note) in this browser. */
-  const clear = useCallback(() => {
-    detailsMemory = JSON.stringify(emptyOrderDetails);
-    removeStorage(STORAGE_KEYS.orderDetails);
-    detailsListeners.forEach((l) => l());
-  }, []);
-  return { details, update, clear };
+/** Empties the order (after a successful checkout). */
+export function clearCart() {
+  cartStore.set([]);
 }

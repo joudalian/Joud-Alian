@@ -1,6 +1,6 @@
 import AxeBuilder from "@axe-core/playwright";
 import { expect, test, type Page } from "@playwright/test";
-import { firstCategory, nameOf, simple } from "./catalog";
+import { firstCategory, nameOf, price, priceOf, simple } from "./catalog";
 import { locales, pages, waitForHydration } from "./helpers";
 
 const NAME = nameOf(simple);
@@ -68,7 +68,7 @@ test.describe("indexing", () => {
 });
 
 test.describe("order flow", () => {
-  test("product page: Add to order, then a lasting View your order link; Order only this piece", async ({ page }) => {
+  test("product page: Add to order, then a lasting View your order link; Buy now", async ({ page }) => {
     await page.goto(`/en${pages.product}`);
     await waitForHydration(page);
     const add = page.locator(".buy-row").getByRole("button", { name: `Add to order: ${NAME}` });
@@ -78,7 +78,7 @@ test.describe("order flow", () => {
     await page.waitForTimeout(2300);
     await expect(page.getByTestId("view-order")).toBeVisible();
     await expect(page.getByTestId("view-order")).toHaveAttribute("href", "/en/cart");
-    await expect(page.locator("#order-row").getByRole("link", { name: /Order only this piece/ })).toBeVisible();
+    await expect(page.locator("#order-row").getByRole("button", { name: `Buy now: ${NAME}` })).toBeVisible();
     await expect(page.getByRole("link", { name: /Ask about this piece/ })).toBeVisible();
     // Product cards name the piece in the button's accessible name, visible text first.
     const card = page.locator(".product-card").first();
@@ -86,25 +86,16 @@ test.describe("order flow", () => {
     await expect(card.getByRole("button", { name: `Add to order: ${name}` })).toBeVisible();
   });
 
-  test("cart summary, country hint, gift note without text and clearing saved details", async ({ page }) => {
+  test("cart summary: shipping at checkout, charged in USD; old saved details are deleted", async ({ page }) => {
     await withCart(page, [{ slug: simple.slug, qty: 1 }], { name: "Ana", country: "Portugal", notes: "", giftNote: false, giftNoteText: "" });
     await page.goto("/en/cart");
     await waitForHydration(page);
     await expect(page.getByText("Items total in USD (shipping not included)")).toBeVisible();
-    await expect(page.locator(".summary-shipping")).toHaveText(/Shipping\s*confirmed on WhatsApp/);
-    await expect(page.getByLabel("Country for delivery")).toHaveAccessibleDescription("Add your country so we can quote shipping in our first reply.");
-
-    await page.getByLabel("Add a gift note").check();
-    const link = page.getByTestId("whatsapp-order");
-    await expect.poll(async () => waText(await link.getAttribute("href"))).toContain("Gift note: (no text yet)");
-    expect(waText(await link.getAttribute("href"))).toContain("Site language: English (en)");
-
-    await page.getByRole("button", { name: "Clear my saved details" }).click();
-    await expect(page.getByLabel("Your name")).toHaveValue("");
-    await expect(page.getByLabel("Country for delivery")).toHaveValue("");
-    await expect(page.getByLabel("Add a gift note")).not.toBeChecked();
-    expect(await page.evaluate(() => localStorage.getItem("gethsemane.order-details.v1"))).toBeNull();
-    await expect(page.getByTestId("live-region")).toContainText("cleared");
+    await expect(page.locator(".summary-shipping")).toHaveText(/Shipping\s*Calculated at checkout/);
+    await expect(page.locator(".summary")).toContainText("Prices are charged in US dollars (USD) at checkout.");
+    await expect(page.getByTestId("to-checkout")).toHaveAttribute("href", "/en/checkout");
+    // Details from the old order form are no longer kept in the browser.
+    await expect.poll(() => page.evaluate(() => localStorage.getItem("gethsemane.order-details.v1"))).toBeNull();
   });
 
   test("quantity can be typed (12) and is committed on blur or Enter", async ({ page }) => {
@@ -117,7 +108,7 @@ test.describe("order flow", () => {
     await expect(qty).toHaveValue("12");
     await qty.press("Tab");
     await expect(qty).toHaveValue("12");
-    await expect(page.getByTestId("message-preview")).toHaveValue(new RegExp(`12 × ${NAME}`));
+    await expect(page.locator(".subtotal-usd")).toHaveText(price(priceOf(simple) * 12));
     await qty.fill("99");
     await qty.press("Enter");
     await expect(qty).toHaveValue("20");

@@ -14,6 +14,15 @@ export const staticSecurityHeaders = [
   { key: "X-DNS-Prefetch-Control", value: "off" },
 ];
 
+/**
+ * Where a form may send the browser: this site, and Stripe's hosted payment page (the checkout form's answer is a
+ * redirect there). STRIPE_CHECKOUT_ORIGIN replaces Stripe's origin for the local payment stand-in in the tests.
+ */
+export function formActionSources(): string {
+  const stripe = process.env.STRIPE_CHECKOUT_ORIGIN ?? "https://checkout.stripe.com";
+  return `'self' ${stripe}`;
+}
+
 export function buildCsp(nonce: string, isDev: boolean): string {
   return [
     "default-src 'self'",
@@ -28,7 +37,7 @@ export function buildCsp(nonce: string, isDev: boolean): string {
     "worker-src 'self'",
     "object-src 'none'",
     "base-uri 'self'",
-    "form-action 'self'",
+    `form-action ${formActionSources()}`,
     "frame-src 'none'",
     "frame-ancestors 'none'",
     ...(isDev ? [] : ["upgrade-insecure-requests"]),

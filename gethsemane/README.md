@@ -146,30 +146,49 @@ longer available" with a remove button; it is never sent.
 
 The current 12 products, their names, descriptions, photos and prices are **placeholders**.
 
-## Ordering via WhatsApp
+## Cart, checkout and payments
 
-There is **no online checkout** and no payment on the site. Visitors collect pieces in **Your order**
-(`/[locale]/cart`, "Add to order" on every product), optionally add their name, country, notes and a gift note
-(kept only in their browser; "Clear my saved details" removes them), and press **Send order on WhatsApp**: it
-opens `https://wa.me/<number>` with a message in the visitor's language listing the items, quantities, prices in
-USD (plus an approximate total in the chosen currency) and those details. For the owner, every line also carries
-the English product name and SKU (`GTH-001`…, or the variant's SKU), the chosen variant and any engraving text, and
-a line names the site language. The order is kept in the browser under `gethsemane.cart.v2` (lines of product,
-quantity, variant and engraving; an older `gethsemane.cart.v1` order is migrated automatically). A ticked gift-note box is
-always mentioned, even without text. Very long notes are shortened in the link (wa.me links over ~2000 encoded
-characters fail in some apps); the visitor is told, and the full text stays in the **Copy message** fallback and
-its preview. When `CONTACT_EMAIL` is set, a "send it by email" link appears too. On the product page the primary
-action is **Add to order**; **Order only this piece** opens WhatsApp for that one piece. Contact-page messages
-start with an English "Subject:" line so the owner sees the topic in any language. The order is then confirmed personally on WhatsApp: availability, shipping cost,
-delivery estimate and how to pay (see `docs/OPERATIONS.md`).
+Visitors collect pieces in **Your order** (`/[locale]/cart`; **Add to order** and **Buy now** on product pages). The
+cart is kept in the browser under `gethsemane.cart.v2` (product, quantity, variant, engraving); it shows the items
+total in USD, an approximate total in the chosen currency (labelled "approximate") and that the charge is in USD.
 
-**Change the WhatsApp number** in `src/config/store.ts`:
+**Checkout** (`/[locale]/checkout`, `noindex`): email, delivery address (saved addresses for signed-in customers),
+shipping method, optional gift note, coupon code, a review of every line and the total, and the terms checkbox.
+Every amount comes from the server (`src/server/pricing.ts`): prices, variants, engraving surcharges, shipping
+(`SHIPPING_RATES` by region in `src/config/store.ts`) and coupons are computed there, never trusted from the browser.
+Pieces that are sold out, unknown, have an invalid variant or (in live mode) are not `launchReady` are refused.
+**Order and pay** creates the order (`pending_payment`, number `GTH-YYMM-0001`, with a snapshot of every line and the
+address) and redirects to a hosted **Stripe Checkout** page. Card data never touches this site.
 
-```ts
-export const WHATSAPP_NUMBER = "970569741193"; // country code + number, digits only, no "+"
-```
+Only the **webhook** (`/api/stripe/webhook`) marks an order paid: the signature is verified, every event is stored
+once in `stripe_events` (duplicates are ignored), the amount and currency are checked against the order, then the
+confirmation email is sent. It also handles expired sessions (→ `cancelled`), failed payments and refunds made in the
+Stripe Dashboard (→ `refunded`, or an internal "partially refunded" note). The success page
+(`/order/<number>/confirmation`) only *reads* the order; it shows "Confirming your payment" until the webhook arrives.
+Order statuses: `pending_payment`, `paid`, `processing`, `shipped`, `delivered`, `cancelled`, `refunded`.
 
-The message wording is in the `whatsapp` section of each `messages/<locale>.json`.
+**Payment modes** come from `STRIPE_SECRET_KEY` (`src/server/payments.ts`):
+
+| Key | Mode | Checkout |
+| --- | --- | --- |
+| empty | off | "Payments are opening soon", with the contact email and the Contact page. No fake payment, no card logos. |
+| `sk_test_…` | test | Works with Stripe's test cards (`4242 4242 4242 4242`); a banner says no real payment is taken; orders are marked as test orders. Any country may be chosen and the rates are the unconfirmed draft rates. |
+| `sk_live_…` | live | Real payments, **only if** `SHIPPING_RATES_CONFIRMED` is true, `SHIP_TO_COUNTRIES` is filled and the catalog is launch-ready; otherwise checkout stays closed. |
+
+Set up Stripe:
+1. Stripe Dashboard → Developers → API keys: copy the **test** secret key into `STRIPE_SECRET_KEY` (Vercel → Project →
+   Settings → Environment Variables, Preview and Production).
+2. Developers → Webhooks → Add endpoint: `https://<your-domain>/api/stripe/webhook`, events
+   `checkout.session.completed`, `checkout.session.async_payment_succeeded`, `checkout.session.async_payment_failed`,
+   `checkout.session.expired`, `payment_intent.payment_failed`, `charge.refunded`. Copy its signing secret into
+   `STRIPE_WEBHOOK_SECRET`. Test and live mode have separate endpoints and secrets.
+3. Place a test order with `4242 4242 4242 4242`, check it in Stripe and in `/admin`.
+4. Going live: confirm the shipping rates and countries (and the legal items in `docs/LAUNCH.md`), then replace both
+   variables with the live key and the live endpoint's secret and redeploy.
+
+Tax is not collected (`TAX` in `src/config/store.ts`, marked `// CONFIRM`). The automated tests never call Stripe:
+`scripts/stripe-mock.mjs` answers the two API calls the site makes and sends correctly signed webhooks, and a second
+test server runs without any key to cover the "opening soon" state (`tests/checkout.spec.ts`).
 
 ## Accounts and database
 
@@ -179,7 +198,7 @@ Customer accounts, orders, coupons and order tracking live in a Postgres databas
 - **Local development and tests need no database server**: without `DATABASE_URL` the site uses
   [PGlite](https://pglite.dev) (Postgres compiled to WebAssembly) stored in `.data/pglite` (git-ignored) and applies
   the migrations on start. The Playwright tests start from an empty PGlite database every run
-  (`scripts/test-server.mjs`) and read the emails the site "sends" from `.data/test-outbox.jsonl`.
+  (`scripts/test-server.mjs`) and read the emails the site "sends" from `.data/test-outbox-<port>.jsonl`.
 - **Production**: set `DATABASE_URL` (Neon from the Vercel Marketplace works; use the pooled connection string).
   `npm run build` applies pending migrations first (`npm run db:migrate`), so a deployment never runs ahead of
   its schema. Without `DATABASE_URL` (or without `BETTER_AUTH_SECRET`) a production build still works: the account,
@@ -197,7 +216,7 @@ guests). All are `noindex`. Deleting an account removes the profile, addresses, 
 orders are kept, detached and without phone number or gift note, for `DATA_RETENTION_YEARS` (accounting law).
 `/admin` is limited to the verified addresses in `ADMIN_EMAILS`.
 
-None of this reaches the marketing and catalog pages: the auth library, database clients and (later) the Stripe SDK
+None of this reaches the marketing and catalog pages: the auth library, database clients and the Stripe SDK
 run only on the server, and the account styles (`src/styles/app.css`) load only on the account pages
 (`tests/bundle.spec.ts`). Environment variables: see `.env.example`.
 

@@ -1,7 +1,7 @@
 import type { PurchaseProduct } from "@/components/ProductPurchase";
 import type { Locale } from "@/i18n/locales";
 import { mainImage, products, productText, unitPriceUsd, variantLabel, type Product } from "./catalog";
-import { cartRule, type CartRules, type OrderLookup, type OrderProduct } from "./order-message";
+import { cartRule, type CartRules, type OrderLookup, type OrderProduct } from "./cart-lookup";
 
 // Server only: turns validated catalog entries into the compact data client components receive as props, so the
 // browser never loads the catalog (all languages), its schema or zod.

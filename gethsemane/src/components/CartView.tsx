@@ -1,30 +1,16 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { useId, useRef, useState, type KeyboardEvent } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import { CONTACT_EMAIL } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
-import { useCart, useHydrated, useOrderDetails } from "@/lib/client-store";
+import { useCart, useHydrated } from "@/lib/client-store";
 import { formatPrice } from "@/lib/currency";
-import {
-  buildOrderMessage,
-  fitOrderMessage,
-  linePriceUsd,
-  lineProduct,
-  orderVariant,
-  unitPrice,
-  type OrderLookup,
-} from "@/lib/order-message";
-import {
-  MAX_CART_LINES,
-  MAX_QTY,
-  ORDER_DETAIL_LIMITS,
-  lineKey,
-} from "@/lib/storage";
-import { encodeMessage, whatsappUrl } from "@/lib/whatsapp";
+import { linePriceUsd, lineProduct, orderVariant, unitPrice, type OrderLookup } from "@/lib/cart-lookup";
+import { MAX_CART_LINES, MAX_QTY, STORAGE_KEYS, lineKey, removeStorage } from "@/lib/storage";
 import { useCurrency } from "./CurrencyProvider";
-import { CartIcon, ChatIcon } from "./Icons";
+import { CartIcon } from "./Icons";
 import { announce } from "./LiveRegion";
 import { Price } from "./Price";
 import { ProductPicture } from "./ProductPicture";
@@ -69,32 +55,31 @@ function QtyInput({
   );
 }
 
+/** Whether the checkout can take payments ("open"), or why not; decided on the server (src/server/payments.ts). */
+export type CheckoutState = "open" | "test" | "closed";
+
 /**
- * `lookup` holds every product in the page language (compact, from the server); `firstCategory` is suggested
- * when the order is empty.
+ * The order (cart): lines with quantities, prices and removal, and the way on to checkout. `lookup` holds every
+ * product in the page language (compact, from the server); `firstCategory` is suggested when the order is empty.
+ * Prices here are indicative: the checkout recomputes everything on the server.
  */
-export function CartView({ lookup, firstCategory }: { lookup: OrderLookup; firstCategory: { slug: string; name: string } }) {
+export function CartView({
+  lookup,
+  firstCategory,
+  checkout,
+}: {
+  lookup: OrderLookup;
+  firstCategory: { slug: string; name: string };
+  checkout: CheckoutState;
+}) {
   const t = useTranslations("cart");
-  const tw = useTranslations("whatsapp");
   const locale = useLocale() as Locale;
   const { currency } = useCurrency();
   const hydrated = useHydrated();
   const { lines, setQty, remove } = useCart();
-  const { details, update, clear } = useOrderDetails();
-  const [copyState, setCopyState] = useState<"idle" | "copied" | "failed">(
-    "idle",
-  );
-  const previewRef = useRef<HTMLTextAreaElement>(null);
-  const ids = {
-    name: useId(),
-    country: useId(),
-    countryHint: useId(),
-    notes: useId(),
-    gift: useId(),
-    giftText: useId(),
-    preview: useId(),
-  };
-  const email = CONTACT_EMAIL ? "set" : "none";
+
+  // Order details typed on the old WhatsApp order page are no longer used: forget them in this browser.
+  useEffect(() => removeStorage(STORAGE_KEYS.orderDetails), []);
 
   if (!hydrated) {
     return (
@@ -127,47 +112,13 @@ export function CartView({ lookup, firstCategory }: { lookup: OrderLookup; first
     const product = lineProduct(l, lookup);
     return sum + (product ? linePriceUsd(product, l) : 0);
   }, 0);
-  const orderDetails = {
-    name: details.name,
-    country: details.country,
-    notes: details.notes,
-    // A ticked gift-note box is always mentioned, even before any text is typed.
-    giftNote: details.giftNote ? details.giftNoteText : undefined,
-  };
-  // The preview and the copy button carry the full message; the WhatsApp link may shorten very long notes.
-  const message = buildOrderMessage(tw, lines, lookup, currency, locale, orderDetails);
-  const { message: linkMessage, shortened } = fitOrderMessage(
-    tw,
-    lines,
-    lookup,
-    currency,
-    locale,
-    orderDetails,
-  );
-  const hasDetails = Boolean(
-    details.name ||
-    details.country ||
-    details.notes ||
-    details.giftNote ||
-    details.giftNoteText,
-  );
+  const orderable = lines.some((l) => lineProduct(l, lookup));
   const atLimit = lines.length >= MAX_CART_LINES;
 
   const changeQty = (key: string, name: string, qty: number) => {
     const next = clampQty(qty);
     setQty(key, next);
     announce(t("quantityChanged", { name, qty: next }));
-  };
-
-  const copy = async () => {
-    try {
-      await navigator.clipboard.writeText(message);
-      setCopyState("copied");
-    } catch {
-      setCopyState("failed");
-      previewRef.current?.focus();
-      previewRef.current?.select();
-    }
   };
 
   const wholesale = (
@@ -307,160 +258,44 @@ export function CartView({ lookup, firstCategory }: { lookup: OrderLookup; first
         <h2 id="summary-title">{t("summary")}</h2>
         <div className="summary-row">
           <span>{t("subtotalUsd")}</span>
-          <span className="price subtotal-usd">
-            {formatPrice(totalUsd, "USD", locale)}
-          </span>
+          <span className="price subtotal-usd">{formatPrice(totalUsd, "USD", locale)}</span>
         </div>
         {currency !== "USD" && (
           <div className="summary-row summary-approx">
             <span>{t("approxTotal", { currency })}</span>
-            <span className="price subtotal">
-              ≈ {formatPrice(totalUsd, currency, locale)}
-            </span>
+            <span className="price subtotal">≈ {formatPrice(totalUsd, currency, locale)}</span>
           </div>
         )}
         <div className="summary-row summary-shipping">
           <span>{t("shippingLabel")}</span>
-          <span>{t("shippingValue")}</span>
+          <span>{t("shippingAtCheckout")}</span>
         </div>
-
-        <fieldset className="order-details">
-          <legend>{t("detailsTitle")}</legend>
-          <p className="note">{t("detailsHint")}</p>
-          <div className="field">
-            <label htmlFor={ids.name}>{t("name")}</label>
-            <input
-              id={ids.name}
-              type="text"
-              autoComplete="name"
-              maxLength={ORDER_DETAIL_LIMITS.name}
-              value={details.name}
-              onChange={(e) => update({ name: e.target.value })}
-            />
-          </div>
-          <div className="field">
-            <label htmlFor={ids.country}>{t("country")}</label>
-            <input
-              id={ids.country}
-              type="text"
-              autoComplete="country-name"
-              aria-describedby={ids.countryHint}
-              maxLength={ORDER_DETAIL_LIMITS.country}
-              value={details.country}
-              onChange={(e) => update({ country: e.target.value })}
-            />
-            <p className="note field-hint" id={ids.countryHint}>
-              {t("countryHint")}
+        <p className="note">{t("chargedInUsd")}</p>
+        {checkout === "closed" ? (
+          <div className="notice-inline" role="status" data-testid="payments-soon">
+            <p>
+              <strong>{t("paymentsSoonTitle")}</strong>
+            </p>
+            <p>{t("paymentsSoonText")}</p>
+            <p>
+              {CONTACT_EMAIL && (
+                <>
+                  <a href={`mailto:${CONTACT_EMAIL}`}>{CONTACT_EMAIL}</a>
+                  {" · "}
+                </>
+              )}
+              <Link href="/contact">{t("contactPage")}</Link>
             </p>
           </div>
-          <div className="field">
-            <label htmlFor={ids.notes}>{t("notes")}</label>
-            <textarea
-              id={ids.notes}
-              rows={3}
-              maxLength={ORDER_DETAIL_LIMITS.notes}
-              value={details.notes}
-              onChange={(e) => update({ notes: e.target.value })}
-            />
-          </div>
-          <div className="field field-check">
-            <input
-              id={ids.gift}
-              type="checkbox"
-              checked={details.giftNote}
-              onChange={(e) => update({ giftNote: e.target.checked })}
-            />
-            <label htmlFor={ids.gift}>{t("giftNote")}</label>
-          </div>
-          {details.giftNote && (
-            <div className="field">
-              <label htmlFor={ids.giftText}>{t("giftNoteText")}</label>
-              <textarea
-                id={ids.giftText}
-                rows={2}
-                maxLength={ORDER_DETAIL_LIMITS.giftNoteText}
-                value={details.giftNoteText}
-                onChange={(e) => update({ giftNoteText: e.target.value })}
-              />
-            </div>
-          )}
-          {hasDetails && (
-            <button
-              type="button"
-              className="link-btn clear-details"
-              onClick={() => {
-                clear();
-                announce(t("detailsCleared"));
-              }}
-            >
-              {t("clearDetails")}
-            </button>
-          )}
-        </fieldset>
-
-        {!message && <p className="note">{t("nothingToSend")}</p>}
-        {message && (
+        ) : orderable ? (
           <>
-            <a
-              className="btn btn-primary btn-block"
-              href={whatsappUrl(linkMessage)}
-              target="_blank"
-              rel="noopener noreferrer"
-              data-testid="whatsapp-order"
-            >
-              <ChatIcon size={18} />
-              {t("send")}
-              <span className="sr-only"> ({tw("newTab")})</span>
-            </a>
-            {shortened && (
-              <p className="note warning-note" role="status">
-                {t("shortenedNote")}
-              </p>
-            )}
-            <p className="note">{t("whatsappHint")}</p>
-            <button
-              type="button"
-              className="btn btn-secondary btn-block"
-              onClick={copy}
-            >
-              {t("copy")}
-            </button>
-            <p className="note" role="status">
-              {copyState === "copied"
-                ? t("copied", { email })
-                : copyState === "failed"
-                  ? t("copyFailed")
-                  : ""}
-            </p>
-            {CONTACT_EMAIL && (
-              <p className="note">
-                <a
-                  className="text-link"
-                  href={`mailto:${CONTACT_EMAIL}?subject=${encodeMessage(t("emailSubject"))}&body=${encodeMessage(message)}`}
-                  data-testid="email-order"
-                >
-                  {t("sendEmail", { email: CONTACT_EMAIL })}
-                </a>
-              </p>
-            )}
-            <details
-              className="message-preview"
-              open={copyState === "failed" || undefined}
-            >
-              <summary>{t("messagePreview")}</summary>
-              <label htmlFor={ids.preview} className="sr-only">
-                {t("messagePreview")}
-              </label>
-              <textarea
-                id={ids.preview}
-                ref={previewRef}
-                readOnly
-                rows={10}
-                value={message}
-                data-testid="message-preview"
-              />
-            </details>
+            <Link href="/checkout" className="btn btn-primary btn-block" data-testid="to-checkout">
+              {t("toCheckout")}
+            </Link>
+            {checkout === "test" && <p className="note warning-note">{t("testModeNote")}</p>}
           </>
+        ) : (
+          <p className="note">{t("nothingToOrder")}</p>
         )}
         <Link href="/shop" className="btn btn-secondary btn-block">
           {t("continue")}

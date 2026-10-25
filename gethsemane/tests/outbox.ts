@@ -1,9 +1,9 @@
-// Emails the test server "sent": scripts/test-server.mjs points EMAIL_OUTBOX_FILE at .data/test-outbox.jsonl.
+// Emails the test server "sent": scripts/test-server.mjs points EMAIL_OUTBOX_FILE at .data/test-outbox-3100.jsonl.
 import { expect, type BrowserContext } from "@playwright/test";
 import { existsSync, readFileSync } from "node:fs";
 
 export type SentEmail = { to: string; subject: string; html: string; text: string; kind: string; at: string };
-const FILE = new URL("../.data/test-outbox.jsonl", import.meta.url);
+const FILE = new URL("../.data/test-outbox-3100.jsonl", import.meta.url);
 
 export function sentEmails(to?: string, kind?: string): SentEmail[] {
   if (!existsSync(FILE)) return [];

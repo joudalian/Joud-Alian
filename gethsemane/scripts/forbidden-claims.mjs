@@ -1,5 +1,5 @@
-// Claims the store must never make (it has no online checkout and does not verify them).
-// Used by scripts/check-claims.mjs (messages, product data, config) and by the page crawl in tests/links.spec.ts.
+// Claims the store must never make (it cannot back them up). Used by scripts/check-claims.mjs (messages, product
+// data, config) and by the page crawl in tests/links.spec.ts.
 // Each entry: a label and a case-insensitive pattern covering the claim in all ten languages.
 export const forbiddenClaims = [
   ["SSL / 256-bit", /\bSSL\b|256[-\s]?bit/i],

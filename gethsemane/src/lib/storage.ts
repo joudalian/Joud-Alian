@@ -12,6 +12,7 @@ export const STORAGE_KEYS = {
   wishlist: "gethsemane.wishlist.v1",
   currency: "gethsemane.currency.v1",
   language: "gethsemane.language.v1",
+  /** No longer written: details typed on the former WhatsApp order page, removed from browsers on the order page. */
   orderDetails: "gethsemane.order-details.v1",
 } as const;
 
@@ -80,26 +81,6 @@ export function parseWishlist(raw: string | null | undefined): ProductSlug[] {
   const data = safeJson(raw);
   if (!Array.isArray(data) || data.length > MAX_WISHLIST * 4 || !data.every((s) => isText(s, 64))) return [];
   return [...new Set(data.filter((s) => SLUG.test(s)))].slice(0, MAX_WISHLIST);
-}
-
-export const ORDER_DETAIL_LIMITS = { name: 100, country: 100, notes: 1000, giftNoteText: 500 } as const;
-
-export type OrderDetailsState = { name: string; country: string; notes: string; giftNote: boolean; giftNoteText: string };
-export const emptyOrderDetails: OrderDetailsState = { name: "", country: "", notes: "", giftNote: false, giftNoteText: "" };
-
-/** Optional order details typed on the order page; kept in the browser only. Invalid fields reset to "". */
-export function parseOrderDetails(raw: string | null | undefined): OrderDetailsState {
-  const value = safeJson(raw);
-  if (!isRecord(value)) return emptyOrderDetails;
-  // Each invalid field falls back to its empty value on its own.
-  const text = (key: keyof typeof ORDER_DETAIL_LIMITS) => (isText(value[key], ORDER_DETAIL_LIMITS[key]) ? (value[key] as string) : "");
-  return {
-    name: text("name"),
-    country: text("country"),
-    notes: text("notes"),
-    giftNote: typeof value.giftNote === "boolean" ? value.giftNote : false,
-    giftNoteText: text("giftNoteText"),
-  };
 }
 
 export function parseCurrency(raw: string | null | undefined): Currency {

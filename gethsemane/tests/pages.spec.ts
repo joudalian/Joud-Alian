@@ -73,7 +73,7 @@ test.describe("help and policy pages", () => {
     expect(items).toHaveLength(12);
     // Answers match the policy values from config.
     expect(items.find((i) => i.name === "Can I return a piece?")!.acceptedAnswer.text).toContain("within 14 days of delivery");
-    expect(items.find((i) => i.name === "How do I pay?")!.acceptedAnswer.text).toContain("payment instructions");
+    expect(items.find((i) => i.name === "How do I pay?")!.acceptedAnswer.text).toContain("You pay by card at checkout.");
   });
 
   test("returns page has the model withdrawal form and last-updated date", async ({ page }) => {
@@ -134,48 +134,35 @@ test.describe("help and policy pages", () => {
   });
 });
 
-test.describe("WhatsApp ordering", () => {
+test.describe("cart to checkout", () => {
   for (const [locale, product] of [
     ["uk", simple],
     ["el", simple2],
     ["pl", simple3],
   ] as const) {
-    const expected = `1 × ${nameOf(product, locale)}`;
-    test(`product page message in ${locale} is correctly encoded`, async ({ page }) => {
+    test(`Buy now in ${locale} prices the piece at checkout in its own language`, async ({ page }) => {
       await page.goto(`/${locale}/product/${product.slug}`);
       await waitForHydration(page);
-      const text = waText(await page.locator("#order-row [data-testid=whatsapp-order]").getAttribute("href"));
-      expect(text).toContain(expected);
-      expect(text).toContain("Gethsemane");
-      expect(text).toMatch(/USD/);
-      const ask = waText(await page.locator("#order-row a.text-link").getAttribute("href"));
-      expect(ask).toContain("Gethsemane");
+      await page.locator("#order-row").getByTestId("buy-now").click();
+      await page.waitForURL(`**/${locale}/checkout`);
+      const review = page.getByTestId("review-lines");
+      await expect(review).toContainText(`1 × ${nameOf(product, locale)}`);
+      await expect(review).toContainText(priceRe(price(priceOf(product), "USD", locale)));
     });
   }
 
-  test("order page message lists items, quantities, currency, USD total, country and gift note", async ({ page }) => {
+  test("order page: USD subtotal, approximate other currency, charged-in-USD note and the checkout link", async ({ page }) => {
     await seedCart(page, [{ slug: simple.slug, qty: 2 }]);
     await page.goto("/uk/cart");
     await waitForHydration(page);
     await page.locator("#currency-select").selectOption("GBP");
-    await page.getByLabel("Країна доставки").fill("Україна");
-    await page.getByLabel("Додати листівку до подарунка").check();
-    await page.getByLabel("Текст листівки").fill("З Різдвом!");
-    const link = page.getByRole("link", { name: /Надіслати замовлення у WhatsApp/ });
-    const text = waText(await link.getAttribute("href"));
-    expect(text).toContain(`2 × ${nameOf(simple, "uk")}`);
-    expect(text).toContain("Обрана валюта: GBP");
-    expect(text).toMatch(priceRe(`Разом у USD: ${price(priceOf(simple) * 2, "USD", "uk")}`));
-    expect(text).toContain("Країна: Україна");
-    expect(text).toContain("Листівка до подарунка: З Різдвом!");
-    // Details persist in this browser only.
-    await page.reload();
-    await expect(page.getByLabel("Країна доставки")).toHaveValue("Україна");
-    // Copy fallback.
-    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
-    await page.getByRole("button", { name: "Копіювати повідомлення" }).click();
-    await expect(page.getByText(/Повідомлення скопійовано|Копіювання тут недоступне/)).toBeVisible();
-    await expect(page.getByTestId("message-preview")).toHaveValue(new RegExp(`2 × ${nameOf(simple, "uk")}`));
+    await expect(page.locator(".subtotal-usd")).toHaveText(priceRe(price(priceOf(simple) * 2, "USD", "uk")));
+    await expect(page.locator(".summary-approx")).toContainText("GBP");
+    await expect(page.locator(".summary")).toContainText("USD");
+    await expect(page.locator(".summary, .order-steps")).not.toContainText([/whatsapp/i, /whatsapp/i]);
+    await page.getByTestId("to-checkout").click();
+    await page.waitForURL("**/uk/checkout");
+    await expect(page.getByTestId("review-lines")).toContainText(`2 × ${nameOf(simple, "uk")}`);
   });
 
   test("order page shows the steps and the policy summary even when empty", async ({ page }) => {
@@ -184,7 +171,8 @@ test.describe("WhatsApp ordering", () => {
     await expect(page.locator("main").getByRole("link", { name: categoryName(firstCategory.slug), exact: true })).toHaveAttribute("href", `/en/shop/${firstCategory.slug}`);
     await expect(page.getByRole("heading", { name: "How ordering works" })).toBeVisible();
     await expect(page.locator(".order-steps li")).toHaveCount(4);
-    await expect(page.locator(".policy-summary")).toContainText("payment instructions");
+    await expect(page.locator(".order-steps")).toContainText("Pay by card");
+    await expect(page.locator(".policy-summary")).toContainText(/You pay by card at checkout|Online payment is opening soon/);
   });
 });
 
@@ -322,7 +310,9 @@ test.describe("layout and navigation", () => {
     const barBox = (await bar.boundingBox())!;
     const navBox = (await page.locator(".bottom-nav").boundingBox())!;
     expect(barBox.y + barBox.height).toBeLessThanOrEqual(navBox.y + 1);
-    expect(waText(await bar.locator("a").getAttribute("href"))).toContain(`1 × ${nameOf(simple)}`);
+    await bar.getByRole("button").click();
+    await expect(bar.getByRole("button")).toContainText("Added");
+    expect(JSON.parse((await page.evaluate(() => localStorage.getItem("gethsemane.cart.v2")))!)).toEqual([{ slug: simple.slug, qty: 1 }]);
     // At the end of the page nothing in the footer is covered.
     await page.evaluate(() => window.scrollTo(0, document.documentElement.scrollHeight));
     const last = (await page.locator(".footer-bottom p").last().boundingBox())!;

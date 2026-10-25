@@ -4,7 +4,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { useCart, useHydrated, useWishlist } from "@/lib/client-store";
-import { fromPrice, type OrderLookup } from "@/lib/order-message";
+import { fromPrice, type OrderLookup } from "@/lib/cart-lookup";
 import { HeartIcon } from "./Icons";
 import { announce } from "./LiveRegion";
 import { PriceTag } from "./Price";

@@ -11,7 +11,10 @@ test.describe("security headers", () => {
     expect(csp).not.toContain("unsafe-eval");
     expect(csp).toContain("frame-ancestors 'none'");
     expect(csp).toContain("object-src 'none'");
-    expect(csp).not.toMatch(/https?:\/\//);
+    // The only other origin is the Stripe Checkout page the order form redirects to (form-action).
+    const directives = csp.split(";").map((d) => d.trim());
+    expect(directives.find((d) => d.startsWith("form-action"))).toMatch(/^form-action 'self' https?:\/\/[^\s]+$/);
+    expect(directives.filter((d) => !d.startsWith("form-action")).join(";")).not.toMatch(/https?:\/\//);
     expect(h["strict-transport-security"]).toContain("max-age=");
     expect(h["x-content-type-options"]).toBe("nosniff");
     expect(h["x-frame-options"]).toBe("DENY");

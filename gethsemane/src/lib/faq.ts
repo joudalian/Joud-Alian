@@ -2,22 +2,18 @@ import { getTranslations } from "next-intl/server";
 import {
   DAMAGE_REPORT_DAYS,
   DELIVERY_TIME,
-  PAYMENT_METHODS,
-  PAYMENT_MODE,
   PROCESSING_TIME,
   RETURN_DAYS,
   SHIP_FROM_TEXT,
 } from "@/config/store";
 import type { Locale } from "@/i18n/locales";
+import { checkoutBlock } from "@/server/payments";
 
 export type FaqItem = { id: string; q: string; a: string };
 
-/** The payment answer used on the FAQ, order and terms pages, following PAYMENT_MODE. */
+/** The payment answer used on the FAQ, order and terms pages: card checkout, or "opening soon" while it is closed. */
 export function paymentText(t: (key: string, values?: Record<string, string>) => string): string {
-  if (PAYMENT_MODE === "link") {
-    return PAYMENT_METHODS.length > 0 ? t("a11Link", { methods: PAYMENT_METHODS.join(", ") }) : t("a11LinkNoMethods");
-  }
-  return t("a11Instructions");
+  return checkoutBlock() ? t("a11Soon") : t("a11Card");
 }
 
 /** FAQ groups; answers are built from the same config values as the policy pages. */

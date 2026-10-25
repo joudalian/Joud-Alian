@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useRef, useState } from "react";
-import { Link } from "@/i18n/navigation";
+import { Link, useRouter } from "@/i18n/navigation";
 import type { ProductSlug } from "@/lib/catalog";
 import { useCart, useHydrated, useWishlist } from "@/lib/client-store";
 import { CartIcon, CheckIcon, HeartIcon } from "./Icons";
@@ -68,6 +68,37 @@ export function AddToCartButton({
         </Link>
       )}
     </>
+  );
+}
+
+/** "Buy now": adds this piece (with its variant and engraving) to the order and opens checkout. */
+export function BuyNowButton({
+  slug,
+  name,
+  options,
+  className = "btn btn-secondary btn-block",
+}: {
+  slug: ProductSlug;
+  name: string;
+  options?: { variantId?: string; engraving?: string };
+  className?: string;
+}) {
+  const t = useTranslations("product");
+  const { add } = useCart();
+  const router = useRouter();
+  return (
+    <button
+      type="button"
+      className={className}
+      aria-label={`${t("buyNow")}: ${name}`}
+      data-testid="buy-now"
+      onClick={() => {
+        add(slug, options);
+        router.push("/checkout");
+      }}
+    >
+      {t("buyNow")}
+    </button>
   );
 }
 

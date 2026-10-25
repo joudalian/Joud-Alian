@@ -141,6 +141,45 @@ export const QUOTE_VALID_HOURS = 48; // CONFIRM
 export const SHIP_TO_COUNTRIES: readonly string[] = []; // CONFIRM
 
 /**
+ * SHIPPING PRICES charged at checkout, in USD, per region (regions: src/lib/regions.ts) and method. The amounts below
+ * are UNCONFIRMED placeholders: while SHIPPING_RATES_CONFIRMED is false, real (live) payments are blocked and test
+ * checkouts label them as test rates. Ask the carrier, set the prices, then set SHIPPING_RATES_CONFIRMED = true.
+ * `days` are the business days after dispatch shown at checkout.
+ */
+export const SHIPPING_RATES_CONFIRMED = false; // CONFIRM
+export const SHIPPING_RATES: Record<
+  "europe" | "northAmerica" | "oceania" | "middleEast" | "restOfWorld",
+  readonly { id: "standard" | "express"; usd: number; days: readonly [number, number] }[]
+> = {
+  europe: [
+    { id: "standard", usd: 25, days: [7, 12] }, // CONFIRM
+    { id: "express", usd: 45, days: [3, 6] }, // CONFIRM
+  ],
+  northAmerica: [
+    { id: "standard", usd: 29, days: [8, 15] }, // CONFIRM
+    { id: "express", usd: 55, days: [4, 7] }, // CONFIRM
+  ],
+  oceania: [
+    { id: "standard", usd: 35, days: [10, 18] }, // CONFIRM
+    { id: "express", usd: 65, days: [5, 9] }, // CONFIRM
+  ],
+  middleEast: [
+    { id: "standard", usd: 20, days: [5, 10] }, // CONFIRM
+    { id: "express", usd: 40, days: [3, 5] }, // CONFIRM
+  ],
+  restOfWorld: [
+    { id: "standard", usd: 35, days: [10, 25] }, // CONFIRM
+  ],
+};
+
+/**
+ * Sales tax / VAT. Not collected at checkout for now: prices are what the customer pays to us, and import VAT or
+ * duties, where they apply, are charged by the destination country on delivery. Confirm with an accountant before
+ * launch (EU sales of goods under €150 may require IOSS registration); `note` is internal only.
+ */
+export const TAX = { collect: false, note: "Not collected; import VAT/duties may be charged on delivery." } as const; // CONFIRM
+
+/**
  * LAUNCH GATE. While false, shop, category and product pages are noindex, product and category pages are left
  * out of the sitemap and no Product offers are published in structured data (placeholder products must never
  * reach search engines). Set to true as the very last launch step, then run `npm run check:launch`.

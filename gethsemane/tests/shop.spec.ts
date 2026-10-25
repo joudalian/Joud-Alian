@@ -148,14 +148,7 @@ test("tampered or oversized localStorage is sanitized", async ({ page }) => {
   await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
 });
 
-function decodeWhatsApp(href: string | null) {
-  expect(href).not.toBeNull();
-  const url = new URL(href!);
-  expect(url.origin + url.pathname).toBe("https://wa.me/970569741193");
-  return url.searchParams.get("text") ?? "";
-}
-
-test("cart orders via WhatsApp with items, quantities, currency and total in the page language", async ({ page }) => {
+test("cart in the page language: lines, quantities, approximate currency and the USD total", async ({ page }) => {
   await seedCart(page, [
     { slug: simple.slug, qty: 2 },
     { slug: simple2.slug, qty: 1 },
@@ -163,39 +156,25 @@ test("cart orders via WhatsApp with items, quantities, currency and total in the
   await page.goto("/de/cart");
   await waitForHydration(page);
   await page.locator("#currency-select").selectOption("EUR");
-  const link = page.getByRole("link", { name: /Bestellung auf WhatsApp senden/ });
-  await expect(link).toBeVisible();
-  await expect(link).toHaveAttribute("target", "_blank");
-  await expect(link).toHaveAttribute("rel", "noopener noreferrer");
-  const text = decodeWhatsApp(await link.getAttribute("href"));
-  expect(text).toContain("Hallo Gethsemane, ich möchte Folgendes bestellen:");
   const total = priceOf(simple) * 2 + priceOf(simple2);
-  expect(text).toMatch(priceRe(`2 × ${nameOf(simple, "de")} — ${price(priceOf(simple) * 2, "EUR", "de")}`));
-  expect(text).toMatch(priceRe(`1 × ${nameOf(simple2, "de")} — ${price(priceOf(simple2), "EUR", "de")}`));
-  expect(text).toMatch(priceRe(`Summe (EUR, ungefähr): ${price(total, "EUR", "de")}`));
-  expect(text).toMatch(priceRe(`Summe in USD: ${price(total, "USD", "de")}`));
-  expect(text).toContain("Gewählte Währung: EUR");
-  expect(text).toContain("— Gethsemane");
-
-  // The message follows quantity changes.
+  await expect(page.locator(".subtotal-usd")).toHaveText(priceRe(price(total, "USD", "de")));
+  await expect(page.locator(".summary-approx .subtotal")).toHaveText(priceRe(`≈ ${price(total, "EUR", "de")}`));
+  // The totals follow quantity changes.
   await page.getByRole("button", { name: `Menge von ${nameOf(simple2, "de")} erhöhen` }).click();
-  await expect.poll(async () => decodeWhatsApp(await link.getAttribute("href"))).toContain(`2 × ${nameOf(simple2, "de")}`);
+  await expect(page.locator(".subtotal-usd")).toHaveText(priceRe(price(total + priceOf(simple2), "USD", "de")));
+  await expect(page.getByTestId("to-checkout")).toHaveAttribute("href", "/de/checkout");
 });
 
-test("product page orders a single piece via WhatsApp", async ({ page }) => {
+test("product page: Buy now orders a single piece", async ({ page }) => {
   await page.goto(`/fr/product/${simple2.slug}`);
   await waitForHydration(page);
-  const link = page.getByRole("link", { name: /Commander seulement cette pièce/ });
-  await expect(link).toBeVisible();
-  const text = decodeWhatsApp(await link.getAttribute("href"));
-  expect(text).toContain("Bonjour Gethsemane");
-  expect(text).toMatch(priceRe(`1 × ${nameOf(simple2, "fr")} — ${price(priceOf(simple2), "USD", "fr")} (${nameOf(simple2)}, ${simple2.sku})`));
-  expect(text).toMatch(/Devise choisie\s:\sUSD/);
-  expect(text).toContain("Site language: Français (fr)");
+  await page.locator("#order-row").getByTestId("buy-now").click();
+  await page.waitForURL("**/fr/checkout");
+  await expect(page.getByTestId("review-lines")).toContainText(`1 × ${nameOf(simple2, "fr")}`);
 });
 
-test("an empty cart has no WhatsApp button", async ({ page }) => {
+test("an empty cart has no checkout button", async ({ page }) => {
   await page.goto("/en/cart");
   await expect(page.getByRole("heading", { name: "Your order is empty." })).toBeVisible();
-  await expect(page.getByTestId("whatsapp-order")).toHaveCount(0);
+  await expect(page.getByTestId("to-checkout")).toHaveCount(0);
 });

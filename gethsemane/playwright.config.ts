@@ -20,12 +20,23 @@ export default defineConfig({
     { name: "desktop", use: { ...devices["Desktop Chrome"], viewport: { width: 1280, height: 800 } } },
     { name: "mobile", use: { ...devices["Pixel 7"], viewport: { width: 390, height: 844 } } },
   ],
-  webServer: {
-    // Tests run against the production build (npm test builds first if needed).
-    command: "node scripts/test-server.mjs",
-    url: `${baseURL}/en`,
-    reuseExistingServer: !process.env.CI,
-    timeout: 60_000,
-    env: { SITE_URL: baseURL, NEXT_PUBLIC_CATALOG_FIXTURES: "1", PORT: String(PORT) },
-  },
+  webServer: [
+    {
+      // Tests run against the production build (npm test builds first if needed), Stripe in test mode against a
+      // local stand-in (scripts/stripe-mock.mjs).
+      command: "node scripts/test-server.mjs",
+      url: `${baseURL}/en`,
+      reuseExistingServer: !process.env.CI,
+      timeout: 60_000,
+      env: { SITE_URL: baseURL, NEXT_PUBLIC_CATALOG_FIXTURES: "1", PORT: String(PORT) },
+    },
+    {
+      // The same build with no payment keys at all: "Payments are opening soon".
+      command: "node scripts/test-server.mjs --no-payments",
+      url: `http://localhost:${PORT + 1}/en`,
+      reuseExistingServer: !process.env.CI,
+      timeout: 60_000,
+      env: { SITE_URL: `http://localhost:${PORT + 1}`, NEXT_PUBLIC_CATALOG_FIXTURES: "1", PORT: String(PORT + 1) },
+    },
+  ],
 });

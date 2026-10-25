@@ -92,20 +92,6 @@ test.describe("where the accounts and the email appear", () => {
     await checkLinks(line.locator("a"), { label: false });
   });
 
-  test("order page: mailto with the order message and subject", async ({ page }) => {
-    await page.goto("/en");
-    const { simple } = await import("./catalog");
-    await page.evaluate((slug) => localStorage.setItem("gethsemane.cart.v2", JSON.stringify([{ slug, qty: 1 }])), simple.slug);
-    await page.goto("/en/cart");
-    await waitForHydration(page);
-    const href = (await page.getByTestId("email-order").getAttribute("href"))!;
-    expect(href).toMatch(/^mailto:gethsemane\.t12@gmail\.com\?subject=Order%20request&body=/);
-    expect(decodeURIComponent(href.split("body=")[1]!)).toContain("Hello Gethsemane");
-    await page.context().grantPermissions(["clipboard-read", "clipboard-write"]);
-    await page.getByRole("button", { name: "Copy message" }).click();
-    await expect(page.getByText(/or an email to us|Copying is not available/)).toBeVisible();
-  });
-
   test("security.txt lists the email first", async ({ request }) => {
     const text = await (await request.get("/.well-known/security.txt")).text();
     expect(text.split("\n")[0]).toBe("Contact: mailto:gethsemane.t12@gmail.com");

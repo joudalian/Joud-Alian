@@ -2,26 +2,25 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import type { OrderLine, OrderLookup } from "@/lib/order-message";
 import { Price } from "./Price";
-import { WhatsAppOrderButton } from "./WhatsAppOrder";
+import { AddToCartButton } from "./ProductActions";
 
 /**
- * Sticky "Order only this piece" bar above the bottom navigation on phones. It appears only once the
- * inline order buttons (#order-row) have scrolled above the screen, so it never covers them or the price.
+ * Sticky "Add to order" bar above the bottom navigation on phones. It appears only once the inline order
+ * buttons (#order-row) have scrolled above the screen, so it never covers them or the price.
  * (A scroll listener rather than an IntersectionObserver: a jump past the row would not change its
  * intersection state and the bar would never appear.)
  */
 export function ProductOrderBar({
-  lines,
-  lookup,
+  slug,
   name,
   priceUsd,
+  options,
 }: {
-  lines: readonly OrderLine[];
-  lookup: OrderLookup;
+  slug: string;
   name: string;
   priceUsd: number;
+  options?: { variantId?: string; engraving?: string };
 }) {
   const t = useTranslations("product");
   const [visible, setVisible] = useState(false);
@@ -53,7 +52,7 @@ export function ProductOrderBar({
         <span className="order-bar-name">{name}</span>
         <Price usd={priceUsd} />
       </div>
-      <WhatsAppOrderButton lines={lines} lookup={lookup} label={t("orderOnlyThis")} className="btn btn-primary" />
+      <AddToCartButton slug={slug} name={name} options={options} className="btn btn-primary" />
     </div>
   );
 }

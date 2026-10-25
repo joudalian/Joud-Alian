@@ -353,3 +353,145 @@
     padding: 4px 0;
   }
 }
+
+/* ---------- Checkout ---------- */
+.checkout-layout {
+  display: grid;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (min-width: 960px) {
+  .checkout-layout {
+    grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr);
+    gap: 40px;
+  }
+
+  .checkout-summary {
+    position: sticky;
+    top: calc(var(--header-h) + 16px);
+  }
+}
+
+.checkout-main {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+
+.checkout-section {
+  display: grid;
+  gap: 16px;
+  margin: 0;
+  padding: 20px;
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  background: var(--surface);
+  min-inline-size: 0;
+}
+
+.checkout-section legend {
+  padding-inline: 6px;
+  font-family: var(--font-serif);
+  font-size: 1.25rem;
+  font-weight: 600;
+}
+
+.choice-list {
+  display: grid;
+  gap: 8px;
+}
+
+.choice {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 12px;
+  align-items: center;
+  min-height: 48px;
+  padding: 10px 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+}
+
+.choice:has(input:checked) {
+  border-color: var(--olive-700);
+  box-shadow: inset 0 0 0 1px var(--olive-700);
+}
+
+.choice input {
+  width: 20px;
+  height: 20px;
+  accent-color: var(--olive-700);
+}
+
+.choice-price {
+  font-weight: 700;
+}
+
+.review-lines {
+  display: grid;
+  gap: 10px;
+  margin: 0 0 16px;
+  padding: 0;
+  list-style: none;
+}
+
+.review-lines li {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.review-lines li > span:last-child {
+  white-space: nowrap;
+}
+
+.review-lines[aria-busy="true"],
+.review-totals:has(+ * [aria-busy="true"]) {
+  opacity: 0.6;
+}
+
+.review-totals {
+  display: grid;
+  gap: 6px;
+  margin: 16px 0;
+}
+
+.review-totals > div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.review-totals dd {
+  margin: 0;
+}
+
+.review-total {
+  padding-top: 8px;
+  border-top: 1px solid var(--line);
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.coupon-row {
+  display: grid;
+  gap: 6px;
+}
+
+.coupon-input {
+  display: flex;
+  gap: 8px;
+}
+
+.coupon-input input {
+  flex: 1;
+  min-width: 0;
+  min-height: 44px;
+  padding: 10px 12px;
+  border: 1px solid var(--ink-muted);
+  border-radius: 8px;
+  font: inherit;
+}

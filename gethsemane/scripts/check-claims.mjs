@@ -9,9 +9,20 @@ import { findClaims } from "./forbidden-claims.mjs";
 const root = fileURLToPath(new URL("..", import.meta.url));
 const problems = [];
 
+/**
+ * Messages that may name the payment provider, because the site renders them only while live payments are on
+ * (livePayments() in src/server/payments.ts). They may say "Stripe" and nothing else from the list: card brands,
+ * wallets and "secure checkout" badges stay forbidden everywhere.
+ */
+const PAYMENT_ENABLED_ONLY = new Set(["checkout.stripeNote"]);
+const stripeOnly = (text) => !/\b(paypal|apple\s?pay|google\s?pay|visa|mastercard|american express|amex|klarna)\b/i.test(text);
+
 function walk(value, path, source) {
   if (typeof value === "string") {
-    for (const label of findClaims(value)) problems.push(`${source} ${path}: "${label}" in "${value.slice(0, 80)}"`);
+    for (const label of findClaims(value)) {
+      if (label === "payment providers and card brands" && source.startsWith("messages/") && PAYMENT_ENABLED_ONLY.has(path) && stripeOnly(value)) continue;
+      problems.push(`${source} ${path}: "${label}" in "${value.slice(0, 80)}"`);
+    }
   } else if (value && typeof value === "object") {
     for (const [k, v] of Object.entries(value)) walk(v, path ? `${path}.${k}` : k, source);
   }

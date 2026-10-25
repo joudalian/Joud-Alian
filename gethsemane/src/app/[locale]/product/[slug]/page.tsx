@@ -7,7 +7,6 @@ import { JsonLd } from "@/components/JsonLd";
 import { ProductGrid } from "@/components/ProductCard";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductPurchase } from "@/components/ProductPurchase";
-import { WhatsAppLink } from "@/components/WhatsAppLink";
 import {
   CATALOG_READY,
   DELIVERY_BY_REGION,
@@ -18,7 +17,6 @@ import {
   MANUFACTURER_NAME,
   PROCESSING_TIME,
   RETURN_DAYS,
-  STORE_NAME,
 } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import { isLocale, type Locale } from "@/i18n/locales";
@@ -27,6 +25,7 @@ import { RATES_AS_OF } from "@/lib/currency";
 import { cmToIn, formatDate, gToOz } from "@/lib/format";
 import { pageMetadata } from "@/lib/metadata";
 import { purchaseProduct } from "@/lib/order-lookup";
+import { checkoutBlock } from "@/server/payments";
 import { OG_SIZE, PRODUCT_IMAGE_SIZES, productImageSrcSet, productOgImage } from "@/lib/product-image";
 import { productLd } from "@/lib/structured-data";
 
@@ -127,11 +126,10 @@ export default async function ProductPage({ params }: Props) {
               {summary}
             </p>
           )}
-          <ProductPurchase product={purchaseProduct(product, locale)}>
-            <p className="note">{t("cart.whatsappHint")}</p>
-            <WhatsAppLink message={t("whatsapp.ask", { store: STORE_NAME, name })} className="text-link">
+          <ProductPurchase product={purchaseProduct(product, locale)} checkoutOpen={!checkoutBlock()}>
+            <Link href={`/contact?product=${product.slug}`} className="text-link">
               {t("product.askAbout")}
-            </WhatsAppLink>
+            </Link>
           </ProductPurchase>
           <p lang={lang}>{description}</p>
           <Specs product={product} />

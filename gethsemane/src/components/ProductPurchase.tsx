@@ -4,11 +4,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { useId, useState, type ReactNode } from "react";
 import type { Locale } from "@/i18n/locales";
 import { cmToIn, gToOz } from "@/lib/format";
-import { orderVariant, unitPrice, type OrderProduct } from "@/lib/order-message";
+import { orderVariant, unitPrice, type OrderProduct } from "@/lib/cart-lookup";
 import { PriceTag } from "./Price";
-import { AddToCartButton, WishlistButton } from "./ProductActions";
+import { AddToCartButton, BuyNowButton, WishlistButton } from "./ProductActions";
 import { ProductOrderBar } from "./ProductOrderBar";
-import { WhatsAppOrderButton } from "./WhatsAppOrder";
 import { formatPrice } from "@/lib/currency";
 import { useCurrency } from "./CurrencyProvider";
 
@@ -26,12 +25,11 @@ export type PurchaseProduct = OrderProduct & {
   variantSpecs: Readonly<Record<string, { sizeCm?: readonly [number, number, number]; weightG?: number }>>;
 };
 
-export function ProductPurchase({ product, children }: { product: PurchaseProduct; children?: ReactNode }) {
+export function ProductPurchase({ product, checkoutOpen, children }: { product: PurchaseProduct; checkoutOpen: boolean; children?: ReactNode }) {
   const t = useTranslations("product");
   const locale = useLocale() as Locale;
   const { currency } = useCurrency();
   const { slug, name } = product;
-  const lookup = { [slug]: product };
   const [variantId, setVariantId] = useState(product.variants[0]?.id);
   const [engrave, setEngrave] = useState(false);
   const [engraving, setEngraving] = useState("");
@@ -43,7 +41,6 @@ export function ProductPurchase({ product, children }: { product: PurchaseProduc
   const engravingMissing = Boolean(engrave && offer && !text);
   const soldOut = product.availability === "sold_out";
   const unit = unitPrice(product, variantId, Boolean(text));
-  const lines = [{ slug, qty: 1, ...(variantId ? { variantId } : {}), ...(text ? { engraving: text } : {}) }];
   const fullName = variant ? `${name}, ${variant.label}` : name;
   const specs = variantId ? product.variantSpecs[variantId] : undefined;
   const size = specs?.sizeCm ?? product.sizeCm;
@@ -142,10 +139,10 @@ export function ProductPurchase({ product, children }: { product: PurchaseProduc
         <WishlistButton slug={slug} name={name} />
       </div>
       <div className="order-row" id="order-row">
-        {!soldOut && !engravingMissing && <WhatsAppOrderButton lines={lines} lookup={lookup} label={t("orderOnlyThis")} className="btn btn-whatsapp btn-block" />}
+        {checkoutOpen && !soldOut && !engravingMissing && <BuyNowButton slug={slug} name={fullName} options={{ variantId, engraving: text || undefined }} />}
         {children}
       </div>
-      {!soldOut && !engravingMissing && <ProductOrderBar lines={lines} lookup={lookup} name={fullName} priceUsd={unit} />}
+      {!soldOut && !engravingMissing && <ProductOrderBar slug={slug} name={fullName} priceUsd={unit} options={{ variantId, engraving: text || undefined }} />}
     </>
   );
 }

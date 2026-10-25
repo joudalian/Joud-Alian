@@ -2,14 +2,14 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { CartView } from "@/components/CartView";
 import { OrderSteps } from "@/components/OrderSteps";
-import { DELIVERY_TIME, PROCESSING_TIME, RETURN_DAYS, SHIP_FROM_TEXT, STORE_NAME } from "@/config/store";
+import { DELIVERY_TIME, PROCESSING_TIME, RETURN_DAYS, SHIP_FROM_TEXT } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { categories, categoryText } from "@/lib/catalog";
 import { paymentText } from "@/lib/faq";
 import { pageMetadata } from "@/lib/metadata";
 import { orderLookup } from "@/lib/order-lookup";
-import { whatsappUrl } from "@/lib/whatsapp";
+import { checkoutBlock, paymentMode } from "@/server/payments";
 
 type Props = { params: Promise<{ locale: Locale }> };
 
@@ -29,13 +29,14 @@ export default async function CartPage({ params }: Props) {
       <h1>{t("cart.title")}</h1>
       <noscript>
         <p className="noscript-note">
-          {t("cart.noscript")}{" "}
-          <a href={whatsappUrl(t("whatsapp.general", { store: STORE_NAME }))} target="_blank" rel="noopener noreferrer">
-            {t("whatsapp.chat")}
-          </a>
+          {t("cart.noscript")} <Link href="/contact">{t("auth.contactPage")}</Link>
         </p>
       </noscript>
-      <CartView lookup={orderLookup(locale)} firstCategory={{ slug: categories[0]!.slug, name: categoryText(categories[0]!, locale).name }} />
+      <CartView
+        lookup={orderLookup(locale)}
+        firstCategory={{ slug: categories[0]!.slug, name: categoryText(categories[0]!, locale).name }}
+        checkout={checkoutBlock() ? "closed" : paymentMode() === "test" ? "test" : "open"}
+      />
       <div className="order-info">
         <section aria-labelledby="steps-title">
           <h2 id="steps-title">{t("cart.stepsTitle")}</h2>

@@ -10,7 +10,6 @@ import { PRODUCT_IMAGE_WIDTHS } from "../src/lib/product-image-sizes";
 import { categories, fixture, nameOf, price, priceOf, products, seedCart, simple } from "./catalog";
 import { pages, waitForHydration } from "./helpers";
 
-const waText = (href: string | null) => decodeURIComponent(new URL(href ?? "").searchParams.get("text") ?? "");
 const category = { slug: "crosses", order: 1, text: { en: { name: "Crosses", description: "Crosses." } } };
 const valid = { id: 1, slug: "a-piece", categories: ["crosses"], priceUsd: 10, images: [{ file: "a-piece/01.jpg", width: 10, height: 10 }], text: { en: { name: "A", description: "B" } } };
 
@@ -139,7 +138,7 @@ test.describe("fixture product page", () => {
     }
   });
 
-  test("variant, engraving and sale price drive the price, the order and the message", async ({ page }) => {
+  test("variant, engraving and sale price drive the price, the cart and the checkout", async ({ page }) => {
     await page.goto(`/en${pages.fixture}`);
     await waitForHydration(page);
     const [first, last] = [fixture.variants[0]!, fixture.variants.at(-1)!];
@@ -162,16 +161,17 @@ test.describe("fixture product page", () => {
     await expect(priceBox).toContainText(price(priceOf(fixture, last.id, true)));
     await expect(page.locator(".engraving-hint")).toContainText("cannot be returned unless faulty");
 
-    const order = waText(await page.locator("#order-row [data-testid=whatsapp-order]").getAttribute("href"));
-    expect(order).toContain(`1 × ${nameOf(fixture)}, ${last.label.en}`);
-    expect(order).toContain(last.sku);
-    expect(order).toContain("Engraving: “Anna 2026”");
-
     await page.locator(".buy-row button").first().click();
     await page.getByTestId("view-order").click();
     await expect(page.locator(".line-detail")).toHaveText([last.label.en, "Engraving: “Anna 2026”"]);
     await expect(page.locator(".subtotal-usd")).toHaveText(price(priceOf(fixture, last.id, true)));
-    await expect(page.getByTestId("message-preview")).toHaveValue(/Engraving: “Anna 2026”/);
+    // The server prices the same line at checkout.
+    await page.getByTestId("to-checkout").click();
+    const review = page.getByTestId("review-lines");
+    await expect(review).toContainText(`1 × ${nameOf(fixture)}`);
+    await expect(review).toContainText(last.label.en);
+    await expect(review).toContainText("Engraving: “Anna 2026”");
+    await expect(review).toContainText(price(priceOf(fixture, last.id, true)));
   });
 
   test("Open Graph: product type and the product's own image", async ({ page, request }) => {
@@ -218,8 +218,8 @@ test.describe("order storage", () => {
     const stored = await page.evaluate(() => [localStorage.getItem("gethsemane.cart.v2"), localStorage.getItem("gethsemane.cart.v1")]);
     expect(JSON.parse(stored[0]!)).toEqual([{ slug: simple.slug, qty: 2 }, { slug: "a-piece-that-was-removed", qty: 1 }]);
     expect(stored[1]).toBeNull();
-    // Only orderable pieces are counted and sent.
-    await expect(page.getByTestId("message-preview")).not.toHaveValue(/removed/);
+    // Only orderable pieces are counted and sent to checkout.
+    await expect(page.locator(".subtotal-usd")).toHaveText(price(2 * priceOf(simple)));
     await page.getByTestId("line-unavailable").getByRole("button", { name: /Remove/ }).click();
     await expect(page.locator(".line")).toHaveCount(1);
   });

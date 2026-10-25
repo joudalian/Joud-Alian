@@ -2644,3 +2644,15 @@ address {
     scroll-behavior: auto !important;
   }
 }
+
+.notice-inline {
+  margin-block: 12px;
+  padding: 12px 14px;
+  border-inline-start: 4px solid var(--gold-500);
+  background: var(--surface);
+  border-radius: 8px;
+}
+
+.notice-inline p {
+  margin: 0 0 6px;
+}

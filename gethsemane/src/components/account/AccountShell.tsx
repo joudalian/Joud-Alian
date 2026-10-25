@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import { getTranslations } from "next-intl/server";
-import { logOut } from "@/app/[locale]/(account)/actions";
+import { logOut } from "@/app/[locale]/(app)/actions";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 
