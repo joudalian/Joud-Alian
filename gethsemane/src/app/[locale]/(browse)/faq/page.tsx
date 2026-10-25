@@ -2,8 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { InfoPage } from "@/components/InfoPage";
 import { JsonLd } from "@/components/JsonLd";
-import { WhatsAppLink } from "@/components/WhatsAppLink";
-import { STORE_NAME } from "@/config/store";
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { faqGroups } from "@/lib/faq";
 import { pageMetadata } from "@/lib/metadata";
@@ -39,7 +38,9 @@ export default async function FaqPage({ params }: Props) {
         </section>
       ))}
       <div className="info-actions">
-        <WhatsAppLink message={t("whatsapp.general", { store: STORE_NAME })}>{t("whatsapp.chat")}</WhatsAppLink>
+        <Link href="/contact" className="btn btn-secondary">
+          {t("contact.askUs")}
+        </Link>
       </div>
       <JsonLd data={faqPage(groups.flatMap((g) => g.items))} />
     </InfoPage>

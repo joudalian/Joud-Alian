@@ -2,16 +2,6 @@ import { expect, test, type Page } from "@playwright/test";
 import { categoryName, firstCategory, nameOf, price, priceOf, priceRe, seedCart, simple, simple2, simple3 } from "./catalog";
 import { expectNoHorizontalScroll, infoPages, locales, pages, waitForHydration, watchErrors } from "./helpers";
 
-const WA = "https://wa.me/970569741193";
-
-function waText(href: string | null): string {
-  expect(href).not.toBeNull();
-  // Properly encoded: nothing but URL-safe characters after ?text=
-  expect(href!).toMatch(/^https:\/\/wa\.me\/970569741193\?text=[A-Za-z0-9%\-_.!~*'()]+$/);
-  const url = new URL(href!);
-  expect(`${url.origin}${url.pathname}`).toBe(WA);
-  return url.searchParams.get("text") ?? "";
-}
 
 async function jsonLd(page: Page) {
   const blocks = await page.locator('script[type="application/ld+json"]').allTextContents();
@@ -70,23 +60,24 @@ test.describe("help and policy pages", () => {
 
     const faq = (await jsonLd(page)).find((d) => d["@type"] === "FAQPage")!;
     const items = faq.mainEntity as { name: string; acceptedAnswer: { text: string } }[];
-    expect(items).toHaveLength(12);
+    expect(items).toHaveLength(13);
     // Answers match the policy values from config.
     expect(items.find((i) => i.name === "Can I return a piece?")!.acceptedAnswer.text).toContain("within 14 days of delivery");
     expect(items.find((i) => i.name === "How do I pay?")!.acceptedAnswer.text).toContain("You pay by card at checkout.");
+    expect(items.find((i) => i.name === "How can I follow my order?")!.acceptedAnswer.text).toContain("order tracking page");
   });
 
   test("returns page has the model withdrawal form and last-updated date", async ({ page }) => {
     await page.goto("/de/returns");
     await expect(page.getByRole("heading", { name: "Muster-Widerrufsformular" })).toBeVisible();
-    await expect(page.getByText("Zuletzt aktualisiert: 24. Oktober 2026")).toBeVisible();
+    await expect(page.getByText("Zuletzt aktualisiert: 25. Oktober 2026")).toBeVisible();
     await expect(page.getByText(/bleiben Ihre gesetzlichen Rechte|berühren Ihre gesetzlichen Rechte nicht/)).toBeVisible();
   });
 
   test("terms: legal notice without empty fields and no EU ODR link", async ({ page }) => {
     await page.goto("/en/terms");
     const notice = page.locator("#legal-notice-title + ul");
-    await expect(notice).toContainText("WhatsApp: +970569741193");
+    await expect(notice.getByRole("link", { name: "contact page" })).toHaveAttribute("href", "/en/contact");
     await expect(notice).toContainText("Sister store of holylandtimber.com (same ownership).");
     await expect(notice).toContainText("129 Al Mahed Street");
     await expect(notice).not.toContainText("Business name");
@@ -97,14 +88,10 @@ test.describe("help and policy pages", () => {
     await expect(page.locator("main")).not.toContainText("governed by");
   });
 
-  test("contact: topic chips change the WhatsApp message; no form; email and social cards", async ({ page }) => {
+  test("contact: the form preselects the topic from the link; email and social cards", async ({ page }) => {
     await page.goto("/pl/contact?topic=wholesale");
-    await waitForHydration(page);
-    const link = page.getByTestId("contact-whatsapp");
-    expect(waText(await link.getAttribute("href"))).toContain("zamówienia hurtowego");
-    await page.getByRole("radio", { name: "Pomoc", exact: true }).check();
-    expect(waText(await link.getAttribute("href"))).toContain("Potrzebuję pomocy z zamówieniem");
-    await expect(page.locator("main form")).toHaveCount(0);
+    await expect(page.locator("#f-topic")).toHaveValue("wholesale");
+    await expect(page.getByTestId("contact-form").getByRole("button", { name: "Wyślij wiadomość" })).toBeVisible();
     // "Write to us": mailto with the localized subject. "Find us": our three accounts.
     await expect(page.getByTestId("contact-email")).toHaveAttribute("href", "mailto:gethsemane.t12@gmail.com?subject=Pytanie%20o%20Gethsemane");
     await expect(page.getByTestId("contact-social-card").locator("a")).toHaveCount(3);
@@ -115,8 +102,13 @@ test.describe("help and policy pages", () => {
   test("privacy page states what the site really stores", async ({ page }) => {
     await page.goto("/en/privacy");
     const text = await page.locator("main").innerText();
-    expect(text).toContain("There are no customer accounts");
+    expect(text).toContain("Customer accounts");
+    expect(text).toContain("download all of this as a file and delete your account");
     expect(text).toContain("stored only in your own browser");
+    // Stripe is named only with live payments; the test server runs in test mode.
+    expect(text).toContain("card payments are handled on our payment provider's page");
+    expect(text).not.toMatch(/stripe/i);
+    expect(text).toContain("Resend");
     expect(text).toContain("We do not sell or share personal data");
     // DATA_RETENTION_YEARS is 0: the general retention sentence, not a number or a placeholder.
     expect(text).toContain("We keep order details only as long as needed to fulfil your order and meet legal obligations such as accounting.");
@@ -159,7 +151,7 @@ test.describe("cart to checkout", () => {
     await expect(page.locator(".subtotal-usd")).toHaveText(priceRe(price(priceOf(simple) * 2, "USD", "uk")));
     await expect(page.locator(".summary-approx")).toContainText("GBP");
     await expect(page.locator(".summary")).toContainText("USD");
-    await expect(page.locator(".summary, .order-steps")).not.toContainText([/whatsapp/i, /whatsapp/i]);
+    await expect(page.locator("main")).not.toContainText(/whats\s*app/i);
     await page.getByTestId("to-checkout").click();
     await page.waitForURL("**/uk/checkout");
     await expect(page.getByTestId("review-lines")).toContainText(`2 × ${nameOf(simple, "uk")}`);
@@ -214,7 +206,8 @@ test.describe("structured data", () => {
     // Only our own social accounts (clean URLs); never the sister store, never "ZZ".
     expect(org.sameAs).toEqual(["https://www.instagram.com/gethsemane_t12", "https://www.tiktok.com/@gethsemane.store", "https://www.facebook.com/gethsemane.t12"]);
     expect(JSON.stringify(org.sameAs)).not.toContain("holylandtimber");
-    expect(org.contactPoint).toEqual([expect.objectContaining({ telephone: "+970569741193", email: "gethsemane.t12@gmail.com" })]);
+    expect(org.contactPoint).toEqual([expect.objectContaining({ email: "gethsemane.t12@gmail.com" })]);
+    expect((org.contactPoint as Record<string, unknown>[])[0]!.telephone).toBeUndefined();
     expect(org.address).toEqual({ "@type": "PostalAddress", streetAddress: "129 Al Mahed Street", addressLocality: "Bethlehem", addressCountry: "PS" });
     expect(JSON.stringify(data)).not.toContain('"ZZ"');
     // SHIP_TO_COUNTRIES is empty: no applicableCountry.

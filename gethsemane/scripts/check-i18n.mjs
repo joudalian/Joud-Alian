@@ -132,6 +132,10 @@ function walk(dir) {
 }
 walk(root);
 
+// The removed chat ordering channel must not come back in any language (see scripts/removed-channels.mjs).
+const { findRemovedChannels } = await import("./removed-channels.mjs");
+for (const hit of findRemovedChannels(root)) errors.push(`${hit}: the old chat ordering channel was removed`);
+
 if (warnings.length) console.warn(`Warnings (${warnings.length}):\n- ${warnings.join("\n- ")}`);
 if (errors.length) {
   console.error(`i18n check failed with ${errors.length} problem(s):\n- ${errors.join("\n- ")}`);

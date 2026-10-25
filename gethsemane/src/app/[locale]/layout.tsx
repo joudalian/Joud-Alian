@@ -41,7 +41,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 }
 
 /** Only the namespaces used by client components are sent to the browser (policy texts stay on the server). */
-const CLIENT_NAMESPACES = ["nav", "language", "currency", "product", "cart", "wishlist", "whatsapp", "contact", "error"] as const;
+const CLIENT_NAMESPACES = ["nav", "language", "currency", "product", "cart", "wishlist", "error"] as const;
 function clientMessages(messages: Record<string, unknown>) {
   return Object.fromEntries(CLIENT_NAMESPACES.filter((ns) => ns in messages).map((ns) => [ns, messages[ns]])) as typeof messages;
 }

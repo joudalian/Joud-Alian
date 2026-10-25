@@ -5,6 +5,7 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join } from "node:path";
 import { fileURLToPath } from "node:url";
 import { findClaims } from "./forbidden-claims.mjs";
+import { findRemovedChannels } from "./removed-channels.mjs";
 
 const root = fileURLToPath(new URL("..", import.meta.url));
 const problems = [];
@@ -14,7 +15,7 @@ const problems = [];
  * (livePayments() in src/server/payments.ts). They may say "Stripe" and nothing else from the list: card brands,
  * wallets and "secure checkout" badges stay forbidden everywhere.
  */
-const PAYMENT_ENABLED_ONLY = new Set(["checkout.stripeNote"]);
+const PAYMENT_ENABLED_ONLY = new Set(["checkout.stripeNote", "privacy.paymentsStripe"]);
 const stripeOnly = (text) => !/\b(paypal|apple\s?pay|google\s?pay|visa|mastercard|american express|amex|klarna)\b/i.test(text);
 
 function walk(value, path, source) {
@@ -43,9 +44,7 @@ for (const [network, url] of Object.entries(store.SOCIAL)) {
     problems.push(`src/config/store.ts SOCIAL.${network}: remove the tracking parameters from ${url}`);
   }
 }
-if (store.PAYMENT_MODE !== "link" && store.PAYMENT_METHODS.length > 0) {
-  problems.push("src/config/store.ts: PAYMENT_METHODS are only allowed when PAYMENT_MODE is \"link\"");
-}
+for (const hit of findRemovedChannels(root)) problems.push(`${hit} (the old chat ordering channel was removed; only docs/CHANGELOG.md may mention it)`);
 
 // One source of truth for delivery times: the headline range ("typically 7–15 business days") comes only from
 // DELIVERY_TIME in src/config/store.ts. Headline sentences must use its placeholders and the same "typically"

@@ -246,12 +246,12 @@ of the link's accessible name. `tests/layout.spec.ts` fails if a label is cut of
 
 ## Store settings (`src/config/store.ts`)
 
-Every business detail shown on the site lives in **one file, `src/config/store.ts`**: WhatsApp number, legal
+Every business detail shown on the site lives in **one file, `src/config/store.ts`**: legal
 name, tax ID, address, contact email, opening hours and time zone, social links, sister store, where orders ship
-from (per language), processing and delivery times (overall and by region), return and damage-report windows,
-payment mode, announcement bar, policy and accessibility dates, data-retention period, governing law, quote
-validity, ship-to countries (structured data only), the launch gate `CATALOG_READY` and the EU product-safety
-block. Opening hours are shown with `TIMEZONE_LABEL` ("Bethlehem time" in each language), never the IANA ID;
+from (per language), processing and delivery times (overall and by region), shipping rates by region and whether
+they are confirmed, tax note, return and damage-report windows, whether the refund wording is confirmed,
+announcement bar, policy and accessibility dates, data-retention period, governing law, ship-to countries (checkout
+and structured data), the launch gate `CATALOG_READY` and the EU product-safety block. Opening hours are shown with `TIMEZONE_LABEL` ("Bethlehem time" in each language), never the IANA ID;
 check `OPENING_HOURS.days`, since the Palestinian work week is often Sunday–Thursday.
 **Every value is marked `// CONFIRM`** and must be checked before launch. Optional fields render only when
 non-empty: an empty `CONTACT_EMAIL` hides the email everywhere, an empty `SOCIAL` entry renders no link,
@@ -273,9 +273,9 @@ estimates, not guarantees. Customs and remote destinations can take longer." Cha
 Wording that is a factual claim and must also be confirmed by the owner (in `messages/<locale>.json`):
 `home.point1Text`, `faq.a3` and `about.p1` say the wood comes from **pruned branches** (not felled trees).
 
-**Payment**: with `PAYMENT_MODE = "instructions"` the site says only that payment instructions are sent on
-WhatsApp after the order is confirmed. With `"link"` it says a payment link is sent and, if `PAYMENT_METHODS`
-is non-empty, names the methods. No payment brands, logos or "secure checkout" wording appear on the site.
+**Payment**: card payment at checkout through Stripe (see "Cart, checkout and payments"). The site names Stripe
+only while live payments are on (`checkout.stripeNote`, `privacy.paymentsStripe`; `npm run check:claims` allows the
+name in those two messages only). No card brands, wallet logos, "SSL secured" or "secure checkout" wording appear.
 
 
 **Email and social accounts (done, confirmed by the owner 2026-10-25).** `CONTACT_EMAIL` is
@@ -283,8 +283,7 @@ is non-empty, names the methods. No payment brands, logos or "secure checkout" w
 `@gethsemane.store`, Facebook `@gethsemane.t12`) and `SOCIAL_HANDLES` their handles. They appear as plain links only (no embeds,
 feeds or platform scripts, so the CSP is unchanged): footer icons and the email under Support, a "Follow along"
 section at the end of the home page, "Write to us" and "Find us" cards on the contact page, one line on Our story,
-the email on the privacy, terms, returns and withdrawal pages, a mailto with the prefilled order on the order page,
-`sameAs` and `contactPoint` in the Organization JSON-LD, and `security.txt`. `src/lib/social.ts` strips share
+the email on the privacy, terms, returns and withdrawal pages, `sameAs` and `contactPoint` in the Organization JSON-LD, and `security.txt`. `src/lib/social.ts` strips share
 tracking parameters (`utm_*`, `xtok`, `_r`, `_t`, `mibextid`…) and `npm run check:claims` fails if one is pasted
 into the config. A Gmail address is fine for launch; once the custom domain exists, a domain mailbox with SPF, DKIM
 and DMARC is recommended (`docs/LAUNCH.md`). Put the shop link in the bio of each profile.
@@ -293,9 +292,10 @@ and DMARC is recommended (`docs/LAUNCH.md`). Put the shop link in the bio of eac
 
 Home, shop (`/[locale]/shop`), category (`/[locale]/shop/[category]`), product (`/[locale]/product/[slug]`),
 Our Story (`/[locale]/about`), and the help and policy pages: how to order, FAQ, shipping, returns (with the
-model withdrawal form), contact (WhatsApp with topic chips; no form), privacy, terms (with legal notice),
-accessibility, care and **withdraw from a contract** (`/withdrawal`: the model form plus a prefilled WhatsApp
-notice, and an email button when `CONTACT_EMAIL` is set; no backend). Your order (`/cart`) and wishlist are
+model withdrawal form), contact (a contact form plus the email and social cards), privacy, terms (with legal
+notice), accessibility, care and **withdraw from a contract** (`/withdrawal`: the model form, a prefilled email
+notice and a link to the contact form). Account, checkout, order, tracking and admin pages: see "Cart, checkout
+and payments" and "Accounts and database". Your order (`/cart`) and wishlist are
 `noindex`. Localized 404 (HTTP 404) and error pages, `/sitemap.xml` (hreflang alternates and `x-default`),
 `/robots.txt` and `/.well-known/security.txt` (expires one year after each build).
 
@@ -331,17 +331,19 @@ that review:
 - **Governing law and jurisdiction**: `GOVERNING_LAW` is empty, so the terms show only the consumer-protection
   sentence until it is set.
 - **Withdrawal function**: EU Directive 2023/2673 requires a "withdraw from contract" function for contracts
-  concluded online from 19 June 2026. Orders here are concluded on WhatsApp (a chat), not on the site; the
-  `/withdrawal` page offers a prefilled WhatsApp notice and the model form, but **whether that satisfies the rule
-  for chat-concluded contracts needs a legal opinion.**
-- **Contract formation** (terms): the WhatsApp message is a request to order; the contract is formed when the
-  customer accepts the confirmed total; quotes expire after `QUOTE_VALID_HOURS` (48); confirmation on a durable
-  medium. Confirm this matches how orders are really handled.
+  concluded online from 19 June 2026. The `/withdrawal` page offers a prefilled email notice, the contact form and
+  the model form; **whether that satisfies the rule needs a legal opinion** (a dedicated withdrawal button in the
+  account and order pages may be required).
+- **Contract formation** (terms): the order button ("Order and pay" and its translations, e.g. "Zahlungspflichtig
+  bestellen") places an order with an obligation to pay; the contract is formed when the payment is confirmed; the
+  confirmation email is the durable medium. Confirm the button wording in every language.
 - **Product safety (EU GPSR)**: selling into the EU may require a manufacturer and an EU responsible person on
   every product page. Fill `MANUFACTURER_NAME`, `MANUFACTURER_ADDRESS`, `MANUFACTURER_EMAIL` and
   `EU_RESPONSIBLE_PERSON` (a "Product safety information" block then appears) **after legal advice**.
-- **Privacy**: names Vercel (USA) as host, the transfer of data to and from Bethlehem, the two preference cookies
-  and the legal bases; check them against the final setup.
+- **Privacy**: covers accounts, orders, the contact form, the processors (Vercel hosting, Resend email, the
+  database provider, the carriers, and Stripe once live), strictly necessary cookies only (language, currency,
+  session), retention, export and deletion, and the legal bases; check them against the final setup and name the
+  database provider if required.
 - **Origin marking** for the US and EU (e.g. "Made in Bethlehem" / "Product of the West Bank") on packaging,
   invoices and customs forms.
 - **Trademark clearance** for the name "Gethsemane" in the target markets.
@@ -374,10 +376,11 @@ link-crawl test also checks the rendered pages. The same command checks that del
   (camera, microphone, geolocation, payment and more disabled), COOP/CORP `same-origin`. No `X-Powered-By`,
   no production source maps.
 - No third-party scripts, trackers, CDNs or iframes; fonts are self-hosted; all images are local. The only
-  external links are WhatsApp, the sister store and its Instagram (plus our own social accounts once set), with `rel="noopener noreferrer"`.
+  external links are the sister store and its Instagram and our own social accounts, with `rel="noopener noreferrer"`;
+  the checkout form posts to Stripe Checkout, the only other origin in the CSP (`form-action`).
 - Everything read from localStorage or cookies is size-limited, parsed safely, checked field by field and capped
   (`src/lib/storage.ts`; written out by hand so the browser needs no validation library).
-- No secrets in the repository; `.env.example` lists the only variable, `SITE_URL`.
+- No secrets in the repository; `.env.example` lists every variable the site reads.
 
 ## Scripts
 
@@ -468,5 +471,6 @@ immutable; `/images` and `/brand` are sent with a one-day cache.
   Shop, contact and product pages 95–99; accessibility and best practices 100, SEO 100 (product pages and the
   shop are noindex until `CATALOG_READY`). Against a plain `next start` on localhost (HTTP/1.1) the scores vary
   more (about 90–97) because the simulation sometimes places the largest image on a new connection.
-- Owner launch checklist: `docs/LAUNCH.md`. Day-to-day order handling (numbering, quotes, WhatsApp templates, packing, customs, records):
-  `docs/OPERATIONS.md`.
+- Owner launch checklist: `docs/LAUNCH.md`. Day-to-day order handling (the order workflow in `/admin`, numbering,
+  coupons, packing, customs, records, email templates in 10 languages): `docs/OPERATIONS.md`. Changes that removed
+  earlier features: `docs/CHANGELOG.md`.

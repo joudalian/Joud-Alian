@@ -36,7 +36,8 @@ async function smallTapTargets(page: Page) {
     for (const el of els) {
       const r = el.getBoundingClientRect();
       const style = getComputedStyle(el);
-      if (r.width === 0 || style.visibility === "hidden" || el.closest("[hidden]") || el.closest(".skip-link") || el.classList.contains("skip-link")) continue;
+      // Hidden inputs and the off-screen spam trap (aria-hidden, never focusable) are not tap targets.
+      if (r.width === 0 || style.visibility === "hidden" || el.closest("[hidden]") || el.closest('[aria-hidden="true"]') || el.closest(".skip-link") || el.classList.contains("skip-link")) continue;
       if (r.width < 43.5 || r.height < 43.5) out.push(`${el.tagName.toLowerCase()} "${(el.textContent ?? "").trim().slice(0, 30)}" ${Math.round(r.width)}×${Math.round(r.height)}`);
     }
     return out;

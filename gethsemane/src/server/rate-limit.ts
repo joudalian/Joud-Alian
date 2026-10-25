@@ -1,4 +1,5 @@
 import "server-only";
+import { createHash } from "node:crypto";
 import { lt, sql } from "drizzle-orm";
 import { headers } from "next/headers";
 import { getDb } from "./db";
@@ -52,11 +53,15 @@ async function hit(key: string, limit: number, windowSeconds: number): Promise<b
   return (row?.count ?? 0) <= limit;
 }
 
+/** IP addresses and emails are stored only as keyed hashes, and only until their window ends (plus a day at most). */
+function pseudonym(value: string): string {
+  return createHash("sha256").update(`${process.env.BETTER_AUTH_SECRET ?? ""}:${value}`).digest("base64url").slice(0, 22);
+}
+
 /** True when the action may go ahead; false when the caller must refuse (rate limited). */
 export async function allow(action: LimitedAction, email?: string): Promise<boolean> {
   const rule: { perIp: readonly [number, number]; perEmail?: readonly [number, number] } = LIMITS[action];
-  const ip = await clientIp();
-  const okIp = await hit(`${action}:ip:${ip}`, ...rule.perIp);
-  const okEmail = email && rule.perEmail ? await hit(`${action}:email:${email.trim().toLowerCase()}`, ...rule.perEmail) : true;
+  const okIp = await hit(`${action}:ip:${pseudonym(await clientIp())}`, ...rule.perIp);
+  const okEmail = email && rule.perEmail ? await hit(`${action}:email:${pseudonym(email.trim().toLowerCase())}`, ...rule.perEmail) : true;
   return okIp && okEmail;
 }

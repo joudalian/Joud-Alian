@@ -12,7 +12,7 @@ export const STORAGE_KEYS = {
   wishlist: "gethsemane.wishlist.v1",
   currency: "gethsemane.currency.v1",
   language: "gethsemane.language.v1",
-  /** No longer written: details typed on the former WhatsApp order page, removed from browsers on the order page. */
+  /** No longer written: details typed on the former message-based order page, removed from browsers on the order page. */
   orderDetails: "gethsemane.order-details.v1",
 } as const;
 

@@ -4,8 +4,8 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { CategoryChips } from "@/components/CategoryChips";
 import { ProductGrid } from "@/components/ProductCard";
 import { ContentImage } from "@/components/ContentImage";
-import { WhatsAppLink } from "@/components/WhatsAppLink";
-import { CATALOG_READY, STORE_NAME } from "@/config/store";
+import { CATALOG_READY } from "@/config/store";
+import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { products } from "@/lib/catalog";
 import { pageMetadata } from "@/lib/metadata";
@@ -39,9 +39,9 @@ export default async function ShopPage({ params }: Props) {
           <div className="band-content">
             <h2 id="band-title">{t("shop.bandTitle")}</h2>
             <p>{t("shop.bandText")}</p>
-            <WhatsAppLink message={t("whatsapp.general", { store: STORE_NAME })} className="btn btn-light">
-              {t("whatsapp.chat")}
-            </WhatsAppLink>
+            <Link href="/contact?topic=sales" className="btn btn-light">
+              {t("contact.askUs")}
+            </Link>
           </div>
         </div>
       </section>

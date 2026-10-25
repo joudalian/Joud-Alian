@@ -1,13 +1,12 @@
 import { getLocale, getTranslations } from "next-intl/server";
-import { CONTACT_EMAIL, SISTER_STORE, STORE_NAME } from "@/config/store";
+import { CONTACT_EMAIL, SISTER_STORE } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { RATES_AS_OF } from "@/lib/currency";
 import { formatDate } from "@/lib/format";
 import { categories, categoryText } from "@/lib/catalog";
-import { whatsappUrl } from "@/lib/whatsapp";
 import { FooterLanguages } from "./FooterLanguages";
-import { ChatIcon, MailIcon } from "./Icons";
+import { MailIcon } from "./Icons";
 import { FooterLogo } from "./Logo";
 import { SocialLinks } from "./SocialLinks";
 
@@ -51,14 +50,9 @@ export async function Footer() {
             </p>
             <SocialLinks variant="icons" testId="social-links" />
             <p className="footer-links-inline">
-              <a href={whatsappUrl(t("whatsapp.general", { store: STORE_NAME }))} target="_blank" rel="noopener noreferrer">
-                <ChatIcon size={18} />
-                {t("whatsapp.chatFooter")}
-                <span className="sr-only"> ({t("whatsapp.newTab")})</span>
-              </a>
               <a href={SISTER_STORE.instagram} target="_blank" rel="noopener noreferrer" className="small-link">
                 {t("footer.followSister")}
-                <span className="sr-only"> ({t("whatsapp.newTab")})</span>
+                <span className="sr-only"> ({t("social.newTab")})</span>
               </a>
             </p>
           </div>

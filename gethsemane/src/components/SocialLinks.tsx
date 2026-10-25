@@ -21,7 +21,7 @@ export async function SocialLinks({
 }) {
   if (links.length === 0) return null;
   const t = await getTranslations();
-  const newTab = t("whatsapp.newTab");
+  const newTab = t("social.newTab");
   return (
     <ul className={`social-links social-${variant}`} data-testid={testId}>
       {links.map((link) => {

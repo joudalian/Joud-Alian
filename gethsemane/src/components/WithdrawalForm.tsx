@@ -1,11 +1,11 @@
 import { getTranslations } from "next-intl/server";
 import { EmailText } from "./EmailText";
-import { ADDRESS, CONTACT_EMAIL, LEGAL_ENTITY_NAME, STORE_NAME, WHATSAPP_NUMBER } from "@/config/store";
+import { ADDRESS, CONTACT_EMAIL, LEGAL_ENTITY_NAME, STORE_NAME } from "@/config/store";
 
 /** The statutory model withdrawal form (EU Consumer Rights Directive, Annex I(B)), addressed to us. */
 export async function WithdrawalForm() {
   const t = await getTranslations("returns");
-  const recipient = [LEGAL_ENTITY_NAME || STORE_NAME, ADDRESS, `WhatsApp +${WHATSAPP_NUMBER}`, CONTACT_EMAIL].filter(Boolean).join(", ");
+  const recipient = [LEGAL_ENTITY_NAME || STORE_NAME, ADDRESS, CONTACT_EMAIL].filter(Boolean).join(", ");
   return (
     <div className="withdrawal-form" role="group" aria-labelledby="form-title">
       <h3 id="form-title">{t("formTitle")}</h3>

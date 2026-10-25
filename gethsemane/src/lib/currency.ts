@@ -6,7 +6,7 @@ export const defaultCurrency: Currency = "USD";
 export const CURRENCY_COOKIE = "currency";
 
 /**
- * FIXED conversion rates from USD, used for display and for the WhatsApp order message.
+ * FIXED conversion rates from USD, used only to show approximate prices (the charge is always in USD).
  * They are NOT live exchange rates: UPDATE THEM BEFORE LAUNCH and review them regularly.
  * Meaning: 1 USD = <rate> of that currency.
  */

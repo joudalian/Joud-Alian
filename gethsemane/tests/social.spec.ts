@@ -84,8 +84,8 @@ test.describe("where the accounts and the email appear", () => {
     await page.goto("/en/contact");
     await expect(page.getByTestId("contact-email")).toHaveAttribute("href", "mailto:gethsemane.t12@gmail.com?subject=Question%20about%20Gethsemane");
     await checkLinks(page.getByTestId("contact-social-card").locator("a"), { label: false });
-    await expect(page.getByTestId("contact-whatsapp")).toBeVisible();
-    await expect(page.locator(".chip-group input[type=radio]")).toHaveCount(5);
+    await expect(page.getByTestId("contact-form")).toBeVisible();
+    await expect(page.locator("#f-topic option")).toHaveCount(5);
     await page.goto("/en/about");
     const line = page.getByTestId("social-sentence");
     await expect(line).toHaveText(/^Follow the workshop on Instagram.*, TikTok.* and Facebook.*\.$/);

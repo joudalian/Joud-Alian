@@ -78,7 +78,7 @@ export function CartView({
   const hydrated = useHydrated();
   const { lines, setQty, remove } = useCart();
 
-  // Order details typed on the old WhatsApp order page are no longer used: forget them in this browser.
+  // Order details typed on the old message-based order page are no longer used: forget them in this browser.
   useEffect(() => removeStorage(STORAGE_KEYS.orderDetails), []);
 
   if (!hydrated) {

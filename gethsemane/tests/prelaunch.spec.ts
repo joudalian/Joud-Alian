@@ -5,7 +5,6 @@ import { locales, pages, waitForHydration } from "./helpers";
 
 const NAME = nameOf(simple);
 
-const waText = (href: string | null) => decodeURIComponent(new URL(href ?? "").searchParams.get("text") ?? "");
 
 async function withCart(page: Page, lines: { slug: string; qty: number }[], details?: Record<string, unknown>) {
   await page.goto("/en");
@@ -135,24 +134,22 @@ test.describe("order flow", () => {
 
   test("noscript fallback and wishlist note", async ({ page, request }) => {
     const html = await (await request.get("/en/cart")).text();
-    expect(html).toMatch(/<noscript>.*JavaScript is turned off.*href="https:\/\/wa\.me\/970569741193\?text=/s);
+    expect(html).toMatch(/<noscript>.*JavaScript is turned off.*href="\/en\/contact"/s);
     await page.goto("/en/wishlist");
     await expect(page.getByText("Your wishlist is stored only in this browser.")).toBeVisible();
   });
 });
 
 test.describe("contact, legal and footer", () => {
-  test("contact: Bethlehem time, never the time-zone ID; English subject line in prefills", async ({ page }) => {
+  test("contact: Bethlehem time, never the time-zone ID", async ({ page }) => {
     await page.goto("/de/contact?topic=wholesale");
-    await waitForHydration(page);
     await expect(page.locator("main")).not.toContainText("Asia/Hebron");
     await expect(page.locator('section[aria-labelledby="hours-title"]')).toContainText("Ortszeit Bethlehem");
-    expect(waText(await page.getByTestId("contact-whatsapp").getAttribute("href"))).toMatch(/^Subject: Wholesale enquiry\nHallo Gethsemane/);
   });
 
   test("with CONTACT_EMAIL set, the email wording and mailto links appear", async ({ page }) => {
     for (const [path, wording] of [
-      ["/privacy", /or an email/],
+      ["/privacy", /Contact form messages/],
       ["/returns", /by email/],
       ["/withdrawal", /Withdraw by email/],
       ["/terms", /Email: gethsemane\.t12@gmail\.com/],
@@ -172,15 +169,17 @@ test.describe("contact, legal and footer", () => {
     await expect(page.locator("#footer-legal + ul").getByRole("link", { name: "Withdraw from a contract" })).toHaveAttribute("href", "/en/withdrawal");
   });
 
-  test("withdrawal page: prefilled WhatsApp notice and the model form; linked from returns", async ({ page }) => {
+  test("withdrawal page: prefilled email notice, the contact form and the model form; linked from returns", async ({ page }) => {
     await page.goto("/en/returns");
     await page.getByRole("link", { name: "withdrawal page" }).click();
     await expect(page).toHaveURL(/\/en\/withdrawal$/);
     await expect(page.getByRole("heading", { level: 1 })).toHaveText("Withdraw from a contract");
-    const text = waText(await page.getByTestId("withdraw-whatsapp").getAttribute("href"));
-    expect(text).toMatch(/^Subject: Withdrawal from contract\n/);
-    for (const field of ["Name:", "Order number:", "Pieces:", "Date received:"]) expect(text).toContain(field);
-    await expect(page.getByTestId("withdraw-email")).toHaveAttribute("href", /^mailto:gethsemane\.t12@gmail\.com\?subject=/);
+    const href = (await page.getByTestId("withdraw-email").getAttribute("href"))!;
+    expect(href).toMatch(/^mailto:gethsemane\.t12@gmail\.com\?subject=Gethsemane%3A%20withdrawal%20from%20contract&body=/);
+    const body = decodeURIComponent(href.split("body=")[1]!);
+    for (const field of ["Name:", "Order number:", "Pieces:", "Date received:"]) expect(body).toContain(field);
+    await expect(page.getByTestId("withdraw-form")).toHaveAttribute("href", "/en/contact?topic=support");
+    await expect(page.locator("main")).not.toContainText(/whats\s*app/i);
     await expect(page.getByRole("heading", { name: "Model withdrawal form", level: 3 })).toBeVisible();
   });
 
@@ -189,11 +188,11 @@ test.describe("contact, legal and footer", () => {
     const returns = page.locator("main");
     await expect(returns).toContainText("These limits do not apply to your statutory right of withdrawal (EU/UK) or your legal guarantees.");
     await expect(returns).toContainText("except where faulty");
-    await expect(returns).toContainText("we refund the way you paid us");
+    await expect(returns).toContainText("“Original payment method” means the card you paid with at checkout.");
     await page.goto("/en/terms");
     const terms = page.locator("main");
-    await expect(terms).toContainText("Your WhatsApp message is a request to order.");
-    await expect(terms).toContainText("Our quotes are valid for 48 hours.");
+    await expect(terms).toContainText("By pressing “Order and pay” you place an order with an obligation to pay.");
+    await expect(terms).toContainText("The contract is formed when your payment is confirmed.");
     await expect(terms).toContainText("durable medium");
     await expect(terms).not.toContainText("offer to buy");
   });
@@ -201,7 +200,7 @@ test.describe("contact, legal and footer", () => {
   test("privacy names the cookies, the host, the controller and the legal bases", async ({ page }) => {
     await page.goto("/en/privacy");
     const main = page.locator("main");
-    for (const text of ["NEXT_LOCALE", "sent to our server with every request", "Vercel Inc. in the United States", "129 Al Mahed Street", "Legal bases", "We do not sell or share personal data"]) {
+    for (const text of ["NEXT_LOCALE", "strictly necessary", "a session cookie", "Vercel Inc. in the United States", "129 Al Mahed Street", "Legal bases", "accounting records", "pseudonymised (hashed)", "We do not sell or share personal data"]) {
       await expect(main).toContainText(text);
     }
   });

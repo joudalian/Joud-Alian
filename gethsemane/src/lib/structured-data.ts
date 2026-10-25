@@ -9,7 +9,6 @@ import {
   RETURN_DAYS,
   SHIP_TO_COUNTRIES,
   STORE_NAME,
-  WHATSAPP_NUMBER,
 } from "@/config/store";
 import { locales, type Locale } from "@/i18n/locales";
 import type { Product } from "./catalog";
@@ -49,7 +48,6 @@ export function organization(locale: Locale) {
     {
       "@type": "ContactPoint",
       contactType: "customer service",
-      telephone: `+${WHATSAPP_NUMBER}`,
       ...(CONTACT_EMAIL ? { email: CONTACT_EMAIL } : {}),
       url: localizedUrl(locale, "/contact"),
       availableLanguage: [...locales],

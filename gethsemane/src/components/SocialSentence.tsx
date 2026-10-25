@@ -15,7 +15,7 @@ export async function SocialSentence({ messageKey, className }: { messageKey: "a
   const marker = "\u0000";
   const [before, after] = t(messageKey, { networks: marker }).split(marker);
   const parts = new Intl.ListFormat(locale === "en" ? "en-GB" : locale, { type: "conjunction" }).formatToParts(links.map((l) => l.network));
-  const newTab = t("whatsapp.newTab");
+  const newTab = t("social.newTab");
   return (
     <p className={className} data-testid="social-sentence">
       {before}

@@ -66,7 +66,8 @@ async function createAuth() {
       cookiePrefix: COOKIE_PREFIX,
       useSecureCookies: process.env.NODE_ENV === "production",
       defaultCookieAttributes: { httpOnly: true, sameSite: "lax", path: "/" },
-      ipAddress: { ipAddressHeaders: ["x-forwarded-for", "x-real-ip"] },
+      // Sessions store no IP address (see the privacy page); our own rate limits use hashed IPs.
+      ipAddress: { ipAddressHeaders: ["x-forwarded-for", "x-real-ip"], disableIpTracking: true },
     },
     telemetry: { enabled: false },
     plugins: [nextCookies()],

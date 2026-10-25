@@ -40,6 +40,7 @@ export async function faqGroups(locale: Locale) {
     { id: "q10", q: t("q10"), a: t("a10", { days: DAMAGE_REPORT_DAYS }) },
     { id: "q11", q: t("q11"), a: paymentText(t) },
     { id: "q12", q: t("q12"), a: t("a12") },
+    { id: "q13", q: t("q13"), a: t("a13") },
   ];
   return [
     { id: "products", title: t("productsTitle"), items: products },

@@ -1282,17 +1282,6 @@ main:focus {
   margin-block: 16px;
 }
 
-.btn-whatsapp {
-  background: var(--surface);
-  border-color: var(--olive-700);
-  color: var(--olive-900);
-}
-
-.btn-whatsapp:hover {
-  background: var(--olive-100);
-  color: var(--olive-900);
-}
-
 .specs {
   display: grid;
   grid-template-columns: max-content 1fr;
@@ -1315,31 +1304,7 @@ main:focus {
 }
 
 @media (max-width: 359.98px) {
-  .order-row {
-  margin-block: 0 24px;
-}
-
-.order-row .note,
-.summary-actions .note {
-  margin: 8px 0 0;
-}
-
-.summary-actions {
-  margin-block: 16px;
-}
-
-.btn-whatsapp {
-  background: var(--surface);
-  border-color: var(--olive-700);
-  color: var(--olive-900);
-}
-
-.btn-whatsapp:hover {
-  background: var(--olive-100);
-  color: var(--olive-900);
-}
-
-.specs {
+  .specs {
     grid-template-columns: 1fr;
     gap: 2px;
   }

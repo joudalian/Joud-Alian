@@ -3,7 +3,7 @@ import { findClaims } from "../scripts/forbidden-claims.mjs";
 import { categories, products } from "./catalog";
 import { locales, publicPageUrls } from "./helpers";
 
-const allowedExternal = ["https://wa.me", "https://holylandtimber.com", "https://www.instagram.com", "https://www.tiktok.com", "https://www.facebook.com"];
+const allowedExternal = ["https://holylandtimber.com", "https://www.instagram.com", "https://www.tiktok.com", "https://www.facebook.com"];
 
 // Crawls every page listed in the sitemap (all languages) plus cart, wishlist and 404,
 // and checks that every link, image (including srcset candidates), stylesheet, script and icon resolves.
@@ -65,7 +65,7 @@ test("no broken links or images on any page", async ({ request, baseURL, isMobil
       if (ref.startsWith("#") || ref.startsWith("mailto:") || ref.startsWith("tel:") || ref.startsWith("data:")) continue;
       const url = new URL(ref, pageUrl);
       if (url.origin !== origin) {
-        // Only WhatsApp ordering and the sister store may be linked; nothing external is ever loaded.
+        // Only the sister store and our social accounts may be linked; nothing external is ever loaded.
         if (!allowedExternal.includes(url.origin)) problems.push(`external reference ${url.href} (on ${pageUrl})`);
         continue;
       }

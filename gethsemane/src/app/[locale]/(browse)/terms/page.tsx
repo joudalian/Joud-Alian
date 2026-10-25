@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import { EmailText } from "@/components/EmailText";
 import { InfoPage, Section } from "@/components/InfoPage";
-import { ADDRESS, CONTACT_EMAIL, GOVERNING_LAW, LEGAL_ENTITY_NAME, POLICY_UPDATED, QUOTE_VALID_HOURS, TAX_ID, WHATSAPP_NUMBER } from "@/config/store";
+import { ADDRESS, CONTACT_EMAIL, GOVERNING_LAW, LEGAL_ENTITY_NAME, POLICY_UPDATED, TAX_ID } from "@/config/store";
 import { Link } from "@/i18n/navigation";
 import type { Locale } from "@/i18n/locales";
 import { paymentText } from "@/lib/faq";
@@ -25,11 +25,10 @@ export default async function TermsPage({ params }: Props) {
     <InfoPage locale={locale} path="/terms" title={t("title")} intro={t("intro")} updated={POLICY_UPDATED}>
       <Section id="order" title={t("orderTitle")}>
         <p>{t("order")}</p>
-        <p>{t("orderConfirmation")}</p>
         <p>{t("orderContract")}</p>
-        <p>{t("orderQuote", { hours: QUOTE_VALID_HOURS })}</p>
+        <p>{t("orderConfirmation")}</p>
+        <p>{t("orderCancel")}</p>
         <p>{t("orderDelay")}</p>
-        <p>{t("orderDurable")}</p>
       </Section>
       <Section id="prices" title={t("pricesTitle")}>
         <p>{t("prices")}</p>
@@ -65,7 +64,7 @@ export default async function TermsPage({ params }: Props) {
               <EmailText text={t("email", { email: CONTACT_EMAIL })} />
             </li>
           )}
-          <li>{t("whatsapp", { phone: `+${WHATSAPP_NUMBER}` })}</li>
+          <li>{t.rich("contactForm", { link: (chunks) => <Link href="/contact">{chunks}</Link> })}</li>
           <li>{t("sister")}</li>
           {/* TODO: add the tax / company registration ID (TAX_ID in src/config/store.ts) once registered. */}
           {TAX_ID && <li>{t("taxId", { id: TAX_ID })}</li>}

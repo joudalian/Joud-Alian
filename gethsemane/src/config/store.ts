@@ -10,16 +10,13 @@ import type { Locale } from "@/i18n/locales";
 
 export const STORE_NAME = "Gethsemane";
 
-/** WhatsApp number that receives orders: country code + number, digits only, no "+" or spaces. */
-export const WHATSAPP_NUMBER = "970569741193"; // CONFIRM
-
 /** Registered business name, shown in the legal notice on /terms when set. */
 export const LEGAL_ENTITY_NAME = ""; // CONFIRM
 
 /** Tax / company registration ID for the legal notice. TODO: add once registered. */
 export const TAX_ID = ""; // CONFIRM (TODO)
 
-/** Workshop / contact address (not a returns address: returns are arranged on WhatsApp first). */
+/** Workshop / contact address (not a returns address: returns are arranged by email or the contact form first). */
 export const ADDRESS = "129 Al Mahed Street, Bethlehem, Palestinian Territory"; // CONFIRM
 /** The same address in parts, for structured data (schema.org PostalAddress). */
 export const ADDRESS_STREET = "129 Al Mahed Street"; // CONFIRM
@@ -116,27 +113,15 @@ export const DAMAGE_REPORT_DAYS = 7; // CONFIRM
 /** Days without tracking movement after which a carrier trace is opened. */
 export const LOST_PARCEL_DAYS = 20; // CONFIRM
 
-/**
- * How customers pay once the order is confirmed on WhatsApp:
- *   "instructions" — we send payment instructions (default; no payment brands are named on the site)
- *   "link"         — we send a payment link; PAYMENT_METHODS lists what that link accepts
- */
-export const PAYMENT_MODE: "instructions" | "link" = "instructions"; // CONFIRM
-/** Only used when PAYMENT_MODE is "link" and the list is non-empty (names of the methods the link accepts). */
-export const PAYMENT_METHODS: readonly string[] = []; // CONFIRM
-
 /** Optional announcement bar at the top of every page. Off by default. */
 export const ANNOUNCEMENT: { enabled: boolean; text: Partial<Record<Locale, string>> } = {
   enabled: false, // CONFIRM
   text: {}, // e.g. { en: "…", fr: "…" }; falls back to English
 };
 
-/** Hours a quote sent on WhatsApp stays valid (prices, shipping and stock held). */
-export const QUOTE_VALID_HOURS = 48; // CONFIRM
-
 /**
- * Countries we ship to, as ISO 3166-1 alpha-2 codes (e.g. ["DE", "FR", "GB", "US"]). Used only in the structured
- * data for search engines; while empty, no shipping details or return-policy countries are published there.
+ * Countries we ship to, as ISO 3166-1 alpha-2 codes (e.g. ["DE", "FR", "GB", "US"]). The checkout offers only these
+ * countries (test mode offers all), and the structured data publishes them. While empty, live payments stay closed.
  */
 export const SHIP_TO_COUNTRIES: readonly string[] = []; // CONFIRM
 
@@ -197,7 +182,14 @@ export const MANUFACTURER_EMAIL = ""; // CONFIRM
 export const EU_RESPONSIBLE_PERSON = ""; // CONFIRM
 
 /** Date the policy pages were last updated (YYYY-MM-DD). */
-export const POLICY_UPDATED = "2026-10-24"; // CONFIRM
+export const POLICY_UPDATED = "2026-10-25"; // CONFIRM
+
+/**
+ * Set to true once the refund wording on /returns (timings, original payment method, outbound shipping refund) has
+ * been checked against how refunds are really made in the Stripe Dashboard. `npm run check:launch` fails while live
+ * payments are on and this is false.
+ */
+export const REFUNDS_CONFIRMED = false; // CONFIRM
 
 /** How many years order records are kept (privacy policy). 0 = not stated yet. */
 export const DATA_RETENTION_YEARS = 0; // CONFIRM
